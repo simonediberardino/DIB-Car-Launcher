@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="lightblue">#18C3FF</color>
+    <color name="darkblue">#1881FF</color>
+    <color name="blue">#019CE5</color>
+    <color name="lightorange">#ffa500</color>
+    <color name="darkorange">#ff8c00</color>
+    <color name="lightyellow">#F0E68C</color>
+    <color name= "gold">#FFD700</color>
+    <color name="lightgreen">#74FF44</color>
+    <color name="darkgreen">#03D400</color>
+    <color name= "green">#039846</color>
+    <color name="bluacqua">#256d7b</color>
+    <color name="aquamarine">#33ffba</color>
+    <color name="lightred">#FE775B</color>
+    <color name="darkred">#FC3232</color>
+    <color name="red">#f74a4a</color>
+    <color name= "darkgrey">#292929</color>
+    <color name="grey">#4f4f4f</color>
+    <color name= "lightgrey">#808080</color>
+    <color name="darksilver">#D5D5D5</color>
+    <color name="silver">#F1F1F1</color>
+    <color name="pinksalmone">#ff6984</color>
+    <color name="darkpink">#ff5473</color>
+    <color name="purple">#2D3F81</color>
+    <color name="bordeaux">#5F021F</color>
+</resources>
