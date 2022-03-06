@@ -4,6 +4,8 @@ import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.location.Geocoder
+import android.location.Location
 import android.net.ConnectivityManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -15,6 +17,7 @@ import androidx.core.app.ActivityOptionsCompat
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 
 object Utility {
@@ -90,5 +93,20 @@ object Utility {
                 ridimensionamento(activity, vAtI)
             }
         }
+    }
+
+    fun getAddress(location: Location, activity: Activity) : String{
+        return Geocoder(activity, Locale.getDefault()).getFromLocation(
+            location.latitude,
+            location.longitude,
+            1
+        )[0].getAddressLine(0)
+    }
+
+    fun getSimpleAddress(location: Location, activity: Activity): String {
+        val tokens = getAddress(location, activity).split(",")
+        return if(tokens.size > 1)
+            "${tokens[0]},${tokens[1]}"
+        else tokens[0]
     }
 }

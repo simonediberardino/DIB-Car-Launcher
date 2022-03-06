@@ -3,7 +3,6 @@ package com.mini.infotainment.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.WallpaperManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -15,20 +14,18 @@ import com.mini.infotainment.R
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import android.animation.Animator
 
-import android.animation.AnimatorListenerAdapter
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Looper
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
-import android.view.animation.AlphaAnimation
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.mini.infotainment.utility.Utility
+import java.text.DateFormat
 
 
 class HomeActivity : Activity() {
@@ -42,13 +39,7 @@ class HomeActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_home)
-
-        containAppDrawer = findViewById(R.id.containAppDrawer)
-        containAppDrawer.visibility = View.INVISIBLE
-        containerHome = findViewById(R.id.home_container)
-
-        slideMenuDown(0)
+        initializeLayout()
         
         apps = null
         adapter = null
@@ -57,6 +48,20 @@ class HomeActivity : Activity() {
         loadListView()
         addGridListeners()
         setupGPS()
+        setupTimer()
+    }
+
+    private fun initializeLayout(){
+        setContentView(R.layout.activity_home)
+
+        containAppDrawer = findViewById(R.id.containAppDrawer)
+        containAppDrawer.visibility = View.INVISIBLE
+        containerHome = findViewById(R.id.home_container)
+
+        slideMenuDown(0)
+
+        spotifyAuthorTw = findViewById(R.id.spotify_author)
+        spotifyTitleTW = findViewById(R.id.spotify_title)
     }
 
     private fun setupGPS() {
@@ -107,9 +112,45 @@ class HomeActivity : Activity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun onLocationChanged(newLocation: Location?){
+        if(newLocation == null)
+            return
+
         val speedometerTW = findViewById<TextView>(R.id.home_speed)
-        val speedInKmH = newLocation?.speedAccuracyMetersPerSecond?.times(3.6)
+        val speedInKmH = newLocation.speedAccuracyMetersPerSecond.times(3.6)
         speedometerTW.text = speedInKmH.toString()
+
+        val addressTW = findViewById<TextView>(R.id.home_address)
+        addressTW.text = Utility.getSimpleAddress(newLocation, this)
+    }
+
+    private fun setupTimer(){
+        Thread{
+            while(true){
+                try{
+                    Thread.sleep(1)
+                    updateTime()
+                }catch (exception: Exception){}
+            }
+        }.start()
+
+    }
+
+    fun updateTime(){
+        runOnUiThread {
+            val timeTW = findViewById<TextView>(R.id.home_datetime)
+            timeTW.text = getTime()
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getTime(): String {
+        val timeZone = TimeZone.getTimeZone("GMT+1:00")
+        val cal = Calendar.getInstance(timeZone)
+        val currentLocalTime = cal.time
+        val date: DateFormat = SimpleDateFormat("HH:mm:ss a")
+        date.timeZone = timeZone
+
+        return date.format(currentLocalTime)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -124,10 +165,6 @@ class HomeActivity : Activity() {
                 }
             }
         }
-    }
-
-    private fun insufficientPermissions(){
-        Utility.showToast(this, getString(R.string.request_permissions))
     }
 
     private fun addGridListeners() {
@@ -218,13 +255,6 @@ class HomeActivity : Activity() {
     private fun slideMenuUp(duration: Long) {
         containAppDrawer.visibility = View.VISIBLE
 
-        val background = findViewById<View>(R.id.home_background)
-        background.alpha = 0f
-        background
-            .animate()
-            .alpha(0.25f)
-            .duration = duration*2
-
         val slideAnimation = TranslateAnimation(
             0f,
             0f,
@@ -247,12 +277,6 @@ class HomeActivity : Activity() {
     }
 
     private fun slideMenuDown(duration: Long) {
-        val background = findViewById<View>(R.id.home_background)
-        background.alpha = 0.25f
-        background.animate()
-            .alpha(0f)
-            .duration = duration*2
-
         val slideAnimation = TranslateAnimation(
             0f,
             0f,
@@ -274,6 +298,10 @@ class HomeActivity : Activity() {
         containAppDrawer.startAnimation(slideAnimation)
     }
 
+    private fun insufficientPermissions(){
+        Utility.showToast(this, getString(R.string.request_permissions))
+    }
+
     override fun onBackPressed(){
         showAppDrawer(false)
     }
@@ -281,7 +309,20 @@ class HomeActivity : Activity() {
     companion object {
         private const val GEOLOCATION_PERMISSION_CODE = 1
         private const val SLIDE_ANIMATION_DURATION: Long = 300
+        private var spotifyTitleTW: TextView? = null
+        private var spotifyAuthorTw: TextView? = null
         var apps: MutableList<AppInfo>? = null
         var adapter: ArrayAdapter<AppInfo>? = null
+
+        fun updateSpotifySong(intent: Intent){
+            val trackId = intent.getStringExtra("id")
+            val artistName = intent.getStringExtra("artist")
+            val albumName = intent.getStringExtra("album")
+            val trackName = intent.getStringExtra("track")
+            val trackLengthInSec = intent.getIntExtra("length", 0)
+
+            spotifyTitleTW?.text = trackName
+            spotifyAuthorTw?.text = artistName
+        }
     }
 }

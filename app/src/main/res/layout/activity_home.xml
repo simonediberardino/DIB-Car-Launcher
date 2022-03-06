@@ -24,14 +24,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/home_swipe"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_baseline_keyboard_double_arrow_up_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            layout="@layout/spotify_widget"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_address"></include>
+
+        <ImageView
             android:id="@+id/home_car_icon"
             android:layout_width="400px"
             android:layout_height="200px"
+            android:layout_marginEnd="32dp"
             android:src="@drawable/car_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_placedegrees" />
+            app:layout_constraintTop_toBottomOf="@+id/home_address" />
 
         <TextView
             android:id="@+id/home_speed"
@@ -83,7 +103,7 @@
             app:layout_constraintTop_toTopOf="@+id/home_speedometer" />
 
         <TextView
-            android:id="@+id/home_placedegrees"
+            android:id="@+id/home_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/caricamento"
@@ -92,7 +112,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/home_speedometer"
             app:layout_constraintEnd_toEndOf="@+id/home_speedometer"
             app:layout_constraintStart_toStartOf="@+id/home_speedometer" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,16 +126,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:visibility="gone" />
 
         <GridView
             android:id="@+id/grd_allApps"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:horizontalSpacing="1dp"
-            android:numColumns="4"
-            android:verticalSpacing="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="5"
+            android:padding="5dp"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

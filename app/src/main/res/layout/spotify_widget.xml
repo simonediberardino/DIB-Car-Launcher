@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="200px"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/darkgrey"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/spotify_logo"
+                android:layout_width="18px"
+                android:layout_height="18px"
+                android:background="@drawable/spotify_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/spotify_audio"
+                android:layout_width="18px"
+                android:layout_height="18px"
+                android:background="@drawable/ic_baseline_audiotrack_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/spotify_track"
+                android:layout_width="0dp"
+                android:layout_height="100px"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/spotify_signal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/spotify_audio"
+                app:layout_constraintTop_toBottomOf="@+id/spotify_audio" />
+
+            <TextView
+                android:id="@+id/spotify_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:lines="1"
+                android:text="@string/caricamento"
+                android:textColor="@color/green"
+                android:textSize="15px"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spotify_track" />
+
+            <TextView
+                android:id="@+id/spotify_author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:lines="1"
+                android:text="@string/caricamento"
+                android:textColor="@color/darksilver"
+                android:textSize="12px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spotify_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
