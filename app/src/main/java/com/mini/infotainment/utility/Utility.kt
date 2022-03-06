@@ -1,6 +1,7 @@
 package com.mini.infotainment.utility
 
 import android.R
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -17,6 +18,8 @@ import androidx.core.app.ActivityOptionsCompat
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -108,5 +111,16 @@ object Utility {
         return if(tokens.size > 1)
             "${tokens[0]},${tokens[1]}"
         else tokens[0]
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getTime(): String {
+        val timeZone = TimeZone.getTimeZone("GMT+1:00")
+        val cal = Calendar.getInstance(timeZone)
+        val currentLocalTime = cal.time
+        val date: DateFormat = SimpleDateFormat("HH:mm:ss a")
+        date.timeZone = timeZone
+
+        return date.format(currentLocalTime).replace("AM", "").replace("PM", "")
     }
 }

@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">My Launcher</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Mini Infotainment</string>
     <string name="home">Vai alla home</string>
     <string name="caricamento">Caricamento…</string>
     <string name="request_permissions">Questa app ha bisogno della tua geolocalizzazione per poter funzionare correttamente.</string>
+    <string name="google_maps">MAPS</string>
+    <string name="volume_up">Volume+</string>
+    <string name="volume_down">Volume-</string>
+    <string name="maps_not_installed">Google Maps non è installato.</string>
+    <string name="gps_not_enabled">Il GPS non è attivo.</string>
 </resources>

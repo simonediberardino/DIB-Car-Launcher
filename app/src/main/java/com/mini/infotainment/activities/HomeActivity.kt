@@ -3,6 +3,7 @@ package com.mini.infotainment.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -26,6 +27,9 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.mini.infotainment.utility.Utility
 import java.text.DateFormat
+import android.media.AudioManager
+import android.net.Uri
+import androidx.leanback.widget.Util
 
 
 class HomeActivity : Activity() {
@@ -34,21 +38,33 @@ class HomeActivity : Activity() {
     internal lateinit var containerHome: ConstraintLayout
     internal lateinit var containAppDrawer: ConstraintLayout
     internal lateinit var locationManager: FusedLocationProviderClient
+    internal var carLocation: Location? = null
+
+    override fun onResume() {
+        super.onResume()
+        showAppDrawer(false, 0)
+    }
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initializeLayout()
-        
+        setContentView(R.layout.activity_home)
+
+        containAppDrawer = findViewById(R.id.containAppDrawer)
+        containAppDrawer.visibility = View.INVISIBLE
+        containerHome = findViewById(R.id.home_container)
+
+        slideMenuDown(0)
+
         apps = null
         adapter = null
-        
+
         loadApps()
         loadListView()
         addGridListeners()
         setupGPS()
-        setupTimer()
+        loadSideMenu()
     }
 
     private fun initializeLayout(){
@@ -58,7 +74,7 @@ class HomeActivity : Activity() {
         containAppDrawer.visibility = View.INVISIBLE
         containerHome = findViewById(R.id.home_container)
 
-        slideMenuDown(0)
+        showAppDrawer(false, 0)
 
         spotifyAuthorTw = findViewById(R.id.spotify_author)
         spotifyTitleTW = findViewById(R.id.spotify_title)
@@ -115,6 +131,8 @@ class HomeActivity : Activity() {
         if(newLocation == null)
             return
 
+        carLocation = newLocation
+
         val speedometerTW = findViewById<TextView>(R.id.home_speed)
         val speedInKmH = newLocation.speedAccuracyMetersPerSecond.times(3.6)
         speedometerTW.text = speedInKmH.toString()
@@ -138,19 +156,8 @@ class HomeActivity : Activity() {
     fun updateTime(){
         runOnUiThread {
             val timeTW = findViewById<TextView>(R.id.home_datetime)
-            timeTW.text = getTime()
+            timeTW.text = Utility.getTime()
         }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun getTime(): String {
-        val timeZone = TimeZone.getTimeZone("GMT+1:00")
-        val cal = Calendar.getInstance(timeZone)
-        val currentLocalTime = cal.time
-        val date: DateFormat = SimpleDateFormat("HH:mm:ss a")
-        date.timeZone = timeZone
-
-        return date.format(currentLocalTime)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -236,23 +243,30 @@ class HomeActivity : Activity() {
     }
 
     fun showApps(v: View?) {
-        showAppDrawer(true)
+        showAppDrawer(true, SLIDE_ANIMATION_DURATION)
     }
 
-    private fun showAppDrawer(visibility: Boolean) {
+    private fun showAppDrawer(visibility: Boolean, duration: Long) {
         if(visibility == isAppDrawerVisible)
             return
 
         isAppDrawerVisible = visibility
 
         if (visibility) {
-            slideMenuUp(SLIDE_ANIMATION_DURATION)
+            slideMenuUp(duration)
         } else {
-            slideMenuDown(SLIDE_ANIMATION_DURATION)
+            slideMenuDown(duration)
         }
     }
 
     private fun slideMenuUp(duration: Long) {
+        val background = findViewById<View>(R.id.home_background)
+        background.alpha = 0f
+        background
+            .animate()
+            .alpha(0.6f)
+            .duration = duration
+
         containAppDrawer.visibility = View.VISIBLE
 
         val slideAnimation = TranslateAnimation(
@@ -277,6 +291,13 @@ class HomeActivity : Activity() {
     }
 
     private fun slideMenuDown(duration: Long) {
+        val background = findViewById<View>(R.id.home_background)
+        background.alpha = 0.6f
+        background
+            .animate()
+            .alpha(0f)
+            .duration = duration
+
         val slideAnimation = TranslateAnimation(
             0f,
             0f,
@@ -298,12 +319,63 @@ class HomeActivity : Activity() {
         containAppDrawer.startAnimation(slideAnimation)
     }
 
+    private fun loadSideMenu(){
+        class SideMenuButton(val title: String, val listener: Runnable)
+
+        val buttons = arrayOf(
+                SideMenuButton(getString(R.string.google_maps)) { runGoogleMaps() },
+                SideMenuButton(getString(R.string.volume_up)) { turnUpVolume() },
+                SideMenuButton(getString(R.string.volume_down)) { turnDownVolume() }
+            )
+
+        val parent = findViewById<LinearLayout>(R.id.home_sidemenu)
+
+        for(button : SideMenuButton in buttons){
+            val inflatedView = layoutInflater.inflate(R.layout.menu_items, parent, false)
+            val titleTW = inflatedView.findViewById<TextView>(R.id.menu_title)
+
+            titleTW.text = button.title
+            inflatedView.setOnClickListener {
+                button.listener.run()
+            }
+
+            parent.addView(inflatedView)
+        }
+    }
+
+    private fun runGoogleMaps(){
+        if(carLocation == null){
+            Utility.showToast(this, getString(R.string.gps_not_enabled))
+            return
+        }
+
+        val gmmIntentUri: Uri = Uri.parse("geo:${carLocation!!.latitude},${carLocation!!.longitude}")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+
+        try{
+            startActivity(mapIntent)
+        }catch (exception: Exception){
+            Utility.showToast(this, getString(R.string.maps_not_installed))
+        }
+    }
+
+    private fun turnUpVolume(){
+        val audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
+    }
+
+    private fun turnDownVolume(){
+        val audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
+    }
+
     private fun insufficientPermissions(){
         Utility.showToast(this, getString(R.string.request_permissions))
     }
 
     override fun onBackPressed(){
-        showAppDrawer(false)
+        showAppDrawer(false, SLIDE_ANIMATION_DURATION)
     }
 
     companion object {
