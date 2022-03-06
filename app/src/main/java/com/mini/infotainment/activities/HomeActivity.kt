@@ -13,7 +13,6 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mini.infotainment.R
 import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.util.*
 
 import android.content.pm.PackageManager
@@ -26,10 +25,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.mini.infotainment.utility.Utility
-import java.text.DateFormat
 import android.media.AudioManager
 import android.net.Uri
-import androidx.leanback.widget.Util
+import com.mini.infotainment.support.GPSManager
 
 
 class HomeActivity : Activity() {
@@ -39,6 +37,7 @@ class HomeActivity : Activity() {
     internal lateinit var containAppDrawer: ConstraintLayout
     internal lateinit var locationManager: FusedLocationProviderClient
     internal var carLocation: Location? = null
+    internal lateinit var gpsManager: GPSManager
 
     override fun onResume() {
         super.onResume()
@@ -48,7 +47,10 @@ class HomeActivity : Activity() {
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initializeLayout()
+    }
 
+    private fun initializeLayout(){
         setContentView(R.layout.activity_home)
 
         containAppDrawer = findViewById(R.id.containAppDrawer)
@@ -64,20 +66,8 @@ class HomeActivity : Activity() {
         loadListView()
         addGridListeners()
         setupGPS()
+        setupTimer()
         loadSideMenu()
-    }
-
-    private fun initializeLayout(){
-        setContentView(R.layout.activity_home)
-
-        containAppDrawer = findViewById(R.id.containAppDrawer)
-        containAppDrawer.visibility = View.INVISIBLE
-        containerHome = findViewById(R.id.home_container)
-
-        showAppDrawer(false, 0)
-
-        spotifyAuthorTw = findViewById(R.id.spotify_author)
-        spotifyTitleTW = findViewById(R.id.spotify_title)
     }
 
     private fun setupGPS() {
@@ -105,9 +95,11 @@ class HomeActivity : Activity() {
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("MissingPermission")
     private fun setupUserLocation(){
+        gpsManager = GPSManager()
+
         val locationRequest = LocationRequest.create()
-        locationRequest.interval = 1000
-        locationRequest.fastestInterval = 1000
+        locationRequest.interval = 1
+        locationRequest.fastestInterval = 1
         locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
         val locationCallback = object : LocationCallback() {
@@ -131,10 +123,15 @@ class HomeActivity : Activity() {
         if(newLocation == null)
             return
 
+        if(gpsManager.currentUserLocation != null){
+            gpsManager.previousUserLocation = gpsManager.currentUserLocation
+        }
+
         carLocation = newLocation
+        gpsManager.currentUserLocation = carLocation
 
         val speedometerTW = findViewById<TextView>(R.id.home_speed)
-        val speedInKmH = newLocation.speedAccuracyMetersPerSecond.times(3.6)
+        val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
         speedometerTW.text = speedInKmH.toString()
 
         val addressTW = findViewById<TextView>(R.id.home_address)

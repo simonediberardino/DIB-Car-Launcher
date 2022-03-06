@@ -1,8 +1,9 @@
-package com.mini.infotainment.activities
+package com.mini.infotainment.support
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.mini.infotainment.activities.HomeActivity
 
 class SpotifyReceiver : BroadcastReceiver() {
     internal object BroadcastTypes {

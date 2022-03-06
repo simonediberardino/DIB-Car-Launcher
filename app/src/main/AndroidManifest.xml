@@ -13,7 +13,7 @@
         android:theme="@android:style/Theme.Wallpaper.NoTitleBar">
 
         <receiver
-            android:name="com.mini.infotainment.activities.SpotifyReceiver"
+            android:name="com.mini.infotainment.support.SpotifyReceiver"
             android:enabled="true"
             android:exported="true">
 

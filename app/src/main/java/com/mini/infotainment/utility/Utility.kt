@@ -123,4 +123,8 @@ object Utility {
 
         return date.format(currentLocalTime).replace("AM", "").replace("PM", "")
     }
+
+    fun msToKmH(ms: Float): Int {
+        return (ms * 3.6).toInt()
+    }
 }
