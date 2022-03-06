@@ -7,16 +7,16 @@
 
     <ImageView
         android:id="@+id/img_icon"
-        android:layout_width="70dp"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/txt_label"
-        android:layout_width="70dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:gravity="center_horizontal"
-        android:text="ADB Wireless by Henry"
+        android:text="Label"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
