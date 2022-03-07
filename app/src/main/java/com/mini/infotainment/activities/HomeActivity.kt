@@ -2,7 +2,6 @@ package com.mini.infotainment.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -26,28 +25,68 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.mini.infotainment.utility.Utility
 import android.media.AudioManager
+import android.media.MediaPlayer
 import android.net.Uri
-import com.mini.infotainment.support.GPSManager
+import android.speech.tts.TextToSpeech
+import com.mini.infotainment.entities.Car
+import android.content.ComponentName
+import android.content.BroadcastReceiver
+import com.mini.infotainment.support.*
+import android.content.IntentFilter
 
 
-class HomeActivity : Activity() {
+
+
+
+class HomeActivity : ActivityExtended() {
     internal var isAppDrawerVisible = false
     internal lateinit var grdView: GridView
     internal lateinit var containerHome: ConstraintLayout
     internal lateinit var containAppDrawer: ConstraintLayout
     internal lateinit var locationManager: FusedLocationProviderClient
-    internal var carLocation: Location? = null
+    internal lateinit var spotifyWidget: View
+    internal lateinit var homeButton: View
     internal lateinit var gpsManager: GPSManager
-
-    override fun onResume() {
-        super.onResume()
-        showAppDrawer(false, 0)
-    }
+    internal lateinit var TTS: TextToSpeech
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initializeBroadcastReceiver()
+        initializeExceptionHandler()
         initializeLayout()
+        initializeTTS()
+        welcomeUser()
+    }
+
+    private fun initializeBroadcastReceiver(){
+        val filter = IntentFilter()
+        filter.addAction("com.spotify.music.playbackstatechanged")
+        filter.addAction("com.spotify.music.metadatachanged")
+        filter.addAction("com.spotify.music.queuechanged")
+        registerReceiver(SpotifyReceiver(), filter)
+    }
+
+    private fun initializeExceptionHandler(){
+        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
+    }
+
+    private fun welcomeUser(){
+        if(!hasWelcomed){
+            hasWelcomed = true
+
+            val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
+            mediaPlayer.start()
+            mediaPlayer.setOnCompletionListener {
+                TTS.speak(getString(R.string.welcome_message), TextToSpeech.QUEUE_ADD, null)
+            }
+        }
+    }
+
+    private fun initializeTTS(){
+        TTS = TextToSpeech(this) {
+            TTS.language = Locale.ITALIAN
+        }
     }
 
     private fun initializeLayout(){
@@ -56,15 +95,18 @@ class HomeActivity : Activity() {
         containAppDrawer = findViewById(R.id.containAppDrawer)
         containAppDrawer.visibility = View.INVISIBLE
         containerHome = findViewById(R.id.home_container)
-
-        slideMenuDown(0)
+        homeButton = findViewById(R.id.home_swipe)
+        
+        spotifyWidget = findViewById(R.id.home_spotify)
 
         apps = null
         adapter = null
 
+        slideMenuDown(0)
         loadApps()
         loadListView()
         addGridListeners()
+        addHomeListeners()
         setupGPS()
         setupTimer()
         loadSideMenu()
@@ -119,7 +161,7 @@ class HomeActivity : Activity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun onLocationChanged(newLocation: Location?){
+    private fun onLocationChanged(newLocation: Location?){
         if(newLocation == null)
             return
 
@@ -127,8 +169,8 @@ class HomeActivity : Activity() {
             gpsManager.previousUserLocation = gpsManager.currentUserLocation
         }
 
-        carLocation = newLocation
-        gpsManager.currentUserLocation = carLocation
+        Car.currentCar.location = newLocation
+        gpsManager.currentUserLocation = Car.currentCar.location
 
         val speedometerTW = findViewById<TextView>(R.id.home_speed)
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
@@ -142,32 +184,27 @@ class HomeActivity : Activity() {
         Thread{
             while(true){
                 try{
-                    Thread.sleep(1)
                     updateTime()
+                    Thread.sleep(1000)
                 }catch (exception: Exception){}
             }
         }.start()
-
     }
 
-    fun updateTime(){
+    private fun updateTime(){
         runOnUiThread {
             val timeTW = findViewById<TextView>(R.id.home_datetime)
             timeTW.text = Utility.getTime()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    private fun addHomeListeners(){
+        homeButton.setOnClickListener {
+            showAppDrawer(true, SLIDE_ANIMATION_DURATION)
+        }
 
-        when(requestCode){
-            GEOLOCATION_PERMISSION_CODE -> {
-                if(grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    this.insufficientPermissions()
-                }else{
-                    this.setupUserLocation()
-                }
-            }
+        spotifyWidget.setOnClickListener {
+            runSpotify()
         }
     }
 
@@ -237,10 +274,6 @@ class HomeActivity : Activity() {
                 }
             }
         }catch (ex: Exception) {}
-    }
-
-    fun showApps(v: View?) {
-        showAppDrawer(true, SLIDE_ANIMATION_DURATION)
     }
 
     private fun showAppDrawer(visibility: Boolean, duration: Long) {
@@ -321,8 +354,9 @@ class HomeActivity : Activity() {
 
         val buttons = arrayOf(
                 SideMenuButton(getString(R.string.google_maps)) { runGoogleMaps() },
-                SideMenuButton(getString(R.string.volume_up)) { turnUpVolume() },
-                SideMenuButton(getString(R.string.volume_down)) { turnDownVolume() }
+                SideMenuButton(getString(R.string.spotify)) { runSpotify() },
+                SideMenuButton(getString(R.string.ok_google)) { runGoogleAssistant() },
+                SideMenuButton(getString(R.string.settings)) { runSettings() }
             )
 
         val parent = findViewById<LinearLayout>(R.id.home_sidemenu)
@@ -340,21 +374,44 @@ class HomeActivity : Activity() {
         }
     }
 
+    private fun runSpotify() {
+        val intent = Intent(Intent.ACTION_MAIN);
+        intent.component = ComponentName("com.spotify.music", "com.spotify.music.MainActivity")
+
+        try{
+            startActivity(intent)
+        }catch (exception: Exception){
+            Utility.showToast(this, getString(R.string.app_not_installed))
+        }
+    }
+
     private fun runGoogleMaps(){
-        if(carLocation == null){
+        if(Car.currentCar.location == null){
             Utility.showToast(this, getString(R.string.gps_not_enabled))
             return
         }
 
-        val gmmIntentUri: Uri = Uri.parse("geo:${carLocation!!.latitude},${carLocation!!.longitude}")
+        val gmmIntentUri: Uri = Uri.parse("geo:${Car.currentCar.location!!.latitude},${Car.currentCar.location!!.longitude}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
 
         try{
             startActivity(mapIntent)
         }catch (exception: Exception){
-            Utility.showToast(this, getString(R.string.maps_not_installed))
+            Utility.showToast(this, getString(R.string.app_not_installed))
         }
+    }
+
+    private fun runGoogleAssistant(){
+        try{
+            startActivity(Intent(Intent.ACTION_VOICE_COMMAND).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }catch (exception: Exception){
+            Utility.showToast(this, getString(R.string.app_not_installed))
+        }
+    }
+
+    private fun runSettings(){
+        startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
     }
 
     private fun turnUpVolume(){
@@ -371,11 +428,31 @@ class HomeActivity : Activity() {
         Utility.showToast(this, getString(R.string.request_permissions))
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode){
+            GEOLOCATION_PERMISSION_CODE -> {
+                if(grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    this.insufficientPermissions()
+                }else{
+                    this.setupUserLocation()
+                }
+            }
+        }
+    }
+
     override fun onBackPressed(){
         showAppDrawer(false, SLIDE_ANIMATION_DURATION)
     }
 
+    override fun onResume() {
+        super.onResume()
+        showAppDrawer(false, 0)
+    }
+
     companion object {
+        private var hasWelcomed = false
         private const val GEOLOCATION_PERMISSION_CODE = 1
         private const val SLIDE_ANIMATION_DURATION: Long = 300
         private var spotifyTitleTW: TextView? = null

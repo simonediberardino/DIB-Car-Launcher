@@ -3,39 +3,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="1024px"
+    android:layout_height="600px"
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/home_sidemenu"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginBottom="64dp"
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/home_credits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credits"
+            android:textSize="12px"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/home_view"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:alpha="0.25"
+            android:background="@color/darkblue"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+            app:layout_constraintStart_toStartOf="@+id/menu_title"
+            app:layout_constraintTop_toBottomOf="@+id/menu_title" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="125px"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/home_sidemenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/home_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.25"
+                    android:background="@color/darkblue"
+                    app:layout_constraintEnd_toEndOf="@+id/menu_title"
+                    app:layout_constraintStart_toStartOf="@+id/menu_title"
+                    app:layout_constraintTop_toBottomOf="@+id/menu_title" />
+            </LinearLayout>
+        </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/home_sidemenu">
+            app:layout_constraintStart_toEndOf="@+id/scrollView2"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/home_speedometer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="800px"
+                android:layout_height="280px"
                 android:layout_marginTop="32dp"
                 android:src="@drawable/speedometer2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,31 +86,32 @@
                 android:id="@+id/home_swipe"
                 android:layout_width="75px"
                 android:layout_height="75px"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/home_button"
-                android:onClick="showApps"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <include
-                layout="@layout/spotify_widget"
+                android:id="@+id/home_spotify"
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="128dp"
+                layout="@layout/spotify_widget"
+                android:layout_width="200px"
+                android:layout_height="200px"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/home_speedometer"
                 app:layout_constraintTop_toBottomOf="@+id/home_address"></include>
 
             <ImageView
                 android:id="@+id/home_car_icon"
-                android:layout_width="400px"
+                android:layout_width="0dp"
                 android:layout_height="200px"
+                android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:src="@drawable/car_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/home_swipe"
                 app:layout_constraintTop_toBottomOf="@+id/home_address" />
 
             <TextView
@@ -149,23 +190,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/home_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.6"
+            android:alpha="0"
             android:background="@color/black" />
 
         <GridView
             android:id="@+id/grd_allApps"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
             android:numColumns="5"

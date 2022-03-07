@@ -1,6 +1,6 @@
 package com.mini.infotainment.utility
 
-import android.R
+import android.R as R1
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -15,6 +15,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import com.mini.infotainment.R
+import com.mini.infotainment.support.ActivityExtended
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -24,11 +26,21 @@ import java.util.*
 
 
 object Utility {
-    fun navigateTo(c: AppCompatActivity, cl: Class<*>?) {
+    fun isInternetAvailable(): Boolean {
+        return isInternetAvailable(ActivityExtended.lastActivity)
+    }
+
+    fun isInternetAvailable(appCompatActivity: Activity): Boolean {
+        val cm = appCompatActivity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nInfo = cm.activeNetworkInfo
+        return nInfo != null && nInfo.isAvailable && nInfo.isConnected
+    }
+
+    fun navigateTo(c: Activity, cl: Class<*>?) {
         val intent = Intent(c, cl)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val bundle = ActivityOptionsCompat.makeCustomAnimation(c, R.anim.fade_in, R.anim.fade_out).toBundle()
+        val bundle = ActivityOptionsCompat.makeCustomAnimation(c, R1.anim.fade_in, R1.anim.fade_out).toBundle()
         c.startActivity(intent, bundle)
     }
 
