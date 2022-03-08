@@ -24,6 +24,6 @@ class GPSManager {
     }
 
     fun shouldRefreshAddress(): Boolean {
-        return System.currentTimeMillis() - lastAddressCheck >= 1000*15
+        return System.currentTimeMillis() - lastAddressCheck >= 1000*25
     }
 }

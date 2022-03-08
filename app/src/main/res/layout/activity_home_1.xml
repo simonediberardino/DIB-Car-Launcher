@@ -26,7 +26,7 @@
         android:layout_height="200px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_address"></include>
+        app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
 
     <ImageView
         android:id="@+id/home_1_car_icon"
@@ -36,7 +36,7 @@
         android:src="@drawable/car_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_address" />
+        app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer" />
 
     <TextView
         android:id="@+id/home_1_speed"
@@ -95,13 +95,14 @@
         android:id="@+id/home_1_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
         android:text="@string/caricamento"
         android:textColor="@color/white"
-        android:textSize="22px"
+        android:textSize="18px"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer" />

@@ -290,9 +290,8 @@ class HomeActivity : ActivityExtended() {
                             convertView = layoutInflater.inflate(R.layout.menu_grid, parent, false)
                             viewHolder = ViewHolderItem()
 
-                            viewHolder.icon = convertView!!.findViewById(R.id.img_icon)
-                            viewHolder.name = convertView.findViewById(R.id.txt_name)
-                            viewHolder.label = convertView.findViewById(R.id.txt_label)
+                            viewHolder.icon = convertView!!.findViewById(R.id.menu_grid_icon)
+                            viewHolder.label = convertView.findViewById(R.id.menu_grid_label)
                             convertView.tag = viewHolder
                         } else {
                             viewHolder = convertView.tag as ViewHolderItem
@@ -301,7 +300,7 @@ class HomeActivity : ActivityExtended() {
                         val appInfo = apps!![position]
                         viewHolder.icon!!.setImageDrawable(appInfo.icon)
                         viewHolder.label!!.text = appInfo.label
-                        viewHolder.name!!.text = appInfo.name
+                        //viewHolder.name!!.text = appInfo.name
 
                         return convertView
                     }
@@ -413,9 +412,9 @@ class HomeActivity : ActivityExtended() {
         class SideMenuButton(val title: String, val listener: Runnable)
 
         val buttons = arrayOf(
-                SideMenuButton(getString(R.string.menu_spotify)) { runSpotify() },
                 SideMenuButton(getString(R.string.menu_navigatore)) { runGoogleMaps() },
                 SideMenuButton(getString(R.string.menu_voice)) { runGoogleAssistant() },
+                SideMenuButton(getString(R.string.menu_spotify)) { runSpotify() },
                 SideMenuButton(getString(R.string.settings)) { runSettings() }
             )
 
