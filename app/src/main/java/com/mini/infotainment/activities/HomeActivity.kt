@@ -28,7 +28,6 @@ import com.mini.infotainment.entities.Car
 import android.content.ComponentName
 import com.mini.infotainment.support.*
 import android.content.IntentFilter
-import android.util.Log
 import android.view.*
 import androidx.viewpager.widget.ViewPager
 import kotlin.collections.ArrayList
@@ -112,7 +111,7 @@ class HomeActivity : ActivityExtended() {
 
     private fun initializeHomePager(){
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
-        viewPager.adapter = HomePagerAdapter(this, viewPages)
+        viewPager.adapter = HomePagerAdapter(viewPages)
     }
 
     private fun initializeLayout(){
