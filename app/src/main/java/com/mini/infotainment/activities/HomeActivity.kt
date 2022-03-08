@@ -54,7 +54,6 @@ class HomeActivity : ActivityExtended() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home)
-
         buildFirstPage()
         buildSecondPage()
 
