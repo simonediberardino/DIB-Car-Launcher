@@ -11,6 +11,7 @@
         android:id="@+id/home_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +87,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/containAppDrawer"
+        android:id="@+id/home_containAppDrawer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,10 +106,12 @@
             android:id="@+id/grid_apps"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
+            android:listSelector="#00000000"
+
             android:numColumns="5"
             android:padding="5dp"
             android:scrollbars="none"

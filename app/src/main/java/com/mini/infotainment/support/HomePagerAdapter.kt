@@ -19,37 +19,12 @@ class HomePagerAdapter(private val mContext: Context, private val pages: ArrayLi
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun instantiateItem(collection: ViewGroup, position: Int): Any {
-        println("INDEX ${position}")
         if(!pagesReady[position]) {
             collection.addView(pages[position])
             pagesReady[position] = true
         }
 
         return pages[position]
-    }
-
-    fun selectDot(layout: ViewGroup, position: Int){
-/*        val boxSize = layout.findViewById<ConstraintLayout>(R.id.quiz_mo_constraintLayout).layoutParams.width
-        val dotMargin = 4
-        val dotSize = boxSize / (nQuestions) - dotMargin
-        val dotsLayout = layout.findViewById<LinearLayout>(R.id.quiz_mo_dots)
-
-        dotsLayout.removeAllViews()
-
-        for(index in 0 until nQuestions) {
-            val viewToAdd = ImageView(mContext)
-            val isSelected = index == position
-
-            val drawableId = if(isSelected) R.drawable.selected_dot else R.drawable.default_dot
-            viewToAdd.alpha = if(isSelected) 1F else 0.5F
-            viewToAdd.minimumWidth = dotSize
-            viewToAdd.minimumHeight = dotSize
-
-            viewToAdd.setImageResource(drawableId)
-            dotsLayout.addView(viewToAdd)
-        }
-
-        Utility.ridimensionamento(mContext as AppCompatActivity, dotsLayout)*/
     }
 
     override fun destroyItem(collection: ViewGroup, position: Int, view: Any){}

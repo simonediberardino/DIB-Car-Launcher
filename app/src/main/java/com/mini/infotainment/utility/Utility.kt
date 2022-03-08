@@ -3,6 +3,7 @@ package com.mini.infotainment.utility
 import android.R as R1
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.location.Geocoder
@@ -155,6 +156,14 @@ object Utility {
                 else tokens[0])
             }
         })
+    }
+
+    fun isAppRunning(context: Context, packageName: String): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        activityManager.runningAppProcesses.forEach{
+            println(it.processName)
+        }
+        return false
     }
 
     @SuppressLint("SimpleDateFormat")

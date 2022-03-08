@@ -7,13 +7,14 @@
     <string name="volume_up">Volume+</string>
     <string name="volume_down">Volume-</string>
     <string name="app_not_installed">App non installata.</string>
-    <string name="gps_not_enabled">Il GPS non è attivo.</string>
+    <string name="gps_not_enabled">Devi attivare il GPS per utilizzare questa funzionalità.</string>
+    <string name="errore_sconosciuto">Errore sconosciuto.</string>
     <string name="menu_spotify">Spotify</string>
     <string name="menu_storage">Archivio</string>
     <string name="spotify_no_data">Non disponibile</string>
     <string name="menu_voice">Assistente vocale</string>
     <string name="settings">Impostazioni</string>
-    <string name="credits">Sviluppato da S. Di Berardino</string>
+    <string name="credits">Sviluppato da Simone Di Berardino</string>
     <string name="login_error">Impossibile effettuare l\'accesso.</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

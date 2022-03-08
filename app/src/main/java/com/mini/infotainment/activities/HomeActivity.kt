@@ -2,11 +2,8 @@ package com.mini.infotainment.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +21,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.mini.infotainment.utility.Utility
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.speech.tts.TextToSpeech
@@ -32,20 +28,18 @@ import com.mini.infotainment.entities.Car
 import android.content.ComponentName
 import com.mini.infotainment.support.*
 import android.content.IntentFilter
+import android.util.Log
+import android.view.*
 import androidx.viewpager.widget.ViewPager
 import kotlin.collections.ArrayList
-import androidx.core.app.ActivityCompat.startActivityForResult
-
-
-
-
 
 class HomeActivity : ActivityExtended() {
-    internal lateinit var viewGroups: ArrayList<ViewGroup>
+    internal lateinit var viewPages: ArrayList<ViewGroup>
     internal var isAppDrawerVisible = false
     internal lateinit var grdView: GridView
     internal lateinit var containerHome: ConstraintLayout
     internal lateinit var containAppDrawer: ConstraintLayout
+    internal lateinit var viewPager: ViewPager
     internal lateinit var speedometerTW: TextView
     internal lateinit var addressTW: TextView
     internal lateinit var timeTW: TextView
@@ -73,21 +67,22 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun buildFirstPage(){
-        viewGroups = ArrayList()
-
-        val parent = findViewById<ViewGroup>(R.id.home_view_pager)
-        val layout = layoutInflater.inflate(R.layout.activity_home_1, parent, false) as ViewGroup
+        viewPages = ArrayList()
+        viewPager = findViewById(R.id.home_view_pager)
+        
+        val layout = layoutInflater.inflate(R.layout.activity_home_1, viewPager, false) as ViewGroup
 
         spotifyWidget = layout.findViewById(R.id.home_1_spotify)
         timeTW = layout.findViewById(R.id.home_1_datetime)
         speedometerTW = layout.findViewById(R.id.home_1_speed)
         addressTW = layout.findViewById(R.id.home_1_address)
-        viewGroups.add(layout)
+        spotifyTitleTW = layout.findViewById(R.id.spotify_title)
+        spotifyAuthorTw = layout.findViewById(R.id.spotify_author)
+        viewPages.add(layout)
     }
 
     private fun buildSecondPage(){
-        val parent = findViewById<ViewGroup>(R.id.home_view_pager)
-        val layout = layoutInflater.inflate(R.layout.activity_home_2, parent, false) as ViewGroup
+        val layout = layoutInflater.inflate(R.layout.activity_home_2, viewPager, false) as ViewGroup
         val gridView = layout.findViewById<androidx.gridlayout.widget.GridLayout>(R.id.home_2_grid)
 
         class GridButton(name: String, drawableId: Int, val callback: Runnable){
@@ -113,16 +108,16 @@ class HomeActivity : ActivityExtended() {
         GridButton(getString(R.string.menu_storage), R.drawable.menu_storage) { runFileManager() }
         GridButton(getString(R.string.menu_settings), R.drawable.menu_settings) { runSettings() }
 
-        viewGroups.add(layout)
+        viewPages.add(layout)
     }
 
     private fun initializeHomePager(){
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
-        viewPager.adapter = HomePagerAdapter(this, viewGroups)
+        viewPager.adapter = HomePagerAdapter(this, viewPages)
     }
 
     private fun initializeLayout(){
-        containAppDrawer = findViewById(R.id.containAppDrawer)
+        containAppDrawer = findViewById(R.id.home_containAppDrawer)
         containAppDrawer.visibility = View.INVISIBLE
         containerHome = findViewById(R.id.home_container)
         homeButton = findViewById(R.id.home_swipe)
@@ -140,12 +135,11 @@ class HomeActivity : ActivityExtended() {
         loadSideMenu()
     }
 
-
     private fun initializeBroadcastReceiver(){
         val filter = IntentFilter()
-        filter.addAction("com.spotify.music.playbackstatechanged")
-        filter.addAction("com.spotify.music.metadatachanged")
-        filter.addAction("com.spotify.music.queuechanged")
+        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
+        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.metadatachanged")
+        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.queuechanged")
         registerReceiver(SpotifyReceiver(), filter)
     }
 
@@ -207,12 +201,6 @@ class HomeActivity : ActivityExtended() {
 
         locationManager = LocationServices.getFusedLocationProviderClient(this)
         locationManager.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-
-        locationManager.lastLocation.addOnSuccessListener(this) {
-            this.onLocationChanged(it)
-        }.addOnFailureListener(this) {
-            this.insufficientPermissions()
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -232,7 +220,10 @@ class HomeActivity : ActivityExtended() {
 
         if(gpsManager.shouldRefreshAddress()){
             gpsManager.lastAddressCheck = System.currentTimeMillis().toInt()
-            Utility.getSimpleAddress(newLocation, this, object: RunnablePar{
+            Utility.getSimpleAddress(
+                newLocation,
+                this,
+                object: RunnablePar{
                 override fun run(p: Any?) {
                     addressTW.text = if(p == null) String() else p as String
                 }
@@ -251,19 +242,22 @@ class HomeActivity : ActivityExtended() {
         }.start()
     }
 
-    private fun updateTime(){
-        runOnUiThread {
-            timeTW.text = Utility.getTime()
-        }
+    private fun updateTime() {
+        runOnUiThread { timeTW.text = Utility.getTime() }
     }
 
-    private fun addHomeListeners(){
+    private fun addHomeListeners() {
         homeButton.setOnClickListener {
             showAppDrawer(true, SLIDE_ANIMATION_DURATION)
         }
 
         spotifyWidget.setOnClickListener {
-            runSpotify()
+            nextSpotifyTrack()
+        }
+
+        spotifyWidget.setOnLongClickListener {
+            previousSpotifyTrack()
+            true
         }
     }
 
@@ -274,64 +268,60 @@ class HomeActivity : ActivityExtended() {
                     val intent = packageManager!!.getLaunchIntentForPackage(apps!![i].name.toString())
                     this@HomeActivity.startActivity(intent)
                 }
-        } catch (ex: Exception) {}
+        }catch (ex: Exception) {}
     }
 
     private fun loadListView() {
-        try {
-            grdView = findViewById<View>(R.id.grid_apps) as GridView
-            if (adapter == null) {
-                adapter = object : ArrayAdapter<AppInfo>(this, R.layout.menu_grid, apps!!) {
-                    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                        var convertView = convertView
-                        var viewHolder: Any?
+        grdView = findViewById<View>(R.id.grid_apps) as GridView
+        if (adapter == null) {
+            adapter = object : ArrayAdapter<AppInfo>(this, R.layout.menu_single_app, apps!!) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    var convertView = convertView
+                    val viewHolder: Any?
 
-                        if (convertView == null) {
-                            convertView = layoutInflater.inflate(R.layout.menu_grid, parent, false)
-                            viewHolder = ViewHolderItem()
+                    if(convertView == null){
+                        convertView = layoutInflater.inflate(R.layout.menu_single_app, parent, false)
+                        viewHolder = ViewHolderItem()
 
-                            viewHolder.icon = convertView!!.findViewById(R.id.menu_grid_icon)
-                            viewHolder.label = convertView.findViewById(R.id.menu_grid_label)
-                            convertView.tag = viewHolder
-                        } else {
-                            viewHolder = convertView.tag as ViewHolderItem
-                        }
-
-                        val appInfo = apps!![position]
-                        viewHolder.icon!!.setImageDrawable(appInfo.icon)
-                        viewHolder.label!!.text = appInfo.label
-                        //viewHolder.name!!.text = appInfo.name
-
-                        return convertView
+                        viewHolder.icon = convertView!!.findViewById(R.id.app_icon)
+                        viewHolder.label = convertView.findViewById(R.id.app_label)
+                        convertView.tag = viewHolder
+                    }else{
+                        viewHolder = convertView.tag as ViewHolderItem
                     }
 
-                    inner class ViewHolderItem {
-                        var icon: ImageView? = null
-                        var label: TextView? = null
-                        var name: TextView? = null
-                    }
+                    val appInfo = apps!![position]
+                    viewHolder.icon!!.setImageDrawable(appInfo.icon)
+                    viewHolder.label!!.text = appInfo.label
+
+                    return convertView
+                }
+
+                inner class ViewHolderItem {
+                    var icon: ImageView? = null
+                    var label: TextView? = null
                 }
             }
-            grdView.adapter = adapter
-        } catch (ex: Exception) {}
+        }
+        grdView.adapter = adapter
     }
 
     private fun loadApps() {
-        try {
-            if (apps == null) {
-                apps = ArrayList()
-                val i = Intent(Intent.ACTION_MAIN, null)
-                i.addCategory(Intent.CATEGORY_LAUNCHER)
-                val availableApps = packageManager!!.queryIntentActivities(i, 0)
-                for (ri in availableApps) {
-                    val appinfo = AppInfo()
-                    appinfo.label = ri.loadLabel(packageManager)
-                    appinfo.name = ri.activityInfo.packageName
-                    appinfo.icon = ri.activityInfo.loadIcon(packageManager)
-                    (apps as ArrayList<AppInfo>).add(appinfo)
-                }
-            }
-        }catch (ex: Exception) {}
+        if (apps != null)
+            return
+
+        apps = ArrayList()
+        val intent = Intent(Intent.ACTION_MAIN, null)
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        val availableApps = packageManager!!.queryIntentActivities(intent, 0)
+
+        for (appAtI in availableApps) {
+            val appInfo = AppInfo()
+            appInfo.label = appAtI.loadLabel(packageManager)
+            appInfo.name = appAtI.activityInfo.packageName
+            appInfo.icon = appAtI.activityInfo.loadIcon(packageManager)
+            (apps as ArrayList<AppInfo>).add(appInfo)
+        }
     }
 
     private fun showAppDrawer(visibility: Boolean, duration: Long) {
@@ -351,10 +341,7 @@ class HomeActivity : ActivityExtended() {
     private fun slideMenuUp(duration: Long) {
         val background = findViewById<View>(R.id.home_background)
         background.alpha = 0f
-        background
-            .animate()
-            .alpha(0.92f)
-            .duration = duration
+        background.animate().alpha(0.92f).duration = duration
 
         containAppDrawer.visibility = View.VISIBLE
 
@@ -382,10 +369,7 @@ class HomeActivity : ActivityExtended() {
     private fun slideMenuDown(duration: Long) {
         val background = findViewById<View>(R.id.home_background)
         background.alpha = 0.92f
-        background
-            .animate()
-            .alpha(0f)
-            .duration = duration
+        background.animate().alpha(0f).duration = duration
 
         val slideAnimation = TranslateAnimation(
             0f,
@@ -421,8 +405,8 @@ class HomeActivity : ActivityExtended() {
         val parent = findViewById<LinearLayout>(R.id.home_sidemenu)
 
         for(button : SideMenuButton in buttons){
-            val inflatedView = layoutInflater.inflate(R.layout.menu_items, parent, false)
-            val titleTW = inflatedView.findViewById<TextView>(R.id.menu_title)
+            val inflatedView = layoutInflater.inflate(R.layout.menu_side_items, parent, false)
+            val titleTW = inflatedView.findViewById<TextView>(R.id.menu_side_title)
 
             titleTW.text = button.title
             inflatedView.setOnClickListener {
@@ -435,12 +419,31 @@ class HomeActivity : ActivityExtended() {
 
     private fun runSpotify() {
         val intent = Intent(Intent.ACTION_MAIN);
-        intent.component = ComponentName("com.spotify.music", "com.spotify.music.MainActivity")
+        intent.component = ComponentName("${SpotifyReceiver.SPOTIFY_PACKAGE}", "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
 
         try{
             startActivity(intent)
         }catch (exception: Exception){
-            Utility.showToast(this, getString(R.string.app_not_installed))
+            Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
+        }
+    }
+
+    private fun nextSpotifyTrack(){
+        changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_NEXT)
+    }
+
+    private fun previousSpotifyTrack(){
+        changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
+    }
+
+    private fun changeSpotifyTrack(keyCode: Int){
+        val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
+        intent.setPackage("${SpotifyReceiver.SPOTIFY_PACKAGE}")
+        synchronized(this) {
+            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
+            this.sendOrderedBroadcast(intent, null)
+            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
+            this.sendOrderedBroadcast(intent, null)
         }
     }
 
@@ -462,7 +465,7 @@ class HomeActivity : ActivityExtended() {
 
     private fun runGoogleMaps(){
         if(Car.currentCar.location == null){
-            Utility.showToast(this, getString(R.string.gps_not_enabled))
+            Errors.printError(Errors.ErrorCodes.GPS_REQUIRED, this)
             return
         }
 
@@ -473,7 +476,7 @@ class HomeActivity : ActivityExtended() {
         try{
             startActivity(mapIntent)
         }catch (exception: Exception){
-            Utility.showToast(this, getString(R.string.app_not_installed))
+            Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
     }
 
@@ -481,7 +484,7 @@ class HomeActivity : ActivityExtended() {
         try{
             startActivity(Intent(Intent.ACTION_VOICE_COMMAND).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }catch (exception: Exception){
-            Utility.showToast(this, getString(R.string.app_not_installed))
+            Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
     }
 
@@ -490,7 +493,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun insufficientPermissions(){
-        Utility.showToast(this, getString(R.string.request_permissions))
+        Errors.printError(Errors.ErrorCodes.GPS_REQUIRED, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -529,8 +532,8 @@ class HomeActivity : ActivityExtended() {
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
 
-            spotifyTitleTW?.text = trackName
-            spotifyAuthorTw?.text = artistName
+            spotifyTitleTW!!.text = trackName
+            spotifyAuthorTw!!.text = artistName
         }
     }
 }
