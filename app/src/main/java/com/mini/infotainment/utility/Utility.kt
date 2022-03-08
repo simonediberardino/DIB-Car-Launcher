@@ -114,7 +114,7 @@ object Utility {
         }
     }
 
-    fun getAddress(location: Location, callback: RunnablePar) {
+    fun getAddress(location: Location, activity: Activity, callback: RunnablePar) {
         Thread{
             val client = OkHttpClient().newBuilder()
                 .build()
@@ -129,9 +129,15 @@ object Utility {
                     var result = response.body?.string()
                     val field = "formatted"
                     if(result != null && field in result) {
-                            result = response.body?.string()!!.split(field)[1]
-                            result = result.split("\n")[0].drop(3).dropLast(2)
+                        result = result
+                            .split(field)[1]
+                            .split("\n")[0]
+                            .drop(3)
+                            .dropLast(2)
+
+                        activity.runOnUiThread {
                             callback.run(result)
+                        }
                     }else{
                         callback.run(String())
                     }
@@ -140,8 +146,8 @@ object Utility {
         }.start()
     }
 
-    fun getSimpleAddress(location: Location, callback: RunnablePar) {
-        getAddress(location, object: RunnablePar{
+    fun getSimpleAddress(location: Location, activity: Activity, callback: RunnablePar) {
+        getAddress(location, activity, object: RunnablePar{
             override fun run(p: Any?) {
                 val tokens = (p as String).split(",")
                 callback.run(if(tokens.size > 1)

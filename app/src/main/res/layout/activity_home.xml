@@ -20,9 +20,10 @@
             android:id="@+id/home_credits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/credits"
             android:textSize="12px"
-            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/home_view_pager"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
@@ -31,9 +32,27 @@
             android:layout_height="0dp"
             android:alpha="0.25"
             android:background="@color/darkblue"
-            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-            app:layout_constraintStart_toStartOf="@+id/menu_title"
-            app:layout_constraintTop_toBottomOf="@+id/menu_title" />
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/home_view_pager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/scrollView2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageView
+            android:id="@+id/home_swipe"
+            android:layout_width="65px"
+            android:layout_height="65px"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/home_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -63,126 +82,6 @@
             </LinearLayout>
         </ScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scrollView2"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/home_speedometer"
-                android:layout_width="800px"
-                android:layout_height="280px"
-                android:layout_marginTop="32dp"
-                android:src="@drawable/speedometer2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/home_swipe"
-                android:layout_width="75px"
-                android:layout_height="75px"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/home_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <include
-                android:id="@+id/home_spotify"
-
-                layout="@layout/spotify_widget"
-                android:layout_width="200px"
-                android:layout_height="200px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/home_speedometer"
-                app:layout_constraintTop_toBottomOf="@+id/home_address"></include>
-
-            <ImageView
-                android:id="@+id/home_car_icon"
-                android:layout_width="0dp"
-                android:layout_height="200px"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:src="@drawable/car_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/home_swipe"
-                app:layout_constraintTop_toBottomOf="@+id/home_address" />
-
-            <TextView
-                android:id="@+id/home_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="1dp"
-                android:shadowColor="@color/darkblue"
-                android:shadowDx="0.0"
-                android:shadowDy="0.0"
-                android:shadowRadius="8"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textSize="50px"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/home_speedometer"
-                app:layout_constraintEnd_toEndOf="@+id/home_speedometer"
-                app:layout_constraintStart_toStartOf="@+id/home_speedometer"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.473" />
-
-            <TextView
-                android:id="@+id/home_speed_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="1dp"
-                android:shadowColor="@color/darkblue"
-                android:shadowDx="0.0"
-                android:shadowDy="0.0"
-                android:shadowRadius="8"
-                android:text="km/h"
-                android:textColor="@color/white"
-                android:textSize="18px"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/home_speed"
-                app:layout_constraintStart_toStartOf="@+id/home_speed"
-                app:layout_constraintTop_toBottomOf="@+id/home_speed" />
-
-            <TextView
-                android:id="@+id/home_datetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:shadowColor="@color/darkblue"
-                android:shadowDx="0.0"
-                android:shadowDy="0.0"
-                android:shadowRadius="8"
-                android:text="@string/caricamento"
-                android:textColor="@color/white"
-                android:textSize="22px"
-                app:layout_constraintEnd_toEndOf="@+id/home_speedometer"
-                app:layout_constraintStart_toStartOf="@+id/home_speedometer"
-                app:layout_constraintTop_toTopOf="@+id/home_speedometer" />
-
-            <TextView
-                android:id="@+id/home_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:shadowColor="@color/darkblue"
-                android:shadowDx="0.0"
-                android:shadowDy="0.0"
-                android:shadowRadius="8"
-                android:text="@string/caricamento"
-                android:textColor="@color/white"
-                android:textSize="22px"
-                app:layout_constraintBottom_toBottomOf="@+id/home_speedometer"
-                app:layout_constraintEnd_toEndOf="@+id/home_speedometer"
-                app:layout_constraintStart_toStartOf="@+id/home_speedometer" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -202,7 +101,7 @@
             android:background="@color/black" />
 
         <GridView
-            android:id="@+id/grd_allApps"
+            android:id="@+id/grid_apps"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -223,4 +122,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

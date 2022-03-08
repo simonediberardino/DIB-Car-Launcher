@@ -8,9 +8,10 @@
     <string name="volume_down">Volume-</string>
     <string name="app_not_installed">App non installata.</string>
     <string name="gps_not_enabled">Il GPS non è attivo.</string>
-    <string name="spotify">Spotify</string>
+    <string name="menu_spotify">Spotify</string>
+    <string name="menu_storage">Archivio</string>
     <string name="spotify_no_data">Non disponibile</string>
-    <string name="ok_google">Assistente vocale</string>
+    <string name="menu_voice">Assistente vocale</string>
     <string name="settings">Impostazioni</string>
     <string name="credits">Sviluppato da S. Di Berardino</string>
     <string name="login_error">Impossibile effettuare l\'accesso.</string>
@@ -21,4 +22,8 @@
     <string name="proceed_no_internet">Prosegui senza internet</string>
     <string name="connecting">Connessione…</string>
     <string name="password_errata">Password errata.</string>
+    <string name="menu_musica">Spotify</string>
+    <string name="menu_youtube">YouTube</string>
+    <string name="menu_navigatore">Navigatore</string>
+    <string name="menu_settings">Impostazioni</string>
 </resources>
