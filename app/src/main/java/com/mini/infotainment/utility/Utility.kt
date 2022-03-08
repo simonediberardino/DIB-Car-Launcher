@@ -23,7 +23,11 @@ import java.security.NoSuchAlgorithmException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-
+import com.google.android.gms.common.api.Response
+import com.google.gson.Gson
+import com.mini.infotainment.support.RunnablePar
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 object Utility {
     fun isInternetAvailable(): Boolean {
@@ -110,19 +114,38 @@ object Utility {
         }
     }
 
-    fun getAddress(location: Location, activity: Activity) : String{
-        return Geocoder(activity, Locale.getDefault()).getFromLocation(
-            location.latitude,
-            location.longitude,
-            1
-        )[0].getAddressLine(0)
+    fun getAddress(location: Location, callback: RunnablePar) {
+        Thread{
+            val client = OkHttpClient().newBuilder()
+                .build()
+            val request: Request = Request.Builder()
+                .url("https://api.geoapify.com/v1/geocode/reverse?lat=51.21709661403662&lon=6.7782883744862374&apiKey=827645ed3da54b00a91ac7217a17fdb9")
+                .method("GET", null)
+                .build()
+
+            val geocoder = Geocoder(context)
+            geocoder.getFromLocation()
+            client.newCall(request).execute().use {
+                    response ->
+                run {
+                    var result = response.body?.string()!!.split("formatted")[1]
+                    result = result.split("\n")[0].drop(3).dropLast(2)
+                    callback.run(result)
+                }
+            }
+        }.start()
     }
 
-    fun getSimpleAddress(location: Location, activity: Activity): String {
-        val tokens = getAddress(location, activity).split(",")
-        return if(tokens.size > 1)
-            "${tokens[0]},${tokens[1]}"
-        else tokens[0]
+    fun getSimpleAddress(location: Location, callback: RunnablePar) {
+        getAddress(location, object: RunnablePar{
+            override fun run(p: Any?) {
+                val tokens = (p as String).split(",")
+                callback.run(if(tokens.size > 1)
+                    "${tokens[0]},${tokens[1]}"
+                else tokens[0])
+            }
+
+        })
     }
 
     @SuppressLint("SimpleDateFormat")

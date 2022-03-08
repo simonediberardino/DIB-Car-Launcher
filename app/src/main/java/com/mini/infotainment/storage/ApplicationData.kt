@@ -2,8 +2,6 @@ package com.mini.infotainment.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.mini.infotainment.entities.Car
 import com.mini.infotainment.support.ActivityExtended
 
 object ApplicationData {

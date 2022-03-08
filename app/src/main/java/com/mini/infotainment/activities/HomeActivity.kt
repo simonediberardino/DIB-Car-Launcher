@@ -33,9 +33,7 @@ import android.content.ComponentName
 import android.content.BroadcastReceiver
 import com.mini.infotainment.support.*
 import android.content.IntentFilter
-
-
-
+import androidx.leanback.widget.Util
 
 
 class HomeActivity : ActivityExtended() {
@@ -78,20 +76,24 @@ class HomeActivity : ActivityExtended() {
             val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
             mediaPlayer.start()
             mediaPlayer.setOnCompletionListener {
-                TTS.speak(getString(R.string.welcome_message), TextToSpeech.QUEUE_ADD, null)
+                //TTS.speak(getString(R.string.welcome_message), TextToSpeech.QUEUE_ADD, null)
             }
         }
     }
 
     private fun initializeTTS(){
         TTS = TextToSpeech(this) {
-            TTS.language = Locale.ITALIAN
         }
     }
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_home)
 
+        Utility.getSimpleAddress(Location(String()), object: RunnablePar{
+            override fun run(p: Any?) {
+                println("ADDRESS ${p as String}")
+            }
+        })
         containAppDrawer = findViewById(R.id.containAppDrawer)
         containAppDrawer.visibility = View.INVISIBLE
         containerHome = findViewById(R.id.home_container)
@@ -142,7 +144,7 @@ class HomeActivity : ActivityExtended() {
         val locationRequest = LocationRequest.create()
         locationRequest.interval = 1
         locationRequest.fastestInterval = 1
-        locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
@@ -177,7 +179,11 @@ class HomeActivity : ActivityExtended() {
         speedometerTW.text = speedInKmH.toString()
 
         val addressTW = findViewById<TextView>(R.id.home_address)
-        addressTW.text = Utility.getSimpleAddress(newLocation, this)
+        Utility.getSimpleAddress(newLocation, object: RunnablePar{
+            override fun run(p: Any?) {
+                addressTW.text = if(p == null) String() else p as String
+            }
+        })
     }
 
     private fun setupTimer(){
