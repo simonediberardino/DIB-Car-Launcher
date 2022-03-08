@@ -10,9 +10,8 @@
     <string name="gps_not_enabled">Il GPS non è attivo.</string>
     <string name="spotify">Spotify</string>
     <string name="spotify_no_data">Non disponibile</string>
-    <string name="ok_google">OK Google</string>
+    <string name="ok_google">Assistente vocale</string>
     <string name="settings">Impostazioni</string>
-    <string name="welcome_message">Salve. Benvenuti a bordo.</string>
     <string name="credits">Sviluppato da S. Di Berardino</string>
     <string name="login_error">Impossibile effettuare l\'accesso.</string>
     <string name="password">Password</string>

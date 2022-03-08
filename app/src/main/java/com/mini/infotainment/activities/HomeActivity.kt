@@ -89,11 +89,6 @@ class HomeActivity : ActivityExtended() {
     private fun initializeLayout(){
         setContentView(R.layout.activity_home)
 
-        Utility.getSimpleAddress(Location(String()), object: RunnablePar{
-            override fun run(p: Any?) {
-                println("ADDRESS ${p as String}")
-            }
-        })
         containAppDrawer = findViewById(R.id.containAppDrawer)
         containAppDrawer.visibility = View.INVISIBLE
         containerHome = findViewById(R.id.home_container)
@@ -179,11 +174,14 @@ class HomeActivity : ActivityExtended() {
         speedometerTW.text = speedInKmH.toString()
 
         val addressTW = findViewById<TextView>(R.id.home_address)
-        Utility.getSimpleAddress(newLocation, object: RunnablePar{
-            override fun run(p: Any?) {
-                addressTW.text = if(p == null) String() else p as String
-            }
-        })
+        if(gpsManager.shouldRefreshAddress()){
+            gpsManager.lastAddressCheck = System.currentTimeMillis().toInt()
+            Utility.getSimpleAddress(newLocation, object: RunnablePar{
+                override fun run(p: Any?) {
+                    addressTW.text = if(p == null) String() else p as String
+                }
+            })
+        }
     }
 
     private fun setupTimer(){
@@ -286,6 +284,7 @@ class HomeActivity : ActivityExtended() {
         if(visibility == isAppDrawerVisible)
             return
 
+        grdView.visibility = if(visibility) View.VISIBLE else View.INVISIBLE
         isAppDrawerVisible = visibility
 
         if (visibility) {
@@ -300,7 +299,7 @@ class HomeActivity : ActivityExtended() {
         background.alpha = 0f
         background
             .animate()
-            .alpha(0.6f)
+            .alpha(0.75f)
             .duration = duration
 
         containAppDrawer.visibility = View.VISIBLE
@@ -328,7 +327,7 @@ class HomeActivity : ActivityExtended() {
 
     private fun slideMenuDown(duration: Long) {
         val background = findViewById<View>(R.id.home_background)
-        background.alpha = 0.6f
+        background.alpha = 0.75f
         background
             .animate()
             .alpha(0f)

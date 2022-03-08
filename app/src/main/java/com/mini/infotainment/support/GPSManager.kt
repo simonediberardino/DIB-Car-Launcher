@@ -4,14 +4,14 @@ import android.location.Location
 import com.google.firebase.ktx.Firebase
 
 class GPSManager {
-    var lastUpdateToFirebase: Int? = null
+    var lastAddressCheck: Int = 0
     var currentUserLocation: Location? = null
     var previousUserLocation: Location? = null
 
     fun calculateSpeed(): Float {
-        return if(currentUserLocation?.hasSpeed() == true)
+        return if(currentUserLocation?.hasSpeed() == true){
             currentUserLocation!!.speed
-        else{
+        }else{
             if(previousUserLocation == null)
                 0f
             else{
@@ -23,7 +23,7 @@ class GPSManager {
         }
     }
 
-    fun sendUpdatedLocationToFirebase(){
-
+    fun shouldRefreshAddress(): Boolean {
+        return System.currentTimeMillis() - lastAddressCheck >= 1000*15
     }
 }

@@ -119,18 +119,22 @@ object Utility {
             val client = OkHttpClient().newBuilder()
                 .build()
             val request: Request = Request.Builder()
-                .url("https://api.geoapify.com/v1/geocode/reverse?lat=51.21709661403662&lon=6.7782883744862374&apiKey=827645ed3da54b00a91ac7217a17fdb9")
+                .url("https://api.geoapify.com/v1/geocode/reverse?lat=${location.latitude}&lon=${location.longitude}&apiKey=827645ed3da54b00a91ac7217a17fdb9")
                 .method("GET", null)
                 .build()
 
-            val geocoder = Geocoder(context)
-            geocoder.getFromLocation()
             client.newCall(request).execute().use {
                     response ->
                 run {
-                    var result = response.body?.string()!!.split("formatted")[1]
-                    result = result.split("\n")[0].drop(3).dropLast(2)
-                    callback.run(result)
+                    var result = response.body?.string()
+                    val field = "formatted"
+                    if(result != null && field in result) {
+                            result = response.body?.string()!!.split(field)[1]
+                            result = result.split("\n")[0].drop(3).dropLast(2)
+                            callback.run(result)
+                    }else{
+                        callback.run(String())
+                    }
                 }
             }
         }.start()
@@ -144,7 +148,6 @@ object Utility {
                     "${tokens[0]},${tokens[1]}"
                 else tokens[0])
             }
-
         })
     }
 

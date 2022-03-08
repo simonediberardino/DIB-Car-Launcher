@@ -48,11 +48,11 @@ class LoadingActivity : ActivityExtended() {
     private fun initializeLayout(){
         setContentView(R.layout.activity_loading)
         val currentTime = System.currentTimeMillis()
-
+        val lastLoginTime = ApplicationData.getLastLogin().toInt()
         val isTimePassed = currentTime - ApplicationData.getLastLogin() >= 60*60*1000
 
         Utility.navigateTo(this,
-            if(isTimePassed)
+            if(isTimePassed && lastLoginTime != 0)
                 HomeActivity::class.java
             else
                 LoginActivity::class.java
