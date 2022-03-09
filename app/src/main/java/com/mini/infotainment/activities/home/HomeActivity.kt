@@ -62,8 +62,8 @@ class HomeActivity : ActivityExtended() {
 
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.adapter = HomePagerAdapter(viewPages)
-
     }
+
     private fun initializeBroadcastReceiver(){
         val filter = IntentFilter()
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
