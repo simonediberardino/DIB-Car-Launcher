@@ -116,33 +116,41 @@ object Utility {
     }
 
     fun getAddress(location: Location, activity: Activity, callback: RunnablePar) {
+        if(!isInternetAvailable(activity)){
+            return
+        }
+
         Thread{
-            val client = OkHttpClient().newBuilder()
-                .build()
-            val request: Request = Request.Builder()
-                .url("https://api.geoapify.com/v1/geocode/reverse?lat=${location.latitude}&lon=${location.longitude}&apiKey=827645ed3da54b00a91ac7217a17fdb9")
-                .method("GET", null)
-                .build()
+            try{
+                val client = OkHttpClient().newBuilder()
+                    .build()
+                val request: Request = Request.Builder()
+                    .url("https://api.geoapify.com/v1/geocode/reverse?lat=${location.latitude}&lon=${location.longitude}&apiKey=827645ed3da54b00a91ac7217a17fdb9")
+                    .method("GET", null)
+                    .build()
 
-            client.newCall(request).execute().use {
-                    response ->
-                run {
-                    var result = response.body?.string()
-                    val field = "formatted"
-                    if(result != null && field in result) {
-                        result = result
-                            .split(field)[1]
-                            .split("\n")[0]
-                            .drop(3)
-                            .dropLast(2)
+                client.newCall(request).execute().use {
+                        response ->
+                    run {
+                        var result = response.body?.string()
+                        val field = "formatted"
+                        if(result != null && field in result) {
+                            result = result
+                                .split(field)[1]
+                                .split("\n")[0]
+                                .drop(3)
+                                .dropLast(2)
 
-                        activity.runOnUiThread {
-                            callback.run(result)
+                            activity.runOnUiThread {
+                                callback.run(result)
+                            }
+                        }else{
+                            callback.run(String())
                         }
-                    }else{
-                        callback.run(String())
                     }
                 }
+            }catch (exception: Exception){
+                return@Thread
             }
         }.start()
     }
@@ -156,14 +164,6 @@ object Utility {
                 else tokens[0])
             }
         })
-    }
-
-    fun isAppRunning(context: Context, packageName: String): Boolean {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        activityManager.runningAppProcesses.forEach{
-            println(it.processName)
-        }
-        return false
     }
 
     @SuppressLint("SimpleDateFormat")
