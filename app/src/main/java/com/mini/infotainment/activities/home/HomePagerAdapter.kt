@@ -1,4 +1,4 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.activities.home
 
 import android.os.Build
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.viewpager.widget.PagerAdapter
 
 class HomePagerAdapter(private val pages: MutableList<ViewGroup>) : PagerAdapter() {
-    val pagesReady = Array(pages.size) { _ -> false }
+    private val pagesReady = Array(pages.size) { _ -> false }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun instantiateItem(collection: ViewGroup, position: Int): Any {

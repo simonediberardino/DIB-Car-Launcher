@@ -1,9 +1,10 @@
 package com.mini.infotainment.support
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.mini.infotainment.activities.HomeActivity
+import com.mini.infotainment.activities.home.HomeActivity
 
 class SpotifyReceiver : BroadcastReceiver() {
     companion object {
@@ -16,7 +17,7 @@ class SpotifyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent) {
         when (intent.action) {
             METADATA_CHANGED -> {
-                HomeActivity.updateSpotifySong(intent)
+                HomeActivity.updateSpotifySong(context as Activity, intent)
             }
             PLAYBACK_STATE_CHANGED -> {}
             QUEUE_CHANGED -> {}

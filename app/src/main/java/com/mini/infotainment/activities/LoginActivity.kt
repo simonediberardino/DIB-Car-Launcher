@@ -1,13 +1,6 @@
 package com.mini.infotainment.activities
 
-import android.os.Bundle
-import android.view.View
-import android.widget.EditText
-import com.mini.infotainment.R
-import com.mini.infotainment.entities.Car
-import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.ActivityExtended
-import com.mini.infotainment.utility.Utility
+/*
 
 class LoginActivity : ActivityExtended() {
     private lateinit var enteredTextET: EditText
@@ -43,4 +36,4 @@ class LoginActivity : ActivityExtended() {
         ApplicationData.setLastLogin(System.currentTimeMillis())
         Utility.navigateTo(this, HomeActivity::class.java)
     }
-}
+}*/

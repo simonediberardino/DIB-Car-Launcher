@@ -1,7 +1,6 @@
 package com.mini.infotainment.support
 
 import android.location.Location
-import com.google.firebase.ktx.Firebase
 
 class GPSManager {
     var lastAddressCheck: Long = 0
@@ -25,7 +24,12 @@ class GPSManager {
 
     fun shouldRefreshAddress(): Boolean {
         val minimumDistanceAddressCheck = 5
-        val isFarEnough = currentUserLocation!!.distanceTo(previousUserLocation) > minimumDistanceAddressCheck
+        val isFarEnough =
+            if(previousUserLocation == null){
+                true
+            }else{
+                currentUserLocation!!.distanceTo(previousUserLocation) > minimumDistanceAddressCheck
+            }
         val isTimePassed = System.currentTimeMillis() - lastAddressCheck >= 1000*25
         return isFarEnough && isTimePassed
     }

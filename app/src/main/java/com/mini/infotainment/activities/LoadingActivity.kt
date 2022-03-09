@@ -1,15 +1,7 @@
 package com.mini.infotainment.activities
 
 
-import android.os.Bundle
-import android.widget.TextView
-import androidx.leanback.widget.Util
-import com.mini.infotainment.R
-import com.mini.infotainment.entities.Car
-import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.ActivityExtended
-import com.mini.infotainment.support.RunnablePar
-import com.mini.infotainment.utility.Utility
+/*
 
 class LoadingActivity : ActivityExtended() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +9,7 @@ class LoadingActivity : ActivityExtended() {
         initializeLayout()
     }
 
+*/
 /*    fun checkCar(){
         if(Utility.isInternetAvailable())
             return
@@ -43,7 +36,8 @@ class LoadingActivity : ActivityExtended() {
                     }
                 }
             })
-    }*/
+    }*//*
+
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_loading)
@@ -61,3 +55,4 @@ class LoadingActivity : ActivityExtended() {
 
 }
 
+*/
