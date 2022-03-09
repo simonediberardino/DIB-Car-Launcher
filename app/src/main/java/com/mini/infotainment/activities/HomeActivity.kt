@@ -33,7 +33,7 @@ import androidx.viewpager.widget.ViewPager
 import kotlin.collections.ArrayList
 
 class HomeActivity : ActivityExtended() {
-    internal lateinit var viewPages: ArrayList<ViewGroup>
+    internal val viewPages = mutableListOf<ViewGroup>()
     internal var isAppDrawerVisible = false
     internal lateinit var grdView: GridView
     internal lateinit var containerHome: ConstraintLayout
@@ -65,7 +65,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun buildFirstPage(){
-        viewPages = ArrayList()
+        viewPages.clear()
         viewPager = findViewById(R.id.home_view_pager)
         
         val layout = layoutInflater.inflate(R.layout.activity_home_1, viewPager, false) as ViewGroup
@@ -121,7 +121,7 @@ class HomeActivity : ActivityExtended() {
         containerHome = findViewById(R.id.home_container)
         homeButton = findViewById(R.id.home_swipe)
 
-        apps = null
+        apps.clear()
         adapter = null
 
         slideMenuDown(0)
@@ -307,10 +307,8 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun loadApps() {
-        if (apps != null)
-            return
+        apps.clear()
 
-        apps = ArrayList()
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         val availableApps = packageManager!!.queryIntentActivities(intent, 0)
@@ -322,7 +320,7 @@ class HomeActivity : ActivityExtended() {
                 appAtI.activityInfo.loadIcon(packageManager)
             )
 
-            (apps as ArrayList<AppInfo>).add(appInfo)
+            apps.add(appInfo)
         }
     }
 
@@ -527,7 +525,7 @@ class HomeActivity : ActivityExtended() {
         private const val SLIDE_ANIMATION_DURATION: Long = 300
         private var spotifyTitleTW: TextView? = null
         private var spotifyAuthorTw: TextView? = null
-        var apps: MutableList<AppInfo>? = null
+        var apps = mutableListOf<AppInfo>()
         var adapter: ArrayAdapter<AppInfo>? = null
 
         fun updateSpotifySong(intent: Intent){

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.viewpager.widget.PagerAdapter
 
-class HomePagerAdapter(private val pages: ArrayList<ViewGroup>) : PagerAdapter() {
+class HomePagerAdapter(private val pages: MutableList<ViewGroup>) : PagerAdapter() {
     val pagesReady = Array(pages.size) { _ -> false }
 
     @RequiresApi(Build.VERSION_CODES.N)
