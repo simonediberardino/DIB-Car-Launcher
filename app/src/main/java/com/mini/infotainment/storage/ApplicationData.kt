@@ -2,6 +2,7 @@ package com.mini.infotainment.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.mini.infotainment.support.ActivityExtended
 
 object ApplicationData {
@@ -13,13 +14,16 @@ object ApplicationData {
         return ActivityExtended.lastActivity.getSharedPreferences(DATA_ID, Context.MODE_PRIVATE)!!
     }
 
-    fun getLastLogin(): Long {
-        return getApplicationData().getLong(LOGIN_TIME_ID, LOGIN_TIME_DEFAULT)
-    }
-
-    fun setLastLogin(time: Long) {
-        val dataEditor = getApplicationData().edit()
-        dataEditor.putLong(LOGIN_TIME_ID, time)
-        dataEditor.apply()
-    }
+    var lastLogin: Long
+        get() {
+            val savedJson: String? =
+                getApplicationData().getString(LOGIN_TIME_ID, LOGIN_TIME_DEFAULT.toString())
+            return Gson().fromJson(savedJson, String::class.java).toLong()
+        }
+        set(value) {
+            val json = Gson().toJson(value)
+            val dataEditor = getApplicationData().edit()
+            dataEditor.putString(LOGIN_TIME_ID, json)
+            dataEditor.apply()
+        }
 }

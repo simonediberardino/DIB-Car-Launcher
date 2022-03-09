@@ -210,6 +210,8 @@ class HomeActivity : ActivityExtended() {
 
         if(gpsManager.currentUserLocation != null){
             gpsManager.previousUserLocation = gpsManager.currentUserLocation
+        }else{
+            gpsManager.previousUserLocation = newLocation
         }
 
         Car.currentCar.location = newLocation
@@ -219,7 +221,7 @@ class HomeActivity : ActivityExtended() {
         speedometerTW.text = speedInKmH.toString()
 
         if(gpsManager.shouldRefreshAddress()){
-            gpsManager.lastAddressCheck = System.currentTimeMillis().toInt()
+            gpsManager.lastAddressCheck = System.currentTimeMillis()
             Utility.getSimpleAddress(
                 newLocation,
                 this,
