@@ -93,16 +93,19 @@
 
     <TextView
         android:id="@+id/home_1_address"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
         android:text="@string/caricamento"
         android:textColor="@color/white"
-        android:textSize="18px"
+        android:textSize="17px"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer" />

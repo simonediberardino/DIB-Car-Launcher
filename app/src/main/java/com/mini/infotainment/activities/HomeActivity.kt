@@ -117,6 +117,7 @@ class HomeActivity : ActivityExtended() {
     private fun initializeLayout(){
         containAppDrawer = findViewById(R.id.home_containAppDrawer)
         containAppDrawer.visibility = View.INVISIBLE
+
         containerHome = findViewById(R.id.home_container)
         homeButton = findViewById(R.id.home_swipe)
 
@@ -137,6 +138,7 @@ class HomeActivity : ActivityExtended() {
         val filter = IntentFilter()
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.metadatachanged")
+
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.queuechanged")
         registerReceiver(SpotifyReceiver(), filter)
     }
@@ -314,10 +316,12 @@ class HomeActivity : ActivityExtended() {
         val availableApps = packageManager!!.queryIntentActivities(intent, 0)
 
         for (appAtI in availableApps) {
-            val appInfo = AppInfo()
-            appInfo.label = appAtI.loadLabel(packageManager)
-            appInfo.name = appAtI.activityInfo.packageName
-            appInfo.icon = appAtI.activityInfo.loadIcon(packageManager)
+            val appInfo = AppInfo(
+                appAtI.activityInfo.packageName,
+                appAtI.loadLabel(packageManager),
+                appAtI.activityInfo.loadIcon(packageManager)
+            )
+
             (apps as ArrayList<AppInfo>).add(appInfo)
         }
     }
