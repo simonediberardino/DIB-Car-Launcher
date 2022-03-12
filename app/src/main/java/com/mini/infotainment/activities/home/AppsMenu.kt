@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mini.infotainment.R
 import com.mini.infotainment.support.AppInfo
+import com.mini.infotainment.support.Page
 
 class AppsMenu(override val ctx: HomeActivity) : Page {
     companion object {

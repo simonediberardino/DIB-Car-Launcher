@@ -3,6 +3,9 @@ package com.mini.infotainment.activities.home
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.activities.tts.TTSActivity
+import com.mini.infotainment.support.Page
+import com.mini.infotainment.utility.Utility
 
 class SideMenu(override val ctx: HomeActivity) : Page {
     override fun build() {
@@ -10,7 +13,7 @@ class SideMenu(override val ctx: HomeActivity) : Page {
 
         val buttons = arrayOf(
             SideMenuButton(ctx.getString(R.string.menu_navigatore)) { ctx.runGoogleMaps() },
-            SideMenuButton(ctx.getString(R.string.menu_voice)) { ctx.runGoogleAssistant() },
+            SideMenuButton(ctx.getString(R.string.menu_voice)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
             SideMenuButton(ctx.getString(R.string.menu_spotify)) { ctx.runSpotify() },
             SideMenuButton(ctx.getString(R.string.settings)) { ctx.runSettings() }
         )

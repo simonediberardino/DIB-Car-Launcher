@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.support.Page
 import com.mini.infotainment.support.SpotifyReceiver
 import com.mini.infotainment.utility.Utility
 

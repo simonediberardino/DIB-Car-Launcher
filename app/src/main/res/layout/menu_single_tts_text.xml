@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:layout_anchorGravity="center">
+
+    <ImageView
+        android:id="@+id/single_tts_circle"
+        android:layout_width="25px"
+        android:layout_height="25px"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/blue_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/single_tts_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/caricamento"
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/h3"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/single_tts_circle"
+        app:layout_constraintEnd_toStartOf="@+id/single_tts_more"
+        app:layout_constraintStart_toEndOf="@+id/single_tts_circle"
+        app:layout_constraintTop_toTopOf="@+id/single_tts_circle" />
+
+    <TextView
+        android:id="@+id/single_tts_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/caricamento"
+        android:textColor="@color/lightgrey"
+        android:textSize="@dimen/h4"
+        app:layout_constraintEnd_toStartOf="@+id/single_tts_info"
+        app:layout_constraintStart_toStartOf="@+id/single_tts_title"
+        app:layout_constraintTop_toBottomOf="@+id/single_tts_title" />
+
+    <ImageView
+        android:id="@+id/single_tts_more"
+        android:layout_width="@dimen/h1"
+        android:layout_height="@dimen/h1"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/ic_baseline_more_horiz_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/single_tts_title" />
+
+    <ImageView
+        android:id="@+id/single_tts_info"
+        android:layout_width="@dimen/h1"
+        android:layout_height="@dimen/h1"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/ic_baseline_info_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/single_tts_more"
+        app:layout_constraintStart_toStartOf="@+id/single_tts_more"
+        app:layout_constraintTop_toBottomOf="@+id/single_tts_more" />
+
+    <View
+        android:id="@+id/single_tts_seperator"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/lightblue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/single_tts_circle"
+        app:layout_constraintStart_toStartOf="@+id/single_tts_circle"
+        app:layout_constraintTop_toBottomOf="@+id/single_tts_circle" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/darkblue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,5 @@
 <resources>
+    <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="app_name">Mini Infotainment</string>
     <string name="home">Vai alla home</string>
     <string name="caricamento">Caricamento…</string>
@@ -27,4 +28,9 @@
     <string name="menu_youtube">YouTube</string>
     <string name="menu_navigatore">Navigatore</string>
     <string name="menu_settings">Impostazioni</string>
+    <string name="tts_n_sentence">Frase {numero}</string>
+    <string name="tts_sen_title">Frasi salvate</string>
+    <string name="inserisci">Inserisci</string>
+    <string name="tts_add_sentence">Aggiungi frase</string>
+    <string name="conferma">Conferma</string>
 </resources>

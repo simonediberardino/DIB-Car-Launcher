@@ -24,7 +24,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/credits"
-            android:textSize="12px"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h7"
             app:layout_constraintBottom_toBottomOf="@+id/home_view_pager"
             app:layout_constraintEnd_toEndOf="parent" />
 

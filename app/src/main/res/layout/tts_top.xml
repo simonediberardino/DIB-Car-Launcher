@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="16dp"
+    app:layout_behavior="@string/top_sheet_behavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@drawable/round_bottom"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_baseline_speaker_phone_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tts_top_titolo"
+            app:layout_constraintStart_toEndOf="@+id/tts_top_titolo"
+            app:layout_constraintTop_toTopOf="@+id/tts_top_titolo" />
+
+        <TextView
+            android:id="@+id/tts_top_titolo"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/tts_add_sentence"
+            android:textColor="@color/grey"
+            android:textSize="55px"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/tts_top_back"
+            android:layout_width="90px"
+            android:layout_height="90px"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tts_top_titolo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tts_top_titolo" />
+
+
+        <EditText
+            android:id="@+id/tts_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="@string/inserisci"
+            android:padding="16dp"
+            android:textColor="@color/darkgrey"
+            android:textSize="@dimen/h4"
+            app:layout_constraintEnd_toEndOf="@+id/tts_top_seperator"
+            app:layout_constraintStart_toEndOf="@+id/tts_top_circle"
+            app:layout_constraintTop_toTopOf="@+id/tts_top_circle" />
+
+
+        <ImageView
+            android:id="@+id/tts_top_circle"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/blue_circle"
+            app:layout_constraintStart_toStartOf="@+id/tts_top_back"
+            app:layout_constraintTop_toBottomOf="@+id/tts_top_seperator" />
+
+        <View
+            android:id="@+id/tts_top_seperator"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/darksilver"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tts_top_line"
+            app:layout_constraintTop_toBottomOf="@+id/tts_top_titolo" />
+
+        <View
+            android:id="@+id/tts_top_line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/lightblue"
+            app:layout_constraintBottom_toBottomOf="@+id/tts_top_confirm"
+            app:layout_constraintEnd_toEndOf="@+id/tts_top_circle"
+            app:layout_constraintStart_toStartOf="@+id/tts_top_circle"
+            app:layout_constraintTop_toBottomOf="@+id/tts_top_circle" />
+
+        <RadioButton
+            android:id="@+id/tts_top_confirm"
+            android:layout_width="360px"
+            android:layout_height="100px"
+            android:layout_marginTop="64dp"
+            android:alpha="0.85"
+            android:background="@drawable/blue_btn_icon_full"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/conferma"
+            android:textColor="@color/white"
+            android:textSize="35px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tts_input" />
+
+        <ImageView
+            android:id="@+id/tts_top_swiper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/swiper"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border"
+        tools:context=".MapsActivity"
+        app:layout_behavior="@string/top_sheet_behavior" >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+
+            app:layout_behavior="@string/top_sheet_behavior">
+
+            <ImageView
+                android:id="@+id/tts_top_back"
+                android:layout_width="70px"
+                android:layout_height="70px"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/leave_black" />
+
+            <TextView
+                android:id="@+id/tts_top_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/round_border"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Prova"
+                android:textColor="#E91E63"
+                android:textSize="50px"
+                app:layout_constraintBottom_toBottomOf="@+id/tts_top_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tts_top_circle"
+                app:layout_constraintTop_toTopOf="@+id/tts_top_back" />
+
+            <TextView
+                android:id="@+id/tts_top_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/round_border"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Grave"
+                android:textSize="50px"
+                app:layout_constraintEnd_toEndOf="@+id/tts_top_location"
+                app:layout_constraintTop_toBottomOf="@+id/tts_top_location" />
+
+            <ImageView
+                android:id="@+id/tts_top_circle"
+                android:layout_width="50px"
+                android:layout_height="50px"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tts_top_back"
+                app:layout_constraintStart_toEndOf="@+id/tts_top_back"
+                app:layout_constraintTop_toTopOf="@+id/tts_top_back"
+                android:background="@drawable/blue_circle" />
+
+            <TextView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/blue_btn_icon"
+                android:padding="8dp"
+                android:text="@string/conferma"
+                android:textSize="50px"
+                app:layout_constraintEnd_toEndOf="@+id/tts_top_location"
+                app:layout_constraintStart_toStartOf="@+id/tts_top_location"
+                app:layout_constraintTop_toBottomOf="@+id/tts_top_start" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    -->

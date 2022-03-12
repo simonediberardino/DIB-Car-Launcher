@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="h0">50px</dimen>
+    <dimen name="h1">45px</dimen>
+    <dimen name="h2">40px</dimen>
+    <dimen name="h3">35px</dimen>
+    <dimen name="h4">32px</dimen>
+    <dimen name="h5">27.5px</dimen>
+    <dimen name="h6">22px</dimen>
+    <dimen name="h7">18px</dimen>
+    <dimen name="h8">15px</dimen>
+    <dimen name="h9">12px</dimen>
+</resources>

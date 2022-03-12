@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login"
                 android:textColor="@color/white"
-                android:textSize="45px" />
+                android:textSize="@dimen/h3" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

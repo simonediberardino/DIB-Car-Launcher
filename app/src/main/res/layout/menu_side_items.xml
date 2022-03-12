@@ -30,7 +30,7 @@
         android:text="@string/caricamento"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="15px"
+        android:textSize="@dimen/h8"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

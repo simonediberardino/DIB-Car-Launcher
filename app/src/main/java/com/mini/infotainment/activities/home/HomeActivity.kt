@@ -61,7 +61,7 @@ class HomeActivity : ActivityExtended() {
         sideMenu = SideMenu(this).also { it.build() }
 
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
-        viewPager.adapter = HomePagerAdapter(viewPages)
+        viewPager.adapter = PagerAdapter(viewPages)
     }
 
     private fun initializeBroadcastReceiver(){
