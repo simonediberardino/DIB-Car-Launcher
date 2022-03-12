@@ -1,12 +1,10 @@
 package com.mini.infotainment.utility
 
-import android.R as R1
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityManager
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.location.Geocoder
 import android.location.Location
 import android.net.ConnectivityManager
 import android.util.DisplayMetrics
@@ -18,21 +16,36 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.mini.infotainment.R
 import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.RunnablePar
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import com.google.android.gms.common.api.Response
-import com.google.gson.Gson
-import com.mini.infotainment.support.RunnablePar
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import android.R as R1
+
+
+
 
 object Utility {
     fun isInternetAvailable(): Boolean {
         return isInternetAvailable(ActivityExtended.lastActivity)
+    }
+
+    fun confirmDialog(c: Activity, runnable: Runnable){
+        shortDialog(c.getString(R.string.confirm_title), c.getString(R.string.confirm_desc), c, runnable)
+    }
+
+    fun shortDialog(title: String, description: String, c: Activity, runnable: Runnable){
+        AlertDialog.Builder(c)
+            .setTitle(title)
+            .setMessage(description)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(c.resources.getStringArray(R.array.yesno)[0]) { _, _ -> runnable.run() }
+            .setNegativeButton(c.resources.getStringArray(R.array.yesno)[1], null).show()
     }
 
     fun isInternetAvailable(appCompatActivity: Activity): Boolean {

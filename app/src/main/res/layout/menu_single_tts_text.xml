@@ -22,16 +22,13 @@
         android:id="@+id/single_tts_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="32dp"
         android:ellipsize="end"
         android:lines="1"
         android:text="@string/caricamento"
-        android:textColor="@color/darkgrey"
+        android:textColor="@color/grey"
         android:textSize="@dimen/h3"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/single_tts_circle"
-        app:layout_constraintEnd_toStartOf="@+id/single_tts_more"
         app:layout_constraintStart_toEndOf="@+id/single_tts_circle"
         app:layout_constraintTop_toTopOf="@+id/single_tts_circle" />
 
@@ -45,39 +42,42 @@
         android:text="@string/caricamento"
         android:textColor="@color/lightgrey"
         android:textSize="@dimen/h4"
-        app:layout_constraintEnd_toStartOf="@+id/single_tts_info"
         app:layout_constraintStart_toStartOf="@+id/single_tts_title"
         app:layout_constraintTop_toBottomOf="@+id/single_tts_title" />
 
-    <ImageView
-        android:id="@+id/single_tts_more"
-        android:layout_width="@dimen/h0"
-        android:layout_height="@dimen/h0"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/ic_baseline_more_horiz_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/single_tts_title" />
-
-    <ImageView
-        android:id="@+id/single_tts_info"
-        android:layout_width="@dimen/h0"
-        android:layout_height="@dimen/h0"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/ic_baseline_info_24"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/single_tts_more"
-        app:layout_constraintStart_toStartOf="@+id/single_tts_more"
-        app:layout_constraintTop_toBottomOf="@+id/single_tts_more" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/single_tts_play"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:background="@drawable/ic_baseline_play_circle_24" />
+
+        <ImageView
+            android:id="@+id/single_tts_delete"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_baseline_delete_24" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/single_tts_seperator"
         android:layout_width="1dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/lightblue"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/darkblue"
+        app:layout_constraintBottom_toBottomOf="@+id/single_tts_description"
         app:layout_constraintEnd_toEndOf="@+id/single_tts_circle"
         app:layout_constraintStart_toStartOf="@+id/single_tts_circle"
         app:layout_constraintTop_toBottomOf="@+id/single_tts_circle" />
@@ -86,8 +86,10 @@
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginTop="32dp"
         android:background="@color/darkblue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_tts_description" />
 </androidx.constraintlayout.widget.ConstraintLayout>

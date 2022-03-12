@@ -5,15 +5,27 @@ import android.view.View
 import android.widget.EditText
 import com.github.techisfun.android.topsheet.TopSheetBehavior
 import com.mini.infotainment.R
-import com.mini.infotainment.entities.TTSSentence
 import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.Page
+import com.mini.infotainment.utility.Utility
 
 class TTSTopSheet(override val ctx: TTSActivity) : Page{
     private lateinit var topSheetBehavior: TopSheetBehavior<View>
     private lateinit var ttsConfirm: View
     private lateinit var ttsEditText: EditText
+    private lateinit var ttsBack: View
+
+    var visibility: Boolean
+        get() {
+            return topSheetBehavior.state == TopSheetBehavior.STATE_EXPANDED
+        }
+        set(value) {
+            topSheetBehavior.state = if(value){
+                TopSheetBehavior.STATE_EXPANDED
+            }else{
+                TopSheetBehavior.STATE_HIDDEN
+            }
+        }
 
     override fun build() {
         ctx.windowManager?.defaultDisplay?.getMetrics(DisplayMetrics())
@@ -23,12 +35,12 @@ class TTSTopSheet(override val ctx: TTSActivity) : Page{
         topSheetBehavior = TopSheetBehavior.from(topSheet)
         topSheetBehavior.isHideable = true
 
-        setTopMenuVisibility(false)
+        visibility = false
 
         topSheetBehavior.setTopSheetCallback(object : TopSheetBehavior.TopSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if(newState == TopSheetBehavior.STATE_COLLAPSED)
-                    setTopMenuVisibility(false)
+                    visibility = false
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -36,26 +48,24 @@ class TTSTopSheet(override val ctx: TTSActivity) : Page{
 
         ttsConfirm = ctx.findViewById(R.id.tts_top_confirm)
         ttsEditText = ctx.findViewById(R.id.tts_top_input)
+        ttsBack = ctx.findViewById(R.id.tts_top_back)
 
         ttsConfirm.setOnClickListener {
-            val input = ttsEditText.text.toString()
+            val input = Utility.capitalizeFirstLetter(ttsEditText.text.toString())
+
             if(input.trim().isEmpty())
                 return@setOnClickListener
+
             val ttsSentence = TTSSentence(input)
+
             ApplicationData.saveTTSSentence(ttsSentence)
+            ttsEditText.setText(String())
             ctx.refreshList()
+            visibility = false
         }
-    }
 
-    private fun isTopMenuShown(): Boolean {
-        return topSheetBehavior.state == TopSheetBehavior.STATE_EXPANDED
-    }
-
-    fun setTopMenuVisibility(flag: Boolean){
-        topSheetBehavior.state = if(flag){
-            TopSheetBehavior.STATE_EXPANDED
-        }else{
-            TopSheetBehavior.STATE_HIDDEN
+        ttsBack.setOnClickListener {
+            visibility = false
         }
     }
 

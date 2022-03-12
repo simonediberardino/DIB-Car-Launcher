@@ -4,9 +4,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.tts.TTSActivity
 import com.mini.infotainment.support.Page
-import com.mini.infotainment.utility.Utility
 
 class HomeSecondPage(override val ctx: HomeActivity) : Page {
     override fun build() {
@@ -30,7 +28,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page {
         }
 
         GridButton(ctx.getString(R.string.menu_navigatore), R.drawable.menu_navigation) { ctx.runGoogleMaps() }
-        GridButton(ctx.getString(R.string.menu_voice), R.drawable.menu_voice) { Utility.navigateTo(ctx, TTSActivity::class.java) }
+        GridButton(ctx.getString(R.string.menu_voice), R.drawable.menu_voice) { ctx.runGoogleAssistant() }
         GridButton(ctx.getString(R.string.menu_spotify), R.drawable.menu_spotify) { ctx.runSpotify() }
         GridButton(ctx.getString(R.string.menu_youtube), R.drawable.menu_youtube) { ctx.runYoutube() }
         GridButton(ctx.getString(R.string.menu_storage), R.drawable.menu_storage) { ctx.runFileManager() }

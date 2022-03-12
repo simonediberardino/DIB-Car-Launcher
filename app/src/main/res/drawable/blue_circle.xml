@@ -13,7 +13,7 @@
                 android:top="15dp" />
             <stroke
                 android:width="5dp"
-                android:color="@color/lightblue" />
+                android:color="@color/blue" />
         </shape>
     </item>
 

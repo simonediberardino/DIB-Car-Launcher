@@ -26,8 +26,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100px"
-            android:layout_height="100px"
+            android:layout_width="75px"
+            android:layout_height="75px"
             android:layout_marginStart="16dp"
             android:background="@drawable/ic_baseline_speaker_phone_24"
             app:layout_constraintBottom_toBottomOf="@+id/tts_top_titolo"
@@ -44,7 +44,7 @@
             android:padding="2dp"
             android:text="@string/tts_add_sentence"
             android:textColor="@color/grey"
-            android:textSize="55px"
+            android:textSize="@dimen/h0"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,8 +52,8 @@
 
         <ImageView
             android:id="@+id/tts_top_back"
-            android:layout_width="90px"
-            android:layout_height="90px"
+            android:layout_width="75px"
+            android:layout_height="75px"
             android:background="@drawable/ic_baseline_arrow_back_24"
             app:layout_constraintBottom_toBottomOf="@+id/tts_top_titolo"
             app:layout_constraintStart_toStartOf="parent"

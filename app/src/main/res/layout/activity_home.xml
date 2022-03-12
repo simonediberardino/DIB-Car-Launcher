@@ -24,8 +24,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/credits"
-            android:textColor="@color/white"
-            android:textSize="@dimen/h7"
+            android:textColor="@color/darksilver"
+            android:textSize="@dimen/h9"
             app:layout_constraintBottom_toBottomOf="@+id/home_view_pager"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -59,7 +59,7 @@
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="125px"
+            android:layout_width="130px"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,8 @@
 <resources>
+    <string-array name="yesno">
+        <item>Sì</item>
+        <item>No</item>
+    </string-array>
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="app_name">Mini Infotainment</string>
     <string name="home">Vai alla home</string>
@@ -29,8 +33,12 @@
     <string name="menu_navigatore">Navigatore</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="tts_n_sentence">Frase {numero}</string>
-    <string name="tts_sen_title">Frasi salvate</string>
+    <string name="tts_sen_title">Messaggi di benvenuto</string>
     <string name="inserisci">Inserisci</string>
-    <string name="tts_add_sentence">Aggiungi frase</string>
+    <string name="tts_add_sentence">Aggiungi messaggio</string>
     <string name="conferma">Conferma</string>
+    <string name="personalizza">Personalizza</string>
+    <string name="confirm_title">Sei sicuro di voler continuare?</string>
+    <string name="confirm_desc">L\'azione non è reversibile.</string>
+    <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
 </resources>

@@ -12,11 +12,11 @@ class SideMenu(override val ctx: HomeActivity) : Page {
         class SideMenuButton(val title: String, val listener: Runnable)
 
         val buttons = arrayOf(
-            SideMenuButton(ctx.getString(R.string.menu_navigatore)) { ctx.runGoogleMaps() },
-            SideMenuButton(ctx.getString(R.string.menu_voice)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
-            SideMenuButton(ctx.getString(R.string.menu_spotify)) { ctx.runSpotify() },
-            SideMenuButton(ctx.getString(R.string.settings)) { ctx.runSettings() }
-        )
+                SideMenuButton(ctx.getString(R.string.menu_navigatore)) { ctx.runGoogleMaps() },
+                SideMenuButton(ctx.getString(R.string.menu_spotify)) { ctx.runSpotify() },
+                SideMenuButton(ctx.getString(R.string.personalizza)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
+                SideMenuButton(ctx.getString(R.string.settings)) { ctx.runSettings() }
+            )
 
         val parent = ctx.findViewById<LinearLayout>(R.id.home_sidemenu)
 

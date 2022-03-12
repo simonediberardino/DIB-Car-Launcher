@@ -5,7 +5,7 @@
     android:id="@+id/parent"
     android:layout_width="1024px"
     android:layout_height="600px"
-    android:background="@drawable/blue_background_gradient">
+    android:background="@drawable/background">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/tts_drawerLayout"
@@ -26,8 +26,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tts_button"
-                    android:layout_width="300px"
-                    android:layout_height="70px"
+                    android:layout_width="250px"
+                    android:layout_height="65px"
                     android:layout_marginBottom="32dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="10dp"
@@ -39,7 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@drawable/pink_background"
+                        android:background="@color/blue"
                         android:gravity="center">
 
                         <TextView
@@ -48,7 +48,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/tts_add_sentence"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/h4" />
+                            android:textSize="@dimen/h6" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -59,13 +59,13 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="1dp"
-                    android:shadowColor="@color/darkblue"
+                    android:shadowColor="@color/black"
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
-                    android:shadowRadius="8"
+                    android:shadowRadius="4"
                     android:text="@string/tts_sen_title"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/h0"
+                    android:textSize="@dimen/h2"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

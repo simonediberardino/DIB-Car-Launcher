@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
 import java.util.*
@@ -83,7 +84,9 @@ class HomeActivity : ActivityExtended() {
 
             val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
             mediaPlayer.start()
-            mediaPlayer.setOnCompletionListener{}
+            mediaPlayer.setOnCompletionListener{
+                TTS.speak(ApplicationData.getWelcomeSentence()?.text ?: return@setOnCompletionListener, TextToSpeech.QUEUE_FLUSH, null)
+            }
         }
     }
 
