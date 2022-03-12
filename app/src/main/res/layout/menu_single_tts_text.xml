@@ -51,9 +51,8 @@
 
     <ImageView
         android:id="@+id/single_tts_more"
-        android:layout_width="@dimen/h1"
-        android:layout_height="@dimen/h1"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/h0"
+        android:layout_height="@dimen/h0"
         android:layout_marginEnd="32dp"
         android:background="@drawable/ic_baseline_more_horiz_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,9 +60,9 @@
 
     <ImageView
         android:id="@+id/single_tts_info"
-        android:layout_width="@dimen/h1"
-        android:layout_height="@dimen/h1"
-        android:layout_marginTop="24dp"
+        android:layout_width="@dimen/h0"
+        android:layout_height="@dimen/h0"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/ic_baseline_info_24"
         app:layout_constraintBottom_toBottomOf="parent"

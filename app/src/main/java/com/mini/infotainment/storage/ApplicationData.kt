@@ -35,17 +35,20 @@ object ApplicationData {
             dataEditor.apply()
         }
 
-    var savedMsgs: Array<TTSSentence>?
-        get(){
-            val savedJson: String? = applicationData.getString(MESSAGES_ID, MESSAGES_DEFAULT)
-            return Gson().fromJson(savedJson, Array<TTSSentence>::class.java)
-        }
-        set(value){
-            val json = Gson().toJson(value)
-            val dataEditor = applicationData.edit()
-            dataEditor.putString(MESSAGES_ID, json)
-            dataEditor.apply()
-        }
+    fun getTTSSentence(): MutableList<TTSSentence> {
+        val savedJson: String = applicationData.getString(MESSAGES_ID, MESSAGES_DEFAULT)
+            ?: return mutableListOf()
+        return Gson().fromJson(savedJson, Array<TTSSentence>::class.java).toMutableList()
+    }
+
+    fun saveTTSSentence(ttsSentence: TTSSentence){
+        val list = getTTSSentence()
+        list.add(ttsSentence)
+        val json = Gson().toJson(list)
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(MESSAGES_ID, json)
+        dataEditor.apply()
+    }
 
     var lastLogin: Long
         get() {

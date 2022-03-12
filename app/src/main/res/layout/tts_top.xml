@@ -61,7 +61,7 @@
 
 
         <EditText
-            android:id="@+id/tts_input"
+            android:id="@+id/tts_top_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -125,7 +125,7 @@
             android:textSize="35px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tts_input" />
+            app:layout_constraintTop_toBottomOf="@+id/tts_top_input" />
 
         <ImageView
             android:id="@+id/tts_top_swiper"

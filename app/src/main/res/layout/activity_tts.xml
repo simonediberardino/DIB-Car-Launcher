@@ -84,15 +84,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tts_title">
 
-                    <LinearLayout
-                        android:id="@+id/tts_linearlayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:foregroundGravity="center"
-                        android:orientation="vertical"
 
-                        app:layout_constraintVertical_bias="1.0" />
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/tts_linearlayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:foregroundGravity="center"
+                            android:orientation="vertical"
+
+                            app:layout_constraintVertical_bias="1.0" />
+                    </ScrollView>
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
