@@ -9,6 +9,7 @@ import android.location.Location
 import android.net.ConnectivityManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -171,10 +172,10 @@ object Utility {
     fun getSimpleAddress(location: Location, activity: Activity, callback: RunnablePar) {
         getAddress(location, activity, object: RunnablePar{
             override fun run(p: Any?) {
-                val tokens = (p as String).split(",")
-                callback.run(if(tokens.size > 1)
-                    "${tokens[0]},${tokens[1]}"
-                else tokens[0])
+                mutableListOf<View>().toTypedArray()
+                callback.run(
+                    (p as String).split(",")[0]
+                )
             }
         })
     }
