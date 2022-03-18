@@ -138,7 +138,7 @@ class HomeActivity : ActivityExtended() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun onLocationChanged(newLocation: Location?){
-        if(newLocation == null)
+        if(newLocation == null || !Utility.isInternetAvailable())
             return
 
         if(gpsManager.currentUserLocation != null){
