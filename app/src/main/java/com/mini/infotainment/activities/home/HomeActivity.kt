@@ -152,6 +152,7 @@ class HomeActivity : ActivityExtended() {
         homePage1.speedometerTW.text = speedInKmH.toString()
 
         if(gpsManager.shouldRefreshAddress()){
+            FirebaseClass.updateCarLocation(newLocation)
             gpsManager.lastAddressCheck = System.currentTimeMillis()
             Utility.getSimpleAddress(
                 newLocation,

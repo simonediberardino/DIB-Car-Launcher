@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "443737067038",
+    "firebase_url": "https://infotainment-8c303-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "infotainment-8c303",
+    "storage_bucket": "infotainment-8c303.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443737067038:android:ef3f0a63ed75a83c37280f",
+        "android_client_info": {
+          "package_name": "com.mini.infotainment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443737067038-4c7dup3je85alr5ul0fepc88u7cd4pv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBqs-e8BOh1X1ncmgVLBda3_T6V_w3Yfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443737067038-4c7dup3je85alr5ul0fepc88u7cd4pv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443737067038:android:8c581eeb878f093537280f",
+        "android_client_info": {
+          "package_name": "com.simonediberardino.infotainmentcompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443737067038-4c7dup3je85alr5ul0fepc88u7cd4pv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBqs-e8BOh1X1ncmgVLBda3_T6V_w3Yfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443737067038-4c7dup3je85alr5ul0fepc88u7cd4pv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
