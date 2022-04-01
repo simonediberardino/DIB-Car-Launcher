@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/single_noti_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="@dimen/h8"
+        android:text="TextView"
+        android:textColor="@color/lightgrey" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,16 +5,26 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Point
 import android.location.Location
 import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
+import android.text.format.Formatter
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.Display
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
+import androidmads.library.qrgenearator.QRGContents
+import androidmads.library.qrgenearator.QRGEncoder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import com.google.gson.Gson
+import com.google.zxing.WriterException
 import com.mini.infotainment.R
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.RunnablePar
@@ -23,8 +33,8 @@ import okhttp3.Request
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import android.R as R1
 
@@ -32,6 +42,40 @@ import android.R as R1
 
 
 object Utility {
+    fun objectToJsonString(`object`: Any): String {
+        return Gson().toJson(`object`)
+    }
+
+    inline fun <reified T> jsonStringToObject(jsonString: String): T {
+        return Gson().fromJson(jsonString, T::class.java)
+    }
+
+    fun generateQrCode(textToEncode: String, activity: Activity): Bitmap? {
+        val manager = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager?
+        val display: Display = manager!!.defaultDisplay
+
+        val point = Point()
+        display.getSize(point)
+
+        val width: Int = point.x
+        val height: Int = point.y
+
+        var dimen = if (width < height) width else height
+        dimen = dimen * 3 / 4
+
+        val qrgEncoder = QRGEncoder(textToEncode, null, QRGContents.Type.TEXT, dimen)
+        return try {
+            qrgEncoder.encodeAsBitmap()
+        } catch (e: WriterException) {
+            null
+        }
+    }
+
+    fun getLocalIpAddress(context: Context): String {
+        val wifiManager = context.applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
+        return Formatter.formatIpAddress(wifiManager.connectionInfo.ipAddress)
+    }
+
     fun isInternetAvailable(): Boolean {
         return isInternetAvailable(ActivityExtended.lastActivity)
     }
@@ -94,7 +138,7 @@ object Utility {
         lowercase().split(" ").joinToString(" ") { it.capitalize() }
 
     fun showToast(c: Activity, message: String){
-        Toast.makeText(c, message, Toast.LENGTH_LONG).show()
+        c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
     }
 
     fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
@@ -182,13 +226,8 @@ object Utility {
 
     @SuppressLint("SimpleDateFormat")
     fun getTime(): String {
-        val timeZone = TimeZone.getTimeZone("GMT+1:00")
-        val cal = Calendar.getInstance(timeZone)
-        val currentLocalTime = cal.time
-        val date: DateFormat = SimpleDateFormat("HH:mm:ss a")
-        date.timeZone = timeZone
-
-        return date.format(currentLocalTime).replace("AM", "").replace("PM", "")
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+        return LocalDateTime.now().format(formatter)
     }
 
     fun msToKmH(ms: Float): Int {

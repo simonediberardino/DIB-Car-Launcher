@@ -1,5 +1,6 @@
 package com.mini.infotainment.activities.home
 
+import FirebaseClass
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -22,6 +23,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
+import com.mini.infotainment.notification.Server
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
@@ -36,8 +38,10 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var TTS: TextToSpeech
     internal lateinit var homePage1: HomeFirstPage
     internal lateinit var homePage2: HomeSecondPage
+    internal lateinit var homePage3: HomeThirdPage
     internal lateinit var appsMenu: AppsMenu
     internal lateinit var sideMenu: SideMenu
+    internal lateinit var server: Server
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +51,7 @@ class HomeActivity : ActivityExtended() {
         initializeExceptionHandler()
         initializeLayout()
         addHomeListeners()
+        initializeSocketServer()
         initializeBroadcastReceiver()
         initializeTTS()
         welcomeUser()
@@ -58,11 +63,18 @@ class HomeActivity : ActivityExtended() {
 
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
+        homePage3 = HomeThirdPage(this).also { it.build() }
+
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
 
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.adapter = PagerAdapter(viewPages)
+    }
+
+    private fun initializeSocketServer(){
+        server = Server(this)
+        server.init()
     }
 
     private fun initializeBroadcastReceiver(){

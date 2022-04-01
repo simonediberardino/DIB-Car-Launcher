@@ -41,4 +41,6 @@
     <string name="confirm_title">Sei sicuro di voler continuare?</string>
     <string name="confirm_desc">L\'azione non è reversibile.</string>
     <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
+    <string name="inquadra_qrcode">Inquadra il QR Code per collegare il tuo cellulare all\'auto</string>
+    <string name="client_connesso">Client connesso con successo!</string>
 </resources>
