@@ -12,44 +12,71 @@ import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.utility.Utility
 
 class NotificationHandler(val context: HomeActivity) {
+    val APPS_MAP: HashMap<String, Application> = hashMapOf(
+        "com.instagram.android" to
+                Application("Instagram", "com.instagram.android", context.getDrawable(R.drawable.instagram_logo)!!),
+        "com.whatsapp" to
+                Application("Whatsapp", "com.whatsapp", context.getDrawable(R.drawable.whatsapp_logo)!!),
+        )
+
     var notificationDialog: NotificationDialog? = null
-    var lastNotificationId: String? = null
-    var notifications = HashMap<String, MutableList<String>>()
+    var notifications = HashMap<String, MutableList<NotificationData>>()
+    var lastNotification: NotificationData? = null
 
     fun onNotificationReceived(jsonString: String){
-        Utility.showToast(context, jsonString)
-        val jsonObject = Utility.jsonStringToObject<NotificationData>(jsonString)
-        if(notificationDialog?.isShowing == true && lastNotificationId == jsonObject.title){
-            notificationDialog!!.addNotification(jsonObject.text)
+        val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
+
+        if(!APPS_MAP.containsKey(currentNotification.packageName))
+            return
+
+        val application = APPS_MAP[currentNotification.packageName]
+
+        if(notificationDialog?.isShowing == true && lastNotification == currentNotification){
+            notificationDialog!!.addNotification(currentNotification.text)
             return
         }
 
-        val previousNotification = notifications[jsonObject.title] ?: mutableListOf()
-        previousNotification.add(jsonObject.text)
-        notificationDialog = NotificationDialog(context, jsonObject.title, previousNotification, jsonObject.drawable)
+        lastNotification = currentNotification
+
+        val previousNotification = notifications[currentNotification.title] ?: mutableListOf()
+        previousNotification.add(currentNotification)
+
+        notificationDialog = NotificationDialog(
+            context,
+            currentNotification.title,
+            previousNotification,
+            application!!.appName,
+            application.icon
+        )
     }
 
-    class NotificationData(val title: String, val text: String, val drawable: Drawable?)
+    class NotificationData(val title: String, val text: String, val packageName: String){
+        override fun equals(other: Any?): Boolean {
+            return if(other is NotificationData){
+                this.title == other.title && this.packageName == other.packageName
+            }else{
+                false
+            }
+        }
+    }
 
-    class NotificationDialog(val ctx: Context, val title: String, val textList: MutableList<String>, val drawable: Drawable?) : Dialog(ctx){
-        constructor(
-            ctx: Context,
-            title: String,
-            text: String,
-            drawable: Drawable?) : this(ctx, title, mutableListOf(text), drawable)
+    class Application(val appName: String, val packageName: String, val icon: Drawable)
 
+    class NotificationDialog(val ctx: Context, val title: String, val notiList: MutableList<NotificationData>, val appName: String, val appIcon: Drawable) : Dialog(ctx){
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.notification_dialog)
 
-            val notificationTitle = findViewById<TextView>(R.id.noti_app_name)
+            val notificationTitle = findViewById<TextView>(R.id.noti_title)
+            val notificationAppname = findViewById<TextView>(R.id.noti_app_name)
             val notificationIcon = findViewById<ImageView>(R.id.noti_icon)
 
             notificationTitle.text = title
-            notificationIcon.setImageDrawable(drawable)
+            notificationAppname.text = appName
+            notificationIcon.background = appIcon
 
-            for(text: String in textList)
-                addNotification(text)
+            for(notification: NotificationData in notiList)
+                addNotification(notification.text)
 
             show()
         }
@@ -60,6 +87,7 @@ class NotificationHandler(val context: HomeActivity) {
 
             val notificationBody = newNotif.findViewById<TextView>(R.id.single_noti_text)
             notificationBody.text = body
+            gallery.addView(newNotif)
         }
     }
 }

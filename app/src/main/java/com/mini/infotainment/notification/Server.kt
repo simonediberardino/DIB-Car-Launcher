@@ -41,9 +41,11 @@ class Server(val activity: HomeActivity) {
                 SERVER_IP
             )
 
-            notificationHandler = NotificationHandler(activity)
-            val bitmap = Utility.generateQrCode(SERVER_IP, activity)
-            bitmap?.let { activity.homePage3.updateQrCode(it) }
+            activity.runOnUiThread {
+                notificationHandler = NotificationHandler(activity)
+                val bitmap = Utility.generateQrCode(SERVER_IP, activity)
+                bitmap?.let { activity.homePage3.updateQrCode(it) }
+            }
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -86,7 +88,9 @@ class Server(val activity: HomeActivity) {
                     System.out.printf("Messaggio ricevuto: %s.\n", jsonString)
                 }
 
-                notificationHandler?.onNotificationReceived(jsonString)
+                activity.runOnUiThread {
+                    notificationHandler?.onNotificationReceived(jsonString)
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }

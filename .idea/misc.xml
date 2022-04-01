@@ -61,6 +61,9 @@
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/home_2_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_side_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_single_app.xml" value="0.314453125" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_single_tts_text.xml" value="0.2265625" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/notification_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/single_notification.xml" value="0.264" />
       </map>
     </option>
   </component>

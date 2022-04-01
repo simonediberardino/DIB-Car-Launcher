@@ -27,15 +27,15 @@
                 android:id="@+id/noti_mini_icon"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
+                android:background="@drawable/mini_icon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mini_icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/noti_icon"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:src="@drawable/mini_icon"
+                android:layout_width="75px"
+                android:layout_height="75px"
+                android:background="@drawable/instagram_logo"
                 app:civ_border_color="@color/darksilver"
                 app:civ_border_width="1dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
