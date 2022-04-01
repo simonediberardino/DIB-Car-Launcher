@@ -43,4 +43,6 @@
     <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
     <string name="inquadra_qrcode">Inquadra il QR Code per collegare il tuo cellulare all\'auto</string>
     <string name="client_connesso">Client connesso con successo!</string>
+    <string name="nuovo_messaggio">Nuovo messaggio: {sender}</string>
+    <string name="notifica_da">Notifica da {appname}</string>
 </resources>

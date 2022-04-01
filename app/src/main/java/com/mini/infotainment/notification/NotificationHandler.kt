@@ -3,9 +3,11 @@ package com.mini.infotainment.notification
 import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
@@ -13,10 +15,8 @@ import com.mini.infotainment.utility.Utility
 
 class NotificationHandler(val context: HomeActivity) {
     val APPS_MAP: HashMap<String, Application> = hashMapOf(
-        "com.instagram.android" to
-                Application("Instagram", "com.instagram.android", context.getDrawable(R.drawable.instagram_logo)!!),
-        "com.whatsapp" to
-                Application("Whatsapp", "com.whatsapp", context.getDrawable(R.drawable.whatsapp_logo)!!),
+        "com.instagram.android" to Application("Instagram",  context.getDrawable(R.drawable.instagram_logo)!!),
+        "com.whatsapp" to Application("Whatsapp", context.getDrawable(R.drawable.whatsapp_logo)!!),
         )
 
     var notificationDialog: NotificationDialog? = null
@@ -38,13 +38,13 @@ class NotificationHandler(val context: HomeActivity) {
 
         lastNotification = currentNotification
 
-        val previousNotification = notifications[currentNotification.title] ?: mutableListOf()
-        previousNotification.add(currentNotification)
+        val previousNotifications = notifications[currentNotification.title] ?: mutableListOf()
+        previousNotifications.add(currentNotification)
 
         notificationDialog = NotificationDialog(
             context,
             currentNotification.title,
-            previousNotification,
+            previousNotifications,
             application!!.appName,
             application.icon
         )
@@ -60,9 +60,9 @@ class NotificationHandler(val context: HomeActivity) {
         }
     }
 
-    class Application(val appName: String, val packageName: String, val icon: Drawable)
+    class Application(val appName: String, val icon: Drawable)
 
-    class NotificationDialog(val ctx: Context, val title: String, val notiList: MutableList<NotificationData>, val appName: String, val appIcon: Drawable) : Dialog(ctx){
+    class NotificationDialog(ctx: Context, title: String, notiList: MutableList<NotificationData>, appName: String, appIcon: Drawable) : Dialog(ctx){
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.notification_dialog)
@@ -71,8 +71,8 @@ class NotificationHandler(val context: HomeActivity) {
             val notificationAppname = findViewById<TextView>(R.id.noti_app_name)
             val notificationIcon = findViewById<ImageView>(R.id.noti_icon)
 
-            notificationTitle.text = title
-            notificationAppname.text = appName
+            notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
+            notificationAppname.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
             notificationIcon.background = appIcon
 
             for(notification: NotificationData in notiList)
@@ -82,12 +82,15 @@ class NotificationHandler(val context: HomeActivity) {
         }
 
         fun addNotification(body: String){
+            val scrollView: ScrollView = findViewById(R.id.noti_scrollview)
             val gallery: LinearLayout = findViewById(R.id.noti_lllayout)
             val newNotif = layoutInflater.inflate(R.layout.single_notification, gallery, false)
 
             val notificationBody = newNotif.findViewById<TextView>(R.id.single_noti_text)
             notificationBody.text = body
             gallery.addView(newNotif)
+
+            scrollView.fullScroll(View.FOCUS_DOWN)
         }
     }
 }

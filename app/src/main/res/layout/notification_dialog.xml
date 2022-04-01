@@ -9,14 +9,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="650px"
-        android:layout_height="400px"
+        android:layout_height="450px"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -66,6 +66,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/noti_icon"
                 tools:layout_editor_absoluteX="16dp" />
 
+            <ScrollView
+                android:id="@+id/noti_scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/noti_confirm_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3">
+
+                <LinearLayout
+                    android:id="@+id/noti_lllayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
             <TextView
                 android:id="@+id/noti_title"
                 android:layout_width="wrap_content"
@@ -78,6 +98,32 @@
                 app:layout_constraintStart_toStartOf="@+id/view2"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/noti_confirm_button"
+                android:layout_width="0dp"
+                android:layout_height="50px"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/noti_scrollview"
+                app:layout_constraintStart_toStartOf="@+id/noti_scrollview">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blue_background_gradient"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@android:string/ok"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/h6" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
             <View
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
@@ -88,17 +134,6 @@
                 app:layout_constraintStart_toStartOf="@+id/view2"
                 app:layout_constraintTop_toBottomOf="@+id/noti_title" />
 
-            <LinearLayout
-                android:id="@+id/noti_lllayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3"></LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

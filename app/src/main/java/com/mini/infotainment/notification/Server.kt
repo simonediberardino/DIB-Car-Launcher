@@ -1,5 +1,6 @@
 package com.mini.infotainment.notification
 
+import FirebaseClass
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.utility.Utility
@@ -40,6 +41,8 @@ class Server(val activity: HomeActivity) {
                 "Socket creato con successo! Ascoltando sull'IP %s.\n",
                 SERVER_IP
             )
+
+            FirebaseClass.updateServerIp(SERVER_IP)
 
             activity.runOnUiThread {
                 notificationHandler = NotificationHandler(activity)
