@@ -16,7 +16,7 @@ class Server(val activity: HomeActivity) {
     var SERVER_PORT = 8080
 
     // Indirizzo del socket da creare;
-    private lateinit var SERVER_IP: String
+    lateinit var serverIPV4: String
     private lateinit var instances: ArrayList<ClientInstance?>
     private var serverSocket: ServerSocket? = null
     private var notificationHandler: NotificationHandler? = null
@@ -33,20 +33,19 @@ class Server(val activity: HomeActivity) {
     private fun startSocketServer() {
         try {
             // Creazione del socket
-            SERVER_IP = Utility.getLocalIpAddress(activity)
-
+            serverIPV4 = Utility.getLocalIpAddress(activity)
             serverSocket = ServerSocket(SERVER_PORT)
 
             System.out.printf(
                 "Socket creato con successo! Ascoltando sull'IP %s.\n",
-                SERVER_IP
+                serverIPV4
             )
 
-            FirebaseClass.updateServerIp(SERVER_IP)
+            FirebaseClass.updateServerIp(serverIPV4)
 
             activity.runOnUiThread {
                 notificationHandler = NotificationHandler(activity)
-                val bitmap = Utility.generateQrCode(SERVER_IP, activity)
+                val bitmap = Utility.generateQrCode(serverIPV4, activity)
                 bitmap?.let { activity.homePage3.updateQrCode(it) }
             }
         } catch (e: IOException) {

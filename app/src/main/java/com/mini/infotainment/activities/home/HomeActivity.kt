@@ -41,7 +41,6 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var homePage3: HomeThirdPage
     internal lateinit var appsMenu: AppsMenu
     internal lateinit var sideMenu: SideMenu
-    internal lateinit var server: Server
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,15 +72,32 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun initializeSocketServer(){
-        server = Server(this)
-        server.init()
+        if(server != null)
+            return
+
+        fun callback(){
+            server = Server(this)
+            server!!.init()
+        }
+
+        val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+        this.registerReceiver(NetworkStatusListener(
+            object : RunnablePar {
+                override fun run(p: Any?) {
+                    if(p == true && server == null)
+                        callback()
+                }
+            }
+        ), intentFilter)
+
+        if(Utility.isInternetAvailable(this))
+            callback()
     }
 
     private fun initializeBroadcastReceiver(){
         val filter = IntentFilter()
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.metadatachanged")
-
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.queuechanged")
         registerReceiver(SpotifyReceiver(), filter)
     }
@@ -267,6 +283,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     companion object {
+        internal var server: Server? = null
         private var hasWelcomed = false
         private const val GEOLOCATION_PERMISSION_CODE = 1
         private const val SLIDE_ANIMATION_DURATION: Long = 300

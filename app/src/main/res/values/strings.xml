@@ -45,4 +45,5 @@
     <string name="client_connesso">Client connesso con successo!</string>
     <string name="nuovo_messaggio">Nuovo messaggio: {sender}</string>
     <string name="notifica_da">Notifica da {appname}</string>
+    <string name="notifiche">Ricevi notifiche</string>
 </resources>

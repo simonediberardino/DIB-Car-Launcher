@@ -30,6 +30,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
         addressTW = layout.findViewById(R.id.home_1_address)
         spotifyTitleTW = layout.findViewById(R.id.spotify_title)
         spotifyAuthorTw = layout.findViewById(R.id.spotify_author)
+
         ctx.viewPages.add(layout)
 
         setListeners()

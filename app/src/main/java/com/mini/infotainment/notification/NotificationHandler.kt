@@ -11,12 +11,13 @@ import android.widget.ScrollView
 import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 
-class NotificationHandler(val context: HomeActivity) {
+class NotificationHandler(private val context: HomeActivity) {
     val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application("Instagram",  context.getDrawable(R.drawable.instagram_logo)!!),
-        "com.whatsapp" to Application("Whatsapp", context.getDrawable(R.drawable.whatsapp_logo)!!),
+        "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!),
         )
 
     var notificationDialog: NotificationDialog? = null
@@ -31,9 +32,14 @@ class NotificationHandler(val context: HomeActivity) {
 
         val application = APPS_MAP[currentNotification.packageName]
 
+        if(application!!.appName == currentNotification.title)
+            return
+
         if(notificationDialog?.isShowing == true && lastNotification == currentNotification){
             notificationDialog!!.addNotification(currentNotification.text)
             return
+        }else{
+            notificationDialog?.dismiss()
         }
 
         lastNotification = currentNotification
@@ -45,7 +51,7 @@ class NotificationHandler(val context: HomeActivity) {
             context,
             currentNotification.title,
             previousNotifications,
-            application!!.appName,
+            application.appName,
             application.icon
         )
     }
@@ -70,15 +76,18 @@ class NotificationHandler(val context: HomeActivity) {
             val notificationTitle = findViewById<TextView>(R.id.noti_title)
             val notificationAppname = findViewById<TextView>(R.id.noti_app_name)
             val notificationIcon = findViewById<ImageView>(R.id.noti_icon)
+            val notificationConfirm = findViewById<View>(R.id.noti_confirm_button)
 
             notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
             notificationAppname.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
             notificationIcon.background = appIcon
+            notificationConfirm.setOnClickListener { this.dismiss() }
 
             for(notification: NotificationData in notiList)
                 addNotification(notification.text)
 
-            show()
+            if(ApplicationData.areNotificationsEnabled())
+                show()
         }
 
         fun addNotification(body: String){

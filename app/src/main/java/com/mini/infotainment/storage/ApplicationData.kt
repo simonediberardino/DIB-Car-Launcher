@@ -14,6 +14,8 @@ object ApplicationData {
     private val WELCOME_MSG_DEFAULT = null
     private const val MESSAGES_ID = "MSG_ID"
     private val MESSAGES_DEFAULT = null
+    private const val NOTIFICHE_ID = "NOTIFICHE_ID"
+    private val NOTIFICHE_DEFAULT = "true"
 
     private val applicationData: SharedPreferences
         get() {
@@ -22,6 +24,18 @@ object ApplicationData {
                 Context.MODE_PRIVATE
             )!!
         }
+
+    fun areNotificationsEnabled(): Boolean {
+        val savedJson: String? = applicationData.getString(NOTIFICHE_ID, NOTIFICHE_DEFAULT)
+        return Gson().fromJson(savedJson, Boolean::class.java)
+    }
+
+    fun areNotificationsEnabled(boolean: Boolean){
+        val json = Gson().toJson(boolean)
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(NOTIFICHE_ID, json)
+        dataEditor.apply()
+    }
 
     fun getWelcomeSentence(): TTSSentence? {
         val savedJson: String? = applicationData.getString(WELCOME_MSG_ID, WELCOME_MSG_DEFAULT)
