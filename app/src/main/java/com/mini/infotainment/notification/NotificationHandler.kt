@@ -15,14 +15,14 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 
 class NotificationHandler(private val context: HomeActivity) {
-    val APPS_MAP: HashMap<String, Application> = hashMapOf(
+    private val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application("Instagram",  context.getDrawable(R.drawable.instagram_logo)!!),
         "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!),
         )
 
-    var notificationDialog: NotificationDialog? = null
-    var notifications = HashMap<String, MutableList<NotificationData>>()
-    var lastNotification: NotificationData? = null
+    private var notificationDialog: NotificationDialog? = null
+    private var notifications = HashMap<String, MutableList<NotificationData>>()
+    private var lastNotification: NotificationData? = null
 
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
@@ -35,7 +35,15 @@ class NotificationHandler(private val context: HomeActivity) {
         if(application!!.appName == currentNotification.title)
             return
 
-        if(notificationDialog?.isShowing == true && lastNotification == currentNotification){
+        if(currentNotification == lastNotification)
+            return
+
+        val mapKey = currentNotification.mapKey
+        val previousNotifications = notifications[mapKey] ?: mutableListOf()
+        previousNotifications.add(currentNotification)
+        notifications[mapKey] = previousNotifications
+
+        if(notificationDialog?.isShowing == true && lastNotification?.mapKey == currentNotification.mapKey){
             notificationDialog!!.addNotification(currentNotification.text)
             return
         }else{
@@ -43,9 +51,6 @@ class NotificationHandler(private val context: HomeActivity) {
         }
 
         lastNotification = currentNotification
-
-        val previousNotifications = notifications[currentNotification.title] ?: mutableListOf()
-        previousNotifications.add(currentNotification)
 
         notificationDialog = NotificationDialog(
             context,
@@ -57,9 +62,14 @@ class NotificationHandler(private val context: HomeActivity) {
     }
 
     class NotificationData(val title: String, val text: String, val packageName: String){
+        val mapKey: String
+            get() {
+                return "$packageName:$title"
+            }
+
         override fun equals(other: Any?): Boolean {
             return if(other is NotificationData){
-                this.title == other.title && this.packageName == other.packageName
+                return this.title == other.title && this.text == other.text && this.packageName == other.packageName
             }else{
                 false
             }
@@ -99,7 +109,9 @@ class NotificationHandler(private val context: HomeActivity) {
             notificationBody.text = body
             gallery.addView(newNotif)
 
-            scrollView.fullScroll(View.FOCUS_DOWN)
+            scrollView.post {
+                scrollView.fullScroll(View.FOCUS_DOWN)
+            }
         }
     }
 }

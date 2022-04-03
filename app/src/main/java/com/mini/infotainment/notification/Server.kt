@@ -7,6 +7,7 @@ import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
+import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
@@ -59,9 +60,20 @@ class Server(val activity: HomeActivity) {
         while (serverSocket != null) {
             try {
                 socket = serverSocket!!.accept()
+
+                if(instances.any {
+                    it!!.ipv4 == socket.localAddress
+                }){
+                    return
+                }
+
+
+                println("Local : ${socket.localAddress}")
+
                 val clientInstance = ClientInstance(
                     DataOutputStream(socket.getOutputStream()),
-                    DataInputStream(socket.getInputStream())
+                    DataInputStream(socket.getInputStream()),
+                    socket.localAddress
                 )
 
                 instances.add(clientInstance)
@@ -94,7 +106,9 @@ class Server(val activity: HomeActivity) {
                     notificationHandler?.onNotificationReceived(jsonString)
                 }
             } catch (e: IOException) {
+                closeClientInstance(instance)
                 e.printStackTrace()
+                return
             }
         }
     }
@@ -110,6 +124,11 @@ class Server(val activity: HomeActivity) {
         instance?.output?.flush()
     }
 
+    private fun closeClientInstance(clientInstance: ClientInstance){
+        clientInstance.input?.close()
+        instances.remove(clientInstance)
+    }
+    
     private fun closeServer() {
         try {
             for (i in instances) {
@@ -124,5 +143,5 @@ class Server(val activity: HomeActivity) {
         }
     }
 
-    class ClientInstance(val output: DataOutputStream?, val input: DataInputStream?)
+    class ClientInstance(val output: DataOutputStream?, val input: DataInputStream?, val ipv4: InetAddress)
 }
