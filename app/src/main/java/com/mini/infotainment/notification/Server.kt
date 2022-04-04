@@ -37,10 +37,7 @@ class Server(val activity: HomeActivity) {
             serverIPV4 = Utility.getLocalIpAddress(activity)
             serverSocket = ServerSocket(SERVER_PORT)
 
-            System.out.printf(
-                "Socket creato con successo! Ascoltando sull'IP %s.\n",
-                serverIPV4
-            )
+            println("Socket creato con successo! Ascoltando sull'IP $serverIPV4.")
 
             FirebaseClass.updateServerIp(serverIPV4)
 
@@ -62,13 +59,10 @@ class Server(val activity: HomeActivity) {
                 socket = serverSocket!!.accept()
 
                 if(instances.any {
-                    it!!.ipv4 == socket.localAddress
+                    it!!.ipv4.toString() == socket.localAddress.toString()
                 }){
                     return
                 }
-
-
-                println("Local : ${socket.localAddress}")
 
                 val clientInstance = ClientInstance(
                     DataOutputStream(socket.getOutputStream()),
@@ -96,11 +90,9 @@ class Server(val activity: HomeActivity) {
 
         while (instance?.input != null) {
             try {
-                val jsonString = instance.input.readUTF()
+                val jsonString = instance.input.readUTF() ?: continue
 
-                if (jsonString != null) {
-                    System.out.printf("Messaggio ricevuto: %s.\n", jsonString)
-                }
+                println("Messaggio ricevuto: $jsonString.")
 
                 activity.runOnUiThread {
                     notificationHandler?.onNotificationReceived(jsonString)
@@ -119,9 +111,9 @@ class Server(val activity: HomeActivity) {
      * @throws IOException se si riscontra un errore durante l'invio di un messaggio ai client;
      */
     @Throws(IOException::class)
-    private fun sendMessage(instance: ClientInstance?, jsonString: String?) {
-        instance?.output?.writeUTF(jsonString)
-        instance?.output?.flush()
+    private fun sendMessage(instance: ClientInstance, jsonString: String) {
+        instance.output?.writeUTF(jsonString)
+        instance.output?.flush()
     }
 
     private fun closeClientInstance(clientInstance: ClientInstance){

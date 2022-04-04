@@ -18,7 +18,7 @@ class NotificationHandler(private val context: HomeActivity) {
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application("Instagram",  context.getDrawable(R.drawable.instagram_logo)!!),
         "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!),
-        )
+    )
 
     private var notificationDialog: NotificationDialog? = null
     private var notifications = HashMap<String, MutableList<NotificationData>>()
@@ -27,12 +27,9 @@ class NotificationHandler(private val context: HomeActivity) {
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
 
-        if(!APPS_MAP.containsKey(currentNotification.packageName))
-            return
+        val application = APPS_MAP[currentNotification.packageName] ?: return
 
-        val application = APPS_MAP[currentNotification.packageName]
-
-        if(application!!.appName == currentNotification.title)
+        if(application.appName == currentNotification.title)
             return
 
         if(currentNotification == lastNotification)
@@ -45,6 +42,7 @@ class NotificationHandler(private val context: HomeActivity) {
 
         if(notificationDialog?.isShowing == true && lastNotification?.mapKey == currentNotification.mapKey){
             notificationDialog!!.addNotification(currentNotification.text)
+            lastNotification = currentNotification
             return
         }else{
             notificationDialog?.dismiss()
@@ -62,6 +60,7 @@ class NotificationHandler(private val context: HomeActivity) {
     }
 
     class NotificationData(val title: String, val text: String, val packageName: String){
+        // Key used to indicate a specific instance of an application, E.G. a WhatsApp private chat;
         val mapKey: String
             get() {
                 return "$packageName:$title"
@@ -78,18 +77,24 @@ class NotificationHandler(private val context: HomeActivity) {
 
     class Application(val appName: String, val icon: Drawable)
 
-    class NotificationDialog(ctx: Context, title: String, notiList: MutableList<NotificationData>, appName: String, appIcon: Drawable) : Dialog(ctx){
+    class NotificationDialog(
+        ctx: Context,
+        title: String,
+        notiList: MutableList<NotificationData>,
+        appName: String,
+        appIcon: Drawable) : Dialog(ctx)
+    {
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.notification_dialog)
 
             val notificationTitle = findViewById<TextView>(R.id.noti_title)
-            val notificationAppname = findViewById<TextView>(R.id.noti_app_name)
+            val notificationAppName = findViewById<TextView>(R.id.noti_app_name)
             val notificationIcon = findViewById<ImageView>(R.id.noti_icon)
             val notificationConfirm = findViewById<View>(R.id.noti_confirm_button)
 
             notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
-            notificationAppname.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
+            notificationAppName.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
             notificationIcon.background = appIcon
             notificationConfirm.setOnClickListener { this.dismiss() }
 
@@ -109,9 +114,7 @@ class NotificationHandler(private val context: HomeActivity) {
             notificationBody.text = body
             gallery.addView(newNotif)
 
-            scrollView.post {
-                scrollView.fullScroll(View.FOCUS_DOWN)
-            }
+            scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
         }
     }
 }
