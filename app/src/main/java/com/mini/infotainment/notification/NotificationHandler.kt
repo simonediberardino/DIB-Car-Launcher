@@ -44,9 +44,12 @@ class NotificationHandler(private val context: HomeActivity) {
             notificationDialog!!.addNotification(currentNotification.text)
             lastNotification = currentNotification
             return
-        }else{
-            notificationDialog?.dismiss()
         }
+
+        notificationDialog?.dismiss()
+
+        // Clears the previous notifications, remove this instruction if you want to keep them;
+        notifications[mapKey]?.clear()
 
         lastNotification = currentNotification
 

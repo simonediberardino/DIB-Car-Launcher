@@ -58,10 +58,8 @@ class Server(val activity: HomeActivity) {
             try {
                 socket = serverSocket!!.accept()
 
-                if(instances.any {
-                    it!!.ipv4.toString() == socket.localAddress.toString()
-                }){
-                    return
+                instances.find { it!!.ipv4.toString() == socket.localAddress.toString() }?.let {
+                    closeClientInstance(it)
                 }
 
                 val clientInstance = ClientInstance(
@@ -118,6 +116,7 @@ class Server(val activity: HomeActivity) {
 
     private fun closeClientInstance(clientInstance: ClientInstance){
         clientInstance.input?.close()
+        clientInstance.output?.close()
         instances.remove(clientInstance)
     }
     
