@@ -23,8 +23,8 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, M
         internal const val MAP_DEFAULT_ZOOM = 12f
     }
 
-    internal lateinit var resetLocBtn: View
     internal lateinit var googleMap: GoogleMap
+    internal lateinit var resetLocBtn: View
     internal var userLocation: Location? = null
     /** Location icon placed on the user location updated every time the user location changes; */
     internal var userLocMarker: Marker? = null
