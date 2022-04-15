@@ -5,14 +5,12 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
+import kotlin.properties.Delegates
 
 class NotificationHandler(private val context: HomeActivity) {
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
@@ -87,25 +85,48 @@ class NotificationHandler(private val context: HomeActivity) {
         appName: String,
         appIcon: Drawable) : Dialog(ctx)
     {
+        companion object{
+            const val DIALOG_DURATION = 15000
+        }
+
+        private var notificationConfirm: View
+        private var notificationIcon: ImageView
+        private var notificationAppName: TextView
+        private var notificationTitle: TextView
+        private var notificationBar: ProgressBar
+        private var startTime by Delegates.notNull<Long>()
+
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.notification_dialog)
 
-            val notificationTitle = findViewById<TextView>(R.id.noti_title)
-            val notificationAppName = findViewById<TextView>(R.id.noti_app_name)
-            val notificationIcon = findViewById<ImageView>(R.id.noti_icon)
-            val notificationConfirm = findViewById<View>(R.id.noti_confirm_button)
+            notificationTitle = findViewById(R.id.noti_title)
+            notificationAppName = findViewById(R.id.noti_app_name)
+            notificationIcon = findViewById(R.id.noti_icon)
+            notificationConfirm = findViewById(R.id.noti_confirm_button)
+            notificationBar = findViewById(R.id.noti_progress)
 
             notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
             notificationAppName.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
             notificationIcon.background = appIcon
             notificationConfirm.setOnClickListener { this.dismiss() }
 
+            startTime = System.currentTimeMillis()
+
             for(notification: NotificationData in notiList)
                 addNotification(notification.text)
 
             if(ApplicationData.areNotificationsEnabled())
                 show()
+
+            Thread{
+                val updateTime: Long = 10
+                while(true){
+                    if(!this.isShowing) return@Thread
+                    Thread.sleep(updateTime)
+                    updateTimer()
+                }
+            }.start()
         }
 
         fun addNotification(body: String){
@@ -118,6 +139,18 @@ class NotificationHandler(private val context: HomeActivity) {
             gallery.addView(newNotif)
 
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+        }
+
+        private fun updateTimer(){
+            val diffTime = (System.currentTimeMillis() - startTime)
+
+            if(diffTime.toInt() == 0)
+                return
+
+            val percentage = 100 - ((100 * diffTime) / DIALOG_DURATION)
+            notificationBar.progress = percentage.toInt()
+            if(percentage.toInt() == 0)
+                dismiss()
         }
     }
 }
