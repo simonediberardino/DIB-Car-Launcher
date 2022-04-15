@@ -36,6 +36,7 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var gpsManager: GPSManager
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
+    internal lateinit var homePage0: HomeZeroPage
     internal lateinit var homePage1: HomeFirstPage
     internal lateinit var homePage2: HomeSecondPage
     internal lateinit var homePage3: HomeThirdPage
@@ -49,7 +50,6 @@ class HomeActivity : ActivityExtended() {
 
         initializeExceptionHandler()
         initializeLayout()
-        addHomeListeners()
         initializeSocketServer()
         initializeBroadcastReceiver()
         initializeTTS()
@@ -58,8 +58,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun initializeLayout(){
-        homeButton = findViewById(R.id.home_swipe)
-
+        homePage0 = HomeZeroPage(this).also { it.build() }
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
         homePage3 = HomeThirdPage(this).also { it.build() }
@@ -69,6 +68,7 @@ class HomeActivity : ActivityExtended() {
 
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.adapter = PagerAdapter(viewPages)
+        viewPager.currentItem = 1
     }
 
     private fun initializeSocketServer(){
@@ -179,6 +179,8 @@ class HomeActivity : ActivityExtended() {
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
         homePage1.speedometerTW.text = speedInKmH.toString()
 
+        homePage0.onLocationChanged(newLocation)
+
         if(gpsManager.shouldRefreshAddress()){
             FirebaseClass.updateCarLocation(newLocation)
             gpsManager.lastAddressCheck = System.currentTimeMillis()
@@ -190,12 +192,6 @@ class HomeActivity : ActivityExtended() {
                     homePage1.addressTW.text = if(p == null) String() else p as String
                 }
             })
-        }
-    }
-
-    private fun addHomeListeners() {
-        homeButton.setOnClickListener {
-            appsMenu.show(true, SLIDE_ANIMATION_DURATION)
         }
     }
 
@@ -286,7 +282,7 @@ class HomeActivity : ActivityExtended() {
         internal var server: Server? = null
         private var hasWelcomed = false
         private const val GEOLOCATION_PERMISSION_CODE = 1
-        private const val SLIDE_ANIMATION_DURATION: Long = 300
+        const val SLIDE_ANIMATION_DURATION: Long = 300
 
         fun updateSpotifySong(activity: Activity, intent: Intent){
             val artistName = intent.getStringExtra("artist")

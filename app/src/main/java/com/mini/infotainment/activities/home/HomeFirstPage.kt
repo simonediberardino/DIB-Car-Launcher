@@ -11,6 +11,7 @@ import com.mini.infotainment.support.SpotifyReceiver
 import com.mini.infotainment.utility.Utility
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page {
+    internal lateinit var homeButton: View
     internal lateinit var spotifyAuthorTw: TextView
     internal lateinit var spotifyTitleTW: TextView
     internal lateinit var addressTW: TextView
@@ -19,9 +20,6 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
     internal lateinit var spotifyWidget: View
 
     override fun build() {
-        ctx.viewPages.clear()
-        ctx.viewPager = ctx.findViewById(R.id.home_view_pager)
-
         val layout = ctx.layoutInflater.inflate(R.layout.activity_home_1, ctx.viewPager, false) as ViewGroup
 
         spotifyWidget = layout.findViewById(R.id.home_1_spotify)
@@ -30,6 +28,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
         addressTW = layout.findViewById(R.id.home_1_address)
         spotifyTitleTW = layout.findViewById(R.id.spotify_title)
         spotifyAuthorTw = layout.findViewById(R.id.spotify_author)
+        homeButton = layout.findViewById(R.id.home_1_swipe)
 
         ctx.viewPages.add(layout)
 
@@ -45,6 +44,10 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
         spotifyWidget.setOnLongClickListener {
             previousSpotifyTrack()
             true
+        }
+
+        homeButton.setOnClickListener {
+            ctx.appsMenu.show(true, HomeActivity.SLIDE_ANIMATION_DURATION)
         }
     }
 

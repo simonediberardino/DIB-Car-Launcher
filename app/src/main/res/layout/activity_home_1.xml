@@ -18,6 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/home_1_swipe"
+        android:onClick=""
+        android:layout_width="65px"
+        android:layout_height="65px"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/home_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <include
         android:id="@+id/home_1_spotify"
 
@@ -25,17 +36,18 @@
         android:layout_width="200px"
         android:layout_height="200px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
+        app:layout_constraintEnd_toStartOf="@+id/home_1_swipe"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
 
     <ImageView
         android:id="@+id/home_1_car_icon"
-        android:layout_width="350px"
+        android:layout_width="340px"
         android:layout_height="200px"
-        android:layout_marginEnd="32dp"
         android:src="@drawable/car_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/home_1_swipe"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer" />
 
     <TextView

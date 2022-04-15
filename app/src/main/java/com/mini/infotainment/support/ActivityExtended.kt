@@ -1,11 +1,11 @@
 package com.mini.infotainment.support
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 
-open class ActivityExtended : Activity() {
+open class ActivityExtended : AppCompatActivity() {
     companion object{
         lateinit var lastActivity: ActivityExtended
     }

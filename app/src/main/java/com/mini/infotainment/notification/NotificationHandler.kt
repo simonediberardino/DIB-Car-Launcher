@@ -94,7 +94,7 @@ class NotificationHandler(private val context: HomeActivity) {
         private var notificationAppName: TextView
         private var notificationTitle: TextView
         private var notificationBar: ProgressBar
-        private var startTime by Delegates.notNull<Long>()
+        var startTime by Delegates.notNull<Long>()
 
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -111,22 +111,20 @@ class NotificationHandler(private val context: HomeActivity) {
             notificationIcon.background = appIcon
             notificationConfirm.setOnClickListener { this.dismiss() }
 
-            startTime = System.currentTimeMillis()
-
             for(notification: NotificationData in notiList)
                 addNotification(notification.text)
 
-            if(ApplicationData.areNotificationsEnabled())
+            if(ApplicationData.areNotificationsEnabled()) {
                 show()
-
-            Thread{
-                val updateTime: Long = 10
-                while(true){
-                    if(!this.isShowing) return@Thread
-                    Thread.sleep(updateTime)
-                    updateTimer()
-                }
-            }.start()
+                Thread{
+                    val updateTime: Long = 10
+                    while(true){
+                        if(!this.isShowing) return@Thread
+                        Thread.sleep(updateTime)
+                        updateTimer()
+                    }
+                }.start()
+            }
         }
 
         fun addNotification(body: String){
@@ -139,6 +137,7 @@ class NotificationHandler(private val context: HomeActivity) {
             gallery.addView(newNotif)
 
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+            this.startTime = System.currentTimeMillis()
         }
 
         private fun updateTimer(){

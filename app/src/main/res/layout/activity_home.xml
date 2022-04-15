@@ -47,16 +47,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <ImageView
-            android:id="@+id/home_swipe"
-            android:layout_width="65px"
-            android:layout_height="65px"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/home_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="130px"
