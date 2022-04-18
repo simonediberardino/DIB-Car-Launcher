@@ -60,7 +60,6 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, M
     fun createMap(){
         val mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        setMapInteractionTrackingListeners()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
