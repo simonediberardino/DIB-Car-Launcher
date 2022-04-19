@@ -10,7 +10,6 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
-import kotlin.properties.Delegates
 
 class NotificationHandler(private val context: HomeActivity) {
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
@@ -94,7 +93,7 @@ class NotificationHandler(private val context: HomeActivity) {
         private var notificationAppName: TextView
         private var notificationTitle: TextView
         private var notificationBar: ProgressBar
-        var startTime by Delegates.notNull<Long>()
+        private var startTime = System.currentTimeMillis()
 
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)

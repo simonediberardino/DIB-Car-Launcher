@@ -18,9 +18,9 @@ import com.mini.infotainment.support.Page
 
 class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, MapInteractions {
     companion object{
-        internal const val CIRCLE_RADIUS = 200.0
+        internal const val CIRCLE_RADIUS = 150.0
         internal const val CIRCLE_MIN_ZOOM = 17f
-        internal const val MAP_DEFAULT_ZOOM = 12f
+        internal const val MAP_DEFAULT_ZOOM = 15f
     }
 
     internal lateinit var googleMap: GoogleMap
@@ -81,7 +81,7 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, M
 
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
-        val height = 33; val width = 33
+        val height = 15; val width = 15
         val drawable = ctx.getDrawable(R.drawable.location_icon)
         val bitmap = drawable?.toBitmap(width, height)
 
