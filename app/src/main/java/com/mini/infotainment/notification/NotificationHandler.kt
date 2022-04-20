@@ -24,13 +24,10 @@ class NotificationHandler(private val context: HomeActivity) {
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
 
-        val application = APPS_MAP[currentNotification.packageName] ?: return
-
-        if(application.appName == currentNotification.title)
-            return
-
         if(currentNotification == lastNotification)
             return
+
+        val application = APPS_MAP[currentNotification.packageName] ?: return
 
         val mapKey = currentNotification.mapKey
         val previousNotifications = notifications[mapKey] ?: mutableListOf()
@@ -45,9 +42,6 @@ class NotificationHandler(private val context: HomeActivity) {
 
         notificationDialog?.dismiss()
 
-        // Clears the previous notifications, remove this instruction if you want to keep them;
-        notifications[mapKey]?.clear()
-
         lastNotification = currentNotification
 
         notificationDialog = NotificationDialog(
@@ -57,6 +51,9 @@ class NotificationHandler(private val context: HomeActivity) {
             application.appName,
             application.icon
         )
+
+        // Clears the previous notifications, remove this instruction if you want to keep them;
+        notifications[mapKey]?.clear()
     }
 
     class NotificationData(val title: String, val text: String, val packageName: String){

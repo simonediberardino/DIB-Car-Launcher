@@ -23,6 +23,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
+import com.mini.infotainment.notification.NotificationHandler
 import com.mini.infotainment.notification.Server
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
@@ -100,6 +101,9 @@ class HomeActivity : ActivityExtended() {
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.metadatachanged")
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.queuechanged")
         registerReceiver(SpotifyReceiver(), filter)
+
+        val x = NotificationHandler(this)
+        x.onNotificationReceived("{\"packageName\":\"com.instagram.android\",\"text\":\"(shandyx102): simone.dbb: das\",\"title\":\"Instagram\"}")
     }
 
     private fun initializeExceptionHandler(){
