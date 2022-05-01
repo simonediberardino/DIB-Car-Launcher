@@ -21,9 +21,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationRequest.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
-import com.mini.infotainment.notification.NotificationHandler
 import com.mini.infotainment.notification.Server
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*

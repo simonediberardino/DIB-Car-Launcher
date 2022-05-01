@@ -19,8 +19,8 @@ import com.mini.infotainment.support.Page
 class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, MapInteractions {
     companion object{
         internal const val CIRCLE_RADIUS = 150.0
-        internal const val CIRCLE_MIN_ZOOM = 17f
-        internal const val MAP_DEFAULT_ZOOM = 15f
+        internal const val CIRCLE_MIN_ZOOM = 19f
+        internal const val MAP_DEFAULT_ZOOM = 17f
     }
 
     internal lateinit var googleMap: GoogleMap
