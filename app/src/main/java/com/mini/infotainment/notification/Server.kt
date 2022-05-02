@@ -81,7 +81,6 @@ class Server(val activity: HomeActivity) {
 
     /**
      * In questo metodo l'oggetto input si mette in ascolto del client e vengono stampati gli eventuali messaggi in entrata;
-     * @return void;
      */
     private fun messageListener(instance: ClientInstance?) {
         println("Server in ascolto del client.")
@@ -109,9 +108,14 @@ class Server(val activity: HomeActivity) {
      * @throws IOException se si riscontra un errore durante l'invio di un messaggio ai client;
      */
     @Throws(IOException::class)
-    private fun sendMessage(instance: ClientInstance, jsonString: String) {
+    fun sendMessage(instance: ClientInstance, jsonString: String) {
         instance.output?.writeUTF(jsonString)
         instance.output?.flush()
+    }
+
+    fun sendMessage(jsonString: String){
+        for (instance in instances)
+            sendMessage(instance!!, jsonString)
     }
 
     private fun closeClientInstance(clientInstance: ClientInstance){

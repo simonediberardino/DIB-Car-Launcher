@@ -1,7 +1,6 @@
 package com.mini.infotainment.notification
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.Window
@@ -13,8 +12,8 @@ import com.mini.infotainment.utility.Utility
 
 class NotificationHandler(private val context: HomeActivity) {
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
-        "com.instagram.android" to Application("Instagram",  context.getDrawable(R.drawable.instagram_logo)!!),
-        "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!),
+        "com.instagram.android" to Application("Instagram", context.getDrawable(R.drawable.instagram_logo)!!, false),
+        "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!, true),
     )
 
     private var notificationDialog: NotificationDialog? = null
@@ -23,7 +22,6 @@ class NotificationHandler(private val context: HomeActivity) {
 
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
-
         if(currentNotification == lastNotification)
             return
 
@@ -41,22 +39,21 @@ class NotificationHandler(private val context: HomeActivity) {
         }
 
         notificationDialog?.dismiss()
-
         lastNotification = currentNotification
 
         notificationDialog = NotificationDialog(
             context,
             currentNotification.title,
             previousNotifications,
-            application.appName,
-            application.icon
+            application,
+            currentNotification.packageName
         )
 
         // Clears the previous notifications, remove this instruction if you want to keep them;
         notifications[mapKey]?.clear()
     }
 
-    class NotificationData(val title: String, val text: String, val packageName: String){
+    class NotificationData(val title: String, val text: String, val packageName: String, val id: Int){
         // Key used to indicate a specific instance of an application, E.G. a WhatsApp private chat;
         val mapKey: String
             get() {
@@ -65,21 +62,21 @@ class NotificationHandler(private val context: HomeActivity) {
 
         override fun equals(other: Any?): Boolean {
             return if(other is NotificationData){
-                return this.title == other.title && this.text == other.text && this.packageName == other.packageName
+                return this.title == other.title && this.text == other.text && this.packageName == other.packageName && this.id == other.id
             }else{
                 false
             }
         }
     }
 
-    class Application(val appName: String, val icon: Drawable)
+    class Application(val appName: String, val icon: Drawable, val doesAllowInput: Boolean)
 
     class NotificationDialog(
-        ctx: Context,
-        title: String,
-        notiList: MutableList<NotificationData>,
-        appName: String,
-        appIcon: Drawable) : Dialog(ctx)
+        val ctx: HomeActivity,
+        val title: String,
+        val notiList: MutableList<NotificationData>,
+        val application: Application,
+        val packageName: String) : Dialog(ctx)
     {
         companion object{
             const val DIALOG_DURATION = 15000
@@ -90,7 +87,15 @@ class NotificationHandler(private val context: HomeActivity) {
         private var notificationAppName: TextView
         private var notificationTitle: TextView
         private var notificationBar: ProgressBar
+        private var notificationInputText: EditText
         private var startTime = System.currentTimeMillis()
+
+        private var isTimerRunning: Boolean = true
+            set(value) {
+                if(value)
+                    timerLoop()
+                field = value
+            }
 
         init{
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -101,26 +106,53 @@ class NotificationHandler(private val context: HomeActivity) {
             notificationIcon = findViewById(R.id.noti_icon)
             notificationConfirm = findViewById(R.id.noti_confirm_button)
             notificationBar = findViewById(R.id.noti_progress)
+            notificationInputText = findViewById(R.id.noti_edit_text)
 
             notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
-            notificationAppName.text = ctx.getString(R.string.notifica_da).replace("{appname}", appName)
-            notificationIcon.background = appIcon
-            notificationConfirm.setOnClickListener { this.dismiss() }
+            notificationAppName.text = ctx.getString(R.string.notifica_da).replace("{appname}", application.appName)
+            notificationIcon.background = application.icon
+
+            notificationConfirm.setOnClickListener {
+                handleConfirm()
+            }
+
+            if(!application.doesAllowInput)
+                notificationInputText.visibility = View.GONE
 
             for(notification: NotificationData in notiList)
                 addNotification(notification.text)
 
-            if(ApplicationData.areNotificationsEnabled()) {
+            notificationInputText.setOnFocusChangeListener { view, b -> isTimerRunning = !b }
+
+            handleConfirm()
+
+            if(ApplicationData.areNotificationsEnabled())
                 show()
-                Thread{
-                    val updateTime: Long = 10
-                    while(true){
-                        if(!this.isShowing) return@Thread
-                        Thread.sleep(updateTime)
-                        updateTimer()
-                    }
-                }.start()
+
+            isTimerRunning = ApplicationData.areNotificationsEnabled()
+        }
+
+        private fun handleConfirm(){
+            val inputText = notificationInputText.text.toString().trim()
+            if(inputText.isEmpty()){
+                this.dismiss()
+            }else{
+                val inputMessage = Utility.objectToJsonString(InputMessage(inputText, notiList.last().id, packageName))
+                HomeActivity.server?.sendMessage(inputMessage)
+                this.startTime = System.currentTimeMillis()
             }
+        }
+
+        private fun timerLoop(){
+            Thread{
+                val updateTime: Long = (DIALOG_DURATION/100).toLong()
+                while(this.isShowing && this.isTimerRunning){
+                    Thread.sleep(updateTime)
+                    notificationBar.progress--
+                    if(notificationBar.progress == 0)
+                        dismiss()
+                }
+            }.start()
         }
 
         fun addNotification(body: String){
@@ -135,17 +167,7 @@ class NotificationHandler(private val context: HomeActivity) {
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
             this.startTime = System.currentTimeMillis()
         }
-
-        private fun updateTimer(){
-            val diffTime = (System.currentTimeMillis() - startTime)
-
-            if(diffTime.toInt() == 0)
-                return
-
-            val percentage = 100 - ((100 * diffTime) / DIALOG_DURATION)
-            notificationBar.progress = percentage.toInt()
-            if(percentage.toInt() == 0)
-                dismiss()
-        }
     }
+
+    class InputMessage(val message: String, val notificationId: Int, val packageName: String)
 }

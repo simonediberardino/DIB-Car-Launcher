@@ -74,6 +74,27 @@
                     app:layout_constraintTop_toBottomOf="@+id/noti_icon"
                     tools:layout_editor_absoluteX="16dp" />
 
+                <EditText
+                    android:id="@+id/noti_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="50px"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/round_edit_text"
+                    android:ems="10"
+                    android:hint="@string/inserisci"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="12dp"
+                    android:paddingEnd="50dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/lightgrey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/h7"
+                    app:layout_constraintBottom_toTopOf="@+id/noti_confirm_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <ScrollView
                     android:id="@+id/noti_scrollview"
                     android:layout_width="match_parent"
@@ -82,7 +103,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/noti_confirm_button"
+                    app:layout_constraintBottom_toTopOf="@+id/noti_edit_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view3">
@@ -148,7 +169,8 @@
                 android:id="@+id/noti_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
-                android:layout_height="8dp"
+                android:layout_height="4dp"
+                android:foregroundGravity="bottom"
                 android:indeterminateTint="@color/black"
                 android:indeterminateTintMode="src_in"
                 android:progress="100"
