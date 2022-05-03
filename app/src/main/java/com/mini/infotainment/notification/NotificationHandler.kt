@@ -1,5 +1,6 @@
 package com.mini.infotainment.notification
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -11,9 +12,17 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 
 class NotificationHandler(private val context: HomeActivity) {
+    @SuppressLint("UseCompatLoadingForDrawables")
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
-        "com.instagram.android" to Application("Instagram", context.getDrawable(R.drawable.instagram_logo)!!, false),
-        "com.whatsapp" to Application("WhatsApp", context.getDrawable(R.drawable.whatsapp_logo)!!, true),
+        "com.instagram.android" to Application(
+            "Instagram",
+            context.getDrawable(R.drawable.instagram_logo)!!,
+            false),
+
+        "com.whatsapp" to Application(
+            "WhatsApp",
+            context.getDrawable(R.drawable.whatsapp_logo)!!,
+            true),
     )
 
     private var notificationDialog: NotificationDialog? = null
@@ -22,20 +31,23 @@ class NotificationHandler(private val context: HomeActivity) {
 
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
-        if(currentNotification == lastNotification)
-            return
-
-        val application = APPS_MAP[currentNotification.packageName] ?: return
+        val application = APPS_MAP[currentNotification.packageName]
 
         val mapKey = currentNotification.mapKey
         val previousNotifications = notifications[mapKey] ?: mutableListOf()
         previousNotifications.add(currentNotification)
         notifications[mapKey] = previousNotifications
 
-        if(notificationDialog?.isShowing == true && lastNotification?.mapKey == currentNotification.mapKey){
-            notificationDialog!!.addNotification(currentNotification.text)
-            lastNotification = currentNotification
-            return
+        if(notificationDialog?.isShowing == true){
+            // If the new notification is associated to the same instance of the same application as the previous one (E.G. the same whatsapp chat);
+            if(lastNotification?.mapKey == currentNotification.mapKey){
+                notificationDialog!!.addNotification(currentNotification.text)
+                lastNotification = currentNotification
+                return
+            }else{
+                // Doesn't show new notifications if the user is typing a message if it's not the same instance;
+                if(!notificationDialog!!.isTimerRunning) return
+            }
         }
 
         notificationDialog?.dismiss()
@@ -44,7 +56,7 @@ class NotificationHandler(private val context: HomeActivity) {
         notificationDialog = NotificationDialog(
             context,
             currentNotification.title,
-            previousNotifications,
+            previousNotifications.toMutableList(),
             application,
             currentNotification.packageName
         )
@@ -59,38 +71,31 @@ class NotificationHandler(private val context: HomeActivity) {
             get() {
                 return "$packageName:$title"
             }
-
-        override fun equals(other: Any?): Boolean {
-            return if(other is NotificationData){
-                return this.title == other.title && this.text == other.text && this.packageName == other.packageName && this.id == other.id
-            }else{
-                false
-            }
-        }
     }
 
-    class Application(val appName: String, val icon: Drawable, val doesAllowInput: Boolean)
+    class Application(val appName: String?, val icon: Drawable?, val doesAllowInput: Boolean)
 
+    @SuppressLint("SetTextI18n")
     class NotificationDialog(
         val ctx: HomeActivity,
         val title: String,
         val notiList: MutableList<NotificationData>,
-        val application: Application,
+        val application: Application?,
         val packageName: String) : Dialog(ctx)
     {
         companion object{
             const val DIALOG_DURATION = 15000
         }
 
-        private var notificationConfirm: View
-        private var notificationIcon: ImageView
-        private var notificationAppName: TextView
-        private var notificationTitle: TextView
-        private var notificationBar: ProgressBar
-        private var notificationInputText: EditText
+        private lateinit var notificationConfirm: View
+        private lateinit var notificationIcon: ImageView
+        private lateinit var notificationAppName: TextView
+        private lateinit var notificationTitle: TextView
+        private lateinit var notificationBar: ProgressBar
+        private lateinit var notificationInputText: EditText
         private var startTime = System.currentTimeMillis()
 
-        private var isTimerRunning: Boolean = true
+        var isTimerRunning: Boolean = true
             set(value) {
                 if(value)
                     timerLoop()
@@ -98,48 +103,62 @@ class NotificationHandler(private val context: HomeActivity) {
             }
 
         init{
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.notification_dialog)
+            if(ApplicationData.areNotificationsEnabled()){
+                requestWindowFeature(Window.FEATURE_NO_TITLE)
+                setContentView(R.layout.notification_dialog)
 
-            notificationTitle = findViewById(R.id.noti_title)
-            notificationAppName = findViewById(R.id.noti_app_name)
-            notificationIcon = findViewById(R.id.noti_icon)
-            notificationConfirm = findViewById(R.id.noti_confirm_button)
-            notificationBar = findViewById(R.id.noti_progress)
-            notificationInputText = findViewById(R.id.noti_edit_text)
+                notificationTitle = findViewById(R.id.noti_title)
+                notificationAppName = findViewById(R.id.noti_app_name)
+                notificationIcon = findViewById(R.id.noti_icon)
+                notificationConfirm = findViewById(R.id.noti_confirm_button)
+                notificationBar = findViewById(R.id.noti_progress)
+                notificationInputText = findViewById(R.id.noti_edit_text)
 
-            notificationTitle.text = ctx.getString(R.string.nuovo_messaggio).replace("{sender}", title)
-            notificationAppName.text = ctx.getString(R.string.notifica_da).replace("{appname}", application.appName)
-            notificationIcon.background = application.icon
+                notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
 
-            notificationConfirm.setOnClickListener {
+                notificationAppName.text =
+                    if(application == null)
+                        ctx.getString(R.string.new_notification)
+                    else
+                        ctx.getString(R.string.notifica_da).replace("{appname}", application.appName!!)
+
+                notificationIcon.background =
+                    if(application == null)
+                        ctx.getDrawable(R.drawable.ic_baseline_notifications_active_24)
+                    else
+                        application.icon
+
+                notificationConfirm.setOnClickListener {
+                    handleConfirm()
+                }
+
+                notificationInputText.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
+
+                for(notification: NotificationData in notiList)
+                    addNotification(notification.text)
+
+                notificationInputText.setOnFocusChangeListener { _, b -> isTimerRunning = !b }
+
                 handleConfirm()
-            }
-
-            if(!application.doesAllowInput)
-                notificationInputText.visibility = View.GONE
-
-            for(notification: NotificationData in notiList)
-                addNotification(notification.text)
-
-            notificationInputText.setOnFocusChangeListener { view, b -> isTimerRunning = !b }
-
-            handleConfirm()
-
-            if(ApplicationData.areNotificationsEnabled())
                 show()
 
-            isTimerRunning = ApplicationData.areNotificationsEnabled()
+                isTimerRunning = true
+            }
         }
 
         private fun handleConfirm(){
             val inputText = notificationInputText.text.toString().trim()
-            if(inputText.isEmpty()){
-                this.dismiss()
-            }else{
+            this.dismiss()
+
+            if(inputText.isNotEmpty()){
                 val inputMessage = Utility.objectToJsonString(InputMessage(inputText, notiList.last().id, packageName))
-                HomeActivity.server?.sendMessage(inputMessage)
-                this.startTime = System.currentTimeMillis()
+
+                Thread{
+                    HomeActivity.server?.sendMessage(inputMessage)
+                }.start()
+
+                addNotification(ctx.getString(R.string.you_msg)
+                    .replace("{message}", inputMessage))
             }
         }
 

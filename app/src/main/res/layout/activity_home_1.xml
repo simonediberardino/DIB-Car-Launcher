@@ -108,7 +108,7 @@
         android:id="@+id/home_1_address"
         android:layout_width="300px"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="36dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -116,11 +116,11 @@
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
-        android:text="@string/caricamento"
+        android:text="@string/connect_internet"
         android:textColor="@color/white"
         android:textSize="@dimen/h7"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

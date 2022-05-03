@@ -85,8 +85,12 @@ class HomeActivity : ActivityExtended() {
         this.registerReceiver(NetworkStatusListener(
             object : RunnablePar {
                 override fun run(p: Any?) {
-                    if(p == true && server == null)
-                        callback()
+                    if(p == false){
+                        homePage1.addressTW.text = getString(R.string.connect_internet)
+                    }else{
+                        if(p == true && server == null)
+                            callback()
+                    }
                 }
             }
         ), intentFilter)
