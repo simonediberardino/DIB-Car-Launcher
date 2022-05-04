@@ -20,7 +20,7 @@ class Server(val activity: HomeActivity) {
     lateinit var serverIPV4: String
     private lateinit var instances: ArrayList<ClientInstance?>
     private var serverSocket: ServerSocket? = null
-    private var notificationHandler: NotificationHandler? = null
+    var notificationHandler: NotificationHandler? = null
 
     fun init(){
         startSocketServer()

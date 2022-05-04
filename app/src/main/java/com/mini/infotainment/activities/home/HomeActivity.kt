@@ -29,6 +29,10 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
 import java.util.*
+import android.speech.RecognizerIntent
+
+
+
 
 class HomeActivity : ActivityExtended() {
     internal val viewPages = mutableListOf<ViewGroup>()
@@ -274,6 +278,16 @@ class HomeActivity : ActivityExtended() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && data != null) {
+                val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
+            }
+        }
+    }
+
     override fun onBackPressed(){
         appsMenu.show(false, SLIDE_ANIMATION_DURATION)
     }
@@ -288,6 +302,7 @@ class HomeActivity : ActivityExtended() {
         private var hasWelcomed = false
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
+        const val REQUEST_CODE_SPEECH_INPUT = 10
 
         fun updateSpotifySong(activity: Activity, intent: Intent){
             val artistName = intent.getStringExtra("artist")

@@ -13,6 +13,19 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
+import android.widget.Toast
+
+import androidx.core.app.ActivityCompat.startActivityForResult
+
+import android.speech.RecognizerIntent
+
+import android.content.Intent
+import androidx.core.app.ActivityCompat
+import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
+import java.lang.Exception
+import java.util.*
+import kotlin.collections.HashMap
+
 
 class NotificationHandler(private val context: HomeActivity) {
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -68,6 +81,11 @@ class NotificationHandler(private val context: HomeActivity) {
         notifications[mapKey]?.clear()
     }
 
+    fun onVoiceTextReceived(message: String?){
+        if(message == null) return
+        notificationDialog?.notificationInputText?.setText(message)
+    }
+
     class NotificationData(val title: String, val text: String, val packageName: String, val id: Int){
         // Key used to indicate a specific instance of an application, E.G. a WhatsApp private chat;
         val mapKey: String
@@ -90,13 +108,15 @@ class NotificationHandler(private val context: HomeActivity) {
             const val DIALOG_DURATION = 15000
         }
 
-        private lateinit var notificationInputLayout: ViewGroup
-        private lateinit var notificationConfirm: View
-        private lateinit var notificationIcon: ImageView
-        private lateinit var notificationAppName: TextView
-        private lateinit var notificationTitle: TextView
-        private lateinit var notificationBar: ProgressBar
-        private lateinit var notificationInputText: EditText
+        internal lateinit var notificationInputLayout: ViewGroup
+        internal lateinit var notificationConfirm: View
+        internal lateinit var notificationIcon: ImageView
+        internal lateinit var notificationAppName: TextView
+        internal lateinit var notificationTitle: TextView
+        internal lateinit var notificationBar: ProgressBar
+        internal lateinit var notificationInputText: EditText
+        internal lateinit var notificationInputVoice: View
+
         private var startTime = System.currentTimeMillis()
 
         var isTimerRunning: Boolean = true
@@ -118,6 +138,8 @@ class NotificationHandler(private val context: HomeActivity) {
                 notificationBar = findViewById(R.id.noti_progress)
                 notificationInputText = findViewById(R.id.noti_edit_text)
                 notificationInputLayout = findViewById(R.id.noti_input_layout)
+                notificationInputVoice = findViewById(R.id.noti_input_voice)
+
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
 
                 notificationAppName.text =
@@ -143,10 +165,34 @@ class NotificationHandler(private val context: HomeActivity) {
 
                 notificationInputText.setOnFocusChangeListener { _, b -> isTimerRunning = !b }
 
+                handleVoice()
                 handleConfirm()
                 show()
 
+
                 isTimerRunning = true
+            }
+        }
+
+        private fun handleVoice(){
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE,
+                Locale.getDefault()
+            )
+
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
+
+            try {
+                (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+            } catch (e: Exception) {
+                Utility.showToast(context as AppCompatActivity, e.message.toString())
             }
         }
 
