@@ -116,7 +116,6 @@
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
-        android:text="@string/connect_internet"
         android:textColor="@color/white"
         android:textSize="@dimen/h7"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"

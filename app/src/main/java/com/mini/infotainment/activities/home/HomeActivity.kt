@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
@@ -29,7 +30,6 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
 import java.util.*
-import android.speech.RecognizerIntent
 
 
 
@@ -89,12 +89,8 @@ class HomeActivity : ActivityExtended() {
         this.registerReceiver(NetworkStatusListener(
             object : RunnablePar {
                 override fun run(p: Any?) {
-                    if(p == false){
-                        homePage1.addressTW.text = getString(R.string.connect_internet)
-                    }else{
-                        if(p == true && server == null)
-                            callback()
-                    }
+                    if(p == true && server == null)
+                        callback()
                 }
             }
         ), intentFilter)
