@@ -1,11 +1,14 @@
 package com.mini.infotainment.notification
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.storage.ApplicationData
@@ -87,6 +90,7 @@ class NotificationHandler(private val context: HomeActivity) {
             const val DIALOG_DURATION = 15000
         }
 
+        private lateinit var notificationInputLayout: ViewGroup
         private lateinit var notificationConfirm: View
         private lateinit var notificationIcon: ImageView
         private lateinit var notificationAppName: TextView
@@ -113,7 +117,7 @@ class NotificationHandler(private val context: HomeActivity) {
                 notificationConfirm = findViewById(R.id.noti_confirm_button)
                 notificationBar = findViewById(R.id.noti_progress)
                 notificationInputText = findViewById(R.id.noti_edit_text)
-
+                notificationInputLayout = findViewById(R.id.noti_input_layout)
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
 
                 notificationAppName.text =
@@ -132,7 +136,7 @@ class NotificationHandler(private val context: HomeActivity) {
                     handleConfirm()
                 }
 
-                notificationInputText.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
+                notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
 
                 for(notification: NotificationData in notiList)
                     addNotification(notification.text)
@@ -155,6 +159,7 @@ class NotificationHandler(private val context: HomeActivity) {
 
                 Thread{
                     HomeActivity.server?.sendMessage(inputMessage)
+                    Utility.showToast(context as AppCompatActivity, context.getString(R.string.message_sent))
                 }.start()
 
                 addNotification(ctx.getString(R.string.you_msg)

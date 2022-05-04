@@ -74,26 +74,47 @@
                     app:layout_constraintTop_toBottomOf="@+id/noti_icon"
                     tools:layout_editor_absoluteX="16dp" />
 
-                <EditText
-                    android:id="@+id/noti_edit_text"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/noti_input_layout"
                     android:layout_width="0dp"
-                    android:layout_height="50px"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/round_edit_text"
-                    android:ems="10"
-                    android:hint="@string/inserisci"
-                    android:inputType="textPersonName"
-                    android:paddingLeft="12dp"
-                    android:paddingEnd="50dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/lightgrey"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/h7"
                     app:layout_constraintBottom_toTopOf="@+id/noti_confirm_button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintEnd_toEndOf="@+id/noti_confirm_button"
+                    app:layout_constraintStart_toStartOf="@+id/noti_confirm_button">
+
+                    <ImageButton
+                        android:id="@+id/noti_input_voice"
+                        android:layout_width="65px"
+                        android:layout_height="65px"
+
+                        android:background="@drawable/round_white_button_shadow"
+                        android:elevation="28dp"
+                        android:src="@drawable/ic_baseline_mic_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/noti_edit_text"
+                        android:layout_width="0dp"
+                        android:layout_height="50px"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/round_edit_text"
+                        android:ems="10"
+                        android:hint="@string/inserisci"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="12dp"
+                        android:paddingEnd="50dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/lightgrey"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/h7"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/noti_input_voice"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ScrollView
                     android:id="@+id/noti_scrollview"
@@ -103,7 +124,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/noti_edit_text"
+                    app:layout_constraintBottom_toTopOf="@+id/noti_input_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view3">

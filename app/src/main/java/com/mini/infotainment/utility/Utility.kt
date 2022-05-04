@@ -141,6 +141,10 @@ object Utility {
         c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
     }
 
+    fun showToast(c: AppCompatActivity, message: String){
+        c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
+    }
+
     fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)

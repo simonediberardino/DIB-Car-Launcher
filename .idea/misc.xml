@@ -62,12 +62,15 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/tts_bottom_sheet.xml" value="0.4233576642335766" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/tts_top.xml" value="0.5" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/menu/menu_main.xml" value="0.5849609375" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.205078125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home.xml" value="0.536" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home_0.xml" value="0.4609375" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home_1.xml" value="0.4" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_login.xml" value="0.349609375" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/home_2_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_side_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_single_app.xml" value="0.314453125" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/notification_dialog.xml" value="0.6" />
       </map>
     </option>
   </component>
