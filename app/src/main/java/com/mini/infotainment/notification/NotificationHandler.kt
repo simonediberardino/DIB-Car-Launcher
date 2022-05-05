@@ -27,17 +27,15 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class NotificationHandler(private val context: HomeActivity) {
+class NotificationHandler(private val ctx: HomeActivity) {
     @SuppressLint("UseCompatLoadingForDrawables")
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application(
-            "Instagram",
-            context.getDrawable(R.drawable.instagram_logo)!!,
+            ctx.getDrawable(R.drawable.instagram_logo)!!,
             false),
 
         "com.whatsapp" to Application(
-            "WhatsApp",
-            context.getDrawable(R.drawable.whatsapp_logo)!!,
+            ctx.getDrawable(R.drawable.whatsapp_logo)!!,
             true),
     )
 
@@ -70,10 +68,11 @@ class NotificationHandler(private val context: HomeActivity) {
         lastNotification = currentNotification
 
         notificationDialog = NotificationDialog(
-            context,
+            ctx,
             currentNotification.title,
             previousNotifications.toMutableList(),
             application,
+            currentNotification.appName,
             currentNotification.packageName
         )
 
@@ -86,7 +85,7 @@ class NotificationHandler(private val context: HomeActivity) {
         notificationDialog?.notificationInputText?.setText(message)
     }
 
-    class NotificationData(val title: String, val text: String, val packageName: String, val id: Int){
+    class NotificationData(val title: String, val text: String, val appName: String, val packageName: String, val id: Int){
         // Key used to indicate a specific instance of an application, E.G. a WhatsApp private chat;
         val mapKey: String
             get() {
@@ -94,7 +93,7 @@ class NotificationHandler(private val context: HomeActivity) {
             }
     }
 
-    class Application(val appName: String?, val icon: Drawable?, val doesAllowInput: Boolean)
+    class Application(val icon: Drawable?, val doesAllowInput: Boolean)
 
     @SuppressLint("SetTextI18n")
     class NotificationDialog(
@@ -102,9 +101,11 @@ class NotificationHandler(private val context: HomeActivity) {
         val title: String,
         val notiList: MutableList<NotificationData>,
         val application: Application?,
+        val appName: String,
         val packageName: String) : Dialog(ctx)
     {
         companion object{
+            const val UNKNOWN = "UNKNOWN"
             const val DIALOG_DURATION = 15000
         }
 
@@ -143,10 +144,10 @@ class NotificationHandler(private val context: HomeActivity) {
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
 
                 notificationAppName.text =
-                    if(application == null)
+                    if(appName == UNKNOWN)
                         ctx.getString(R.string.new_notification)
                     else
-                        ctx.getString(R.string.notifica_da).replace("{appname}", application.appName!!)
+                        ctx.getString(R.string.notifica_da).replace("{appname}", appName)
 
                 notificationIcon.background =
                     if(application == null)
@@ -169,7 +170,6 @@ class NotificationHandler(private val context: HomeActivity) {
                 handleConfirm()
                 show()
 
-
                 isTimerRunning = true
             }
         }
@@ -190,9 +190,9 @@ class NotificationHandler(private val context: HomeActivity) {
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
 
             try {
-                (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+                ctx.startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
             } catch (e: Exception) {
-                Utility.showToast(context as AppCompatActivity, e.message.toString())
+                Utility.showToast(ctx, e.message.toString())
             }
         }
 
@@ -205,7 +205,7 @@ class NotificationHandler(private val context: HomeActivity) {
 
                 Thread{
                     HomeActivity.server?.sendMessage(inputMessage)
-                    Utility.showToast(context as AppCompatActivity, context.getString(R.string.message_sent))
+                    Utility.showToast(ctx, ctx.getString(R.string.message_sent))
                 }.start()
 
                 addNotification(ctx.getString(R.string.you_msg)
