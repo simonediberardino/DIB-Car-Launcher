@@ -1,28 +1,19 @@
 package com.mini.infotainment.notification
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.speech.RecognizerIntent
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
-import android.widget.Toast
-
-import androidx.core.app.ActivityCompat.startActivityForResult
-
-import android.speech.RecognizerIntent
-
-import android.content.Intent
-import androidx.core.app.ActivityCompat
-import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -142,7 +133,6 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 notificationInputVoice = findViewById(R.id.noti_input_voice)
 
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
-
                 notificationAppName.text =
                     if(appName == UNKNOWN)
                         ctx.getString(R.string.new_notification)
@@ -159,15 +149,16 @@ class NotificationHandler(private val ctx: HomeActivity) {
                     handleConfirm()
                 }
 
+                notificationInputVoice.setOnClickListener {
+                    handleVoice()
+                }
+
                 notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
+                notificationInputText.setOnFocusChangeListener { _, b -> isTimerRunning = !b }
 
                 for(notification: NotificationData in notiList)
                     addNotification(notification.text)
 
-                notificationInputText.setOnFocusChangeListener { _, b -> isTimerRunning = !b }
-
-                handleVoice()
-                handleConfirm()
                 show()
 
                 isTimerRunning = true
@@ -187,7 +178,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 Locale.getDefault()
             )
 
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, ctx.getString(R.string.listening))
 
             try {
                 ctx.startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)

@@ -49,4 +49,5 @@
     <string name="you_msg">Tu: {message}</string>
     <string name="connect_internet">Connessione a internet assente</string>
     <string name="message_sent">Messaggio inviato</string>
+    <string name="listening">In ascolto…</string>
 </resources>
