@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="650px"
-        android:layout_height="450px"
+        android:layout_height="475px"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
@@ -85,8 +85,8 @@
 
                     <ImageButton
                         android:id="@+id/noti_input_voice"
-                        android:layout_width="65px"
-                        android:layout_height="65px"
+                        android:layout_width="80px"
+                        android:layout_height="80px"
 
                         android:background="@drawable/round_white_button_shadow"
                         android:elevation="28dp"

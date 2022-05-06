@@ -36,6 +36,8 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
     fun onNotificationReceived(jsonString: String){
         val currentNotification = Utility.jsonStringToObject<NotificationData>(jsonString)
+        if(currentNotification.title.isEmpty() || currentNotification.text.isEmpty()) return
+
         val application = APPS_MAP[currentNotification.packageName]
 
         val mapKey = currentNotification.mapKey
