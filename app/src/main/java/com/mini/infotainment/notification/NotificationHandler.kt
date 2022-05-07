@@ -152,11 +152,11 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 }
 
                 notificationInputVoice.setOnClickListener {
+                    isTimerRunning = false
                     handleVoice()
                 }
 
                 notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
-                notificationInputText.setOnFocusChangeListener { _, b -> isTimerRunning = !b }
 
                 for(notification: NotificationData in notiList)
                     addNotification(notification.text)
