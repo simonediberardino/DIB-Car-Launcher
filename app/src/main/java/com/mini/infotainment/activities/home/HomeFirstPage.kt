@@ -1,5 +1,6 @@
 package com.mini.infotainment.activities.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.View
@@ -19,6 +20,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
     internal lateinit var timeTW: TextView
     internal lateinit var spotifyWidget: View
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun build() {
         val layout = ctx.layoutInflater.inflate(R.layout.activity_home_1, ctx.viewPager, false) as ViewGroup
 
@@ -72,6 +74,20 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
 
     private fun previousSpotifyTrack(){
         changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
+    }
+
+    fun resumeSpotifyTrack(){
+        val intent = Intent("com.spotify.mobile.android.ui.widget.PLAY")
+        intent.putExtra("paused", true)
+        intent.setPackage("com.spotify.music")
+        ctx.sendBroadcast(intent)
+    }
+
+    fun pauseSpotifyTrack(){
+        val intent = Intent("com.spotify.mobile.android.ui.widget.PLAY")
+        intent.putExtra("paused", false)
+        intent.setPackage("com.spotify.music")
+        ctx.sendBroadcast(intent)
     }
 
     private fun changeSpotifyTrack(keyCode: Int){

@@ -168,6 +168,8 @@ class NotificationHandler(private val ctx: HomeActivity) {
         }
 
         private fun handleVoice(){
+            ctx.homePage1.pauseSpotifyTrack()
+
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
             intent.putExtra(

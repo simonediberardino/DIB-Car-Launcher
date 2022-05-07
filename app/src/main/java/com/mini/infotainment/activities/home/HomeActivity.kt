@@ -280,6 +280,7 @@ class HomeActivity : ActivityExtended() {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
+                homePage1.resumeSpotifyTrack()
             }
         }
     }
