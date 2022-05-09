@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.cardview.widget.CardView
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
@@ -102,6 +103,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             const val DIALOG_DURATION = 15000
         }
 
+        internal lateinit var cardView: CardView
         internal lateinit var notificationInputLayout: ViewGroup
         internal lateinit var notificationConfirm: View
         internal lateinit var notificationIcon: ImageView
@@ -110,6 +112,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         internal lateinit var notificationBar: ProgressBar
         internal lateinit var notificationInputText: EditText
         internal lateinit var notificationInputVoice: View
+        internal var isVoiceActivated = false
 
         private var startTime = System.currentTimeMillis()
 
@@ -125,6 +128,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
                 setContentView(R.layout.notification_dialog)
 
+                cardView = findViewById(R.id.noti_cw)
                 notificationTitle = findViewById(R.id.noti_title)
                 notificationAppName = findViewById(R.id.noti_app_name)
                 notificationIcon = findViewById(R.id.noti_icon)
@@ -133,6 +137,10 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 notificationInputText = findViewById(R.id.noti_edit_text)
                 notificationInputLayout = findViewById(R.id.noti_input_layout)
                 notificationInputVoice = findViewById(R.id.noti_input_voice)
+
+                cardView.setOnClickListener{
+                    isTimerRunning = false
+                }
 
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
                 notificationAppName.text =
@@ -152,8 +160,10 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 }
 
                 notificationInputVoice.setOnClickListener {
-                    isTimerRunning = false
-                    handleVoice()
+                    if(!isVoiceActivated){
+                        isTimerRunning = false
+                        handleVoice()
+                    }
                 }
 
                 notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
