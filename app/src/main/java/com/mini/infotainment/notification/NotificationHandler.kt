@@ -103,7 +103,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             const val DIALOG_DURATION = 15000
         }
 
-        internal lateinit var cardView: CardView
+        internal lateinit var notificationMainLayout: View
         internal lateinit var notificationInputLayout: ViewGroup
         internal lateinit var notificationConfirm: View
         internal lateinit var notificationIcon: ImageView
@@ -128,7 +128,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
                 setContentView(R.layout.notification_dialog)
 
-                cardView = findViewById(R.id.noti_cw)
+                notificationMainLayout = findViewById(R.id.noti_cw)
                 notificationTitle = findViewById(R.id.noti_title)
                 notificationAppName = findViewById(R.id.noti_app_name)
                 notificationIcon = findViewById(R.id.noti_icon)
@@ -138,7 +138,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 notificationInputLayout = findViewById(R.id.noti_input_layout)
                 notificationInputVoice = findViewById(R.id.noti_input_voice)
 
-                cardView.setOnClickListener{
+                notificationMainLayout.setOnClickListener{
                     isTimerRunning = false
                 }
 
