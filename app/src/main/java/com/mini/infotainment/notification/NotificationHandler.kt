@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.cardview.widget.CardView
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
@@ -76,7 +75,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
     fun onVoiceTextReceived(message: String?){
         if(message == null) return
-        notificationDialog?.notificationInputText?.setText(message)
+        notificationDialog?.notificationInputText?.text = message
     }
 
     class NotificationData(val title: String, val text: String, val appName: String, val packageName: String, val id: Int){
@@ -110,7 +109,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         internal lateinit var notificationAppName: TextView
         internal lateinit var notificationTitle: TextView
         internal lateinit var notificationBar: ProgressBar
-        internal lateinit var notificationInputText: EditText
+        internal lateinit var notificationInputText: Button
         internal lateinit var notificationInputVoice: View
         internal var isVoiceActivated = false
 

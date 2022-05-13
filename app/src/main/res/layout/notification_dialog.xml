@@ -96,7 +96,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <EditText
+                    <Button
                         android:id="@+id/noti_edit_text"
                         android:layout_width="0dp"
                         android:layout_height="50px"
@@ -104,11 +104,12 @@
                         android:background="@drawable/round_edit_text"
                         android:ems="10"
                         android:enabled="false"
+                        android:gravity="center|left"
                         android:hint="@string/inserisci"
                         android:inputType="textPersonName"
                         android:paddingLeft="12dp"
                         android:paddingEnd="50dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/darkgrey"
                         android:textColorHint="@color/lightgrey"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/h7"
