@@ -16,6 +16,8 @@ object ApplicationData {
     private val MESSAGES_DEFAULT = null
     private const val NOTIFICHE_ID = "NOTIFICHE_ID"
     private val NOTIFICHE_DEFAULT = "true"
+    private const val TARGA_ID = "TARGA_ID"
+    private val TARGA_DEFAULT = "null"
 
     private val applicationData: SharedPreferences
         get() {
@@ -46,6 +48,18 @@ object ApplicationData {
         val json = Gson().toJson(ttsSentence)
         val dataEditor = applicationData.edit()
         dataEditor.putString(WELCOME_MSG_ID, json)
+        dataEditor.apply()
+    }
+
+    fun getTarga(): String? {
+        val savedJson: String? = applicationData.getString(TARGA_ID, TARGA_DEFAULT)
+        return Gson().fromJson(savedJson, String::class.java)
+    }
+
+    fun setTarga(targa: String?){
+        val json = Gson().toJson(targa)
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(TARGA_ID, json)
         dataEditor.apply()
     }
 

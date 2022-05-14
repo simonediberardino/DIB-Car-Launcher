@@ -1,6 +1,7 @@
 
 import android.location.Location
 import com.google.firebase.database.*
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.RunnablePar
 
 
@@ -43,7 +44,7 @@ object FirebaseClass{
     }
 
     fun getCarLocationReference(): DatabaseReference {
-        return getSpecificField(DB_REF, LOCATION_REF)
+        return getSpecificField(DB_REF, LOCATION_REF).child(ApplicationData.getTarga()!!)
     }
 
     fun getServerIpReference(): DatabaseReference {

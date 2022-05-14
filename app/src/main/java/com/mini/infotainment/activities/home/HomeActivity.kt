@@ -53,6 +53,14 @@ class HomeActivity : ActivityExtended() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        if(ApplicationData.getTarga().toString() != "null"){
+            initializeActivity()
+        }else{
+            HomeLogin(this).show()
+        }
+    }
+
+    internal fun initializeActivity(){
         initializeExceptionHandler()
         initializeLayout()
         initializeSocketServer()

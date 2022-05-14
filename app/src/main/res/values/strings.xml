@@ -24,7 +24,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="register">Registrati</string>
-    <string name="targa">Targa</string>
     <string name="proceed_no_internet">Prosegui senza internet</string>
     <string name="connecting">Connessione…</string>
     <string name="password_errata">Password errata.</string>
@@ -50,4 +49,6 @@
     <string name="connect_internet">Connessione a internet assente</string>
     <string name="message_sent">Messaggio inviato</string>
     <string name="listening">In ascolto…</string>
+    <string name="targa">Targa</string>
+    <string name="errore_targa">Targa non valida</string>
 </resources>
