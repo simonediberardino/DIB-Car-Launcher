@@ -44,11 +44,11 @@ object FirebaseClass{
     }
 
     fun getCarLocationReference(): DatabaseReference {
-        return getSpecificField(DB_REF, LOCATION_REF).child(ApplicationData.getTarga()!!)
+        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(LOCATION_REF)
     }
 
     fun getServerIpReference(): DatabaseReference {
-        return getSpecificField(DB_REF, SERVER_IP_REF)
+        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(SERVER_IP_REF)
     }
 
     fun getSpecificField(referString: String, path: String): DatabaseReference {

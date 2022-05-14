@@ -45,28 +45,30 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var homePage1: HomeFirstPage
     internal lateinit var homePage2: HomeSecondPage
     internal lateinit var homePage3: HomeThirdPage
-    internal lateinit var appsMenu: AppsMenu
     internal lateinit var sideMenu: SideMenu
+    internal lateinit var appsMenu: AppsMenu
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        if(ApplicationData.getTarga().toString() != "null"){
-            initializeActivity()
-        }else{
+        initializeExceptionHandler()
+        initializeLayout()
+        initializeTTS()
+        welcomeUser()
+        initializeBroadcastReceiver()
+
+        if(ApplicationData.getTarga() == null){
             HomeLogin(this).show()
+        }else{
+            initializeActivity()
         }
+
     }
 
     internal fun initializeActivity(){
-        initializeExceptionHandler()
-        initializeLayout()
         initializeSocketServer()
-        initializeBroadcastReceiver()
-        initializeTTS()
-        welcomeUser()
         setupGPS()
     }
 
@@ -75,7 +77,6 @@ class HomeActivity : ActivityExtended() {
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
         homePage3 = HomeThirdPage(this).also { it.build() }
-
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
 
@@ -179,7 +180,7 @@ class HomeActivity : ActivityExtended() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun onLocationChanged(newLocation: Location?){
-        if(newLocation == null || !Utility.isInternetAvailable())
+        if(newLocation == null || !Utility.isInternetAvailable() || ApplicationData.getTarga() == null)
             return
 
         if(gpsManager.currentUserLocation != null){

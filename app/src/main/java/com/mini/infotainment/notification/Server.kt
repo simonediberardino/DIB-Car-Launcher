@@ -3,6 +3,7 @@ package com.mini.infotainment.notification
 import FirebaseClass
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -33,6 +34,8 @@ class Server(val activity: HomeActivity) {
      */
     private fun startSocketServer() {
         try {
+            class QrCodeData(val ipv4: String, val targa: String)
+
             // Creazione del socket
             serverIPV4 = Utility.getLocalIpAddress(activity)
             serverSocket = ServerSocket(SERVER_PORT)
@@ -43,7 +46,14 @@ class Server(val activity: HomeActivity) {
 
             activity.runOnUiThread {
                 notificationHandler = NotificationHandler(activity)
-                val bitmap = Utility.generateQrCode(serverIPV4, activity)
+
+                val bitmap = Utility.generateQrCode(
+                        Utility.objectToJsonString(
+                            QrCodeData(serverIPV4, ApplicationData.getTarga()!!)
+                        ),
+                    activity
+                )
+
                 bitmap?.let { activity.homePage3.updateQrCode(it) }
             }
         } catch (e: IOException) {
