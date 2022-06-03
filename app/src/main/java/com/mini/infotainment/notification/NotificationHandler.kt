@@ -202,17 +202,17 @@ class NotificationHandler(private val ctx: HomeActivity) {
             val inputText = notificationInputText.text.toString().trim()
             this.dismiss()
 
-            if(inputText.isNotEmpty()){
-                val inputMessage = Utility.objectToJsonString(InputMessage(inputText, notiList.last().id, packageName))
+            if(inputText.isEmpty()) return
 
-                Thread{
-                    HomeActivity.server?.sendMessage(inputMessage)
-                    Utility.showToast(ctx, ctx.getString(R.string.message_sent))
-                }.start()
+            val inputMessage = Utility.objectToJsonString(InputMessage(inputText, notiList.last().id, packageName))
 
-                addNotification(ctx.getString(R.string.you_msg)
-                    .replace("{message}", inputMessage))
-            }
+            Thread{
+                HomeActivity.server?.sendMessage(inputMessage)
+                Utility.showToast(ctx, ctx.getString(R.string.message_sent))
+            }.start()
+
+            addNotification(ctx.getString(R.string.you_msg)
+                .replace("{message}", inputMessage))
         }
 
         private fun timerLoop(){
