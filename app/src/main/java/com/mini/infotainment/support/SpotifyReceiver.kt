@@ -43,14 +43,14 @@ class SpotifyReceiver : BroadcastReceiver() {
     }
 
     private fun handleResumeTrack(context: Context, intent: Intent){
-        val delay = 150L
+        val delay = 17500L
         HomeActivity.hasStartedSpotify = true
         Thread{
-            Thread.sleep(delay)
-
             if(context is ActivityExtended) {
                 context.log("Starting spotify ${intent.action.toString()}")
             }
+
+            Thread.sleep(delay)
 
             resumeSpotifyTrack(context)
         }.start()
