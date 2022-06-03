@@ -13,9 +13,9 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
 import com.mini.infotainment.storage.ApplicationData
+import com.mini.infotainment.support.SpotifyReceiver
 import com.mini.infotainment.utility.Utility
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class NotificationHandler(private val ctx: HomeActivity) {
@@ -175,7 +175,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         }
 
         private fun handleVoice(){
-            ctx.homePage1.pauseSpotifyTrack()
+            SpotifyReceiver.pauseSpotifyTrack(ctx)
 
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 

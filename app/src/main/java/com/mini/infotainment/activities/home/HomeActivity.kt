@@ -11,27 +11,21 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
-import android.view.*
-import android.widget.*
-import androidx.annotation.RequiresApi
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.leanback.widget.Util
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
-import com.google.android.gms.location.LocationRequest.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
 import com.mini.infotainment.notification.Server
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
-import java.util.*
-import kotlin.concurrent.schedule
 
 
 class HomeActivity : ActivityExtended() {
@@ -41,10 +35,10 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var gpsManager: GPSManager
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
-    internal lateinit var homePage0: HomeZeroPage
-    internal lateinit var homePage1: HomeFirstPage
-    internal lateinit var homePage2: HomeSecondPage
-    internal lateinit var homePage3: HomeThirdPage
+    lateinit var homePage0: HomeZeroPage
+    lateinit var homePage1: HomeFirstPage
+    lateinit var homePage2: HomeSecondPage
+    lateinit var homePage3: HomeThirdPage
     internal lateinit var sideMenu: SideMenu
     internal lateinit var appsMenu: AppsMenu
 
@@ -57,18 +51,17 @@ class HomeActivity : ActivityExtended() {
         initializeLayout()
         initializeTTS()
         initializeBroadcastReceiver()
-        performFirstLaunch()
 
         if(ApplicationData.getTarga() == null){
             HomeLogin(this).show()
         }else{
             initializeActivity()
         }
-
     }
 
     internal fun initializeActivity(){
         initializeSocketServer()
+        performFirstLaunch()
         setupGPS()
     }
 
@@ -119,17 +112,22 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun startSpotify(){
-        val spotifyIntent = Intent(Intent.ACTION_VIEW, Uri.parse("spotify:play"))
-        startActivity(spotifyIntent)
-
-        Timer().schedule(5000){
-            homePage1.nextSpotifyTrack()
+        fun runSpotifyFun(){
+            val spotifyIntent = Intent(Intent.ACTION_VIEW, Uri.parse("spotify:play"))
+            startActivity(spotifyIntent)
         }
-    }
 
-    override fun onPostResume() {
-        super.onPostResume()
-        println("ONRESUME")
+        if(Utility.isInternetAvailable()){
+            runSpotifyFun(); return
+        }
+
+        val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+        this.registerReceiver(NetworkStatusListener(object: RunnablePar{
+            override fun run(p: Any?) {
+                if(p == true)
+                    runSpotifyFun()
+            }
+        }), intentFilter)
     }
 
     private fun initializeBroadcastReceiver(){
@@ -178,7 +176,6 @@ class HomeActivity : ActivityExtended() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("MissingPermission")
     private fun setupUserLocation(){
         gpsManager = GPSManager()
@@ -198,7 +195,6 @@ class HomeActivity : ActivityExtended() {
         locationManager.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun onLocationChanged(newLocation: Location?){
         if(newLocation == null || !Utility.isInternetAvailable() || ApplicationData.getTarga() == null)
             return
@@ -326,6 +322,7 @@ class HomeActivity : ActivityExtended() {
 
     companion object {
         internal var server: Server? = null
+        internal var hasStartedSpotify = false
         private var isFirstLaunch = true
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300

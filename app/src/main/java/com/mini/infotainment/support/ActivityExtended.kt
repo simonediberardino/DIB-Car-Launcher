@@ -1,6 +1,7 @@
 package com.mini.infotainment.support
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -19,5 +20,9 @@ open class ActivityExtended : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         lastActivity = this
+    }
+
+    fun log(event: String){
+        Log.i(this.localClassName, event)
     }
 }

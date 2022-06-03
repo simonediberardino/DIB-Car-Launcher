@@ -1,8 +1,6 @@
 package com.mini.infotainment.activities.home
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -40,11 +38,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
 
     override fun setListeners() {
         spotifyWidget.setOnClickListener {
-            nextSpotifyTrack()
+            SpotifyReceiver.nextSpotifyTrack(ctx)
         }
 
         spotifyWidget.setOnLongClickListener {
-            previousSpotifyTrack()
+            SpotifyReceiver.previousSpotifyTrack(ctx)
             true
         }
 
@@ -66,38 +64,5 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
 
     private fun updateTime() {
         ctx.runOnUiThread { timeTW.text = Utility.getTime() }
-    }
-
-    fun nextSpotifyTrack(){
-        changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_NEXT)
-    }
-
-    fun previousSpotifyTrack(){
-        changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
-    }
-
-    fun resumeSpotifyTrack(){
-        val intent = Intent("com.spotify.mobile.android.ui.widget.PLAY")
-        intent.putExtra("paused", true)
-        intent.setPackage("com.spotify.music")
-        ctx.sendBroadcast(intent)
-    }
-
-    fun pauseSpotifyTrack(){
-        val intent = Intent("com.spotify.mobile.android.ui.widget.PLAY")
-        intent.putExtra("paused", false)
-        intent.setPackage("com.spotify.music")
-        ctx.sendBroadcast(intent)
-    }
-
-    private fun changeSpotifyTrack(keyCode: Int){
-        val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
-        intent.setPackage(SpotifyReceiver.SPOTIFY_PACKAGE)
-        synchronized(this) {
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-            ctx.sendOrderedBroadcast(intent, null)
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
-            ctx.sendOrderedBroadcast(intent, null)
-        }
     }
 }
