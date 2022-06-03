@@ -31,7 +31,6 @@ import com.mini.infotainment.utility.Utility
 class HomeActivity : ActivityExtended() {
     internal val viewPages = mutableListOf<ViewGroup>()
     internal lateinit var viewPager: ViewPager
-    internal lateinit var homeButton: View
     internal lateinit var gpsManager: GPSManager
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
@@ -40,11 +39,22 @@ class HomeActivity : ActivityExtended() {
     lateinit var homePage2: HomeSecondPage
     lateinit var homePage3: HomeThirdPage
     internal lateinit var sideMenu: SideMenu
-    internal lateinit var appsMenu: AppsMenu
+    internal var appsMenu: AppsMenu? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isLoggedIn = ApplicationData.getTarga() != null
+
+        // If it's not logged in it won't start spotify but it will show the login page instead;
+        if(isLoggedIn){
+            val isFirstLaunch = intent.extras?.getBoolean("isFirstLaunch") ?: true
+            if(isFirstLaunch){
+                handleFirstLaunch(); return
+            }
+        }
+
         setContentView(R.layout.activity_home)
 
         initializeExceptionHandler()
@@ -52,17 +62,30 @@ class HomeActivity : ActivityExtended() {
         initializeTTS()
         initializeBroadcastReceiver()
 
-        if(ApplicationData.getTarga() == null){
+        if(!isLoggedIn){
             HomeLogin(this).show()
         }else{
             initializeActivity()
         }
     }
 
+    // Starts spotify and restarts the activity;
+    private fun handleFirstLaunch(){
+        this.runSpotify()
+
+        val restartIntent = Intent(this, this.javaClass)
+        restartIntent.addCategory(Intent.CATEGORY_HOME)
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        restartIntent.putExtra("isFirstLaunch", false)
+
+        this.startActivity(restartIntent)
+    }
+
     internal fun initializeActivity(){
-        initializeSocketServer()
-        performFirstLaunch()
-        setupGPS()
+        this.initializeSocketServer()
+        this.performFirstLaunch()
+        this.setupGPS()
     }
 
     private fun initializeLayout(){
@@ -85,7 +108,6 @@ class HomeActivity : ActivityExtended() {
         isFirstLaunch = false
 
         welcomeUser()
-        startSpotify()
     }
 
     private fun initializeSocketServer(){
@@ -109,25 +131,6 @@ class HomeActivity : ActivityExtended() {
 
         if(Utility.isInternetAvailable(this))
             callback()
-    }
-
-    private fun startSpotify(){
-        fun runSpotifyFun(){
-            val spotifyIntent = Intent(Intent.ACTION_VIEW, Uri.parse("spotify:play"))
-            startActivity(spotifyIntent)
-        }
-
-        if(Utility.isInternetAvailable()){
-            runSpotifyFun(); return
-        }
-
-        val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
-        this.registerReceiver(NetworkStatusListener(object: RunnablePar{
-            override fun run(p: Any?) {
-                if(p == true)
-                    runSpotifyFun()
-            }
-        }), intentFilter)
     }
 
     private fun initializeBroadcastReceiver(){
@@ -225,8 +228,13 @@ class HomeActivity : ActivityExtended() {
         }
     }
 
+    private fun restartSpotify(){
+        hasStartedSpotify = false
+        runSpotify()
+    }
+
     internal fun runSpotify() {
-        val intent = Intent(Intent.ACTION_MAIN);
+        val intent = Intent(Intent.ACTION_MAIN)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
 
         try{
@@ -306,18 +314,18 @@ class HomeActivity : ActivityExtended() {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
-                startSpotify()
+                restartSpotify()
             }
         }
     }
 
     override fun onBackPressed(){
-        appsMenu.show(false, SLIDE_ANIMATION_DURATION)
+        appsMenu?.show(false, SLIDE_ANIMATION_DURATION)
     }
 
     override fun onResume() {
         super.onResume()
-        appsMenu.show(false, 0)
+        appsMenu?.show(false, 0)
     }
 
     companion object {

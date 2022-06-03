@@ -9,30 +9,22 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="16dp"
         android:alpha="0.25"
         android:background="@color/darkblue"
-        app:layout_constraintEnd_toEndOf="@+id/menu_side_title"
-        app:layout_constraintStart_toStartOf="@+id/menu_side_title"
-        app:layout_constraintTop_toBottomOf="@+id/menu_side_title" />
+        app:layout_constraintTop_toBottomOf="@+id/side_menu_image" />
 
-
-    <TextView
-        android:id="@+id/menu_side_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="center"
-        android:padding="16dp"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="@string/caricamento"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h8"
-        android:textStyle="bold"
+    <ImageView
+        android:id="@+id/side_menu_image"
+        android:layout_width="50px"
+        android:layout_height="50px"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

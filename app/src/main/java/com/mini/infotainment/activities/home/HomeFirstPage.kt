@@ -47,7 +47,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
         }
 
         homeButton.setOnClickListener {
-            ctx.appsMenu.show(true, HomeActivity.SLIDE_ANIMATION_DURATION)
+            ctx.appsMenu?.show(true, HomeActivity.SLIDE_ANIMATION_DURATION)
         }
     }
 

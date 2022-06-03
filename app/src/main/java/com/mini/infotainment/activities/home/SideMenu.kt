@@ -1,7 +1,8 @@
 package com.mini.infotainment.activities.home
 
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.tts.TTSActivity
 import com.mini.infotainment.support.Page
@@ -9,22 +10,22 @@ import com.mini.infotainment.utility.Utility
 
 class SideMenu(override val ctx: HomeActivity) : Page {
     override fun build() {
-        class SideMenuButton(val title: String, val listener: Runnable)
+        class SideMenuButton(val image: Drawable?, val listener: Runnable)
 
         val buttons = arrayOf(
-                SideMenuButton(ctx.getString(R.string.menu_navigatore)) { ctx.runGoogleMaps() },
-                SideMenuButton(ctx.getString(R.string.menu_spotify)) { ctx.runSpotify() },
-                SideMenuButton(ctx.getString(R.string.personalizza)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
-                SideMenuButton(ctx.getString(R.string.settings)) { ctx.runSettings() }
+                SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo_2)) { ctx.runSpotify() },
+                SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
+                SideMenuButton(ctx.getDrawable(R.drawable.car_settings)) { ctx.runSettings() },
+                SideMenuButton(ctx.getDrawable(R.drawable.more_logo)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
             )
 
         val parent = ctx.findViewById<LinearLayout>(R.id.home_sidemenu)
 
         for(button : SideMenuButton in buttons){
             val inflatedView = ctx.layoutInflater.inflate(R.layout.menu_side_items, parent, false)
-            val titleTW = inflatedView.findViewById<TextView>(R.id.menu_side_title)
+            val sideMenuImage = inflatedView.findViewById<ImageView>(R.id.side_menu_image)
 
-            titleTW.text = button.title
+            sideMenuImage.setImageDrawable(button.image)
             inflatedView.setOnClickListener {
                 button.listener.run()
             }
