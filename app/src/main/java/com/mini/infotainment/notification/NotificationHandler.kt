@@ -70,7 +70,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         )
 
         // Clears the previous notifications, remove this instruction if you want to keep them;
-        notifications[mapKey]?.clear()
+        //notifications[mapKey]?.clear()
     }
 
     fun onVoiceTextReceived(message: String?){
@@ -99,7 +99,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
     {
         companion object{
             const val UNKNOWN = "UNKNOWN"
-            const val DIALOG_DURATION = 15000
+            const val DIALOG_DURATION = 20000
         }
 
         internal lateinit var notificationMainLayout: View
@@ -112,8 +112,6 @@ class NotificationHandler(private val ctx: HomeActivity) {
         internal lateinit var notificationInputText: Button
         internal lateinit var notificationInputVoice: View
         internal var isVoiceActivated = false
-
-        private var startTime = System.currentTimeMillis()
 
         var isTimerRunning: Boolean = true
             set(value) {
@@ -239,7 +237,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             gallery.addView(newNotif)
 
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
-            this.startTime = System.currentTimeMillis()
+            notificationBar.progress = 100
         }
     }
 

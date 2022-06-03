@@ -68,11 +68,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page {
         ctx.runOnUiThread { timeTW.text = Utility.getTime() }
     }
 
-    private fun nextSpotifyTrack(){
+    fun nextSpotifyTrack(){
         changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_NEXT)
     }
 
-    private fun previousSpotifyTrack(){
+    fun previousSpotifyTrack(){
         changeSpotifyTrack(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
     }
 

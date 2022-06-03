@@ -20,6 +20,7 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.leanback.widget.Util
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.*
@@ -30,8 +31,7 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
 import java.util.*
-
-
+import kotlin.concurrent.schedule
 
 
 class HomeActivity : ActivityExtended() {
@@ -56,8 +56,8 @@ class HomeActivity : ActivityExtended() {
         initializeExceptionHandler()
         initializeLayout()
         initializeTTS()
-        welcomeUser()
         initializeBroadcastReceiver()
+        performFirstLaunch()
 
         if(ApplicationData.getTarga() == null){
             HomeLogin(this).show()
@@ -85,6 +85,16 @@ class HomeActivity : ActivityExtended() {
         viewPager.currentItem = 1
     }
 
+    private fun performFirstLaunch(){
+        if(!isFirstLaunch)
+            return
+
+        isFirstLaunch = false
+
+        welcomeUser()
+        startSpotify()
+    }
+
     private fun initializeSocketServer(){
         if(server != null)
             return
@@ -108,6 +118,20 @@ class HomeActivity : ActivityExtended() {
             callback()
     }
 
+    private fun startSpotify(){
+        val spotifyIntent = Intent(Intent.ACTION_VIEW, Uri.parse("spotify:play"))
+        startActivity(spotifyIntent)
+
+        Timer().schedule(5000){
+            homePage1.nextSpotifyTrack()
+        }
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        println("ONRESUME")
+    }
+
     private fun initializeBroadcastReceiver(){
         val filter = IntentFilter()
         filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
@@ -121,14 +145,10 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun welcomeUser(){
-        if(!hasWelcomed){
-            hasWelcomed = true
-
-            val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
-            mediaPlayer.start()
-            mediaPlayer.setOnCompletionListener{
-                TTS.speak(ApplicationData.getWelcomeSentence()?.text ?: return@setOnCompletionListener, TextToSpeech.QUEUE_FLUSH, null)
-            }
+        val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener{
+            TTS.speak(ApplicationData.getWelcomeSentence()?.text ?: return@setOnCompletionListener, TextToSpeech.QUEUE_FLUSH, null)
         }
     }
 
@@ -285,11 +305,12 @@ class HomeActivity : ActivityExtended() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        println("Results: $requestCode $resultCode")
         if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
-                homePage1.resumeSpotifyTrack()
+                startSpotify()
             }
         }
     }
@@ -305,7 +326,7 @@ class HomeActivity : ActivityExtended() {
 
     companion object {
         internal var server: Server? = null
-        private var hasWelcomed = false
+        private var isFirstLaunch = true
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
         const val REQUEST_CODE_SPEECH_INPUT = 10
@@ -313,6 +334,9 @@ class HomeActivity : ActivityExtended() {
         fun updateSpotifySong(activity: Activity, intent: Intent){
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
+            val trackId = intent.getStringExtra("id")
+
+            ApplicationData.setLastSongId(trackId)
 
             if(activity is HomeActivity){
                 activity.homePage1.spotifyTitleTW.text = trackName

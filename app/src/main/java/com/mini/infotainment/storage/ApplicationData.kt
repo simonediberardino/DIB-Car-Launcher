@@ -18,6 +18,8 @@ object ApplicationData {
     private val NOTIFICHE_DEFAULT = "true"
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
+    private const val SONG_ID = "SONG_ID"
+    private val SONG_DEFAULT = null
 
     private val applicationData: SharedPreferences
         get() {
@@ -48,6 +50,18 @@ object ApplicationData {
         val json = Gson().toJson(ttsSentence)
         val dataEditor = applicationData.edit()
         dataEditor.putString(WELCOME_MSG_ID, json)
+        dataEditor.apply()
+    }
+
+    fun getLastSongId(): String? {
+        val savedJson: String? = applicationData.getString(SONG_ID, SONG_DEFAULT)
+        return Gson().fromJson(savedJson, String::class.java)
+    }
+
+    fun setLastSongId(targa: String?){
+        val json = Gson().toJson(targa?.uppercase())
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(SONG_ID, json)
         dataEditor.apply()
     }
 
