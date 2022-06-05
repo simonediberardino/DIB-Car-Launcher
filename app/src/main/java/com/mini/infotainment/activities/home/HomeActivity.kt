@@ -77,9 +77,12 @@ class HomeActivity : ActivityExtended() {
         restartIntent.addCategory(Intent.CATEGORY_HOME)
         restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         restartIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
+
         restartIntent.putExtra("isFirstLaunch", false)
 
         this.startActivity(restartIntent)
+        this.finish()
     }
 
     internal fun initializeActivity(){
@@ -309,7 +312,6 @@ class HomeActivity : ActivityExtended() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("Results: $requestCode $resultCode")
         if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)

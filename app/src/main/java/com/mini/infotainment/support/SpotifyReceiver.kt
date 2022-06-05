@@ -8,6 +8,8 @@ import android.view.KeyEvent
 import com.mini.infotainment.activities.home.HomeActivity
 
 class SpotifyReceiver : BroadcastReceiver() {
+    var lastIntent: Intent? = null
+
     companion object {
         const val SPOTIFY_PACKAGE = "com.spotify.music"
         const val PLAYBACK_STATE_CHANGED = "$SPOTIFY_PACKAGE.playbackstatechanged"
@@ -43,30 +45,49 @@ class SpotifyReceiver : BroadcastReceiver() {
     }
 
     private fun handleResumeTrack(context: Context, intent: Intent){
-        val delay = 17500L
+        val delay = 1250L
         HomeActivity.hasStartedSpotify = true
         Thread{
-            if(context is ActivityExtended) {
-                context.log("Starting spotify ${intent.action.toString()}")
-            }
-
+            Thread.sleep(delay)
+            resumeSpotifyTrack(context)
             Thread.sleep(delay)
 
-            resumeSpotifyTrack(context)
+            if(!isPlayingSong()) {
+                handleResumeTrack(context, intent)
+            }else{
+                if(context is ActivityExtended) {
+                    context.log("Starting spotify ${intent.action.toString()}")
+                }
+            }
         }.start()
     }
 
+    private fun isPlayingSong(): Boolean {
+        if(lastIntent == null)
+            return false
+
+        if(lastIntent!!.getIntExtra("playbackPosition", -1) == -1)
+            return false
+
+        if(!lastIntent!!.getBooleanExtra("playing", false))
+            return false
+
+        return true
+    }
+
     override fun onReceive(context: Context?, intent: Intent) {
+        lastIntent = intent
+
         when (intent.action) {
             METADATA_CHANGED -> {
                 HomeActivity.updateSpotifySong(context as Activity, intent)
             }
-            PLAYBACK_STATE_CHANGED -> {}
-            QUEUE_CHANGED -> {
+            PLAYBACK_STATE_CHANGED -> {
                 if(!HomeActivity.hasStartedSpotify){
                     handleResumeTrack(context!!, intent)
                 }
             }
+            QUEUE_CHANGED -> {}
         }
     }
 }
