@@ -46,7 +46,8 @@ class SpotifyReceiver : BroadcastReceiver() {
 
     private fun handleResumeTrack(context: Context, intent: Intent){
         val delay = 1250L
-        HomeActivity.hasStartedSpotify = true
+        HomeActivity.homeActivity?.hasStartedSpotify = true
+
         Thread{
             Thread.sleep(delay)
             resumeSpotifyTrack(context)
@@ -83,7 +84,7 @@ class SpotifyReceiver : BroadcastReceiver() {
                 HomeActivity.updateSpotifySong(context as Activity, intent)
             }
             PLAYBACK_STATE_CHANGED -> {
-                if(!HomeActivity.hasStartedSpotify){
+                if(HomeActivity.homeActivity?.hasStartedSpotify == false){
                     handleResumeTrack(context!!, intent)
                 }
             }

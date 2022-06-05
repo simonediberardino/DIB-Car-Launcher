@@ -29,6 +29,7 @@ import com.mini.infotainment.utility.Utility
 
 
 class HomeActivity : ActivityExtended() {
+    internal var hasStartedSpotify = false
     internal val viewPages = mutableListOf<ViewGroup>()
     internal lateinit var viewPager: ViewPager
     internal lateinit var gpsManager: GPSManager
@@ -43,8 +44,9 @@ class HomeActivity : ActivityExtended() {
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        homeActivity = this
 
+        super.onCreate(savedInstanceState)
         val isLoggedIn = ApplicationData.getTarga() != null
 
         // If it's not logged in it won't start spotify but it will show the login page instead;
@@ -71,13 +73,13 @@ class HomeActivity : ActivityExtended() {
 
     // Starts spotify and restarts the activity;
     private fun handleFirstLaunch(){
+        setContentView(R.layout.activity_background)
+
         this.runSpotify()
 
         val restartIntent = Intent(this, this.javaClass)
         restartIntent.addCategory(Intent.CATEGORY_HOME)
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         restartIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 
         restartIntent.putExtra("isFirstLaunch", false)
 
@@ -239,6 +241,8 @@ class HomeActivity : ActivityExtended() {
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 
         try{
             startActivity(intent)
@@ -331,8 +335,8 @@ class HomeActivity : ActivityExtended() {
     }
 
     companion object {
+        internal var homeActivity: HomeActivity? = null
         internal var server: Server? = null
-        internal var hasStartedSpotify = false
         private var isFirstLaunch = true
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
