@@ -31,7 +31,7 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         }
 
         ApplicationData.setTarga(enteredTarga)
-        homeActivity.initializeActivity()
+        homeActivity.continueToActivity()
         this.dismiss()
     }
 
