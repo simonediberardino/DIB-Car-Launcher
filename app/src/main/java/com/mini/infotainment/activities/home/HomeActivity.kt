@@ -242,7 +242,7 @@ class HomeActivity : ActivityExtended() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 
         try{
             startActivity(intent)
@@ -320,7 +320,7 @@ class HomeActivity : ActivityExtended() {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
-                restartSpotify()
+                //restartSpotify()
             }
         }
     }
