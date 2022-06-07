@@ -2,8 +2,10 @@ package com.mini.infotainment.activities.home
 
 import FirebaseClass
 import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
@@ -17,6 +19,7 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
@@ -57,8 +60,6 @@ class HomeActivity : ActivityExtended() {
             }
         }
 
-        setContentView(R.layout.activity_home)
-
         initializeExceptionHandler()
         initializeLayout()
         initializeTTS()
@@ -67,13 +68,21 @@ class HomeActivity : ActivityExtended() {
         if(!isLoggedIn){
             HomeLogin(this).show()
         }else{
-            initializeActivity()
+            continueToActivity()
         }
     }
 
     // Starts spotify and restarts the activity;
     private fun handleFirstLaunch(){
         setContentView(R.layout.activity_background)
+
+        if(ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val wallpaperManager = WallpaperManager.getInstance(this)
+            val wallpaperDrawable = wallpaperManager.drawable
+
+            val backgroundImage = findViewById<ImageView>(R.id.background_img)
+            backgroundImage.setImageDrawable(wallpaperDrawable)
+        }
 
         this.runSpotify()
 
@@ -87,13 +96,16 @@ class HomeActivity : ActivityExtended() {
         this.finish()
     }
 
-    internal fun initializeActivity(){
+    internal fun continueToActivity(){
         this.initializeSocketServer()
         this.performFirstLaunch()
         this.setupGPS()
+        this.requestStoragePermission()
     }
 
     private fun initializeLayout(){
+        setContentView(R.layout.activity_home)
+
         homePage0 = HomeZeroPage(this).also { it.build() }
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
@@ -148,6 +160,13 @@ class HomeActivity : ActivityExtended() {
 
     private fun initializeExceptionHandler(){
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
+    }
+
+    private fun requestStoragePermission(){
+        val READ_EXTERNAL_STORAGE_ID = 1005
+        if(ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_ID)
+        }
     }
 
     private fun welcomeUser(){
