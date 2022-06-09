@@ -32,6 +32,7 @@ import com.mini.infotainment.utility.Utility
 
 
 class HomeActivity : ActivityExtended() {
+    internal var activityStarted = false
     internal var hasStartedSpotify = false
     internal val viewPages = mutableListOf<ViewGroup>()
     internal lateinit var viewPager: ViewPager
@@ -50,7 +51,7 @@ class HomeActivity : ActivityExtended() {
         homeActivity = this
 
         super.onCreate(savedInstanceState)
-        val isLoggedIn = ApplicationData.getTarga() != null
+        val isLoggedIn = ApplicationData.getTarga() != null && ApplicationData.getBrandName() != null && ApplicationData.getFuelConsuption() != null
 
         // If it's not logged in it won't start spotify but it will show the login page instead;
         if(isLoggedIn){
@@ -61,12 +62,14 @@ class HomeActivity : ActivityExtended() {
         }
 
         initializeExceptionHandler()
-        initializeLayout()
-        initializeTTS()
-        initializeBroadcastReceiver()
 
         if(!isLoggedIn){
-            HomeLogin(this).show()
+            val loginDialog = HomeLogin(this)
+            loginDialog.setOnDismissListener {
+                if(!activityStarted)
+                    continueToActivity()
+            }
+            loginDialog.show()
         }else{
             continueToActivity()
         }
@@ -97,6 +100,10 @@ class HomeActivity : ActivityExtended() {
     }
 
     internal fun continueToActivity(){
+        activityStarted = true
+        this.initializeLayout()
+        this.initializeTTS()
+        this.initializeBroadcastReceiver()
         this.initializeSocketServer()
         this.performFirstLaunch()
         this.setupGPS()
@@ -260,7 +267,7 @@ class HomeActivity : ActivityExtended() {
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         //intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 
         try{
@@ -364,9 +371,6 @@ class HomeActivity : ActivityExtended() {
         fun updateSpotifySong(activity: Activity, intent: Intent){
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
-            val trackId = intent.getStringExtra("id")
-
-            ApplicationData.setLastSongId(trackId)
 
             if(activity is HomeActivity){
                 activity.homePage1.spotifyTitleTW.text = trackName

@@ -33,12 +33,12 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/noti_mini_icon"
+                    android:id="@+id/noti_car_icon"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/mini_icon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mini_icon" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/noti_icon"
@@ -62,7 +62,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toBottomOf="@+id/noti_icon"
-                    app:layout_constraintEnd_toStartOf="@+id/noti_mini_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/noti_car_icon"
                     app:layout_constraintStart_toEndOf="@+id/noti_icon"
                     app:layout_constraintTop_toTopOf="@+id/noti_icon" />
 

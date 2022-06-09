@@ -3,41 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="1024px"
-    android:layout_height="600px"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="8dp">
 
-    <EditText
-        android:id="@+id/login_password_et"
-        android:layout_width="600px"
-        android:layout_height="100px"
-        android:background="#11000000"
-        android:drawableLeft="@drawable/ic_baseline_lock_24"
-        android:drawablePadding="8dp"
-        android:ems="10"
-        android:hint="@string/targa"
-        android:padding="8dp"
-        android:password="true"
-        android:textColor="@color/silver"
-        android:textColorHint="@color/silver"
-        android:textSize="40px"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.357" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_input">
+
+        <LinearLayout
+            android:id="@+id/ll_logos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:dividerPadding="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"></LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/login_targa"
+            android:layout_width="600px"
+            android:layout_height="80px"
+            android:layout_marginTop="32dp"
+            android:background="#11000000"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="@string/targa"
+            android:padding="8dp"
+            android:password="false"
+            android:textColor="@color/silver"
+            android:textColorHint="@color/silver"
+            android:textSize="@dimen/h4" />
+
+        <EditText
+            android:id="@+id/login_consumi"
+            android:layout_width="600px"
+            android:layout_height="80px"
+            android:layout_marginTop="32dp"
+            android:background="#11000000"
+            android:drawableLeft="@drawable/ic_baseline_local_gas_station_24"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="@string/consumi"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:password="false"
+            android:textColor="@color/silver"
+            android:textColorHint="@color/silver"
+            android:textSize="@dimen/h4" />
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/login_login_button"
-        android:layout_width="650px"
-        android:layout_height="110px"
+        android:layout_width="400px"
+        android:layout_height="65px"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_et">
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,9 +98,9 @@
                 android:id="@+id/login_login_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
+                android:text="@android:string/ok"
                 android:textColor="@color/white"
-                android:textSize="@dimen/h3" />
+                android:textSize="@dimen/h5" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

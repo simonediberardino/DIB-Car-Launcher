@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
@@ -26,6 +27,7 @@ import androidx.core.app.ActivityOptionsCompat
 import com.google.gson.Gson
 import com.google.zxing.WriterException
 import com.mini.infotainment.R
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.RunnablePar
 import okhttp3.OkHttpClient
@@ -35,7 +37,6 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import android.R as R1
 
 
@@ -48,6 +49,12 @@ object Utility {
 
     inline fun <reified T> jsonStringToObject(jsonString: String): T {
         return Gson().fromJson(jsonString, T::class.java)
+    }
+
+    fun getBrandDrawable(ctx: Context): Drawable? {
+        val logoId: Int = ctx.resources.getIdentifier("${ApplicationData.getBrandName()}_icon", "drawable", ctx.packageName)
+        println("BRAND NAME ${ApplicationData.getBrandName()}")
+        return if(logoId == 0) null else ctx.getDrawable(logoId)
     }
 
     fun generateQrCode(textToEncode: String, activity: Activity): Bitmap? {
@@ -148,7 +155,7 @@ object Utility {
     fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val baseHeight = 1920.0
+        val baseHeight = 768.0
         val height = displayMetrics.heightPixels.toDouble()
 
         for (i in 0 until v.childCount) {

@@ -6,14 +6,14 @@ import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.support.Page
 
-class HomeSecondPage(override val ctx: HomeActivity) : Page {
+class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     override fun build() {
-        val layout = ctx.layoutInflater.inflate(R.layout.activity_home_2, ctx.viewPager, false) as ViewGroup
-        val gridView = layout.findViewById<androidx.gridlayout.widget.GridLayout>(R.id.home_2_grid)
+        parent = ctx.layoutInflater.inflate(R.layout.activity_home_2, ctx.viewPager, false) as ViewGroup
+        val gridView = parent!!.findViewById<androidx.gridlayout.widget.GridLayout>(R.id.home_2_grid)
 
         class GridButton(name: String, drawableId: Int, val callback: Runnable){
             init{
-                val singleItem = ctx.layoutInflater.inflate(R.layout.home_2_items, layout, false) as ViewGroup
+                val singleItem = ctx.layoutInflater.inflate(R.layout.home_2_items, parent, false) as ViewGroup
                 val itemNameTW = singleItem.findViewById<TextView>(R.id.home_2_item_name)
                 val itemNameIW = singleItem.findViewById<ImageView>(R.id.home_2_item_image)
 
@@ -34,6 +34,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page {
         GridButton(ctx.getString(R.string.menu_storage), R.drawable.menu_storage) { ctx.runFileManager() }
         GridButton(ctx.getString(R.string.menu_settings), R.drawable.menu_settings) { ctx.runSettings() }
 
-        ctx.viewPages.add(layout)
+        ctx.viewPages.add(parent!!)
+        super.pageLoaded()
     }
 }

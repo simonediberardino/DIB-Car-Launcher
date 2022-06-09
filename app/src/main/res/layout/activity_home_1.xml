@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -20,11 +21,11 @@
 
     <ImageView
         android:id="@+id/home_1_swipe"
-        android:onClick=""
         android:layout_width="65px"
         android:layout_height="65px"
         android:layout_marginBottom="32dp"
         android:background="@drawable/home_button"
+        android:onClick=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -43,8 +44,8 @@
     <ImageView
         android:id="@+id/home_1_car_icon"
         android:layout_width="340px"
-        android:layout_height="200px"
-        android:src="@drawable/car_icon"
+        android:layout_height="150px"
+        android:src="@drawable/mini_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/home_1_swipe"
@@ -121,5 +122,30 @@
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/home_1_targa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="@dimen/h10"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
+        app:layout_constraintEnd_toStartOf="@+id/home_1_speed_desc"
+        app:layout_constraintHorizontal_bias="0.668"
+        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
+        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <TextView
+        android:id="@+id/home_1_consuption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="TextView"
+        android:textSize="@dimen/h10"
+        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toEndOf="@+id/home_1_speed_desc"
+        app:layout_constraintTop_toTopOf="@+id/home_1_targa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

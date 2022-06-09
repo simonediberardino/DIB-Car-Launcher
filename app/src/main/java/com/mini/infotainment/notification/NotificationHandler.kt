@@ -78,8 +78,15 @@ class NotificationHandler(private val ctx: HomeActivity) {
         notificationDialog?.notificationInputText?.text = message
     }
 
-    class NotificationData(val title: String, val text: String, val appName: String, val packageName: String, val id: Int){
+    class NotificationData(var title: String, var text: String, var appName: String, var packageName: String, val id: Int){
         // Key used to indicate a specific instance of an application, E.G. a WhatsApp private chat;
+        init {
+            title = title.trim()
+            text = text.trim()
+            appName = appName.trim()
+            packageName = packageName.trim()
+        }
+
         val mapKey: String
             get() {
                 return "$packageName:$title"
@@ -106,6 +113,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         internal lateinit var notificationInputLayout: ViewGroup
         internal lateinit var notificationConfirm: View
         internal lateinit var notificationIcon: ImageView
+        private lateinit var notificationCarLogo: ImageView
         internal lateinit var notificationAppName: TextView
         internal lateinit var notificationTitle: TextView
         internal lateinit var notificationBar: ProgressBar
@@ -127,6 +135,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
                 notificationMainLayout = findViewById(R.id.noti_cw)
                 notificationTitle = findViewById(R.id.noti_title)
+                notificationCarLogo = findViewById(R.id.noti_car_icon)
                 notificationAppName = findViewById(R.id.noti_app_name)
                 notificationIcon = findViewById(R.id.noti_icon)
                 notificationConfirm = findViewById(R.id.noti_confirm_button)
@@ -151,6 +160,8 @@ class NotificationHandler(private val ctx: HomeActivity) {
                         ctx.getDrawable(R.drawable.ic_baseline_notifications_active_24)
                     else
                         application.icon
+
+                Utility.getBrandDrawable(ctx)?.let { notificationCarLogo.setImageDrawable(it) }
 
                 notificationConfirm.setOnClickListener {
                     handleConfirm()

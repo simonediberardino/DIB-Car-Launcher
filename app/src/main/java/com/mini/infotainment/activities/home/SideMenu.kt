@@ -4,22 +4,24 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.tts.TTSActivity
 import com.mini.infotainment.support.Page
-import com.mini.infotainment.utility.Utility
 
-class SideMenu(override val ctx: HomeActivity) : Page {
+class SideMenu(override val ctx: HomeActivity) : Page() {
     override fun build() {
         class SideMenuButton(val image: Drawable?, val listener: Runnable)
 
         val buttons = arrayOf(
-                SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo_2)) { ctx.runSpotify() },
-                SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
-                SideMenuButton(ctx.getDrawable(R.drawable.car_settings)) { ctx.runSettings() },
-                SideMenuButton(ctx.getDrawable(R.drawable.more_logo)) { Utility.navigateTo(ctx, TTSActivity::class.java) },
-            )
+            SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo_2)) { ctx.runSpotify() },
+            SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
+            SideMenuButton(ctx.getDrawable(R.drawable.car_settings)) { ctx.runSettings() },
+            SideMenuButton(ctx.getDrawable(R.drawable.more_logo)){
+                val dialog = HomeLogin(ctx)
+                dialog.setOnDismissListener { ctx.homePage1.updateData() }
+                dialog.show()
+            }
+        )
 
-        val parent = ctx.findViewById<LinearLayout>(R.id.home_sidemenu)
+        parent = ctx.findViewById<LinearLayout>(R.id.home_sidemenu)
 
         for(button : SideMenuButton in buttons){
             val inflatedView = ctx.layoutInflater.inflate(R.layout.menu_side_items, parent, false)
@@ -30,7 +32,9 @@ class SideMenu(override val ctx: HomeActivity) : Page {
                 button.listener.run()
             }
 
-            parent.addView(inflatedView)
+            parent!!.addView(inflatedView)
         }
+
+        super.pageLoaded()
     }
 }

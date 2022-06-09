@@ -9,17 +9,18 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.Page
 import com.mini.infotainment.utility.Utility
 
-class HomeThirdPage(override val ctx: HomeActivity) : Page {
+class HomeThirdPage(override val ctx: HomeActivity) : Page() {
     internal lateinit var qrCodeIW: ImageView
     internal lateinit var notificheCB: CheckBox
 
     override fun build() {
-        val layout = ctx.layoutInflater.inflate(R.layout.activity_home_3, ctx.viewPager, false) as ViewGroup
-        qrCodeIW = layout.findViewById(R.id.home_3_qrcode)
-        notificheCB = layout.findViewById(R.id.home_3_notifiche_cb)
+        parent = ctx.layoutInflater.inflate(R.layout.activity_home_3, ctx.viewPager, false) as ViewGroup
+        qrCodeIW = parent!!.findViewById(R.id.home_3_qrcode)
+        notificheCB = parent!!.findViewById(R.id.home_3_notifiche_cb)
 
-        ctx.viewPages.add(layout)
+        ctx.viewPages.add(parent!!)
         setListeners()
+        super.pageLoaded()
     }
 
     fun updateQrCode(bitmap: Bitmap){

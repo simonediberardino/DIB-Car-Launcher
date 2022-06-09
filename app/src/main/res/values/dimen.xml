@@ -10,4 +10,6 @@
     <dimen name="h7">18px</dimen>
     <dimen name="h8">15px</dimen>
     <dimen name="h9">12px</dimen>
+    <dimen name="h10">10px</dimen>
+
 </resources>

@@ -18,8 +18,10 @@ object ApplicationData {
     private val NOTIFICHE_DEFAULT = "true"
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
-    private const val SONG_ID = "SONG_ID"
-    private val SONG_DEFAULT = null
+    private const val BRAND_ID = "BRAND_ID"
+    private val BRAND_DEFAULT = null
+    private const val CONSUPTION_ID = "CONSUPTION_ID"
+    private val CONSUPTION_DEFAULT = null
 
     private val applicationData: SharedPreferences
         get() {
@@ -53,15 +55,25 @@ object ApplicationData {
         dataEditor.apply()
     }
 
-    fun getLastSongId(): String? {
-        val savedJson: String? = applicationData.getString(SONG_ID, SONG_DEFAULT)
+    fun getBrandName(): String? {
+        return applicationData.getString(BRAND_ID, BRAND_DEFAULT)
+    }
+
+    fun setBrandName(brand: String?){
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(BRAND_ID, brand)
+        dataEditor.apply()
+    }
+
+    fun getFuelConsuption(): String? {
+        val savedJson: String? = applicationData.getString(CONSUPTION_ID, CONSUPTION_DEFAULT)
         return Gson().fromJson(savedJson, String::class.java)
     }
 
-    fun setLastSongId(targa: String?){
-        val json = Gson().toJson(targa?.uppercase())
+    fun setFuelConsuption(consuption: String){
+        val json = Gson().toJson(consuption)
         val dataEditor = applicationData.edit()
-        dataEditor.putString(SONG_ID, json)
+        dataEditor.putString(CONSUPTION_ID, json)
         dataEditor.apply()
     }
 

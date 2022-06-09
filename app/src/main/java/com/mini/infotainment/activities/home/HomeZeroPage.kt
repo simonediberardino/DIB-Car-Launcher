@@ -16,7 +16,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.support.MapInteractions
 import com.mini.infotainment.support.Page
 
-class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, MapInteractions {
+class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback, MapInteractions {
     companion object{
         internal const val CIRCLE_RADIUS = 150.0
         internal const val CIRCLE_MIN_ZOOM = 19f
@@ -41,13 +41,15 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page, OnMapReadyCallback, M
         ctx.viewPages.clear()
         ctx.viewPager = ctx.findViewById(R.id.home_view_pager)
 
-        val layout = ctx.layoutInflater.inflate(R.layout.activity_home_0, ctx.viewPager, false) as ViewGroup
-        ctx.viewPages.add(layout)
+        parent = ctx.layoutInflater.inflate(R.layout.activity_home_0, ctx.viewPager, false) as ViewGroup
+        ctx.viewPages.add(parent!!)
 
-        resetLocBtn = layout.findViewById(R.id.home_0_resetpos_btn)
+        resetLocBtn = parent!!.findViewById(R.id.home_0_resetpos_btn)
 
         setListeners()
         createMap()
+
+        super.pageLoaded()
     }
 
     override fun setListeners() {

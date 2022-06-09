@@ -9,7 +9,7 @@ import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.Page
 import com.mini.infotainment.utility.Utility
 
-class TTSTopSheet(override val ctx: TTSActivity) : Page{
+class TTSTopSheet(override val ctx: TTSActivity) : Page(){
     private lateinit var topSheetBehavior: TopSheetBehavior<View>
     private lateinit var ttsConfirm: View
     private lateinit var ttsEditText: EditText

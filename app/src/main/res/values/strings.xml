@@ -50,5 +50,6 @@
     <string name="message_sent">Messaggio inviato</string>
     <string name="listening">In ascolto…</string>
     <string name="targa">Targa</string>
-    <string name="errore_targa">Targa non valida</string>
+    <string name="errore_input">Dettagli forniti non validi</string>
+    <string name="consumi">Consumi (l/100km)</string>
 </resources>
