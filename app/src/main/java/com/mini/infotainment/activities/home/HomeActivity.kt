@@ -26,6 +26,7 @@ import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
 import com.mini.infotainment.notification.Server
+import com.mini.infotainment.spotify.SpotifyReceiver
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
@@ -96,7 +97,6 @@ class HomeActivity : ActivityExtended() {
         restartIntent.putExtra("isFirstLaunch", false)
 
         this.startActivity(restartIntent)
-        this.finish()
     }
 
     internal fun continueToActivity(){
@@ -267,8 +267,7 @@ class HomeActivity : ActivityExtended() {
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        //intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         try{
             startActivity(intent)

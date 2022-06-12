@@ -1,4 +1,4 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.spotify
 
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.support.ActivityExtended
 
 class SpotifyReceiver : BroadcastReceiver() {
     var lastIntent: Intent? = null

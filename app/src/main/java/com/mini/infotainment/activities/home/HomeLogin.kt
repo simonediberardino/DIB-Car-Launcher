@@ -1,11 +1,13 @@
 package com.mini.infotainment.activities.home
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,11 +16,12 @@ import com.mini.infotainment.R
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 
+
 class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var brands = arrayOf("volkswagen", "mini", "bmw", "ford", "fiat")
+        private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "toyota", "volkswagen")
     }
     private var loginTargaEt: EditText
     private var loginConsuptionEt: EditText
@@ -47,6 +50,9 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         confirmButton.setOnClickListener { this.handleLogin() }
         loginTargaEt.setText(ApplicationData.getTarga() ?: String())
         loginConsuptionEt.setText(ApplicationData.getFuelConsuption() ?: String())
+
+        val imm = homeActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(window!!.decorView.windowToken, 0)
         inflateLogos()
     }
 
@@ -60,7 +66,7 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         val gallery = findViewById<ViewGroup>(R.id.ll_logos)
         val inflater = LayoutInflater.from(homeActivity)
 
-        val logoId: Int = homeActivity.resources.getIdentifier("${brandName}_icon", "drawable", homeActivity.packageName)
+        val logoId: Int = homeActivity.resources.getIdentifier("logo_${brandName}", "drawable", homeActivity.packageName)
         val view: View = inflater.inflate(R.layout.single_logo, gallery, false)
 
         val logoDrawable: Drawable = homeActivity.getDrawable(logoId) ?: return

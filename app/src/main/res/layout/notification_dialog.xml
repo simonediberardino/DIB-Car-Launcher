@@ -8,8 +8,8 @@
     tools:ignore="MissingDefaultResource">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="650px"
-        android:layout_height="475px"
+        android:layout_width="650dp"
+        android:layout_height="475dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
@@ -37,13 +37,12 @@
                     android:layout_width="100dp"
                     android:layout_height="50dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/mini_icon" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/noti_icon"
-                    android:layout_width="75px"
-                    android:layout_height="75px"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:background="@drawable/ic_baseline_notifications_active_24"
                     app:civ_border_color="@color/darksilver"
                     app:civ_border_width="1dp"
@@ -86,8 +85,8 @@
 
                     <ImageButton
                         android:id="@+id/noti_input_voice"
-                        android:layout_width="80px"
-                        android:layout_height="80px"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
 
                         android:background="@drawable/round_white_button_shadow"
                         android:elevation="28dp"
@@ -99,7 +98,7 @@
                     <Button
                         android:id="@+id/noti_edit_text"
                         android:layout_width="0dp"
-                        android:layout_height="50px"
+                        android:layout_height="50dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/round_edit_text"
                         android:ems="10"
@@ -154,7 +153,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/noti_confirm_button"
                     android:layout_width="0dp"
-                    android:layout_height="50px"
+                    android:layout_height="50dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"

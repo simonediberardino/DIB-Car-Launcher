@@ -13,7 +13,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
 import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.SpotifyReceiver
+import com.mini.infotainment.spotify.SpotifyReceiver
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -74,8 +74,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
     }
 
     fun onVoiceTextReceived(message: String?){
-        if(message == null) return
-        notificationDialog?.notificationInputText?.text = message
+        notificationDialog?.notificationInputText?.text = message ?: return
     }
 
     class NotificationData(var title: String, var text: String, var appName: String, var packageName: String, val id: Int){

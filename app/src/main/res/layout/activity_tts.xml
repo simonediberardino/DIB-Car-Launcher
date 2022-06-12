@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="1024px"
-    android:layout_height="600px"
+    android:layout_width="1024dp"
+    android:layout_height="600dp"
     android:background="@drawable/background">
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -26,8 +26,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tts_button"
-                    android:layout_width="250px"
-                    android:layout_height="65px"
+                    android:layout_width="250dp"
+                    android:layout_height="65dp"
                     android:layout_marginBottom="32dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="10dp"

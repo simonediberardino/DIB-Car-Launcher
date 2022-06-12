@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.spotify.SpotifyReceiver
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.Page
-import com.mini.infotainment.support.SpotifyReceiver
 import com.mini.infotainment.utility.Utility
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page() {

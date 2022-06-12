@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/car_logo"
-        android:layout_width="100px"
-        android:layout_height="100px"
-        app:srcCompat="@drawable/mini_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@android:drawable/ic_menu_help"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
-        android:text="TextView"
+        android:text="Example"
         android:textSize="@dimen/h8"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/car_logo"

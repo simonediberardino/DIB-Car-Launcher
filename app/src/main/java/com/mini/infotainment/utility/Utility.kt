@@ -52,8 +52,7 @@ object Utility {
     }
 
     fun getBrandDrawable(ctx: Context): Drawable? {
-        val logoId: Int = ctx.resources.getIdentifier("${ApplicationData.getBrandName()}_icon", "drawable", ctx.packageName)
-        println("BRAND NAME ${ApplicationData.getBrandName()}")
+        val logoId: Int = ctx.resources.getIdentifier("logo_${ApplicationData.getBrandName()}", "drawable", ctx.packageName)
         return if(logoId == 0) null else ctx.getDrawable(logoId)
     }
 
@@ -153,16 +152,20 @@ object Utility {
     }
 
     fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
+        data class Resolution(val x: Double, val y: Double)
+        val BASE_RESOLUTION = Resolution(1024.0, 600.0)
+
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val baseHeight = 768.0
         val height = displayMetrics.heightPixels.toDouble()
+
+        if(height == BASE_RESOLUTION.y) return
 
         for (i in 0 until v.childCount) {
             val vAtI = v.getChildAt(i)
             val curHeight = vAtI.layoutParams.height
             val curWidth = vAtI.layoutParams.width
-            val ratio = height / baseHeight
+            val ratio = height / BASE_RESOLUTION.y
 
             if (curHeight > ViewGroup.LayoutParams.MATCH_PARENT)
                 vAtI.layoutParams.height = (curHeight * ratio).toInt()

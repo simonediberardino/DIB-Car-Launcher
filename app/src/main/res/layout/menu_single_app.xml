@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="80px"
-        android:layout_height="80px"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:gravity="center_horizontal" />
 
     <TextView

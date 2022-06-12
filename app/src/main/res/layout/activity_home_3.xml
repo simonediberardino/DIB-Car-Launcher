@@ -31,8 +31,8 @@
 
     <ImageView
         android:id="@+id/home_3_qrcode"
-        android:layout_width="280px"
-        android:layout_height="280px"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

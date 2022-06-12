@@ -8,44 +8,45 @@
     android:background="@drawable/background"
     android:padding="8dp">
 
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="0dp"
+        android:layout_width="750dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@+id/ll_input">
 
         <LinearLayout
+            android:clickable="true"
             android:id="@+id/ll_logos"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:dividerPadding="8dp"
+            android:layout_margin="32dp"
+            android:paddingRight="32dp"
+            android:paddingLeft="32dp"
             android:gravity="center"
-            android:orientation="horizontal"></LinearLayout>
-    </ScrollView>
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
     <LinearLayout
         android:id="@+id/ll_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/login_targa"
-            android:layout_width="600px"
-            android:layout_height="80px"
+            android:layout_width="600dp"
+            android:layout_height="80dp"
             android:layout_marginTop="32dp"
             android:background="#11000000"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
@@ -56,12 +57,14 @@
             android:password="false"
             android:textColor="@color/silver"
             android:textColorHint="@color/silver"
-            android:textSize="@dimen/h4" />
+            android:textSize="@dimen/h4"
+            android:focusedByDefault="false"
+            />
 
         <EditText
             android:id="@+id/login_consumi"
-            android:layout_width="600px"
-            android:layout_height="80px"
+            android:layout_width="600dp"
+            android:layout_height="80dp"
             android:layout_marginTop="32dp"
             android:background="#11000000"
             android:drawableLeft="@drawable/ic_baseline_local_gas_station_24"
@@ -73,13 +76,14 @@
             android:password="false"
             android:textColor="@color/silver"
             android:textColorHint="@color/silver"
-            android:textSize="@dimen/h4" />
+            android:textSize="@dimen/h4"
+            />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/login_login_button"
-        android:layout_width="400px"
-        android:layout_height="65px"
+        android:layout_width="400dp"
+        android:layout_height="65dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

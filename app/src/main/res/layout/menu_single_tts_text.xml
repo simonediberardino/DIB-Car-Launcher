@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/single_tts_circle"
-        android:layout_width="25px"
-        android:layout_height="25px"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/blue_circle"
@@ -58,14 +58,14 @@
 
         <ImageView
             android:id="@+id/single_tts_play"
-            android:layout_width="50px"
-            android:layout_height="50px"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/ic_baseline_play_circle_24" />
 
         <ImageView
             android:id="@+id/single_tts_delete"
-            android:layout_width="50px"
-            android:layout_height="50px"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/ic_baseline_delete_24" />
 
