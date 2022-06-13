@@ -4,6 +4,8 @@
         <item>No</item>
     </string-array>
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
+    <string name="example" translatable="false">Example</string>
+
     <string name="app_name">Mini Infotainment</string>
     <string name="home">Vai alla home</string>
     <string name="caricamento">Caricamento…</string>
