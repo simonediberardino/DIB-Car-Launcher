@@ -1,30 +1,27 @@
 package com.mini.infotainment.activities.home
 
-import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.mini.infotainment.R
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 
 
-class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
         private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "toyota", "volkswagen")
     }
-    private var loginTargaEt: EditText
-    private var loginConsuptionEt: EditText
+
+    private var settingsSpotifyOnBootCB: CheckBox
+    private var settingsTargaEt: EditText
+    private var settingsConsuptionEt: EditText
     private var confirmButton: View
     private var llLogos: LinearLayout
     private var logos = arrayListOf<Logo>()
@@ -41,19 +38,21 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         }
 
     init {
-        this.setContentView(R.layout.activity_login)
-        this.setCancelable(false)
-        loginTargaEt = findViewById(R.id.login_targa)
-        loginConsuptionEt = findViewById(R.id.login_consumi)
-        confirmButton = findViewById(R.id.login_login_button)
-        llLogos = findViewById(R.id.ll_logos)
-        confirmButton.setOnClickListener { this.handleLogin() }
-        loginTargaEt.setText(ApplicationData.getTarga() ?: String())
-        loginConsuptionEt.setText(ApplicationData.getFuelConsuption() ?: String())
+        this.setContentView(R.layout.activity_settings)
 
-        val imm = homeActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm!!.hideSoftInputFromWindow(window!!.decorView.windowToken, 0)
+        settingsTargaEt = findViewById(R.id.settings_targa)
+        settingsConsuptionEt = findViewById(R.id.settings_consumi)
+        confirmButton = findViewById(R.id.settings_confirm_button)
+        llLogos = findViewById(R.id.ll_logos)
+        settingsSpotifyOnBootCB = findViewById(R.id.settings_spotify_boot)
+
+        confirmButton.setOnClickListener { this.handleSettings() }
+        settingsTargaEt.setText(ApplicationData.getTarga() ?: String())
+        settingsConsuptionEt.setText(ApplicationData.getFuelConsuption() ?: String())
+        settingsSpotifyOnBootCB.isChecked = ApplicationData.doesSpotifyRunOnBoot()
+
         inflateLogos()
+        Utility.ridimensionamento(homeActivity, this.findViewById(R.id.parent))
     }
 
     private fun inflateLogos(){
@@ -84,9 +83,9 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         gallery.addView(view)
     }
 
-    private fun handleLogin(){
-        val enteredTarga = loginTargaEt.text.toString().trim()
-        val enteredConsuption = loginConsuptionEt.text.toString().trim()
+    private fun handleSettings(){
+        val enteredTarga = settingsTargaEt.text.toString().trim()
+        val enteredConsuption = settingsConsuptionEt.text.toString().trim()
 
         if(!isValidTarga(enteredTarga)
             || enteredConsuption.trim().isEmpty()
@@ -98,6 +97,7 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
         ApplicationData.setTarga(enteredTarga)
         ApplicationData.setFuelConsuption(enteredConsuption)
+        ApplicationData.doesSpotifyRunOnBoot(settingsSpotifyOnBootCB.isChecked)
 
         this.dismiss()
     }
@@ -107,12 +107,12 @@ class HomeLogin(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R
 
         return(
                 targa[0].isLetter()
-                && targa[1].isLetter()
-                && targa[2].isDigit()
-                && targa[3].isDigit()
-                && targa[4].isDigit()
-                && targa[5].isLetter()
-                && targa[6].isLetter()
-        )
+                        && targa[1].isLetter()
+                        && targa[2].isDigit()
+                        && targa[3].isDigit()
+                        && targa[4].isDigit()
+                        && targa[5].isLetter()
+                        && targa[6].isLetter()
+                )
     }
 }

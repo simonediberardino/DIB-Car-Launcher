@@ -8,20 +8,20 @@ import com.mini.infotainment.support.ActivityExtended
 
 object ApplicationData {
     private const val DATA_ID = "data"
-    private const val LOGIN_TIME_ID = "LOGIN_TIME_ID"
-    private val LOGIN_TIME_DEFAULT: Long = 0
     private const val WELCOME_MSG_ID = "WELCOME_MSG_ID"
     private val WELCOME_MSG_DEFAULT = null
     private const val MESSAGES_ID = "MSG_ID"
     private val MESSAGES_DEFAULT = null
     private const val NOTIFICHE_ID = "NOTIFICHE_ID"
-    private val NOTIFICHE_DEFAULT = "true"
+    private val NOTIFICHE_DEFAULT = true
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
     private const val BRAND_ID = "BRAND_ID"
     private val BRAND_DEFAULT = null
     private const val CONSUPTION_ID = "CONSUPTION_ID"
     private val CONSUPTION_DEFAULT = null
+    private const val SPOTIFY_ID = "SPOTIFY_ID"
+    private val SPOTIFY_DEFAULT = true
 
     private val applicationData: SharedPreferences
         get() {
@@ -32,14 +32,22 @@ object ApplicationData {
         }
 
     fun areNotificationsEnabled(): Boolean {
-        val savedJson: String? = applicationData.getString(NOTIFICHE_ID, NOTIFICHE_DEFAULT)
-        return Gson().fromJson(savedJson, Boolean::class.java)
+        return applicationData.getBoolean(NOTIFICHE_ID, NOTIFICHE_DEFAULT)
     }
 
     fun areNotificationsEnabled(boolean: Boolean){
-        val json = Gson().toJson(boolean)
         val dataEditor = applicationData.edit()
-        dataEditor.putString(NOTIFICHE_ID, json)
+        dataEditor.putBoolean(NOTIFICHE_ID, boolean)
+        dataEditor.apply()
+    }
+
+    fun doesSpotifyRunOnBoot(): Boolean {
+        return applicationData.getBoolean(SPOTIFY_ID, SPOTIFY_DEFAULT)
+    }
+
+    fun doesSpotifyRunOnBoot(boolean: Boolean){
+        val dataEditor = applicationData.edit()
+        dataEditor.putBoolean(SPOTIFY_ID, boolean)
         dataEditor.apply()
     }
 
@@ -78,14 +86,12 @@ object ApplicationData {
     }
 
     fun getTarga(): String? {
-        val savedJson: String? = applicationData.getString(TARGA_ID, TARGA_DEFAULT)
-        return Gson().fromJson(savedJson, String::class.java)
+        return applicationData.getString(TARGA_ID, TARGA_DEFAULT)
     }
 
-    fun setTarga(targa: String?){
-        val json = Gson().toJson(targa?.uppercase())
+    fun setTarga(targa: String){
         val dataEditor = applicationData.edit()
-        dataEditor.putString(TARGA_ID, json)
+        dataEditor.putString(TARGA_ID, targa.uppercase())
         dataEditor.apply()
     }
 
@@ -116,17 +122,4 @@ object ApplicationData {
         list.removeIf { it.text == ttsSentence.text }
         saveTTSSentences(list)
     }
-
-    var lastLogin: Long
-        get() {
-            val savedJson: String? =
-                applicationData.getString(LOGIN_TIME_ID, LOGIN_TIME_DEFAULT.toString())
-            return Gson().fromJson(savedJson, String::class.java).toLong()
-        }
-        set(value) {
-            val json = Gson().toJson(value)
-            val dataEditor = applicationData.edit()
-            dataEditor.putString(LOGIN_TIME_ID, json)
-            dataEditor.apply()
-        }
 }

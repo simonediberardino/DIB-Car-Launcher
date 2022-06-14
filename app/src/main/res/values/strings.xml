@@ -54,4 +54,6 @@
     <string name="targa">Targa</string>
     <string name="errore_input">Dettagli forniti non validi</string>
     <string name="consumi">Consumi (l/100km)</string>
+    <string name="start_spotify_on_boot">Esegui Spotify al lancio</string>
+    <string name="config">Configurazione</string>
 </resources>

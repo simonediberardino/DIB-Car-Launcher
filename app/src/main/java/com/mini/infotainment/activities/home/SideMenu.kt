@@ -15,7 +15,7 @@ class SideMenu(override val ctx: HomeActivity) : Page() {
             SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
             SideMenuButton(ctx.getDrawable(R.drawable.car_settings)) { ctx.runSettings() },
             SideMenuButton(ctx.getDrawable(R.drawable.more_logo)){
-                val dialog = HomeLogin(ctx)
+                val dialog = HomeSettingsDialog(ctx)
                 dialog.setOnDismissListener { ctx.homePage1.updateData() }
                 dialog.show()
             }

@@ -5,7 +5,6 @@ import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
@@ -19,7 +18,6 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
@@ -52,23 +50,15 @@ class HomeActivity : ActivityExtended() {
         homeActivity = this
 
         super.onCreate(savedInstanceState)
-        val isLoggedIn = ApplicationData.getTarga() != null && ApplicationData.getBrandName() != null && ApplicationData.getFuelConsuption() != null
-
-        // If it's not logged in it won't start spotify but it will show the login page instead;
-        if(isLoggedIn){
-            val isFirstLaunch = intent.extras?.getBoolean("isFirstLaunch") ?: true
-            if(isFirstLaunch){
-                handleFirstLaunch(); return
-            }
-        }
+        val areSettingsSet = ApplicationData.getTarga() != null && ApplicationData.getBrandName() != null && ApplicationData.getFuelConsuption() != null
 
         initializeExceptionHandler()
 
-        if(!isLoggedIn){
-            val loginDialog = HomeLogin(this)
+        if(!areSettingsSet){
+            val loginDialog = HomeSettingsDialog(this)
+            loginDialog.setCancelable(false)
             loginDialog.setOnDismissListener {
-                if(!activityStarted)
-                    continueToActivity()
+                continueToActivity()
             }
             loginDialog.show()
         }else{
@@ -76,38 +66,21 @@ class HomeActivity : ActivityExtended() {
         }
     }
 
-    // Starts spotify and restarts the activity;
-    private fun handleFirstLaunch(){
-        setContentView(R.layout.activity_background)
-
-        if(ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val wallpaperManager = WallpaperManager.getInstance(this)
-            val wallpaperDrawable = wallpaperManager.drawable
-
-            val backgroundImage = findViewById<ImageView>(R.id.background_img)
-            backgroundImage.setImageDrawable(wallpaperDrawable)
-        }
-
-        this.runSpotify()
-
-        val restartIntent = Intent(this, this.javaClass)
-        restartIntent.addCategory(Intent.CATEGORY_HOME)
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-
-        restartIntent.putExtra("isFirstLaunch", false)
-
-        this.startActivity(restartIntent)
-    }
-
     internal fun continueToActivity(){
-        activityStarted = true
         this.initializeLayout()
         this.initializeTTS()
         this.initializeBroadcastReceiver()
         this.initializeSocketServer()
-        this.performFirstLaunch()
         this.setupGPS()
+        this.welcomeUser()
         this.requestStoragePermission()
+
+        if(ApplicationData.doesSpotifyRunOnBoot()){
+            Thread{
+                Thread.sleep(5000)
+                runSpotify()
+            }.start()
+        }
     }
 
     private fun initializeLayout(){
@@ -123,15 +96,6 @@ class HomeActivity : ActivityExtended() {
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.adapter = PagerAdapter(viewPages)
         viewPager.currentItem = 1
-    }
-
-    private fun performFirstLaunch(){
-        if(!isFirstLaunch)
-            return
-
-        isFirstLaunch = false
-
-        welcomeUser()
     }
 
     private fun initializeSocketServer(){
@@ -259,15 +223,10 @@ class HomeActivity : ActivityExtended() {
         }
     }
 
-    private fun restartSpotify(){
-        hasStartedSpotify = false
-        runSpotify()
-    }
-
     internal fun runSpotify() {
-        val intent = Intent(Intent.ACTION_MAIN)
+        val intent = Intent(Intent.ACTION_VIEW)
         intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         try{
             startActivity(intent)
@@ -362,7 +321,6 @@ class HomeActivity : ActivityExtended() {
     companion object {
         internal var homeActivity: HomeActivity? = null
         internal var server: Server? = null
-        private var isFirstLaunch = true
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
         const val REQUEST_CODE_SPEECH_INPUT = 10

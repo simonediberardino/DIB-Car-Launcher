@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_background_gradient"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="@string/config"
+        android:textSize="@dimen/h2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:focusedByDefault="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/settings_targa"
+                    android:layout_width="600dp"
+                    android:layout_height="60dp"
+                    android:background="#11000000"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:focusedByDefault="false"
+                    android:hint="@string/targa"
+                    android:padding="8dp"
+                    android:password="false"
+                    android:textColor="@color/silver"
+                    android:textColorHint="@color/silver"
+                    android:textSize="@dimen/h4" />
+
+                <EditText
+                    android:id="@+id/settings_consumi"
+                    android:layout_width="600dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="32dp"
+                    android:background="#11000000"
+                    android:drawableLeft="@drawable/ic_baseline_local_gas_station_24"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="@string/consumi"
+                    android:inputType="numberDecimal"
+                    android:padding="8dp"
+                    android:password="false"
+                    android:textColor="@color/silver"
+                    android:textColorHint="@color/silver"
+                    android:textSize="@dimen/h4" />
+
+                <CheckBox
+                    android:id="@+id/settings_spotify_boot"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="32dp"
+                    android:background="#11000000"
+                    android:padding="8dp"
+                    android:text="@string/start_spotify_on_boot"
+                    android:textSize="@dimen/h4" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="750dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="32dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_logos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="32dp"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settings_confirm_button"
+        android:layout_width="400dp"
+        android:layout_height="65dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView4">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/pink_background"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/settings_confirm_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
