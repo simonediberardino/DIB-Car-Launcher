@@ -8,7 +8,7 @@ import android.view.KeyEvent
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.support.ActivityExtended
 
-class SpotifyReceiver : BroadcastReceiver() {
+class SpotifyIntegration : BroadcastReceiver() {
     var lastIntent: Intent? = null
 
     companion object {
@@ -47,7 +47,7 @@ class SpotifyReceiver : BroadcastReceiver() {
 
     private fun handleResumeTrack(context: Context, intent: Intent){
         val delay = 1250L
-        HomeActivity.homeActivity?.hasStartedSpotify = true
+        HomeActivity.homeActivity.hasStartedSpotify = true
 
         Thread{
             Thread.sleep(delay)

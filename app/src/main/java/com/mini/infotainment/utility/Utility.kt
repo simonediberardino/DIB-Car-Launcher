@@ -44,8 +44,6 @@ import java.time.format.DateTimeFormatter
 import android.R as R1
 
 
-
-
 object Utility {
     fun getWallpaper(context: Context): Drawable {
         val defaultBackgroundDrawable = context.getDrawable(R.drawable.background)

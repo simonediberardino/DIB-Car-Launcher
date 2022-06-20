@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.spotify.SpotifyReceiver
+import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.Page
 import com.mini.infotainment.utility.Utility
+
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page() {
     internal lateinit var homeButton: View
@@ -47,13 +48,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
         super.pageLoaded()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
-        spotifyWidget.setOnClickListener {
-            SpotifyReceiver.nextSpotifyTrack(ctx)
-        }
-
-        spotifyWidget.setOnLongClickListener {
-            SpotifyReceiver.previousSpotifyTrack(ctx)
+        spotifyWidget.setOnTouchListener { v, e ->
+            val isRight = v.width/2 < e.x
+            if(isRight) SpotifyIntegration.nextSpotifyTrack(ctx)
+            else SpotifyIntegration.previousSpotifyTrack(ctx)
             true
         }
 

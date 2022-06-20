@@ -17,6 +17,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/config"
+        android:textColor="@color/white"
         android:textSize="@dimen/h2"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8px" />
@@ -141,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/pink_background"
+            android:background="@color/darkblue"
             android:gravity="center">
 
             <TextView

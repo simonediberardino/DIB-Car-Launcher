@@ -40,7 +40,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
 
     init {
         this.setContentView(R.layout.activity_settings)
-
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(homeActivity))
         settingsTargaEt = findViewById(R.id.settings_targa)
         settingsConsuptionEt = findViewById(R.id.settings_consumi)
         confirmButton = findViewById(R.id.settings_confirm_button)

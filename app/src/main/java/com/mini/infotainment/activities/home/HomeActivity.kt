@@ -5,7 +5,6 @@ import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
@@ -19,35 +18,32 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.entities.Car
 import com.mini.infotainment.notification.Server
-import com.mini.infotainment.spotify.SpotifyReceiver
+import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
-import pl.droidsonroids.gif.GifImageView
 
 
 class HomeActivity : ActivityExtended() {
-    internal var activityStarted = false
     internal var hasStartedSpotify = false
     internal val viewPages = mutableListOf<ViewGroup>()
     internal lateinit var viewPager: ViewPager
     internal lateinit var gpsManager: GPSManager
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
+    internal lateinit var sideMenu: SideMenu
+    internal var appsMenu: AppsMenu? = null
     lateinit var homePage0: HomeZeroPage
     lateinit var homePage1: HomeFirstPage
     lateinit var homePage2: HomeSecondPage
     lateinit var homePage3: HomeThirdPage
-    internal lateinit var sideMenu: SideMenu
-    internal var appsMenu: AppsMenu? = null
-
+    
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         homeActivity = this
@@ -127,10 +123,10 @@ class HomeActivity : ActivityExtended() {
 
     private fun initializeBroadcastReceiver(){
         val filter = IntentFilter()
-        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.playbackstatechanged")
-        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.metadatachanged")
-        filter.addAction("${SpotifyReceiver.SPOTIFY_PACKAGE}.queuechanged")
-        registerReceiver(SpotifyReceiver(), filter)
+        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.playbackstatechanged")
+        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.metadatachanged")
+        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.queuechanged")
+        registerReceiver(SpotifyIntegration(), filter)
     }
 
     private fun initializeExceptionHandler(){
@@ -235,7 +231,7 @@ class HomeActivity : ActivityExtended() {
 
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.component = ComponentName(SpotifyReceiver.SPOTIFY_PACKAGE, "${SpotifyReceiver.SPOTIFY_PACKAGE}.MainActivity")
+        intent.component = ComponentName(SpotifyIntegration.SPOTIFY_PACKAGE, "${SpotifyIntegration.SPOTIFY_PACKAGE}.MainActivity")
         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         try{
@@ -314,7 +310,6 @@ class HomeActivity : ActivityExtended() {
             if (resultCode == RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 server?.notificationHandler?.onVoiceTextReceived(result?.get(0))
-                //restartSpotify()
             }
         }
     }
@@ -329,7 +324,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     companion object {
-        internal var homeActivity: HomeActivity? = null
+        lateinit var homeActivity: HomeActivity
         internal var server: Server? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
@@ -340,8 +335,8 @@ class HomeActivity : ActivityExtended() {
             val trackName = intent.getStringExtra("track")
 
             if(activity is HomeActivity){
-                activity.homePage1.spotifyTitleTW.text = trackName
-                activity.homePage1.spotifyAuthorTw.text = artistName
+                homeActivity.homePage1.spotifyTitleTW.text = trackName
+                homeActivity.homePage1.spotifyAuthorTw.text = artistName
             }
         }
     }

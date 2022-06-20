@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="h">60px</dimen>
     <dimen name="h0">50px</dimen>
     <dimen name="h1">45px</dimen>
     <dimen name="h2">40px</dimen>
