@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="1024dp"
-    android:layout_height="600dp"
+    android:layout_width="1024px"
+    android:layout_height="600px"
     android:background="@drawable/background">
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -26,11 +26,11 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tts_button"
-                    android:layout_width="250dp"
-                    android:layout_height="65dp"
-                    android:layout_marginBottom="32dp"
-                    app:cardCornerRadius="25dp"
-                    app:cardElevation="10dp"
+                    android:layout_width="250px"
+                    android:layout_height="65px"
+                    android:layout_marginBottom="32px"
+                    app:cardCornerRadius="25px"
+                    app:cardElevation="10px"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -56,9 +56,9 @@
                     android:id="@+id/tts_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="16px"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:padding="1dp"
+                    android:padding="1px"
                     android:shadowColor="@color/black"
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
@@ -72,12 +72,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:layout_marginTop="32px"
+                    android:layout_marginBottom="32px"
                     app:cardBackgroundColor="@color/white"
-                    app:cardElevation="25dp"
+                    app:cardElevation="25px"
                     app:layout_constraintBottom_toTopOf="@+id/tts_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

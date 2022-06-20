@@ -19,6 +19,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "toyota", "volkswagen")
     }
 
+    private var settingsDefaultWPCB: CheckBox
     private var settingsSpotifyOnBootCB: CheckBox
     private var settingsTargaEt: EditText
     private var settingsConsuptionEt: EditText
@@ -45,11 +46,13 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         confirmButton = findViewById(R.id.settings_confirm_button)
         llLogos = findViewById(R.id.ll_logos)
         settingsSpotifyOnBootCB = findViewById(R.id.settings_spotify_boot)
+        settingsDefaultWPCB = findViewById(R.id.settings_default_wp)
 
         confirmButton.setOnClickListener { this.handleSettings() }
         settingsTargaEt.setText(ApplicationData.getTarga() ?: String())
         settingsConsuptionEt.setText(ApplicationData.getFuelConsuption() ?: String())
         settingsSpotifyOnBootCB.isChecked = ApplicationData.doesSpotifyRunOnBoot()
+        settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
 
         inflateLogos()
         Utility.ridimensionamento(homeActivity, this.findViewById(R.id.parent))
@@ -98,6 +101,11 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         ApplicationData.setTarga(enteredTarga)
         ApplicationData.setFuelConsuption(enteredConsuption)
         ApplicationData.doesSpotifyRunOnBoot(settingsSpotifyOnBootCB.isChecked)
+
+        if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
+            ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)
+            homeActivity.setWallpaper()
+        }
 
         this.dismiss()
     }

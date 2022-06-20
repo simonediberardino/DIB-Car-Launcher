@@ -72,16 +72,22 @@
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/blue_btn_icon_full.xml" value="0.2021484375" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/blue_btn_icon_full_not_pressed.xml" value="0.2021484375" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/blue_btn_icon_full_pressed.xml" value="0.2021484375" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/circle_transparent.xml" value="0.171875" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.205078125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/drawable/round_white_button_shadow.xml" value="0.2021484375" />
-        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home.xml" value="0.536" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home_0.xml" value="0.4609375" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home_1.xml" value="0.4" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_home_2.xml" value="0.263671875" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_login.xml" value="0.349609375" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/activity_settings.xml" value="0.264" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/home_2_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_side_items.xml" value="0.314453125" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_single_app.xml" value="0.314453125" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/menu_single_tts_text.xml" value="0.263671875" />
         <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/notification_dialog.xml" value="0.536" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/single_notification.xml" value="0.263671875" />
+        <entry key="..\:/Users/simon/AndroidStudioProjects/Infotainment_Kotlin/app/src/main/res/layout/spotify_widget.xml" value="0.8800000000000001" />
       </map>
     </option>
   </component>

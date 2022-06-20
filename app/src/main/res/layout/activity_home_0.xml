@@ -7,16 +7,16 @@
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="32dp">
+        android:padding="32px">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/blue_background_gradient"
-            android:padding="2dp"
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="32dp">
+            android:padding="2px"
+            tools:layout_editor_absoluteX="32px"
+            tools:layout_editor_absoluteY="32px">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/map"
@@ -29,10 +29,10 @@
                 android:layout_width="75px"
                 android:layout_height="75px"
 
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16px"
+                android:layout_marginBottom="16px"
                 android:background="@drawable/round_white_button_shadow"
-                android:elevation="28dp"
+                android:elevation="28px"
                 android:src="@drawable/ic_baseline_my_location_24"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"

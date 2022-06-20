@@ -1,10 +1,13 @@
 package com.mini.infotainment.utility
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.graphics.drawable.Drawable
@@ -23,6 +26,7 @@ import android.widget.Toast
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import com.google.gson.Gson
 import com.google.zxing.WriterException
@@ -43,6 +47,21 @@ import android.R as R1
 
 
 object Utility {
+    fun getWallpaper(context: Context): Drawable {
+        val defaultBackgroundDrawable = context.getDrawable(R.drawable.background)
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            return defaultBackgroundDrawable!!
+        }
+
+        return if(ApplicationData.useDefaultWP()){
+            defaultBackgroundDrawable!!
+        }else{
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            val wallpaperDrawable = wallpaperManager.drawable
+            wallpaperDrawable
+        }
+    }
+
     fun objectToJsonString(`object`: Any): String {
         return Gson().toJson(`object`)
     }

@@ -5,16 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="200dp"
+        android:layout_width="200px"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/darkgrey"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="4dp">
+        app:cardCornerRadius="25px"
+        app:cardElevation="4px">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16px">
 
             <ImageView
                 android:id="@+id/spotify_logo"
@@ -32,25 +32,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/spotify_track"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/spotify_signal"
+                android:layout_width="0px"
+                android:layout_height="90px"
+                android:layout_marginStart="16px"
+                android:layout_marginTop="12px"
+                android:layout_marginEnd="16px"
+                android:src="@drawable/spotify_gif"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/spotify_audio"
                 app:layout_constraintTop_toBottomOf="@+id/spotify_audio" />
 
             <TextView
                 android:id="@+id/spotify_title"
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8px"
+                android:layout_marginTop="12px"
+                android:layout_marginEnd="8px"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
@@ -66,10 +66,10 @@
 
             <TextView
                 android:id="@+id/spotify_author"
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8px"
+                android:layout_marginEnd="8px"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"

@@ -8,11 +8,11 @@
     tools:ignore="MissingDefaultResource">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="650dp"
-        android:layout_height="475dp"
+        android:layout_width="650px"
+        android:layout_height="475px"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
+        app:cardCornerRadius="10px"
+        app:cardElevation="10px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,9 +24,9 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:padding="16dp"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:padding="16px"
                 app:layout_constraintBottom_toTopOf="@+id/noti_progress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,18 +34,18 @@
 
                 <ImageView
                     android:id="@+id/noti_car_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100px"
+                    android:layout_height="50px"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/noti_icon"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="75px"
+                    android:layout_height="75px"
                     android:background="@drawable/ic_baseline_notifications_active_24"
                     app:civ_border_color="@color/darksilver"
-                    app:civ_border_width="1dp"
+                    app:civ_border_width="1px"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -53,10 +53,10 @@
 
                 <TextView
                     android:id="@+id/noti_app_name"
-                    android:layout_width="0dp"
+                    android:layout_width="0px"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="32px"
+                    android:layout_marginEnd="16px"
                     android:text="@string/new_notification"
                     android:textColor="@color/black"
                     android:textSize="@dimen/h6"
@@ -68,28 +68,28 @@
                 <View
                     android:id="@+id/view2"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="1px"
+                    android:layout_marginTop="16px"
                     android:background="@color/darksilver"
                     app:layout_constraintTop_toBottomOf="@+id/noti_icon"
-                    tools:layout_editor_absoluteX="16dp" />
+                    tools:layout_editor_absoluteX="16px" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/noti_input_layout"
-                    android:layout_width="0dp"
+                    android:layout_width="0px"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="16px"
                     app:layout_constraintBottom_toTopOf="@+id/noti_confirm_button"
                     app:layout_constraintEnd_toEndOf="@+id/noti_confirm_button"
                     app:layout_constraintStart_toStartOf="@+id/noti_confirm_button">
 
                     <ImageButton
                         android:id="@+id/noti_input_voice"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="80px"
+                        android:layout_height="80px"
 
                         android:background="@drawable/round_white_button_shadow"
-                        android:elevation="28dp"
+                        android:elevation="28px"
                         android:src="@drawable/ic_baseline_mic_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -97,17 +97,17 @@
 
                     <Button
                         android:id="@+id/noti_edit_text"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="0px"
+                        android:layout_height="50px"
+                        android:layout_marginEnd="16px"
                         android:background="@drawable/round_edit_text"
                         android:ems="10"
                         android:enabled="false"
                         android:gravity="center|left"
                         android:hint="@string/inserisci"
                         android:inputType="textPersonName"
-                        android:paddingLeft="12dp"
-                        android:paddingEnd="50dp"
+                        android:paddingLeft="12px"
+                        android:paddingEnd="50px"
                         android:textColor="@color/darkgrey"
                         android:textColorHint="@color/lightgrey"
                         android:textCursorDrawable="@null"
@@ -121,11 +121,11 @@
                 <ScrollView
                     android:id="@+id/noti_scrollview"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="0px"
+                    android:layout_marginStart="16px"
+                    android:layout_marginTop="16px"
+                    android:layout_marginEnd="16px"
+                    android:layout_marginBottom="16px"
                     app:layout_constraintBottom_toTopOf="@+id/noti_input_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
                     android:id="@+id/noti_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="16px"
                     android:text="@string/new_notification"
                     android:textColor="@color/black"
                     android:textSize="@dimen/h7"
@@ -152,10 +152,10 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/noti_confirm_button"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
+                    android:layout_width="0px"
+                    android:layout_height="50px"
+                    app:cardCornerRadius="10px"
+                    app:cardElevation="10px"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/noti_scrollview"
                     app:layout_constraintStart_toStartOf="@+id/noti_scrollview">
@@ -179,8 +179,8 @@
                 <View
                     android:id="@+id/view3"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="1px"
+                    android:layout_marginTop="16px"
                     android:background="@color/darksilver"
                     app:layout_constraintEnd_toEndOf="@+id/view2"
                     app:layout_constraintStart_toStartOf="@+id/view2"
@@ -191,8 +191,8 @@
             <ProgressBar
                 android:id="@+id/noti_progress"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="4dp"
+                android:layout_width="0px"
+                android:layout_height="4px"
                 android:foregroundGravity="bottom"
                 android:indeterminateTint="@color/black"
                 android:indeterminateTintMode="src_in"

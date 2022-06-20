@@ -4,15 +4,15 @@
     <item>
         <shape android:shape="oval">
             <size
-                android:width="40dp"
-                android:height="40dp" />
+                android:width="40px"
+                android:height="40px" />
             <padding
-                android:bottom="15dp"
-                android:left="15dp"
-                android:right="15dp"
-                android:top="15dp" />
+                android:bottom="15px"
+                android:left="15px"
+                android:right="15px"
+                android:top="15px" />
             <stroke
-                android:width="5dp"
+                android:width="5px"
                 android:color="@color/blue" />
         </shape>
     </item>
@@ -20,8 +20,8 @@
     <item>
         <shape android:shape="oval">
             <size
-                android:width="40dp"
-                android:height="40dp" />
+                android:width="40px"
+                android:height="40px" />
             <solid android:color="@color/darkblue" />
         </shape>
     </item>

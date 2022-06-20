@@ -44,6 +44,8 @@ dependencies {
     implementation 'androidx.leanback:leanback:1.0.0'
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.3"))
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")

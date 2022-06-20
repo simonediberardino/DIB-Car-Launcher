@@ -5,6 +5,7 @@ import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
@@ -18,6 +19,7 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
@@ -28,6 +30,7 @@ import com.mini.infotainment.spotify.SpotifyReceiver
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
+import pl.droidsonroids.gif.GifImageView
 
 
 class HomeActivity : ActivityExtended() {
@@ -84,7 +87,8 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun initializeLayout(){
-        setContentView(R.layout.activity_home)
+        this.setContentView(R.layout.activity_home)
+        this.setWallpaper()
 
         homePage0 = HomeZeroPage(this).also { it.build() }
         homePage1 = HomeFirstPage(this).also { it.build() }
@@ -150,6 +154,12 @@ class HomeActivity : ActivityExtended() {
 
     private fun initializeTTS(){
         TTS = TextToSpeech(this) {}
+    }
+
+    @SuppressLint("MissingPermission", "ResourceType")
+    fun setWallpaper(){
+        val wallpaperView = findViewById<ViewGroup>(R.id.parent)
+        wallpaperView.setBackgroundDrawable(Utility.getWallpaper(this))
     }
 
     private fun setupGPS() {

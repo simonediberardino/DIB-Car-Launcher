@@ -35,6 +35,7 @@
             android:clearTaskOnLaunch="true"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"
             tools:ignore="AppLinkUrlError">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

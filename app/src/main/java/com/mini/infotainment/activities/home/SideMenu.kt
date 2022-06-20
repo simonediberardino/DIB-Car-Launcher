@@ -11,7 +11,7 @@ class SideMenu(override val ctx: HomeActivity) : Page() {
         class SideMenuButton(val image: Drawable?, val listener: Runnable)
 
         val buttons = arrayOf(
-            SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo_2)) { ctx.runSpotify() },
+            SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo)) { ctx.runSpotify() },
             SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
             SideMenuButton(ctx.getDrawable(R.drawable.car_settings)) { ctx.runSettings() },
             SideMenuButton(ctx.getDrawable(R.drawable.more_logo)){

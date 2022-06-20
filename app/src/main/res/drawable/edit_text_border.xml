@@ -5,11 +5,11 @@
         android:color="@android:color/transparent"/>
 
     <corners
-        android:bottomRightRadius="12dp"
-        android:bottomLeftRadius="12dp"
-        android:topLeftRadius="12dp"
-        android:topRightRadius="12dp"/>
+        android:bottomRightRadius="12px"
+        android:bottomLeftRadius="12px"
+        android:topLeftRadius="12px"
+        android:topRightRadius="12px"/>
     <stroke
         android:color="@color/darkblue"
-        android:width="1dp"/>
+        android:width="1px"/>
 </shape>

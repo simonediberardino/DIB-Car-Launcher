@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16px">
 
     <TextView
         android:id="@+id/home_2_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="16px"
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="@dimen/h5"
@@ -21,12 +21,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="260dp"
-        android:layout_height="143dp"
+        android:layout_width="245px"
+        android:layout_height="135px"
         android:background="@drawable/grey_border"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp">
+        tools:layout_editor_absoluteX="16px"
+        tools:layout_editor_absoluteY="16px">
 
         <ImageView
             android:id="@+id/home_2_item_image"

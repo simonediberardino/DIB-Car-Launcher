@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="80px"
+        android:layout_height="80px"
         android:gravity="center_horizontal" />
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:padding="8dp"
+        android:padding="8px"
         android:shadowRadius="8"
         android:textColor="@color/white"
         android:ellipsize="end"

@@ -116,7 +116,7 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
     private fun slideMenuUp(duration: Long) {
         val background = ctx.findViewById<View>(R.id.home_background)
         background.alpha = 0f
-        background.animate().alpha(0.92f).duration = duration
+        background.animate().alpha(0.4f).duration = duration
 
         containAppDrawer.visibility = View.VISIBLE
 
@@ -143,7 +143,7 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
 
     private fun slideMenuDown(duration: Long) {
         val background = ctx.findViewById<View>(R.id.home_background)
-        background.alpha = 0.92f
+        background.alpha = 0.4f
         background.animate().alpha(0f).duration = duration
 
         val slideAnimation = TranslateAnimation(

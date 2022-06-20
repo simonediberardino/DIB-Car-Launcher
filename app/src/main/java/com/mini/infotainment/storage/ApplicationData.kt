@@ -22,6 +22,8 @@ object ApplicationData {
     private val CONSUPTION_DEFAULT = null
     private const val SPOTIFY_ID = "SPOTIFY_ID"
     private val SPOTIFY_DEFAULT = true
+    private const val WP_ID = "WP_ID"
+    private val WP_DEFAULT = true
 
     private val applicationData: SharedPreferences
         get() {
@@ -48,6 +50,16 @@ object ApplicationData {
     fun doesSpotifyRunOnBoot(boolean: Boolean){
         val dataEditor = applicationData.edit()
         dataEditor.putBoolean(SPOTIFY_ID, boolean)
+        dataEditor.apply()
+    }
+
+    fun useDefaultWP(): Boolean {
+        return applicationData.getBoolean(WP_ID, WP_DEFAULT)
+    }
+
+    fun useDefaultWP(boolean: Boolean){
+        val dataEditor = applicationData.edit()
+        dataEditor.putBoolean(WP_ID, boolean)
         dataEditor.apply()
     }
 

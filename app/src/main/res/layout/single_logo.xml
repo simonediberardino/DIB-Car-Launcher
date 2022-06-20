@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16px">
 
     <ImageView
         android:id="@+id/car_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="100px"
+        android:layout_height="100px"
         app:srcCompat="@android:drawable/ic_menu_help"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteX="8px"
+        tools:layout_editor_absoluteY="8px" />
 
     <TextView
         android:id="@+id/car_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="16px"
         android:fontFamily="sans-serif"
         android:text="Example"
         android:textSize="@dimen/h8"

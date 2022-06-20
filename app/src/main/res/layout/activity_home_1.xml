@@ -11,9 +11,9 @@
 
     <ImageView
         android:id="@+id/home_1_speedometer"
-        android:layout_width="800dp"
-        android:layout_height="280dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="800px"
+        android:layout_height="280px"
+        android:layout_marginTop="32px"
         android:src="@drawable/speedometer2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +21,9 @@
 
     <ImageView
         android:id="@+id/home_1_swipe"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="65px"
+        android:layout_height="65px"
+        android:layout_marginBottom="32px"
         android:background="@drawable/home_button"
         android:onClick=""
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,8 +43,8 @@
 
     <ImageView
         android:id="@+id/home_1_car_icon"
-        android:layout_width="340dp"
-        android:layout_height="150dp"
+        android:layout_width="340px"
+        android:layout_height="150px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/home_1_swipe"
@@ -53,11 +53,11 @@
 
     <TextView
         android:id="@+id/home_1_speed"
-        android:layout_width="0dp"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
-        android:padding="1dp"
+        android:padding="1px"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
-        android:padding="1dp"
+        android:padding="1px"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
@@ -107,9 +107,9 @@
 
     <TextView
         android:id="@+id/home_1_address"
-        android:layout_width="300dp"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="36px"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"

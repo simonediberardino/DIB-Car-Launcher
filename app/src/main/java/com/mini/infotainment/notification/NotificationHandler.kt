@@ -19,6 +19,9 @@ import java.util.*
 
 
 class NotificationHandler(private val ctx: HomeActivity) {
+    companion object{
+        var notifications = HashMap<String, MutableList<NotificationData>>()
+    }
     @SuppressLint("UseCompatLoadingForDrawables")
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application(
@@ -31,7 +34,6 @@ class NotificationHandler(private val ctx: HomeActivity) {
     )
 
     private var notificationDialog: NotificationDialog? = null
-    private var notifications = HashMap<String, MutableList<NotificationData>>()
     private var lastNotification: NotificationData? = null
 
     fun onNotificationReceived(jsonString: String){

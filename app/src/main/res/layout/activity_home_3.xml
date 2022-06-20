@@ -12,11 +12,11 @@
 
     <TextView
         android:id="@+id/home_3_title"
-        android:layout_width="0dp"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="32px"
+        android:layout_marginEnd="32px"
+        android:layout_marginBottom="32px"
         android:gravity="center"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
@@ -31,8 +31,8 @@
 
     <ImageView
         android:id="@+id/home_3_qrcode"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="280px"
+        android:layout_height="280px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:id="@+id/home_3_notifiche_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:padding="12px"
         android:text="@string/notifiche"
         android:textColor="@color/white"
         android:textSize="@dimen/h8"
