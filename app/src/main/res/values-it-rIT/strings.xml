@@ -1,0 +1,61 @@
+<resources>
+    <string-array name="yesno">
+        <item>Sì</item>
+        <item>No</item>
+    </string-array>
+    <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
+    <string name="example" translatable="false">Example</string>
+
+    <string name="app_name">DIB Car Launcher</string>
+    <string name="home">Vai alla home</string>
+    <string name="caricamento">Caricamento…</string>
+    <string name="request_permissions">Questa app ha bisogno della tua geolocalizzazione per poter funzionare correttamente.</string>
+    <string name="google_maps">MAPS</string>
+    <string name="volume_up">Volume+</string>
+    <string name="volume_down">Volume-</string>
+    <string name="app_not_installed">App non installata.</string>
+    <string name="gps_not_enabled">Devi attivare il GPS per utilizzare questa funzionalità.</string>
+    <string name="errore_sconosciuto">Errore sconosciuto.</string>
+    <string name="menu_spotify">Spotify</string>
+    <string name="menu_storage">Archivio</string>
+    <string name="spotify_no_data">Non disponibile</string>
+    <string name="menu_voice">Assistente vocale</string>
+    <string name="settings">Impostazioni</string>
+    <string name="credits">Sviluppato da Simone Di Berardino</string>
+    <string name="login_error">Impossibile effettuare l\'accesso.</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Registrati</string>
+    <string name="proceed_no_internet">Prosegui senza internet</string>
+    <string name="connecting">Connessione…</string>
+    <string name="password_errata">Password errata.</string>
+    <string name="menu_musica">Spotify</string>
+    <string name="menu_youtube">YouTube</string>
+    <string name="menu_navigatore">Navigatore</string>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="tts_n_sentence">Frase {numero}</string>
+    <string name="tts_sen_title">Messaggi di benvenuto</string>
+    <string name="inserisci">Inserisci</string>
+    <string name="tts_add_sentence">Aggiungi messaggio</string>
+    <string name="conferma">Conferma</string>
+    <string name="personalizza">Personalizza</string>
+    <string name="confirm_title">Sei sicuro di voler continuare?</string>
+    <string name="confirm_desc">L\'azione non è reversibile.</string>
+    <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
+    <string name="inquadra_qrcode">Scarica DIB Car Launcher Companion e inquadra il QR Code per collegare il tuo cellulare all\'auto</string>
+    <string name="client_connesso">Client connesso con successo!</string>
+    <string name="notifica_da">Notifica da {appname}</string>
+    <string name="notifiche">Ricevi notifiche</string>
+    <string name="new_notification">Nuova notifica</string>
+    <string name="you_msg">Tu: {message}</string>
+    <string name="connect_internet">Connessione a internet assente</string>
+    <string name="message_sent">Messaggio inviato</string>
+    <string name="listening">In ascolto…</string>
+    <string name="targa">Targa</string>
+    <string name="errore_input">Dettagli forniti non validi</string>
+    <string name="consumi">Consumi (l/100km)</string>
+    <string name="start_spotify_on_boot">Esegui Spotify al lancio</string>
+    <string name="settings_default_wp">Utilizza sfondo predefinito</string>
+    <string name="config">Configurazione</string>
+    <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
+</resources>
