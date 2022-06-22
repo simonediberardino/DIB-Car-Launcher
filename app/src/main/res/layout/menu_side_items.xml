@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/button_blue_on_pressed">
+    android:background="@drawable/white_round_btn">
 
     <ImageView
         android:id="@+id/side_menu_image"
         android:layout_width="50px"
         android:layout_height="50px"
-        android:layout_marginTop="16px"
-        android:layout_marginBottom="16px"
+        android:layout_margin="16px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

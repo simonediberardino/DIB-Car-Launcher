@@ -1,6 +1,7 @@
 package com.mini.infotainment.activities.home
 
 import android.annotation.SuppressLint
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -51,9 +52,13 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
         spotifyWidget.setOnTouchListener { v, e ->
-            val isRight = v.width/2 < e.x
-            if(isRight) SpotifyIntegration.nextSpotifyTrack(ctx)
-            else SpotifyIntegration.previousSpotifyTrack(ctx)
+            when(e.action){
+                MotionEvent.ACTION_UP -> {
+                    val isRight = v.width/2 < e.x
+                    if(isRight) SpotifyIntegration.nextSpotifyTrack(ctx)
+                    else SpotifyIntegration.previousSpotifyTrack(ctx)
+                }
+            }
             true
         }
 

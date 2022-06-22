@@ -12,8 +12,8 @@ import android.widget.*
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.spotify.SpotifyIntegration
+import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -150,17 +150,13 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 }
 
                 notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
-                notificationAppName.text =
-                    if(appName == UNKNOWN)
+                notificationAppName.text = if(appName == UNKNOWN)
                         ctx.getString(R.string.new_notification)
-                    else
-                        ctx.getString(R.string.notifica_da).replace("{appname}", appName)
+                    else ctx.getString(R.string.notifica_da).replace("{appname}", appName)
 
-                notificationIcon.background =
-                    if(application == null)
+                notificationIcon.background = if(application == null)
                         ctx.getDrawable(R.drawable.ic_baseline_notifications_active_24)
-                    else
-                        application.icon
+                    else application.icon
 
                 Utility.getBrandDrawable(ctx)?.let { notificationCarLogo.setImageDrawable(it) }
 
