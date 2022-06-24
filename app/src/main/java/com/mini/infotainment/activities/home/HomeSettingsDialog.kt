@@ -29,7 +29,6 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
     private var selectedLogo: Logo? = null
         set(value) {
             field = value
-
             for(logo: Logo in logos)
                 logo.view.setBackgroundColor(
                     if(logo != selectedLogo)
