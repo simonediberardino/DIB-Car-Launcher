@@ -16,7 +16,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "toyota", "volkswagen")
+        private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
     }
 
     private var settingsDefaultWPCB: CheckBox

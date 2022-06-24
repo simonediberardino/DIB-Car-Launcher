@@ -21,7 +21,7 @@ object ApplicationData {
     private const val CONSUPTION_ID = "CONSUPTION_ID"
     private val CONSUPTION_DEFAULT = null
     private const val SPOTIFY_ID = "SPOTIFY_ID"
-    private val SPOTIFY_DEFAULT = true
+    private val SPOTIFY_DEFAULT = false
     private const val WP_ID = "WP_ID"
     private val WP_DEFAULT = true
 

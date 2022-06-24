@@ -176,6 +176,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
                 for(notification: NotificationData in notiList)
                     addNotification(notification.text)
 
+                Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
                 show()
 
                 isTimerRunning = true
