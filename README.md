@@ -1,2 +1,2 @@
 "# Infotainment" 
-![alt text](https://postimg.cc/Rq7sW45x)
+![alt text](https://i.postimg.cc/yNZPx7FQ/1.webp)
