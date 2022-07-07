@@ -1,4 +1,4 @@
-% DIB Car Launcher
+# DIB Car Launcher
 
 DIB Car Launcher is a customizable car launcher for Android car radios with handy features for your daily usage: Media control, Maps, Speedometer, Address detecter and more! Download the companion app for a complete experience, connect your phone and start driving now!
 
