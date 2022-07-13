@@ -9,6 +9,7 @@ object FirebaseClass{
     private var DB_REF = "https://infotainment-8c303-default-rtdb.europe-west1.firebasedatabase.app/"
     private var LOCATION_REF = "location"
     private var SERVER_IP_REF = "serverip"
+    private var TIME_REF = "time"
 
     val databaseReference: DatabaseReference
         get() {
@@ -17,6 +18,10 @@ object FirebaseClass{
 
     fun updateCarLocation(location: Location){
         getCarLocationReference().setValue(location)
+    }
+
+    fun updateTime(time: Long){
+        getTimeReference().setValue(time)
     }
 
     fun getCarLocation(callback: RunnablePar){
@@ -45,6 +50,10 @@ object FirebaseClass{
 
     fun getCarLocationReference(): DatabaseReference {
         return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(LOCATION_REF)
+    }
+
+    fun getTimeReference(): DatabaseReference {
+        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(TIME_REF)
     }
 
     fun getServerIpReference(): DatabaseReference {

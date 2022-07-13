@@ -12,7 +12,6 @@ import java.io.IOException
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
-import java.util.*
 
 class Server(val activity: HomeActivity) {
     // Porta del socket da creare (Default: 8080);
@@ -42,6 +41,7 @@ class Server(val activity: HomeActivity) {
             println("Socket creato con successo! Ascoltando sull'IP $serverIPV4.")
 
             FirebaseClass.updateServerIp(serverIPV4)
+            FirebaseClass.updateTime(System.currentTimeMillis())
 
             activity.runOnUiThread {
                 notificationHandler = NotificationHandler(activity)
