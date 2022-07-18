@@ -142,11 +142,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun welcomeUser(){
-        val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
-        mediaPlayer.start()
-        mediaPlayer.setOnCompletionListener{
-            TTS.speak(ApplicationData.getWelcomeSentence()?.text ?: return@setOnCompletionListener, TextToSpeech.QUEUE_FLUSH, null)
-        }
+        MediaPlayer.create(this, R.raw.startup_sound).start()
     }
 
     private fun initializeTTS(){
