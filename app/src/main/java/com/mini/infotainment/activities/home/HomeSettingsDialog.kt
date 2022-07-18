@@ -89,7 +89,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         val enteredTarga = settingsTargaEt.text.toString().trim()
         val enteredConsuption = settingsConsuptionEt.text.toString().trim()
 
-        if(enteredConsuption.trim().isEmpty()){
+        if(enteredConsuption.isEmpty() || enteredTarga.isEmpty()){
             Utility.showToast(homeActivity, homeActivity.getString(R.string.errore_input))
             return
         }

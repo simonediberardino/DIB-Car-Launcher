@@ -22,7 +22,6 @@ import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
-import com.mini.infotainment.entities.Car
 import com.mini.infotainment.notification.Server
 import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData
@@ -209,8 +208,7 @@ class HomeActivity : ActivityExtended() {
             gpsManager.previousUserLocation = gpsManager.currentUserLocation
         }
 
-        Car.currentCar.location = newLocation
-        gpsManager.currentUserLocation = Car.currentCar.location
+        gpsManager.currentUserLocation = newLocation
 
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
         homePage1.speedometerTW.text = speedInKmH.toString()
@@ -273,12 +271,13 @@ class HomeActivity : ActivityExtended() {
     }
 
     internal fun runGoogleMaps(){
-        if(Car.currentCar.location == null){
+        val location = gpsManager.currentUserLocation
+        if(location == null){
             Errors.printError(Errors.ErrorCodes.GPS_REQUIRED, this)
             return
         }
 
-        val gmmIntentUri: Uri = Uri.parse("geo:${Car.currentCar.location!!.latitude},${Car.currentCar.location!!.longitude}")
+        val gmmIntentUri: Uri = Uri.parse("geo:${location.latitude},${location.longitude}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
 
