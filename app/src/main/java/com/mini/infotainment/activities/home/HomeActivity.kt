@@ -28,6 +28,7 @@ import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
+import java.util.*
 
 
 class HomeActivity : ActivityExtended() {
@@ -69,6 +70,7 @@ class HomeActivity : ActivityExtended() {
         this.initializeLayout()
         this.initializeTTS()
         this.initializeBroadcastReceiver()
+        this.updateTimeLiveLoop()
         this.initializeSocketServer()
         this.setupGPS()
         this.welcomeUser()
@@ -76,7 +78,7 @@ class HomeActivity : ActivityExtended() {
 
         if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
-                Thread.sleep(5000)
+                Thread.sleep(10000)
                 runSpotify()
             }.start()
         }
@@ -227,6 +229,19 @@ class HomeActivity : ActivityExtended() {
                 }
             })
         }
+    }
+
+    private fun updateTimeLiveLoop(){
+        val delay = 5000L
+
+        val timer = Timer()
+        val task = object: TimerTask(){
+            override fun run() {
+                FirebaseClass.updateTime(System.currentTimeMillis())
+            }
+        }
+
+        timer.schedule(task, delay, delay)
     }
 
     internal fun runSpotify() {

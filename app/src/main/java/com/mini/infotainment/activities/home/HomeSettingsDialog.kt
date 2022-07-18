@@ -89,9 +89,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         val enteredTarga = settingsTargaEt.text.toString().trim()
         val enteredConsuption = settingsConsuptionEt.text.toString().trim()
 
-        if(!isValidTarga(enteredTarga)
-            || enteredConsuption.trim().isEmpty()
-        ){
+        if(enteredConsuption.trim().isEmpty()){
             Utility.showToast(homeActivity, homeActivity.getString(R.string.errore_input))
             return
         }
@@ -107,19 +105,5 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
         }
 
         this.dismiss()
-    }
-
-    private fun isValidTarga(targa: String): Boolean {
-        if(targa.length != 7) return false
-
-        return(
-                targa[0].isLetter()
-                        && targa[1].isLetter()
-                        && targa[2].isDigit()
-                        && targa[3].isDigit()
-                        && targa[4].isDigit()
-                        && targa[5].isLetter()
-                        && targa[6].isLetter()
-                )
     }
 }
