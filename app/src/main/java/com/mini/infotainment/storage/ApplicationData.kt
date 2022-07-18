@@ -3,7 +3,6 @@ package com.mini.infotainment.storage
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.mini.infotainment.activities.tts.TTSSentence
 import com.mini.infotainment.support.ActivityExtended
 
 object ApplicationData {
@@ -63,18 +62,6 @@ object ApplicationData {
         dataEditor.apply()
     }
 
-    fun getWelcomeSentence(): TTSSentence? {
-        val savedJson: String? = applicationData.getString(WELCOME_MSG_ID, WELCOME_MSG_DEFAULT)
-        return Gson().fromJson(savedJson, TTSSentence::class.java)
-    }
-
-    fun setWelcomeSentence(ttsSentence: TTSSentence?){
-        val json = Gson().toJson(ttsSentence)
-        val dataEditor = applicationData.edit()
-        dataEditor.putString(WELCOME_MSG_ID, json)
-        dataEditor.apply()
-    }
-
     fun getBrandName(): String? {
         return applicationData.getString(BRAND_ID, BRAND_DEFAULT)
     }
@@ -105,33 +92,5 @@ object ApplicationData {
         val dataEditor = applicationData.edit()
         dataEditor.putString(TARGA_ID, targa.uppercase())
         dataEditor.apply()
-    }
-
-    fun getTTSSentence(): MutableList<TTSSentence> {
-        val savedJson: String = applicationData.getString(MESSAGES_ID, MESSAGES_DEFAULT)
-            ?: return mutableListOf()
-        return Gson().fromJson(savedJson, Array<TTSSentence>::class.java).toMutableList()
-    }
-
-    fun saveTTSSentence(ttsSentence: TTSSentence){
-        val list = getTTSSentence()
-        if(list.map { it.text }.any { it == ttsSentence.text })
-            return
-
-        list.add(ttsSentence)
-        saveTTSSentences(list)
-    }
-
-    fun saveTTSSentences(list: MutableList<TTSSentence>){
-        val json = Gson().toJson(list)
-        val dataEditor = applicationData.edit()
-        dataEditor.putString(MESSAGES_ID, json)
-        dataEditor.apply()
-    }
-
-    fun deleteTTSSentence(ttsSentence: TTSSentence){
-        val list = getTTSSentence()
-        list.removeIf { it.text == ttsSentence.text }
-        saveTTSSentences(list)
     }
 }
