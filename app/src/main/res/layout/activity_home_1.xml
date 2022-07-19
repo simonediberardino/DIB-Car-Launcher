@@ -25,7 +25,6 @@
         android:layout_height="65px"
         android:layout_marginBottom="32px"
         android:background="@drawable/home_button"
-        android:onClick=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
