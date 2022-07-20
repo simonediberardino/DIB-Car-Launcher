@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.support.Page
+import com.mini.infotainment.UI.Page
 
 class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     override fun build() {

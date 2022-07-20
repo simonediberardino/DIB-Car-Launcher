@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import com.mini.infotainment.R
 import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.Page
+import com.mini.infotainment.UI.Page
 import com.mini.infotainment.utility.Utility
 
 class HomeThirdPage(override val ctx: HomeActivity) : Page() {

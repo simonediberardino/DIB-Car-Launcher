@@ -34,6 +34,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.utility.Utility.Resolution.Companion.BASE_RESOLUTION
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.math.BigInteger
@@ -168,15 +169,26 @@ object Utility {
         c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
     }
 
-    fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
-        data class Resolution(val x: Double, val y: Double)
-        val BASE_RESOLUTION = Resolution(1024.0, 600.0)
+    data class Resolution(val x: Double, val y: Double) {
+        companion object{
+            val BASE_RESOLUTION = Resolution(1024.0, 600.0)
+        }
+    }
 
+    fun getDisplayRatio(activity: AppCompatActivity): Double {
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels.toDouble()
 
-        if(height == BASE_RESOLUTION.y) return
+        return height / BASE_RESOLUTION.y
+    }
+
+    fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels.toDouble()
+
+        if(getDisplayRatio(activity) == 1.0) return
 
         for (i in 0 until v.childCount) {
             val vAtI = v.getChildAt(i)

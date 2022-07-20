@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
+    android:id="@+id/single_app_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -11,6 +11,7 @@
         android:layout_width="125px"
         android:layout_height="125px"
         android:background="@drawable/white_round_btn_pressed"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/app_label"
@@ -27,9 +28,10 @@
 
     <TextView
         android:id="@+id/app_label"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"

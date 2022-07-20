@@ -10,8 +10,9 @@ import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mini.infotainment.R
-import com.mini.infotainment.support.AppInfo
-import com.mini.infotainment.support.Page
+import com.mini.infotainment.UI.AppInfo
+import com.mini.infotainment.UI.Page
+import com.mini.infotainment.utility.Utility
 
 
 class AppsMenu(override val ctx: HomeActivity) : Page() {
@@ -19,12 +20,15 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
         var apps = mutableListOf<AppInfo>()
         var adapter: ArrayAdapter<AppInfo>? = null
     }
-    
-    internal lateinit var containAppDrawer: ConstraintLayout
+
+    private var isResized: Boolean = false
     internal var isAppDrawerVisible = true
+    internal lateinit var containAppDrawer: ConstraintLayout
     internal lateinit var grdView: GridView
 
     override fun build() {
+        isResized = false
+
         apps.clear()
         adapter = null
 
@@ -34,7 +38,7 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
         loadListView()
         addGridListeners()
 
-        this.show(false, 0)
+        show(false, 0)
     }
 
     private fun loadApps() {
@@ -53,10 +57,16 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
 
             apps.add(appInfo)
         }
+        apps.sortBy { it.label.toString() }
     }
 
+    /*
+        Loads the views of each installed app. Not made by me, need to be recoded in the future
+        since it's not the best way to do it
+    */
     private fun loadListView() {
         grdView = ctx.findViewById<View>(R.id.grid_apps) as GridView
+
         if (adapter == null) {
             adapter = object : ArrayAdapter<AppInfo>(ctx, R.layout.menu_single_app, apps) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -105,6 +115,14 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
         if(visibility == isAppDrawerVisible)
             return
 
+        // Resizes all the element the first time that the users presses the home button
+        // that's just a workaround because you can't know the exact moment when the system has shown all the apps
+        // this needs to be changed
+        if(!isResized && duration != 0L){
+            isResized = true
+            Utility.ridimensionamento(ctx, containAppDrawer)
+        }
+
         isAppDrawerVisible = visibility
 
         if (visibility) {
@@ -135,21 +153,68 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             duration,
             null
         )
-
-        scaleViewAnimation(
-            mainMenu,
-            3f,
-            1f,
-            duration
-        )
     }
 
     private fun hideMainMenu(duration: Long){
         val mainMenu = ctx.findViewById<View>(R.id.home_container)
 
-        alphaAnimation(mainMenu, 1f, 0f, duration)
-        moveAnimation(mainMenu, 0f, 0f, 0f, -mainMenu.height.toFloat(), duration, null)
-        scaleViewAnimation(mainMenu, 1f, 3f, duration)
+        alphaAnimation(
+            mainMenu,
+            1f,
+            0f,
+            duration
+        )
+
+        moveAnimation(
+            mainMenu,
+            0f,
+            0f,
+            0f,
+            -mainMenu.height.toFloat(),
+            duration,
+            null
+        )
+    }
+
+    private fun slideAppsMenuUp(duration: Long) {
+        grdView.visibility = View.VISIBLE
+
+        alphaAnimation(
+            containAppDrawer,
+            0f,
+            1f,
+            duration
+        )
+
+        moveAnimation(
+            containAppDrawer,
+            0f,
+            0f,
+            containAppDrawer.height.toFloat(),
+            0f,
+            duration,
+            null
+        )
+    }
+
+    private fun slideAppsMenuDown(duration: Long) {
+        alphaAnimation(
+            containAppDrawer,
+            1f,
+            0f,
+            duration
+        )
+
+        moveAnimation(
+            containAppDrawer,
+            0f,
+            0f,
+            0f,
+            containAppDrawer.height.toFloat(),
+            duration
+        ){
+            grdView.visibility = View.INVISIBLE
+        }
     }
 
     private fun alphaAnimation(v: View, startAlpha: Float, endAlpha: Float, duration: Long){
@@ -196,44 +261,4 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
         v.startAnimation(anim)
     }
 
-    private fun slideAppsMenuUp(duration: Long) {
-        grdView.visibility = View.VISIBLE
-
-        alphaAnimation(
-            containAppDrawer,
-            0f,
-            1f,
-            duration
-        )
-        
-        moveAnimation(
-            containAppDrawer,
-            0f,
-            0f,
-            containAppDrawer.height.toFloat(),
-            0f,
-            duration,
-            null
-        )
-    }
-
-    private fun slideAppsMenuDown(duration: Long) {
-        alphaAnimation(
-            containAppDrawer,
-            1f, 
-            0f,
-            duration
-        )
-        
-        moveAnimation(
-            containAppDrawer,
-            0f, 
-            0f, 
-            0f, 
-            containAppDrawer.height.toFloat(), 
-            duration
-        ){
-            grdView.visibility = View.INVISIBLE
-        }
-    }
 }

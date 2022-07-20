@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.notification.Server
 import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData

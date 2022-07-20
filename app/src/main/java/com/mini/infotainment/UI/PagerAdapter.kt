@@ -1,4 +1,4 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.UI
 
 import android.os.Build
 import android.view.View

@@ -1,6 +1,7 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.UI
 
 import android.view.ViewGroup
+import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.utility.Utility
 
 abstract class Page {

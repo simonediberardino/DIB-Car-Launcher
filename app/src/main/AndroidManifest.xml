@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:windowSoftInputMode="stateAlwaysHidden"
         android:allowBackup="true"
@@ -45,19 +47,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activities.tts.TTSActivity"
-            android:label="@string/app_name"
-            android:exported="false"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -66,6 +55,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDr2npyyQLG63fy11NWYUoq8mp6NIHA0rQ" />
 
+        <receiver android:name=".support.PackageReceiver" android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_CHANGED" />
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 

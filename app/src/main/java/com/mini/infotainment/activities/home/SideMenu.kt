@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.mini.infotainment.R
-import com.mini.infotainment.support.Page
+import com.mini.infotainment.UI.Page
 
 class SideMenu(override val ctx: HomeActivity) : Page() {
     override fun build() {
