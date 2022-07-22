@@ -173,10 +173,11 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
                 notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
 
+                Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
+
                 for(notification: NotificationData in notiList)
                     addNotification(notification.text)
 
-                Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
                 show()
 
                 isTimerRunning = true
@@ -241,8 +242,10 @@ class NotificationHandler(private val ctx: HomeActivity) {
             val gallery: LinearLayout = findViewById(R.id.noti_lllayout)
             val newNotif = layoutInflater.inflate(R.layout.single_notification, gallery, false)
 
+            val notificationParent = newNotif.findViewById<ViewGroup>(R.id.single_notification_parent)
             val notificationBody = newNotif.findViewById<TextView>(R.id.single_noti_text)
             notificationBody.text = body
+
             gallery.addView(newNotif)
 
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
