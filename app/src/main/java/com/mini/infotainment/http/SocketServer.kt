@@ -1,9 +1,9 @@
-package com.mini.infotainment.notification
+package com.mini.infotainment.http
 
-import FirebaseClass
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
-import com.mini.infotainment.storage.ApplicationData
+import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.QrcodeData
 import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
@@ -13,12 +13,10 @@ import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 
-class Server(val activity: HomeActivity) {
-    // Porta del socket da creare (Default: 8080);
+class SocketServer(val activity: HomeActivity) {
     var SERVER_PORT = 8080
 
-    // Indirizzo del socket da creare;
-    lateinit var serverIPV4: String
+    var serverIPV4 = Utility.getLocalIpAddress(activity)
     var client: ClientInstance? = null
     var serverSocket: ServerSocket? = null
     var notificationHandler: NotificationHandler? = null
@@ -31,7 +29,6 @@ class Server(val activity: HomeActivity) {
     private fun startSocketServer() {
         activity.log("Starting socket.")
         try {
-            serverIPV4 = Utility.getLocalIpAddress(activity)
             serverSocket = ServerSocket(SERVER_PORT)
 
             activity.log("Socket created successfully! Listening on $serverIPV4.")
@@ -119,13 +116,13 @@ class Server(val activity: HomeActivity) {
 
         fun close(){
             this.isClosed = true
-            output?.close()
-            input?.close()
+            this.output?.close()
+            this.input?.close()
         }
 
         fun send(string: String){
-            output?.writeUTF(string)
-            output?.flush()
+            this.output?.writeUTF(string)
+            this.output?.flush()
         }
     }
 }

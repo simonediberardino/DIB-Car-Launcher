@@ -1,14 +1,11 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.errors
 
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import android.os.Environment;
-import android.util.Log;
-import java.lang.Exception
-
+import android.os.Environment
+import android.util.Log
 import java.io.*
+import java.lang.Thread.UncaughtExceptionHandler
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ExceptionHandler : UncaughtExceptionHandler {

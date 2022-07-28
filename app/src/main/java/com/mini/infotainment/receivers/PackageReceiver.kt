@@ -1,4 +1,4 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

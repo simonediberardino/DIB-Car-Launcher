@@ -1,6 +1,5 @@
 package com.mini.infotainment.activities.home
 
-import FirebaseClass
 import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
@@ -23,10 +22,16 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.PagerAdapter
-import com.mini.infotainment.notification.Server
-import com.mini.infotainment.spotify.SpotifyIntegration
-import com.mini.infotainment.storage.ApplicationData
-import com.mini.infotainment.support.*
+import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.errors.Errors
+import com.mini.infotainment.errors.ExceptionHandler
+import com.mini.infotainment.gps.GPSManager
+import com.mini.infotainment.http.SocketServer
+import com.mini.infotainment.receivers.NetworkStatusReceiver
+import com.mini.infotainment.receivers.SpotifyIntegration
+import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility
 
 
@@ -104,13 +109,13 @@ class HomeActivity : ActivityExtended() {
 
         fun callback(){
             server?.serverSocket?.close()
-            Server(this).also {
+            SocketServer(this).also {
                 server = it
             }.init()
         }
 
         val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
-        this.registerReceiver(NetworkStatusListener(
+        this.registerReceiver(NetworkStatusReceiver(
             object : RunnablePar {
                 override fun run(p: Any?) {
                     // Restarts/Starts the socket when internet is available
@@ -321,7 +326,7 @@ class HomeActivity : ActivityExtended() {
 
     companion object {
         lateinit var homeActivity: HomeActivity
-        internal var server: Server? = null
+        internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
         const val REQUEST_CODE_SPEECH_INPUT = 10

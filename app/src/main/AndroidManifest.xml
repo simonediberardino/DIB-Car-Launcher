@@ -55,7 +55,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDr2npyyQLG63fy11NWYUoq8mp6NIHA0rQ" />
 
-        <receiver android:name=".support.PackageReceiver" android:exported="true">
+        <receiver android:name=".receivers.PackageReceiver" android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/>
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />

@@ -1,4 +1,4 @@
-package com.mini.infotainment.notification
+package com.mini.infotainment.http
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -12,8 +12,8 @@ import android.widget.*
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import com.mini.infotainment.spotify.SpotifyIntegration
-import com.mini.infotainment.storage.ApplicationData
+import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -227,7 +227,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
         private fun timerLoop(){
             Thread{
-                val updateTime: Long = (DIALOG_DURATION/100).toLong()
+                val updateTime: Long = (DIALOG_DURATION /100).toLong()
                 while(this.isShowing && this.isTimerRunning){
                     Thread.sleep(updateTime)
                     notificationBar.progress--

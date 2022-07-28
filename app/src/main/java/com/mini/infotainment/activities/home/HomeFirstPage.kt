@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.spotify.SpotifyIntegration
-import com.mini.infotainment.storage.ApplicationData
+import com.mini.infotainment.receivers.SpotifyIntegration
+import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.utility.Utility
 

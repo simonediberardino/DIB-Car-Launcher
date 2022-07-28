@@ -1,4 +1,4 @@
-package com.mini.infotainment.storage
+package com.mini.infotainment.data
 
 import android.content.Context
 import android.content.SharedPreferences

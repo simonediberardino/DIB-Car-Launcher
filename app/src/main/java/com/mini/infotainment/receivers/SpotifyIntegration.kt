@@ -1,4 +1,4 @@
-package com.mini.infotainment.spotify
+package com.mini.infotainment.receivers
 
 import android.app.Activity
 import android.content.BroadcastReceiver

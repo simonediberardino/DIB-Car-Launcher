@@ -1,7 +1,6 @@
-package com.mini.infotainment.support
+package com.mini.infotainment.errors
 
 import android.app.Activity
-import androidx.leanback.widget.Util
 import com.mini.infotainment.R
 import com.mini.infotainment.utility.Utility
 

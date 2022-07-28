@@ -31,7 +31,7 @@ import androidx.core.app.ActivityOptionsCompat
 import com.google.gson.Gson
 import com.google.zxing.WriterException
 import com.mini.infotainment.R
-import com.mini.infotainment.storage.ApplicationData
+import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility.Resolution.Companion.BASE_RESOLUTION

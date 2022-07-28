@@ -1,7 +1,6 @@
-
+package com.mini.infotainment.data
 import android.location.Location
 import com.google.firebase.database.*
-import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.RunnablePar
 
 
