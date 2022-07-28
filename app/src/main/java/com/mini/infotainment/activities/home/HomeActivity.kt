@@ -28,7 +28,6 @@ import com.mini.infotainment.spotify.SpotifyIntegration
 import com.mini.infotainment.storage.ApplicationData
 import com.mini.infotainment.support.*
 import com.mini.infotainment.utility.Utility
-import java.util.*
 
 
 class HomeActivity : ActivityExtended() {
@@ -70,7 +69,6 @@ class HomeActivity : ActivityExtended() {
         this.initializeLayout()
         this.initializeTTS()
         this.initializeBroadcastReceiver()
-        this.updateTimeLiveLoop()
         this.initializeSocketServer()
         this.setupGPS()
         this.welcomeUser()
@@ -105,22 +103,22 @@ class HomeActivity : ActivityExtended() {
             return
 
         fun callback(){
-            server = Server(this)
-            server!!.init()
+            server?.serverSocket?.close()
+            Server(this).also {
+                server = it
+            }.init()
         }
 
         val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
         this.registerReceiver(NetworkStatusListener(
             object : RunnablePar {
                 override fun run(p: Any?) {
-                    if(p == true && server == null)
+                    // Restarts/Starts the socket when internet is available
+                    if(p == true)
                         callback()
                 }
             }
         ), intentFilter)
-
-        if(Utility.isInternetAvailable(this))
-            callback()
     }
 
     private fun initializeBroadcastReceiver(){
@@ -224,19 +222,6 @@ class HomeActivity : ActivityExtended() {
                 }
             })
         }
-    }
-
-    private fun updateTimeLiveLoop(){
-        val delay = 5000L
-
-        val timer = Timer()
-        val task = object: TimerTask(){
-            override fun run() {
-                FirebaseClass.updateTime(System.currentTimeMillis())
-            }
-        }
-
-        timer.schedule(task, delay, delay)
     }
 
     internal fun runSpotify() {

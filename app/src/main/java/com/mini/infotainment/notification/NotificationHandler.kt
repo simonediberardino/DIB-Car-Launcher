@@ -217,7 +217,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             val inputMessage = Utility.objectToJsonString(InputMessage(inputText, notiList.last().id, packageName))
 
             Thread{
-                HomeActivity.server?.sendMessage(inputMessage)
+                HomeActivity.server?.client?.send(inputMessage)
                 Utility.showToast(ctx, ctx.getString(R.string.message_sent))
             }.start()
 

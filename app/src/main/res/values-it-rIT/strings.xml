@@ -43,7 +43,7 @@
     <string name="confirm_desc">L\'azione non è reversibile.</string>
     <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
     <string name="inquadra_qrcode">Scarica DIB Car Launcher Companion e inquadra il QR Code per collegare il tuo cellulare all\'auto</string>
-    <string name="client_connesso">Client connesso con successo!</string>
+    <string name="client_connesso">Connessione con il client stabilita.</string>
     <string name="notifica_da">Notifica da {appname}</string>
     <string name="notifiche">Ricevi notifiche</string>
     <string name="new_notification">Nuova notifica</string>

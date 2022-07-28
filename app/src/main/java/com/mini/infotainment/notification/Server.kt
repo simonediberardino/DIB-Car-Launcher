@@ -19,37 +19,34 @@ class Server(val activity: HomeActivity) {
 
     // Indirizzo del socket da creare;
     lateinit var serverIPV4: String
-    private lateinit var instances: ArrayList<ClientInstance?>
-    private var serverSocket: ServerSocket? = null
+    var client: ClientInstance? = null
+    var serverSocket: ServerSocket? = null
     var notificationHandler: NotificationHandler? = null
 
     fun init(){
-        startSocketServer()
-        Thread { listenClients() }.start()
+        this.startSocketServer()
+        Thread { this.listenClients() }.start()
     }
 
-    /**
-     * Questo metodo crea e starta il server socket e aggiorna le TextView con le informazioni relative al socket;
-     * @return void;
-     */
     private fun startSocketServer() {
+        activity.log("Starting socket.")
         try {
-            // Creazione del socket
             serverIPV4 = Utility.getLocalIpAddress(activity)
             serverSocket = ServerSocket(SERVER_PORT)
 
-            println("Socket creato con successo! Ascoltando sull'IP $serverIPV4.")
+            activity.log("Socket created successfully! Listening on $serverIPV4.")
 
+            this.updateTimeLiveLoop()
             FirebaseClass.updateServerIp(serverIPV4)
-            FirebaseClass.updateTime(System.currentTimeMillis())
+            FirebaseClass.updateStartTime(System.currentTimeMillis())
 
             activity.runOnUiThread {
                 notificationHandler = NotificationHandler(activity)
 
                 val bitmap = Utility.generateQrCode(
-                        Utility.objectToJsonString(
-                            QrcodeData(serverIPV4, ApplicationData.getTarga()!!)
-                        ),
+                    Utility.objectToJsonString(
+                        QrcodeData(serverIPV4, ApplicationData.getTarga()!!)
+                    ),
                     activity
                 )
 
@@ -61,91 +58,74 @@ class Server(val activity: HomeActivity) {
     }
 
     private fun listenClients() {
-        var socket: Socket?
-        instances = ArrayList()
-        while (serverSocket != null) {
+        while (serverSocket != null || serverSocket?.isClosed == false) {
             try {
-                socket = serverSocket!!.accept()
-
-                instances.find { it!!.ipv4.toString() == socket.localAddress.toString() }?.let {
-                    closeClientInstance(it)
-                }
-
-                val clientInstance = ClientInstance(
-                    DataOutputStream(socket.getOutputStream()),
-                    DataInputStream(socket.getInputStream()),
-                    socket.localAddress
-                )
-
-                instances.add(clientInstance)
-
-                Utility.showToast(activity, activity.getString(R.string.client_connesso))
-                // Il server si mette in ascolto del client;
-                Thread { messageListener(clientInstance) }.start()
+                this.handleClientConnection(serverSocket?.accept() ?: return)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
     }
 
-    /**
-     * In questo metodo l'oggetto input si mette in ascolto del client e vengono stampati gli eventuali messaggi in entrata;
-     */
-    private fun messageListener(instance: ClientInstance?) {
-        println("Server in ascolto del client.")
+    private fun handleClientConnection(socket: Socket) {
+        this.closeClientInstance()
 
-        while (instance?.input != null) {
+        ClientInstance(
+            DataOutputStream(socket.getOutputStream()),
+            DataInputStream(socket.getInputStream()),
+            socket.localAddress
+        ).also {
+            this.client = it
+
+            Utility.showToast(activity, activity.getString(R.string.client_connesso))
+            Thread { messageListener(it) }.start()
+        }
+    }
+
+    private fun messageListener(instance: ClientInstance?) {
+        activity.log("Server listening to the client.")
+
+        while (instance?.input != null && !instance.isClosed) {
             try {
                 val jsonString = instance.input.readUTF() ?: continue
-
-                println("Messaggio ricevuto: $jsonString.")
 
                 activity.runOnUiThread {
                     notificationHandler?.onNotificationReceived(jsonString)
                 }
             } catch (e: IOException) {
-                closeClientInstance(instance)
                 e.printStackTrace()
-                return
             }
         }
     }
 
-    /**
-     * Questo metodo invia un messaggio ai client utilizzando l'oggetto che gestisce i messaggi in uscita;
-     * @param jsonString da inviare al server;
-     * @throws IOException se si riscontra un errore durante l'invio di un messaggio ai client;
-     */
-    @Throws(IOException::class)
-    fun sendMessage(instance: ClientInstance, jsonString: String) {
-        instance.output?.writeUTF(jsonString)
-        instance.output?.flush()
-    }
+    private fun updateTimeLiveLoop(){
+        val delay = 5000L
 
-    fun sendMessage(jsonString: String){
-        for (instance in instances)
-            sendMessage(instance!!, jsonString)
-    }
-
-    private fun closeClientInstance(clientInstance: ClientInstance){
-        clientInstance.input?.close()
-        clientInstance.output?.close()
-        instances.remove(clientInstance)
-    }
-    
-    private fun closeServer() {
-        try {
-            for (i in instances) {
-                i?.output?.close()
-                i?.input?.close()
+        Thread{
+            while(serverSocket != null || serverSocket?.isClosed == false){
+                Thread.sleep(delay)
+                FirebaseClass.updateLiveTime(System.currentTimeMillis())
             }
+        }.start()
+    }
 
-            serverSocket?.close()
-            println("Socket chiuso con successo.")
-        } catch (e: IOException) {
-            e.printStackTrace()
+    private fun closeClientInstance() {
+        this.client?.close()
+        this.client = null
+    }
+
+    class ClientInstance(val output: DataOutputStream?, val input: DataInputStream?, val ipv4: InetAddress){
+        var isClosed = false
+
+        fun close(){
+            this.isClosed = true
+            output?.close()
+            input?.close()
+        }
+
+        fun send(string: String){
+            output?.writeUTF(string)
+            output?.flush()
         }
     }
-
-    class ClientInstance(val output: DataOutputStream?, val input: DataInputStream?, val ipv4: InetAddress)
 }

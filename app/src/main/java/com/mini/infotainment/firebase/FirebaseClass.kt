@@ -10,6 +10,7 @@ object FirebaseClass{
     private var LOCATION_REF = "location"
     private var SERVER_IP_REF = "serverip"
     private var TIME_REF = "time"
+    private var START_REF = "start"
 
     val databaseReference: DatabaseReference
         get() {
@@ -20,7 +21,11 @@ object FirebaseClass{
         getCarLocationReference().setValue(location)
     }
 
-    fun updateTime(time: Long){
+    fun updateStartTime(time: Long){
+        getStartReference().setValue(time)
+    }
+
+    fun updateLiveTime(time: Long){
         getTimeReference().setValue(time)
     }
 
@@ -54,6 +59,10 @@ object FirebaseClass{
 
     fun getTimeReference(): DatabaseReference {
         return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(TIME_REF)
+    }
+
+    fun getStartReference(): DatabaseReference {
+        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(START_REF)
     }
 
     fun getServerIpReference(): DatabaseReference {
