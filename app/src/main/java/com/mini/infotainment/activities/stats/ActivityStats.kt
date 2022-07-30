@@ -1,53 +1,38 @@
 package com.mini.infotainment.activities.stats
 
+import android.app.Application
 import android.os.Bundle
-import com.anychart.anychart.*
+import androidx.leanback.widget.Util
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.Page
+import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.utility.Utility
 
 class ActivityStats : ActivityExtended() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val x: HashMap<String, String> = HashMap()
+
+
+        // Testing application data for dates
+        x["1"] = "a"
+        x["2"] = "b"
+
+        ApplicationData.setStats(x)
+
+        println(
+            ApplicationData.getStats().toString()
+        )
+
+        val y = ApplicationData.getStats()
+        y["3"] = "c"
+        ApplicationData.setStats(y)
+        println(
+            ApplicationData.getStats().toString()
+        )
+
         setContentView(R.layout.activity_stats)
-
-        val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
-
-        val cartesian = AnyChart.column()
-
-        val data: MutableList<DataEntry> = ArrayList()
-        data.add(ValueDataEntry("Rouge", 80540))
-        data.add(ValueDataEntry("Foundation", 94190))
-        data.add(ValueDataEntry("Mascara", 102610))
-        data.add(ValueDataEntry("Lip gloss", 110430))
-        data.add(ValueDataEntry("Lipstick", 128000))
-        data.add(ValueDataEntry("Nail polish", 143760))
-        data.add(ValueDataEntry("Eyebrow pencil", 170670))
-        data.add(ValueDataEntry("Eyeliner", 213210))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-
-        val column = cartesian.column(data)
-
-        column.tooltip
-            .setTitleFormat("{%X}")
-            .setPosition(Position.CENTER_BOTTOM)
-            .setAnchor(EnumsAnchor.CENTER_BOTTOM)
-            .setOffsetX(0.0)
-            .setOffsetY(5.0)
-            .setFormat("\${%Value}{groupsSeparator: }")
-
-        cartesian.setAnimation(true)
-        cartesian.setTitle("Top 10 Cosmetic Products by Revenue")
-
-        cartesian.yScale.setMinimum(0.0)
-
-        cartesian.getYAxis(0.0).labels.setFormat("\${%Value}{groupsSeparator: }")
-
-        cartesian.tooltip.setPositionMode(TooltipPositionMode.POINT)
-        cartesian.interactivity.setHoverMode(HoverMode.BY_X)
-
-        cartesian.getYAxis(0.0).setTitle("Product")
-        cartesian.getYAxis(0.0).setTitle("Revenue")
-
-        anyChartView.setChart(cartesian)
+        super.pageLoaded()
     }
 }

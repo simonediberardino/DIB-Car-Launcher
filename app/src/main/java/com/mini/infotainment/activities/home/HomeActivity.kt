@@ -80,13 +80,12 @@ class HomeActivity : ActivityExtended() {
         this.welcomeUser()
         this.requestStoragePermission()
 
-        Utility.navigateTo(this, ActivityStats::class.java)
-       /* if(ApplicationData.doesSpotifyRunOnBoot()){
+        if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
                 Thread.sleep(10000)
                 runSpotify()
             }.start()
-        }*/
+        }
     }
 
     private fun initializeLayout(){

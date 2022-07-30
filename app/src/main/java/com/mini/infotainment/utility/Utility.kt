@@ -42,10 +42,21 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 import android.R as R1
 
 
 object Utility {
+    fun getCurrentDate(): String {
+        val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+
+        val currentYear: Int = calendar.get(Calendar.YEAR)
+        val currentMonth: Int = calendar.get(Calendar.MONTH) + 1
+        val currentDay: Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+        return "$currentDay-$currentMonth-$currentYear"
+    }
+
     fun getWallpaper(context: Context): Drawable {
         val defaultBackgroundDrawable = context.getDrawable(R.drawable.background)
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
