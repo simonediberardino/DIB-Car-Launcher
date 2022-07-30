@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.PagerAdapter
+import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.errors.Errors
@@ -79,12 +80,13 @@ class HomeActivity : ActivityExtended() {
         this.welcomeUser()
         this.requestStoragePermission()
 
-        if(ApplicationData.doesSpotifyRunOnBoot()){
+        Utility.navigateTo(this, ActivityStats::class.java)
+       /* if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
                 Thread.sleep(10000)
                 runSpotify()
             }.start()
-        }
+        }*/
     }
 
     private fun initializeLayout(){

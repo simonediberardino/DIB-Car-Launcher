@@ -57,5 +57,8 @@
     <string name="start_spotify_on_boot">Esegui Spotify al lancio</string>
     <string name="settings_default_wp">Utilizza sfondo predefinito</string>
     <string name="config">Configurazione</string>
+    <string name="day">Giorno</string>
+    <string name="week">Settimana</string>
+    <string name="month">Mese</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

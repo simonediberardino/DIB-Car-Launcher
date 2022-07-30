@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.AnyChart:AnyChart-Android:0.0.3'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'

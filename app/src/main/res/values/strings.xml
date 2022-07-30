@@ -57,5 +57,8 @@
     <string name="start_spotify_on_boot">Run Spotify on boot</string>
     <string name="settings_default_wp">Set default wallpaper</string>
     <string name="config">Configuration</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>
