@@ -3,7 +3,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/black_background_gradient"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -50,7 +50,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64px"
+        android:layout_marginTop="32px"
         android:orientation="vertical">
 
         <LinearLayout
@@ -59,7 +59,12 @@
             android:layout_gravity="center"
             android:background="@drawable/square_transparent"
             android:gravity="center"
-            android:orientation="horizontal"></LinearLayout>
+            android:orientation="horizontal">
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

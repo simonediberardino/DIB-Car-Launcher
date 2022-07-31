@@ -49,7 +49,10 @@ import android.R as R1
 object Utility {
     fun getCurrentDate(): String {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+        return getDateString(calendar)
+    }
 
+    fun getDateString(calendar: Calendar) : String{
         val currentYear: Int = calendar.get(Calendar.YEAR)
         val currentMonth: Int = calendar.get(Calendar.MONTH) + 1
         val currentDay: Int = calendar.get(Calendar.DAY_OF_MONTH)
@@ -184,6 +187,10 @@ object Utility {
         companion object{
             val BASE_RESOLUTION = Resolution(1024.0, 600.0)
         }
+    }
+
+    fun <N : Number> convertValue(x: N, context: AppCompatActivity): Double {
+        return x.toDouble() * getDisplayRatio(context)
     }
 
     fun getDisplayRatio(activity: AppCompatActivity): Double {

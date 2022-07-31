@@ -2,13 +2,11 @@ package com.mini.infotainment.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.opengl.GLException
 import com.google.gson.Gson
 import com.mini.infotainment.support.ActivityExtended
-import com.mini.infotainment.utility.Utility
 
 object ApplicationData {
-    private const val DATA_ID = "data"
+    const val DATA_ID = "data"
     private const val NOTIFICHE_ID = "NOTIFICHE_ID"
     private val NOTIFICHE_DEFAULT = true
     private const val TARGA_ID = "TARGA_ID"
@@ -21,10 +19,8 @@ object ApplicationData {
     private val SPOTIFY_DEFAULT = false
     private const val WP_ID = "WP_ID"
     private val WP_DEFAULT = true
-    private const val STATS_ID = "STATS-ID"
-    private val STATS_DEFAULT = "{}"
 
-    private val applicationData: SharedPreferences
+    val applicationData: SharedPreferences
         get() {
             return ActivityExtended.lastActivity.getSharedPreferences(
                 DATA_ID,
@@ -69,24 +65,6 @@ object ApplicationData {
     fun setBrandName(brand: String?){
         val dataEditor = applicationData.edit()
         dataEditor.putString(BRAND_ID, brand)
-        dataEditor.apply()
-    }
-
-    fun getStats(): HashMap<String, String> {
-        return Utility.jsonStringToObject(
-            applicationData.getString(STATS_ID, STATS_DEFAULT)!!
-        )
-    }
-
-    fun setStats(stats: HashMap<String, String>){
-        setStats(
-            Utility.objectToJsonString(stats)
-        )
-    }
-
-    fun setStats(stats: String){
-        val dataEditor = applicationData.edit()
-        dataEditor.putString(STATS_ID, stats)
         dataEditor.apply()
     }
 
