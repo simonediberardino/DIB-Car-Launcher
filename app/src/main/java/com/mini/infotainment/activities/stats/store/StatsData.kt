@@ -4,6 +4,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.utility.Utility
 import java.util.*
+import kotlin.math.max
 
 object StatsData {
     private val STATS_ID = "STATS_ID"
@@ -115,7 +116,13 @@ object StatsData {
         if(!stats.containsKey(key))
             stats[key] = StatsOfDay()
 
-        stats[key]?.maxSpeed = maxSpeed
+        // Need to convert the object to string in order to prevent com.google.gson.internal.LinkedTreeMap cannot be cast to class
+        val child = Utility.jsonStringToObject<StatsOfDay>(
+            Utility.objectToJsonString(stats[key])
+        )
+
+        child.maxSpeed = maxSpeed
+        stats[key] = child
 
         setStats(stats)
     }
@@ -127,8 +134,13 @@ object StatsData {
         if(!stats.containsKey(key))
             stats[key] = StatsOfDay()
 
-        val curTravDist = stats[key]?.travDist ?: 0f
-        stats[key]?.travDist = stats[key]?.travDist?.plus(curTravDist) ?: dist
+        // Need to convert the object to string in order to prevent com.google.gson.internal.LinkedTreeMap cannot be cast to class
+        val child = Utility.jsonStringToObject<StatsOfDay>(
+            Utility.objectToJsonString(stats[key])
+        )
+
+        child.travDist += dist
+        stats[key] = child
 
         setStats(stats)
     }
@@ -136,25 +148,21 @@ object StatsData {
     // CHECK MAX SPEED
     fun addSpeedReport(curSpeed: Float, calendar: Calendar){
         val stats = getStats()
-
-        // Need to convert the object to string in order to prevent com.google.gson.internal.LinkedTreeMap cannot be cast to class
-        val parent = Utility.jsonStringToObject<HashMap<String, StatsOfDay>>(
-            Utility.objectToJsonString(stats)
-        )
-
         val key = Utility.getDateString(calendar)
 
-        if(!parent.containsKey(key))
-            parent[key] = StatsOfDay()
+        if(!stats.containsKey(key))
+            stats[key] = StatsOfDay()
 
+        // Need to convert the object to string in order to prevent com.google.gson.internal.LinkedTreeMap cannot be cast to class
         val child = Utility.jsonStringToObject<StatsOfDay>(
             Utility.objectToJsonString(stats[key])
         )
 
         child.regSpeeds.add(curSpeed)
-        parent[key] = child
+        child.maxSpeed = max(child.maxSpeed, curSpeed)
 
-        setStats(parent)
+        stats[key] = child
+        setStats(stats)
     }
 
     fun getTraveledDistance(mode: Mode): Float {

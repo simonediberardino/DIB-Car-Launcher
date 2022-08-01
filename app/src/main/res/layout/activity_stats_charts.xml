@@ -2,28 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/edit_text_border"
+    android:layout_marginRight="64px"
+    android:background="@drawable/square_transparent"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/stats_chart_timestamp"
+        android:id="@+id/stats_chart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32px"
         android:shadowColor="@color/lightgrey"
         android:text="TextView"
-        android:textSize="@dimen/h5" />
+        android:textSize="@dimen/h7" />
 
     <TextView
-        android:id="@+id/stats_chart_value"
+        android:id="@+id/stats_chart_timestamp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32px"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="@dimen/h3" />
+        android:textSize="@dimen/h6" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/stats_chart_chart"
         android:layout_width="500px"
-        android:layout_height="250px" />
+        android:layout_height="250px"
+        android:layout_marginTop="16dp" />
 </LinearLayout>
