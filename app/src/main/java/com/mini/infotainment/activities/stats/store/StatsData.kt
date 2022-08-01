@@ -201,8 +201,8 @@ object StatsData {
 
     fun getDaysOfWeek(calendar: Calendar): Array<String> {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val startDay = (dayOfWeek - 1)
-        calendar.add(Calendar.DAY_OF_YEAR, - startDay)
+        val firstDayOfWeek = (dayOfWeek - 1)
+        calendar.add(Calendar.DAY_OF_YEAR, - firstDayOfWeek)
 
         val availableDates = Array(7){String()}
         for(i in 0..6){

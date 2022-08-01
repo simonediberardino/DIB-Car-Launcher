@@ -3,13 +3,11 @@ package com.mini.infotainment.activities.home
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
-import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.Animations.alphaAnimation
+import com.mini.infotainment.UI.Animations.moveAnimation
 import com.mini.infotainment.UI.AppInfo
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.utility.Utility
@@ -216,49 +214,4 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             grdView.visibility = View.INVISIBLE
         }
     }
-
-    private fun alphaAnimation(v: View, startAlpha: Float, endAlpha: Float, duration: Long){
-        v.alpha = startAlpha
-        v.animate().alpha(endAlpha).duration = duration
-    }
-    
-    private fun moveAnimation(v: View, startX: Float, endX: Float, startY: Float, endY: Float, duration: Long, callback: Runnable?){
-        val slideAnimation = TranslateAnimation(
-            startX,
-            endX,
-            startY,
-            endY
-        )
-
-        slideAnimation.interpolator = AccelerateInterpolator(2f)
-        slideAnimation.duration = duration
-        slideAnimation.fillAfter = true
-        slideAnimation.setAnimationListener(object: Animation.AnimationListener{
-            override fun onAnimationStart(p0: Animation?) {}
-            override fun onAnimationRepeat(p0: Animation?) {}
-
-            override fun onAnimationEnd(p0: Animation?) {
-                callback?.run()
-            }
-        })
-        
-        v.startAnimation(slideAnimation)
-    }
-    
-    private fun scaleViewAnimation(v: View, startScale: Float, endScale: Float, duration: Long) {
-        val anim: Animation = ScaleAnimation(
-            startScale,
-            endScale,
-            startScale, endScale,
-            Animation.RELATIVE_TO_SELF, 0f,
-            Animation.RELATIVE_TO_SELF, 1f
-        )
-
-        anim.fillAfter = true
-        anim.duration = duration
-        anim.interpolator = AccelerateInterpolator(2f)
-
-        v.startAnimation(anim)
-    }
-
 }
