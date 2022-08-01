@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_text_border"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/stats_chart_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="@color/lightgrey"
+        android:text="TextView"
+        android:textSize="@dimen/h5" />
+
+    <TextView
+        android:id="@+id/stats_chart_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h3" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/stats_chart_chart"
+        android:layout_width="500px"
+        android:layout_height="250px" />
+</LinearLayout>

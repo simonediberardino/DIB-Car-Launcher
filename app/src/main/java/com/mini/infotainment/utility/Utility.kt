@@ -75,7 +75,7 @@ object Utility {
         }
     }
 
-    fun objectToJsonString(`object`: Any): String {
+    inline fun <reified T> objectToJsonString(`object`: T): String {
         return Gson().toJson(`object`)
     }
 

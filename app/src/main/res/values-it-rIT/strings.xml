@@ -3,6 +3,17 @@
         <item>Sì</item>
         <item>No</item>
     </string-array>
+
+    <string-array name="days_week">
+        <item>DOM</item>
+        <item>LUN</item>
+        <item>MAR</item>
+        <item>MER</item>
+        <item>GIO</item>
+        <item>VEN</item>
+        <item>SAB</item>
+    </string-array>
+
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="example" translatable="false">Example</string>
 
