@@ -14,19 +14,22 @@ import com.mini.infotainment.utility.Utility
 @SuppressLint("ViewConstructor")
 class StatsChart(
     var activity: AppCompatActivity,
-    var chart: BarChart,
     var descriptions: Array<String>,
     var keysSorted: Array<String>,
-    var chartValues: Map<String, Float>)
+    var chartValues: Map<String, Float>,
+    var title: String,
+    val description: String)
 {
-    init {
+    var barChart: BarChart? = null
+
+    fun apply(){
         configureChartAppearance()
         prepareChartData(createChartData())
     }
 
     private fun configureChartAppearance() {
-        chart.description.isEnabled = false
-        chart.xAxis.valueFormatter =
+        barChart!!.description.isEnabled = false
+        barChart!!.xAxis.valueFormatter =
             IAxisValueFormatter { value, axis ->
                 axis?.textColor = Color.WHITE
                 axis?.textSize = Utility.convertValue(
@@ -45,8 +48,8 @@ class StatsChart(
             value.toString()
         }
 
-         chart.axisLeft.valueFormatter = sideValueFormatter
-         chart.axisRight.valueFormatter = sideValueFormatter
+        barChart!!.axisLeft.valueFormatter = sideValueFormatter
+        barChart!!.axisRight.valueFormatter = sideValueFormatter
     }
 
     private fun createChartData(): BarData {
@@ -66,7 +69,7 @@ class StatsChart(
     private fun prepareChartData(data: BarData) {
         data.setValueTextSize(Utility.convertValue(12f, activity).toFloat())
         data.setValueTextColor(Color.WHITE)
-        chart.data = data
-        chart.invalidate()
+        barChart!!.data = data
+        barChart!!.invalidate()
     }
 }

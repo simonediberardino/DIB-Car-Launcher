@@ -12,7 +12,7 @@ object Animations {
         v.animate().alpha(endAlpha).duration = duration
     }
 
-     fun moveAnimation(v: View, startX: Float, endX: Float, startY: Float, endY: Float, duration: Long, callback: Runnable?){
+     fun moveAnimation(v: View, startX: Float, endX: Float, startY: Float, endY: Float, duration: Long, accelerateMult: Float = 2f, callback: Runnable?){
         val slideAnimation = TranslateAnimation(
             startX,
             endX,
@@ -20,7 +20,7 @@ object Animations {
             endY
         )
 
-        slideAnimation.interpolator = AccelerateInterpolator(2f)
+        slideAnimation.interpolator = AccelerateInterpolator(accelerateMult)
         slideAnimation.duration = duration
         slideAnimation.fillAfter = true
         slideAnimation.setAnimationListener(object: Animation.AnimationListener{

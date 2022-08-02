@@ -8,6 +8,8 @@ import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.Animations
 import com.mini.infotainment.activities.stats.ActivityStats
+import com.mini.infotainment.activities.stats.chart.StatsChart
+import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.activities.stats.tab.StatsTab
 
 class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
@@ -18,10 +20,36 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
     override val button: TextView
         get() = ctx.findViewById(R.id.stats_week_btn)
 
-    init{
-        button.setOnClickListener {
-            this.show()
-        }
+    init {
+        inflateAvgSpeedChart()
+    }
+
+    fun inflateAvgSpeedChart(){
+        val avgSpeedWeek = StatsData.getAvgSpeed(StatsData.Mode.WEEK)
+        val title = ctx.getString(R.string.avg_speed)
+        val description = "${ctx.getString(R.string.avg_speed)}: ${avgSpeedWeek.toInt()} km/h"
+
+        super.addChart(
+            StatsChart(
+                ctx,
+                ctx.resources.getStringArray(R.array.days_week),
+                StatsData.getDaysOfWeek(),
+                StatsData.getAvgSpeedForEachDay(StatsData.Mode.WEEK),
+                title,
+                description
+            )
+        )
+
+        super.addChart(
+            StatsChart(
+                ctx,
+                ctx.resources.getStringArray(R.array.days_week),
+                StatsData.getDaysOfWeek(),
+                StatsData.getAvgSpeedForEachDay(StatsData.Mode.WEEK),
+                title,
+                description
+            )
+        )
     }
 
     override fun doShow(){
@@ -38,7 +66,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
                 0f,
                 0f,
                 0f,
-                600
+                ANIMATION_DURATION,
+                1f
             ){}
     }
 
@@ -56,7 +85,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
                 -(screenWidth+scrollView.width).toFloat(),
                 0f,
                 0f,
-                600
+                ANIMATION_DURATION,
+                1f
             ){
                 linearLayout.visibility = View.GONE
             }

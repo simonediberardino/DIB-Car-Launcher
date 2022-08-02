@@ -18,10 +18,6 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
     override val button: TextView
         get() = ctx.findViewById(R.id.stats_month_btn)
 
-    init{
-        button.setOnClickListener { this.show() }
-    }
-
     override fun doShow(){
         val displayMetrics = DisplayMetrics()
         ctx.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -36,7 +32,8 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
                 0f,
                 0f,
                 0f,
-                600
+                ANIMATION_DURATION,
+                1f
             ){}
     }
 
@@ -54,10 +51,14 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
                 (screenWidth+scrollView.width).toFloat(),
                 0f,
                 0f,
-                600
+                ANIMATION_DURATION,
+                1f
             ){
                 linearLayout.visibility = View.GONE
             }
     }
+
+
+
 
 }

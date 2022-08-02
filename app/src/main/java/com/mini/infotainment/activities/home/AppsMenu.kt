@@ -148,9 +148,8 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             0f,
             -mainMenu.height.toFloat(),
             0f,
-            duration,
-            null
-        )
+            duration
+        ){}
     }
 
     private fun hideMainMenu(duration: Long){
@@ -169,9 +168,8 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             0f,
             0f,
             -mainMenu.height.toFloat(),
-            duration,
-            null
-        )
+            duration
+        ){}
     }
 
     private fun slideAppsMenuUp(duration: Long) {
@@ -190,9 +188,8 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             0f,
             containAppDrawer.height.toFloat(),
             0f,
-            duration,
-            null
-        )
+            duration
+        ){}
     }
 
     private fun slideAppsMenuDown(duration: Long) {

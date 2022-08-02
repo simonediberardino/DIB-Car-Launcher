@@ -35,81 +35,55 @@ object StatsData {
         dataEditor.apply()
     }
 
-    fun getAvgSpeedForEachDay(mode: Mode): HashMap<String, Float> {
-        return getAvgSpeedForEachDay(Calendar.getInstance(TimeZone.getDefault()), mode)
-    }
-
-    fun getAvgSpeedForEachDay(calendar: Calendar, mode: Mode): HashMap<String, Float> {
+    fun getMaxSpeedForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float>{
         val hashMap = hashMapOf<String, Float>()
-
-        //((data?.get("regSpeeds") as MutableList<Float>?)
-        //                    ?.average() ?: 0f).toFloat()
-        val data = when (mode) {
-            Mode.WEEK -> {
-                getWeekData(calendar)
-            }
-            Mode.MONTH -> {
-                getMonthData()
-            }
-            else -> return hashMapOf()
-        }
+        val data = getDataFromMode(mode, calendar)
 
         for(key: String in data.keys){
-            val regSpeeds =
+            val maxSpeed =
+                ((data[key]) as LinkedTreeMap<*, *>?)
+                    ?.get("maxSpeed") as Float?
+
+            hashMap[key] = maxSpeed ?: 0f
+        }
+        return hashMap
+    }
+
+    fun getAvgSpeedForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float> {
+        val hashMap = hashMapOf<String, Float>()
+        val data = getDataFromMode(mode, calendar)
+
+        for(key: String in data.keys){
+            val regSpeedss =
                 ((data[key]) as LinkedTreeMap<*, *>?)
                     ?.get("regSpeeds") as MutableList<Float>?
 
-            hashMap[key] = regSpeeds?.average()
+            hashMap[key] = regSpeedss?.average()
                 ?.toFloat() ?: 0f
 
         }
         return hashMap
     }
 
-    fun getAvgSpeed(mode: Mode): Double {
-        return getAvgSpeed(Calendar.getInstance(TimeZone.getDefault()), mode)
-    }
-
-    fun getAvgDaySpeed(key: String): Double {
-        return getDayData(key).regSpeeds.average()
-    }
-
     // TODO: Delete reg speed of other days
-    fun getAvgSpeed(calendar: Calendar, mode: Mode): Double {
-        return when (mode) {
-            Mode.DAY -> {
-                getDayData(calendar).regSpeeds.average()
-            }
-            Mode.WEEK -> {
-                val weekData = getWeekData(calendar)
-                weekData.flatMap { it.value.regSpeeds }.average()
-            }
-            else -> {
-                val weekData = getWeekData(calendar)
-                weekData.flatMap { it.value.regSpeeds }.average()
-            }
+    fun getAvgSpeed(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Double {
+        val data = getDataFromMode(mode, calendar)
+        val values = mutableListOf<Float>()
+
+        data.forEach {
+            val regSpeeds =
+                ((data[it.key]) as LinkedTreeMap<*, *>?)
+                    ?.get("regSpeeds") as MutableList<Float>?
+            regSpeeds?.forEach { values.add(it) }
         }
+        return values.average()
     }
 
-    fun getMaxSpeed(mode: Mode) : Float{
-        return getMaxSpeed(Calendar.getInstance(TimeZone.getDefault()), mode)
+    fun getMaxSpeed(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {
+        return getDataFromMode(mode, calendar).maxOf { it.value.maxSpeed }
     }
 
-    fun getMaxSpeed(calendar: Calendar, mode: Mode): Float {
-        return if(mode == Mode.DAY){
-            getDayData(calendar).maxSpeed
-        }else{
-            val data = if(mode == Mode.WEEK)
-                getWeekData(calendar)
-            else getMonthData(calendar)
-
-            data.maxOf {
-                it.value.maxSpeed
-            }
-        }
-    }
-
-    fun setMaxSpeed(maxSpeed: Float, calendar: Calendar){
+    fun setMaxSpeed(maxSpeed: Float, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())){
         val stats = getStats()
         val key = Utility.getDateString(calendar)
 
@@ -127,7 +101,7 @@ object StatsData {
         setStats(stats)
     }
 
-    fun increaseTraveledDistance(dist: Float, calendar: Calendar){
+    fun increaseTraveledDistance(dist: Float, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())){
         val stats = getStats()
         val key = Utility.getDateString(calendar)
 
@@ -145,8 +119,7 @@ object StatsData {
         setStats(stats)
     }
 
-    // CHECK MAX SPEED
-    fun addSpeedReport(curSpeed: Float, calendar: Calendar){
+    fun addSpeedReport(curSpeed: Float, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())){
         val stats = getStats()
         val key = Utility.getDateString(calendar)
 
@@ -165,41 +138,22 @@ object StatsData {
         setStats(stats)
     }
 
-    fun getTraveledDistance(mode: Mode): Float {
-        return getTraveledDistance(Calendar.getInstance(TimeZone.getDefault()), mode)
+    fun getTraveledDistance(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {
+        return getDataFromMode(mode, calendar).values.sumOf {
+            it.travDist.toInt()
+        }.toFloat()
     }
 
-    fun getTraveledDistance(calendar: Calendar, mode: Mode): Float {
-        return if(mode == Mode.DAY){
-            getDayData(calendar).travDist
-        }else{
-            val data = if(mode == Mode.WEEK)
-                getWeekData(calendar)
-            else getMonthData(calendar)
-
-            data.values.sumOf {
-                it.travDist.toInt()
-            }.toFloat()
-        }
-    }
-
-    fun getDayData() : StatsOfDay {
-        return getDayData(Calendar.getInstance(TimeZone.getDefault()))
-    }
-
-    fun getDayData(calendar: Calendar): StatsOfDay {
+    fun getDayDataValue(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): StatsOfDay {
         return getStats()[Utility.getDateString(calendar)] ?: StatsOfDay()
     }
 
-    fun getDayData(key: String): StatsOfDay {
-        return getStats()[key] ?: StatsOfDay()
+    fun getDayDataMap(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())) : Map<String, StatsOfDay> {
+        return getStats()
+            .filter { it.key ==  Utility.getDateString(calendar)}
     }
 
-    fun getDaysOfWeek() : Array<String> {
-        return getDaysOfWeek(Calendar.getInstance(TimeZone.getDefault()))
-    }
-
-    fun getDaysOfWeek(calendar: Calendar): Array<String> {
+    fun getDaysOfWeek(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Array<String> {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         val firstDayOfWeek = (dayOfWeek - 1)
         calendar.add(Calendar.DAY_OF_YEAR, - firstDayOfWeek)
@@ -212,11 +166,7 @@ object StatsData {
         return availableDates
     }
 
-    fun getWeekData() : Map<String, StatsOfDay>{
-        return getWeekData(Calendar.getInstance(TimeZone.getDefault()))
-    }
-
-    fun getWeekData(calendar: Calendar): Map<String, StatsOfDay> {
+    fun getWeekData(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Map<String, StatsOfDay> {
         val availableDates = getDaysOfWeek(calendar)
         return getStats()
             .filter {
@@ -224,11 +174,7 @@ object StatsData {
             }
     }
 
-    fun getMonthData() : Map<String, StatsOfDay>{
-        return getMonthData(Calendar.getInstance(TimeZone.getDefault()))
-    }
-
-    fun getMonthData(calendar: Calendar): Map<String, StatsOfDay> {
+    fun getMonthData(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Map<String, StatsOfDay> {
         return getStats()
             .filter {
                 val tokens = it.key.split("-")
@@ -237,5 +183,19 @@ object StatsData {
                 (calendar.get(Calendar.MONTH) + 1).toString() == month
                         && calendar.get(Calendar.YEAR).toString() == year
             }
+    }
+
+    fun getDataFromMode(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Map<String, StatsOfDay> {
+        return when (mode) {
+            Mode.DAY -> {
+                getDayDataMap(calendar)
+            }
+            Mode.WEEK -> {
+                getWeekData(calendar)
+            }
+            Mode.MONTH -> {
+                getMonthData(calendar)
+            }
+        }
     }
 }

@@ -73,5 +73,8 @@
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="stats_title">Car stats</string>
+    <string name="avg_speed">Average speed</string>
+    <string name="max_speed">Max speed</string>
+    <string name="dist_trav">Distance travelled</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>
