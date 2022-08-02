@@ -4,7 +4,6 @@ import com.google.gson.internal.LinkedTreeMap
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.utility.Utility
 import java.util.*
-import kotlin.math.max
 
 object StatsData {
     private val STATS_ID = "STATS_ID"
@@ -54,13 +53,11 @@ object StatsData {
         val data = getDataFromMode(mode, calendar)
 
         for(key: String in data.keys){
-            val regSpeedss =
+            val avgSpeed =
                 ((data[key]) as LinkedTreeMap<*, *>?)
-                    ?.get("regSpeeds") as MutableList<Float>?
+                    ?.get("avgSpeed") as LinkedTreeMap<*, *>
 
-            hashMap[key] = regSpeedss?.average()
-                ?.toFloat() ?: 0f
-
+            hashMap[key] = (avgSpeed["value"] as Double).toFloat()
         }
         return hashMap
     }
@@ -70,11 +67,20 @@ object StatsData {
         val data = getDataFromMode(mode, calendar)
         val values = mutableListOf<Float>()
 
-        data.forEach {
+/*        data.forEach {
             val regSpeeds =
                 ((data[it.key]) as LinkedTreeMap<*, *>?)
                     ?.get("regSpeeds") as MutableList<Float>?
             regSpeeds?.forEach { values.add(it) }
+        }*/
+
+        data.forEach {
+            val avgSpeed =
+                ((data[it.key]) as LinkedTreeMap<*, *>?)
+                    ?.get("avgSpeed") as LinkedTreeMap<*, *>
+
+            for(i in 0 until (avgSpeed["nElements"] as Double).toInt())
+                values.add((avgSpeed["value"] as Double).toFloat())
         }
         return values.average()
     }
@@ -131,8 +137,10 @@ object StatsData {
             Utility.objectToJsonString(stats[key])
         )
 
-        child.regSpeeds.add(curSpeed)
-        child.maxSpeed = max(child.maxSpeed, curSpeed)
+        child.avgSpeed.nElements++
+        child.avgSpeed.value = ((child.avgSpeed.value * (child.avgSpeed.nElements-1)) + curSpeed) / child.avgSpeed.nElements
+
+        println(child.avgSpeed)
 
         stats[key] = child
         setStats(stats)
@@ -164,6 +172,27 @@ object StatsData {
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
         return availableDates
+    }
+
+    fun getDaysOfMonth(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Array<String> {
+        val curMonth = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val firstDayOfMonth = (dayOfMonth - 1)
+        calendar.add(Calendar.DAY_OF_YEAR, - firstDayOfMonth)
+
+        val availableDates = mutableListOf<String>()
+        while(calendar.get(Calendar.MONTH) == curMonth){
+            availableDates.add((Utility.getDateString(calendar)))
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+        return availableDates.toTypedArray()
+    }
+
+    fun getDaysOfMonthComplete(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Array<String> {
+        return getDaysOfMonth(calendar)
+            .mapIndexed {
+                    index, s -> "${(index+1)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
+            }.toTypedArray()
     }
 
     fun getWeekData(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Map<String, StatsOfDay> {

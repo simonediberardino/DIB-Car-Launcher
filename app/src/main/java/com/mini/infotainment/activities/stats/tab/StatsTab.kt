@@ -13,7 +13,7 @@ abstract class StatsTab : Page(){
     abstract val scrollView: HorizontalScrollView
     abstract val linearLayout: LinearLayout
     abstract val button: TextView
-
+    abstract var xAxisElements: Array<String>?
     protected var ANIMATION_DURATION = 400L
     protected var STATE_IDLE = 0
     protected var STATE_INACTIVE = 1
@@ -38,7 +38,6 @@ abstract class StatsTab : Page(){
     }
 
     fun addChart(statsChart: StatsChart){
-        val linearLayout = linearLayout
         val parent = ctx.layoutInflater.inflate(
             R.layout.activity_stats_charts,
             linearLayout,

@@ -41,10 +41,8 @@ class StatsChart(
 
         val sideValueFormatter = IAxisValueFormatter { value, axis ->
             axis?.textColor = Color.WHITE
-            axis?.textSize = Utility.convertValue(
-                8f,
-                activity)
-                .toFloat()
+            axis?.textSize = Utility.convertValue(8f, activity).toFloat()
+
             value.toString()
         }
 
@@ -56,10 +54,10 @@ class StatsChart(
         val values: ArrayList<BarEntry> = ArrayList()
         for (i in keysSorted.indices) {
             val x = i.toFloat()
-            println(keysSorted[i])
             val y = chartValues[keysSorted[i]] ?: 0f
             values.add(BarEntry(x, y))
         }
+
         val set1 = BarDataSet(values, String())
         val dataSets: ArrayList<IBarDataSet> = ArrayList()
         dataSets.add(set1)
@@ -67,7 +65,12 @@ class StatsChart(
     }
 
     private fun prepareChartData(data: BarData) {
-        data.setValueTextSize(Utility.convertValue(12f, activity).toFloat())
+        data.setValueTextSize(
+            if(keysSorted.size < 10)
+                Utility.convertValue(12f, activity).toFloat()
+            else 0f
+        )
+
         data.setValueTextColor(Color.WHITE)
         barChart!!.data = data
         barChart!!.invalidate()

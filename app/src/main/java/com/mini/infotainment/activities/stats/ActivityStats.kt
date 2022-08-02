@@ -17,6 +17,8 @@ class ActivityStats : ActivityExtended() {
         this.initializeLayout()
 
         this.statsWeek.show()
+        this.statsMonth.hide()
+        
         super.pageLoaded()
     }
 

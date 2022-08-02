@@ -19,6 +19,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
         get() = ctx.findViewById(R.id.stats_ll_week)
     override val button: TextView
         get() = ctx.findViewById(R.id.stats_week_btn)
+    override var xAxisElements: Array<String>? = null
+        get() = ctx.resources.getStringArray(R.array.days_week)
 
     init {
         inflateAvgSpeedChart()
@@ -32,18 +34,7 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
         super.addChart(
             StatsChart(
                 ctx,
-                ctx.resources.getStringArray(R.array.days_week),
-                StatsData.getDaysOfWeek(),
-                StatsData.getAvgSpeedForEachDay(StatsData.Mode.WEEK),
-                title,
-                description
-            )
-        )
-
-        super.addChart(
-            StatsChart(
-                ctx,
-                ctx.resources.getStringArray(R.array.days_week),
+                xAxisElements!!,
                 StatsData.getDaysOfWeek(),
                 StatsData.getAvgSpeedForEachDay(StatsData.Mode.WEEK),
                 title,
