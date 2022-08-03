@@ -59,6 +59,7 @@ class StatsChart(
         }
 
         val set1 = BarDataSet(values, String())
+
         val dataSets: ArrayList<IBarDataSet> = ArrayList()
         dataSets.add(set1)
         return BarData(dataSets)

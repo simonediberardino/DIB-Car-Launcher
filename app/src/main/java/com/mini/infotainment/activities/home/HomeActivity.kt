@@ -22,7 +22,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.PagerAdapter
-import com.mini.infotainment.activities.stats.ActivityStats
+import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.errors.Errors
@@ -205,29 +205,48 @@ class HomeActivity : ActivityExtended() {
         if(newLocation == null || !Utility.isInternetAvailable() || ApplicationData.getTarga() == null)
             return
 
+        handleGPSLocation(newLocation)
+        handleSpeedReport()
+        handleAddressReport()
+    }
+
+    private fun handleGPSLocation(newLocation: Location?){
         if(gpsManager.currentUserLocation != null){
             gpsManager.previousUserLocation = gpsManager.currentUserLocation
         }
 
-        gpsManager.currentUserLocation = newLocation
+        StatsData.increaseTraveledDistance(
+            gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: 0f
+        )
 
+        gpsManager.currentUserLocation = newLocation
+        homePage0.onLocationChanged(gpsManager.currentUserLocation ?: return)
+    }
+
+    private fun handleSpeedReport(){
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
         homePage1.speedometerTW.text = speedInKmH.toString()
 
-        homePage0.onLocationChanged(newLocation)
+        if(speedInKmH > 2)
+            StatsData.addSpeedReport(speedInKmH.toFloat())
+    }
 
-        if(gpsManager.shouldRefreshAddress()){
-            FirebaseClass.updateCarLocation(newLocation)
-            gpsManager.lastAddressCheck = System.currentTimeMillis()
-            Utility.getSimpleAddress(
-                newLocation,
-                this,
-                object: RunnablePar{
+    private fun handleAddressReport() {
+        if(!gpsManager.shouldRefreshAddress())
+            return
+
+        FirebaseClass.updateCarLocation(gpsManager.currentUserLocation ?: return)
+        gpsManager.lastAddressCheck = System.currentTimeMillis()
+
+        Utility.getSimpleAddress(
+            gpsManager.currentUserLocation ?: return,
+            this,
+            object: RunnablePar{
                 override fun run(p: Any?) {
                     homePage1.addressTW.text = if(p == null) String() else p as String
                 }
-            })
-        }
+            }
+        )
     }
 
     internal fun runSpotify() {

@@ -76,5 +76,8 @@
     <string name="avg_speed">Average speed</string>
     <string name="max_speed">Max speed</string>
     <string name="dist_trav">Distance travelled</string>
+    <string name="total_kmh">Overall: {tot} km/h</string>
+    <string name="total_km">Overall: {tot} km</string>
+    <string name="chart_bottom">Stats about your car</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

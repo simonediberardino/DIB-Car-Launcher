@@ -47,6 +47,18 @@ import android.R as R1
 
 
 object Utility {
+    fun getScreenWidth(activity: AppCompatActivity): Double {
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels.toDouble()
+    }
+
+    fun getScreenHeight(activity: AppCompatActivity): Double {
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels.toDouble()
+    }
+
     fun getCurrentDate(): String {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         return getDateString(calendar)

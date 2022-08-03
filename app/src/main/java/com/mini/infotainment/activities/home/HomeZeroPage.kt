@@ -21,13 +21,11 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
     companion object{
         internal const val CIRCLE_RADIUS = 150.0
         internal const val CIRCLE_MIN_ZOOM = 21f
-        internal const val MAP_DEFAULT_ZOOM = 20f
+        internal const val MAP_DEFAULT_ZOOM = 19.2f
     }
 
     internal lateinit var googleMap: GoogleMap
     internal lateinit var resetLocBtn: View
-    internal var userLocation: Location? = null
-    internal var previousUserLocation: Location? = null
     /** Location icon placed on the user location updated every time the user location changes; */
     internal var userLocMarker: Marker? = null
     /** Circle placed on the user location updated every time the user location changes; */
@@ -80,10 +78,7 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.N)
-    fun onLocationChanged(newLocation: Location?){
-        if(newLocation == null)
-            return
-
+    fun onLocationChanged(newLocation: Location){
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
         val height: Int = (Utility.getDisplayRatio(ctx) * 15).toInt()
@@ -104,8 +99,6 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
             .fillColor(0x301E90FF)
             .strokeWidth(10f)
 
-        previousUserLocation = userLocation
-        userLocation = newLocation
         userLocCircle?.remove()
         userLocMarker?.remove()
         userLocMarker = googleMap.addMarker(markerOptions)
@@ -202,19 +195,21 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
 
 
     private fun zoomMapToUser(forceZoom: Boolean, callback: Runnable?){
-        if(userLocation == null)
+        if(ctx.gpsManager.currentUserLocation == null)
             return
 
-        if(!forceZoom && 1 > (previousUserLocation?.distanceTo(userLocation) ?: 1f))
+        if(!forceZoom && 1 > (
+                    ctx.gpsManager.previousUserLocation
+                        ?.distanceTo(ctx.gpsManager.currentUserLocation) ?: 1f))
             return
 
         googleMap.uiSettings.isScrollGesturesEnabled = false
         mapFollowsUser = true
 
-        val bearing: Float = previousUserLocation?.bearingTo(userLocation) ?: 0f
+        val bearing: Float = ctx.gpsManager.previousUserLocation?.bearingTo(ctx.gpsManager.currentUserLocation) ?: 0f
 
         val cameraPosition = CameraPosition.Builder()
-            .target(LatLng(userLocation!!.latitude, userLocation!!.longitude))
+            .target(LatLng(ctx.gpsManager.currentUserLocation!!.latitude, ctx.gpsManager.currentUserLocation!!.longitude))
             .zoom(MAP_DEFAULT_ZOOM)
             .bearing(bearing)
             .tilt(80f)

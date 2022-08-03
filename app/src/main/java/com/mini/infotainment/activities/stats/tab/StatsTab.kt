@@ -19,9 +19,12 @@ abstract class StatsTab : Page(){
     protected var STATE_INACTIVE = 1
     protected var STATE_SELECTED = 2
     protected var state = STATE_IDLE
-    protected abstract fun doShow()
-    protected abstract fun doHide()
 
+    protected abstract fun doShow(callback: Runnable? = null)
+    protected abstract fun doHide(callback: Runnable? = null)
+    protected abstract fun createTravDistChart()
+    protected abstract fun createMaxSpeedChart()
+    protected abstract fun createAvgSpeedChart()
 
     fun show(){
         if(state == STATE_SELECTED) return
@@ -34,27 +37,39 @@ abstract class StatsTab : Page(){
         if(state == STATE_INACTIVE) return
         state = STATE_INACTIVE
         button.setBackgroundResource(0)
-        this.doHide()
+        this.doHide{
+            scrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT)
+        }
     }
 
-    fun addChart(statsChart: StatsChart){
-        val parent = ctx.layoutInflater.inflate(
-            R.layout.activity_stats_charts,
-            linearLayout,
-            false
-        ) as ViewGroup
+    open fun addChart(statsChart: StatsChart){
+        ctx.runOnUiThread {
+            val parent = ctx.layoutInflater.inflate(
+                R.layout.activity_stats_charts,
+                linearLayout,
+                false
+            ) as ViewGroup
 
-        val barChart = parent.findViewById<BarChart>(R.id.stats_chart_chart)
+            val barChart = parent.findViewById<BarChart>(R.id.stats_chart_chart)
 
-        statsChart.barChart = barChart
+            statsChart.barChart = barChart
 
-        val title = parent.findViewById<TextView>(R.id.stats_chart_title)
-        title.text = statsChart.title
+            val title = parent.findViewById<TextView>(R.id.stats_chart_title)
+            title.text = statsChart.title
 
-        val desc = parent.findViewById<TextView>(R.id.stats_chart_timestamp)
-        desc.text = statsChart.description
+            val desc = parent.findViewById<TextView>(R.id.stats_chart_timestamp)
+            desc.text = statsChart.description
 
-        statsChart.apply()
-        linearLayout.addView(parent)
+            statsChart.apply()
+            linearLayout.addView(parent)
+        }
+    }
+
+    fun create(){
+        Thread{
+            this.createTravDistChart()
+            this.createMaxSpeedChart()
+            this.createAvgSpeedChart()
+        }.start()
     }
 }

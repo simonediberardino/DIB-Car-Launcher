@@ -34,20 +34,6 @@ object StatsData {
         dataEditor.apply()
     }
 
-    fun getMaxSpeedForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float>{
-        val hashMap = hashMapOf<String, Float>()
-        val data = getDataFromMode(mode, calendar)
-
-        for(key: String in data.keys){
-            val maxSpeed =
-                ((data[key]) as LinkedTreeMap<*, *>?)
-                    ?.get("maxSpeed") as Float?
-
-            hashMap[key] = maxSpeed ?: 0f
-        }
-        return hashMap
-    }
-
     fun getAvgSpeedForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float> {
         val hashMap = hashMapOf<String, Float>()
         val data = getDataFromMode(mode, calendar)
@@ -62,17 +48,9 @@ object StatsData {
         return hashMap
     }
 
-    // TODO: Delete reg speed of other days
     fun getAvgSpeed(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Double {
         val data = getDataFromMode(mode, calendar)
         val values = mutableListOf<Float>()
-
-/*        data.forEach {
-            val regSpeeds =
-                ((data[it.key]) as LinkedTreeMap<*, *>?)
-                    ?.get("regSpeeds") as MutableList<Float>?
-            regSpeeds?.forEach { values.add(it) }
-        }*/
 
         data.forEach {
             val avgSpeed =
@@ -83,6 +61,20 @@ object StatsData {
                 values.add((avgSpeed["value"] as Double).toFloat())
         }
         return values.average()
+    }
+
+    fun getMaxSpeedForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float>{
+        val hashMap = hashMapOf<String, Float>()
+        val data = getDataFromMode(mode, calendar)
+
+        for(key: String in data.keys){
+            val maxSpeed =
+                (((data[key]) as LinkedTreeMap<*, *>?)
+                    ?.get("maxSpeed") as Double).toFloat()
+
+            hashMap[key] = maxSpeed
+        }
+        return hashMap
     }
 
     fun getMaxSpeed(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {
@@ -108,6 +100,8 @@ object StatsData {
     }
 
     fun increaseTraveledDistance(dist: Float, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())){
+        if(dist <= 0) return
+
         val stats = getStats()
         val key = Utility.getDateString(calendar)
 
@@ -139,11 +133,21 @@ object StatsData {
 
         child.avgSpeed.nElements++
         child.avgSpeed.value = ((child.avgSpeed.value * (child.avgSpeed.nElements-1)) + curSpeed) / child.avgSpeed.nElements
-
-        println(child.avgSpeed)
+        child.maxSpeed = Math.max(child.maxSpeed, curSpeed)
 
         stats[key] = child
         setStats(stats)
+    }
+
+    fun getTraveledDistanceForEachDay(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): HashMap<String, Float> {
+        val hashMap = hashMapOf<String, Float>()
+        val data = getDataFromMode(mode, calendar)
+
+        for(key: String in data.keys)
+            hashMap[key] = (((data[key]) as LinkedTreeMap<*, *>?)
+                ?.get("travDist") as Double).toFloat()
+
+        return hashMap
     }
 
     fun getTraveledDistance(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {

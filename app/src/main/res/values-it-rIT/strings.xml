@@ -76,5 +76,8 @@
     <string name="avg_speed">Velocità media</string>
     <string name="max_speed">Velocità massima</string>
     <string name="dist_trav">Distanza percorsa</string>
+    <string name="total_kmh">Complessivo: {tot} km/h</string>
+    <string name="total_km">Complessivo: {tot} km</string>
+    <string name="chart_bottom">Statistiche relative alla tua auto</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>
