@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="800px"
+        android:layout_width="700px"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp"
@@ -23,19 +23,18 @@
 
             <ImageView
                 android:id="@+id/dialog_premium_closeDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40px"
+                android:layout_height="40px"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close" />
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/giftIcon"
-                android:layout_width="200px"
-                android:layout_height="200px"
+                android:layout_width="170px"
+                android:layout_height="170px"
                 android:src="@drawable/gift"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,13 +53,28 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/dialog_premium_description"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="@string/watchads" />
+                        android:gravity="center"
+                        android:text="@string/premium_desc_1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h6"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center"
+                        android:text="@string/premium_desc_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h7" />
                 </LinearLayout>
             </ScrollView>
 
@@ -75,7 +89,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/upgrade_to_premium"
                 android:textColor="@color/darkblue"
-                android:textSize="@dimen/h2"
+                android:textSize="@dimen/h3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,9 +100,9 @@
                 android:layout_height="wrap_content"
                 android:alpha="0.85"
                 android:background="@drawable/blue_button"
-                android:padding="32dp"
+                android:padding="24px"
                 android:text="@string/premium_confirm"
-                android:textSize="@dimen/h6"
+                android:textSize="@dimen/h7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/giftIcon" />

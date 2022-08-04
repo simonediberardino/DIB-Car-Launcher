@@ -8,7 +8,8 @@ object Errors {
     enum class ErrorCodes{
         APP_NOT_INSTALLED,
         GPS_REQUIRED,
-        UNKNOWN
+        UNKNOWN,
+        INTERNET_NOT_AVAILABLE
     }
 
     fun printError(errorCode: ErrorCodes, activity: Activity){
@@ -17,6 +18,7 @@ object Errors {
                 ErrorCodes.APP_NOT_INSTALLED -> R.string.app_not_installed
                 ErrorCodes.GPS_REQUIRED -> R.string.gps_not_enabled
                 ErrorCodes.UNKNOWN -> R.string.errore_sconosciuto
+                ErrorCodes.INTERNET_NOT_AVAILABLE -> R.string.error_no_internet
             })
         )
     }

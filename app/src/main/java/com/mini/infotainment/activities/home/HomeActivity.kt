@@ -4,10 +4,13 @@ import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.media.MediaPlayer
 import android.net.Uri
@@ -268,6 +271,17 @@ class HomeActivity : ActivityExtended() {
         )
     }
 
+    internal fun premiumFeature(callback: Runnable){
+        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
+            override fun run(p: Any?) {
+                val isPremium = p as Boolean
+                if(!isPremium){
+                    showUpgradeToPremiumDialog()
+                }else callback.run()
+            }
+        })
+    }
+
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.component = ComponentName(SpotifyIntegration.SPOTIFY_PACKAGE, "${SpotifyIntegration.SPOTIFY_PACKAGE}.MainActivity")
@@ -278,6 +292,24 @@ class HomeActivity : ActivityExtended() {
         }catch (exception: Exception){
             Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
+    }
+
+    fun showUpgradeToPremiumDialog(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_upgrade_premium)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val closeBtn = dialog.findViewById<View>(R.id.dialog_premium_closeDialog)
+        val confirmBtn = dialog.findViewById<View>(R.id.dialog_premium_okDialog)
+
+        closeBtn.setOnClickListener { dialog.dismiss() }
+        confirmBtn.setOnClickListener {
+
+        }
+
+        Utility.ridimensionamento(this, dialog.findViewById(R.id.parent))
+
+        dialog.show()
     }
 
     internal fun runFileManager(){

@@ -11,6 +11,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.support.QrcodeData
 import com.mini.infotainment.utility.Utility
 
@@ -19,8 +20,8 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
         parent = ctx.layoutInflater.inflate(R.layout.activity_home_2, ctx.viewPager, false) as ViewGroup
         val gridView = parent!!.findViewById<androidx.gridlayout.widget.GridLayout>(R.id.home_2_grid)
 
-        class GridButton(name: String, drawableId: Int, val callback: Runnable){
-            init{
+        class GridButton(name: String, drawableId: Int, val callback: Runnable) {
+            init {
                 val singleItem = ctx.layoutInflater.inflate(R.layout.home_2_items, parent, false) as ViewGroup
                 val itemNameTW = singleItem.findViewById<TextView>(R.id.home_2_item_name)
                 val itemNameIW = singleItem.findViewById<ImageView>(R.id.home_2_item_image)
@@ -36,37 +37,74 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
         }
 
         GridButton(ctx.getString(R.string.menu_phone), R.drawable.menu_phone) { showQrCodeDialog() }
-        GridButton(ctx.getString(R.string.stats_title), R.drawable.menu_stats) { Utility.navigateTo(ctx, ActivityStats::class.java) }
-        GridButton(ctx.getString(R.string.menu_voice), R.drawable.menu_voice) { ctx.runGoogleAssistant() }
+        GridButton(ctx.getString(R.string.stats_title), R.drawable.menu_stats) { goToStatsActivity() }
 
-        GridButton(ctx.getString(R.string.menu_navigatore), R.drawable.menu_navigation) { ctx.runGoogleMaps() }
-        GridButton(ctx.getString(R.string.menu_spotify), R.drawable.menu_spotify) { ctx.runSpotify() }
-        GridButton(ctx.getString(R.string.menu_settings), R.drawable.menu_settings) { ctx.runSettings() }
+        GridButton(
+            ctx.getString(R.string.menu_voice),
+            R.drawable.menu_voice
+        ) { ctx.runGoogleAssistant() }
+
+        GridButton(
+            ctx.getString(R.string.menu_navigatore),
+            R.drawable.menu_navigation
+        ) { ctx.runGoogleMaps() }
+        GridButton(
+            ctx.getString(R.string.menu_spotify),
+            R.drawable.menu_spotify
+        ) { ctx.runSpotify() }
+        GridButton(
+            ctx.getString(R.string.menu_settings),
+            R.drawable.menu_settings
+        ) { ctx.runSettings() }
 
         ctx.viewPages.add(parent!!)
         super.pageLoaded()
     }
 
-    fun showQrCodeDialog(){
-        val qrCodeBitmap = Utility.generateQrCode(
-            Utility.objectToJsonString(
-                QrcodeData(HomeActivity.server?.serverIPV4 ?: return, ApplicationData.getTarga()!!)
-            ),
-            ctx
-        )
+    private fun goToStatsActivity(){
+        if(!Utility.isInternetAvailable()) {
+            Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
+            return
+        }
 
-        val dialog = Dialog(ctx)
-        dialog.setContentView(R.layout.dialog_qrcode)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        ctx.premiumFeature{
+            Utility.navigateTo(
+                ctx,
+                ActivityStats::class.java
+            )
+        }
+    }
 
-        val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
-        val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
+    private fun showQrCodeDialog() {
+        if(!Utility.isInternetAvailable()) {
+            Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
+            return
+        }
 
-        qrCodeIW.setImageBitmap(qrCodeBitmap)
-        closeBtn.setOnClickListener { dialog.dismiss() }
+        ctx.premiumFeature{
+            val qrCodeBitmap = Utility.generateQrCode(
+                Utility.objectToJsonString(
+                    QrcodeData(
+                        HomeActivity.server?.serverIPV4 ?: return@premiumFeature,
+                        ApplicationData.getTarga()!!
+                    )
+                ),
+                ctx
+            )
 
-        Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
+            val dialog = Dialog(ctx)
+            dialog.setContentView(R.layout.dialog_qrcode)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        dialog.show()
+            val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
+            val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
+
+            qrCodeIW.setImageBitmap(qrCodeBitmap)
+            closeBtn.setOnClickListener { dialog.dismiss() }
+
+            Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
+
+            dialog.show()
+        }
     }
 }
