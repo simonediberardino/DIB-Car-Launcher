@@ -38,9 +38,6 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
         }
 
     override fun build() {
-        ctx.viewPages.clear()
-        ctx.viewPager = ctx.findViewById(R.id.home_view_pager)
-
         parent = ctx.layoutInflater.inflate(R.layout.activity_home_0, ctx.viewPager, false) as ViewGroup
         ctx.viewPages.add(parent!!)
 

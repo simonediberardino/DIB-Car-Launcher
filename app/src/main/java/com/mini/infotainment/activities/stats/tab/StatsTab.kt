@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.BarChart
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.chart.StatsChart
+import com.mini.infotainment.utility.Utility
 
 abstract class StatsTab : Page(){
     abstract val scrollView: HorizontalScrollView
@@ -61,15 +62,15 @@ abstract class StatsTab : Page(){
             desc.text = statsChart.description
 
             statsChart.apply()
+
+            Utility.ridimensionamento(ctx, parent)
             linearLayout.addView(parent)
         }
     }
 
     fun create(){
-        Thread{
-            this.createTravDistChart()
-            this.createMaxSpeedChart()
-            this.createAvgSpeedChart()
-        }.start()
+        this.createTravDistChart()
+        this.createMaxSpeedChart()
+        this.createAvgSpeedChart()
     }
 }

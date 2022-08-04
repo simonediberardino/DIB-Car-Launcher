@@ -1,10 +1,13 @@
 package com.mini.infotainment.activities.stats
 
 import android.os.Bundle
+import android.view.ViewGroup
 import com.mini.infotainment.R
+import com.mini.infotainment.activities.home.HomeActivity.Companion.homeActivity
 import com.mini.infotainment.activities.stats.tab.StatsMonth
 import com.mini.infotainment.activities.stats.tab.StatsWeek
 import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.utility.Utility
 
 
 class ActivityStats : ActivityExtended() {
@@ -15,16 +18,17 @@ class ActivityStats : ActivityExtended() {
         super.onCreate(savedInstanceState)
 
         this.initializeLayout()
-
-        this.statsWeek.show()
-        this.statsMonth.hide()
-
         super.pageLoaded()
+        this.createCharts()
     }
 
     fun initializeLayout(){
         setContentView(R.layout.activity_stats)
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(homeActivity))
 
+    }
+
+    fun createCharts(){
 /*        var calendar = Calendar.getInstance()
 
         calendar.add(Calendar.DAY_OF_YEAR, 1)
@@ -61,8 +65,11 @@ class ActivityStats : ActivityExtended() {
         StatsData.increaseTraveledDistance(20f, calendar)
         StatsData.increaseTraveledDistance(5f, calendar)*/
 
-        statsWeek = StatsWeek(this).also { it.create() }
-        statsMonth = StatsMonth(this).also { it.create() }
+        statsWeek = StatsWeek(this)
+        statsWeek.create()
+
+        statsMonth = StatsMonth(this)
+        statsMonth.create()
 
         statsWeek.button.setOnClickListener {
             this.statsMonth.hide()
@@ -73,5 +80,8 @@ class ActivityStats : ActivityExtended() {
             this.statsWeek.hide()
             this.statsMonth.show()
         }
+
+        this.statsWeek.show()
+        this.statsMonth.hide()
     }
 }

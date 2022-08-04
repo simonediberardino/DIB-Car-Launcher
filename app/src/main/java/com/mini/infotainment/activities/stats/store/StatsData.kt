@@ -143,16 +143,19 @@ object StatsData {
         val hashMap = hashMapOf<String, Float>()
         val data = getDataFromMode(mode, calendar)
 
-        for(key: String in data.keys)
-            hashMap[key] = (((data[key]) as LinkedTreeMap<*, *>?)
-                ?.get("travDist") as Double).toFloat()
+        for(key: String in data.keys){
+            val valueInKm = Utility.metersToKm(((data[key]) as LinkedTreeMap<*, *>?)
+                ?.get("travDist") as Double)
+
+            hashMap[key] = valueInKm
+        }
 
         return hashMap
     }
 
     fun getTraveledDistance(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {
         return getDataFromMode(mode, calendar).values.sumOf {
-            it.travDist.toInt()
+            Utility.metersToKm(it.travDist.toDouble()).toDouble()
         }.toFloat()
     }
 

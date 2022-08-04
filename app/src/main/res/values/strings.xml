@@ -28,7 +28,7 @@
     <string name="gps_not_enabled">This feature requires GPS.</string>
     <string name="errore_sconosciuto">Unknown error.</string>
     <string name="menu_spotify">Spotify</string>
-    <string name="menu_storage">File explorer</string>
+    <string name="menu_phone">Connect phone</string>
     <string name="spotify_no_data">Not available</string>
     <string name="menu_voice">Vocal assistant</string>
     <string name="settings">Settings</string>
@@ -53,7 +53,8 @@
     <string name="confirm_title">Do you want to continue?</string>
     <string name="confirm_desc">The action is not reversible.</string>
     <string name="welcome_msg_confirm">Welcome message set successfully.</string>
-    <string name="inquadra_qrcode">Download DIB Car Launcher Companion and scan the QR Code to connect your mobile phone to the car</string>
+    <string name="qr_code_dialog_title">Scan the QR Code and connect your smartphone now!</string>
+    <string name="inquadra_qrcode">Download DIB Car Launcher Companion on your Android smartphone and scan the QR Code.</string>
     <string name="client_connesso">Client connected successfully!</string>
     <string name="notifica_da">Notification by {appname}</string>
     <string name="notifiche">Show notifications</string>
@@ -66,7 +67,7 @@
     <string name="errore_input">Details not valid</string>
     <string name="consumi">Consuption (l/100km)</string>
     <string name="start_spotify_on_boot">Run Spotify on boot</string>
-    <string name="settings_default_wp">Set default wallpaper</string>
+    <string name="settings_default_wp">Use default wallpaper</string>
     <string name="config">Configuration</string>
     <string name="now">Now</string>
     <string name="day">Day</string>

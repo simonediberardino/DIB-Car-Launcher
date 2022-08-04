@@ -28,7 +28,7 @@
     <string name="gps_not_enabled">Devi attivare il GPS per utilizzare questa funzionalità.</string>
     <string name="errore_sconosciuto">Errore sconosciuto.</string>
     <string name="menu_spotify">Spotify</string>
-    <string name="menu_storage">Archivio</string>
+    <string name="menu_phone">Connetti cellulare</string>
     <string name="spotify_no_data">Non disponibile</string>
     <string name="menu_voice">Assistente vocale</string>
     <string name="settings">Impostazioni</string>
@@ -53,7 +53,8 @@
     <string name="confirm_title">Sei sicuro di voler continuare?</string>
     <string name="confirm_desc">L\'azione non è reversibile.</string>
     <string name="welcome_msg_confirm">Messaggio di benvenuto impostato correttamente.</string>
-    <string name="inquadra_qrcode">Scarica DIB Car Launcher Companion e inquadra il QR Code per collegare il tuo cellulare all\'auto</string>
+    <string name="qr_code_dialog_title">Scansiona il QR Code e connetti il tuo smartphone ora!</string>
+    <string name="inquadra_qrcode">Scarica DIB Car Launcher Companion sul tuo smartphone Android e inquadra il QR Code.</string>
     <string name="client_connesso">Connessione con il client stabilita.</string>
     <string name="notifica_da">Notifica da {appname}</string>
     <string name="notifiche">Ricevi notifiche</string>

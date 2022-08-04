@@ -43,10 +43,15 @@ import java.security.NoSuchAlgorithmException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 import android.R as R1
 
 
 object Utility {
+    fun metersToKm(valueInMeters: Double): Float {
+        return ((valueInMeters.toFloat()/100f).roundToInt())/10f
+    }
+
     fun getScreenWidth(activity: AppCompatActivity): Double {
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -100,7 +105,7 @@ object Utility {
         return if(logoId == 0) null else ctx.getDrawable(logoId)
     }
 
-    fun generateQrCode(textToEncode: String, activity: Activity): Bitmap? {
+    fun generateQrCode(textToEncode: String, activity: AppCompatActivity): Bitmap? {
         val manager = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager?
         val display: Display = manager!!.defaultDisplay
 

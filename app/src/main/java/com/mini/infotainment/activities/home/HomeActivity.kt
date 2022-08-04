@@ -48,8 +48,8 @@ class HomeActivity : ActivityExtended() {
     lateinit var homePage0: HomeZeroPage
     lateinit var homePage1: HomeFirstPage
     lateinit var homePage2: HomeSecondPage
-    lateinit var homePage3: HomeThirdPage
-    
+    lateinit var homePageAds: HomeAdsPage
+
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         homeActivity = this
@@ -75,7 +75,7 @@ class HomeActivity : ActivityExtended() {
         this.initializeLayout()
         this.initializeTTS()
         this.initializeBroadcastReceiver()
-        this.initializeSocketServer()
+        this.setupOnConnectivityChange()
         this.setupGPS()
         this.welcomeUser()
         this.requestStoragePermission()
@@ -92,23 +92,22 @@ class HomeActivity : ActivityExtended() {
         this.setContentView(R.layout.activity_home)
         this.setWallpaper()
 
+        homePageAds = HomeAdsPage(this).also { it.build() }
         homePage0 = HomeZeroPage(this).also { it.build() }
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
-        homePage3 = HomeThirdPage(this).also { it.build() }
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
 
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.adapter = PagerAdapter(viewPages)
-        viewPager.currentItem = 1
+        viewPager.currentItem = 2
     }
 
-    private fun initializeSocketServer(){
-        if(server != null)
-            return
-
+    private fun setupOnConnectivityChange(){
         fun callback(){
+            homePageAds.showAds()
+
             server?.serverSocket?.close()
             SocketServer(this).also {
                 server = it
@@ -215,11 +214,12 @@ class HomeActivity : ActivityExtended() {
             gpsManager.previousUserLocation = gpsManager.currentUserLocation
         }
 
+        gpsManager.currentUserLocation = newLocation
+
         StatsData.increaseTraveledDistance(
             gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: 0f
         )
 
-        gpsManager.currentUserLocation = newLocation
         homePage0.onLocationChanged(gpsManager.currentUserLocation ?: return)
     }
 

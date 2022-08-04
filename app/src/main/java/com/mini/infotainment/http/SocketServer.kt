@@ -2,9 +2,7 @@ package com.mini.infotainment.http
 
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
-import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
-import com.mini.infotainment.support.QrcodeData
 import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -37,18 +35,7 @@ class SocketServer(val activity: HomeActivity) {
             FirebaseClass.updateServerIp(serverIPV4)
             FirebaseClass.updateStartTime(System.currentTimeMillis())
 
-            activity.runOnUiThread {
-                notificationHandler = NotificationHandler(activity)
-
-                val bitmap = Utility.generateQrCode(
-                    Utility.objectToJsonString(
-                        QrcodeData(serverIPV4, ApplicationData.getTarga()!!)
-                    ),
-                    activity
-                )
-
-                bitmap?.let { activity.homePage3.updateQrCode(it) }
-            }
+            notificationHandler = NotificationHandler(activity)
         } catch (e: IOException) {
             e.printStackTrace()
         }
