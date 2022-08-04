@@ -48,6 +48,13 @@ import android.R as R1
 
 
 object Utility {
+    fun areSettingsSet(): Boolean {
+        return ApplicationData.getBrandName() != null
+    }
+    fun hasLoginData(): Boolean {
+        return ApplicationData.getCarPassword() != null && ApplicationData.getTarga() != null
+    }
+
     fun metersToKm(valueInMeters: Double): Float {
         return ((valueInMeters.toFloat()/100f).roundToInt())/10f
     }
@@ -162,7 +169,7 @@ object Utility {
         c.startActivity(intent, bundle)
     }
 
-    fun getMD5(input: String): String? {
+    fun getMD5(input: String): String {
         return try {
             val md = MessageDigest.getInstance("MD5")
             val messageDigest = md.digest(input.toByteArray())

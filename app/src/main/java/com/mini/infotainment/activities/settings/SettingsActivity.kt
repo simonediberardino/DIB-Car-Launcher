@@ -1,30 +1,35 @@
-package com.mini.infotainment.activities.home
+package com.mini.infotainment.activities.settings
 
-import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.activities.home.HomeActivity.Companion.homeActivity
 import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.utility.Utility
 
 
-class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+class SettingsActivity : ActivityExtended() {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var brands = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
+        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
     }
 
-    private var settingsDefaultWPCB: CheckBox
-    private var settingsSpotifyOnBootCB: CheckBox
-    private var settingsTargaEt: EditText
-    private var settingsConsuptionEt: EditText
-    private var confirmButton: View
-    private var llLogos: LinearLayout
+    private lateinit var settingsDefaultWPCB: CheckBox
+    private lateinit var settingsSpotifyOnBootCB: CheckBox
+    private lateinit var confirmButton: View
+    private lateinit var llLogos: LinearLayout
+    private var isFirstLaunch = true
+
     private var logos = arrayListOf<Logo>()
     private var selectedLogo: Logo? = null
         set(value) {
@@ -37,28 +42,31 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
                 )
         }
 
-    init {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isFirstLaunch = intent.getBooleanExtra("isFirstLaunch", true)
+        this.initializeLayout()
+    }
+
+    private fun initializeLayout(){
         this.setContentView(R.layout.activity_settings)
         this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(homeActivity))
-        settingsTargaEt = findViewById(R.id.settings_targa)
-        settingsConsuptionEt = findViewById(R.id.settings_consumi)
+
         confirmButton = findViewById(R.id.settings_confirm_button)
         llLogos = findViewById(R.id.ll_logos)
         settingsSpotifyOnBootCB = findViewById(R.id.settings_spotify_boot)
         settingsDefaultWPCB = findViewById(R.id.settings_default_wp)
 
         confirmButton.setOnClickListener { this.handleSettings() }
-        settingsTargaEt.setText(ApplicationData.getTarga() ?: String())
-        settingsConsuptionEt.setText(ApplicationData.getFuelConsuption() ?: String())
         settingsSpotifyOnBootCB.isChecked = ApplicationData.doesSpotifyRunOnBoot()
         settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
 
         inflateLogos()
-        Utility.ridimensionamento(homeActivity, this.findViewById(R.id.parent))
+        super.pageLoaded()
     }
 
     private fun inflateLogos(){
-        for(brand: String in brands)
+        for(brand: String in BRANDS)
             inflateLogo(brand)
         selectedLogo = logos.find { it.brandName == ApplicationData.getBrandName()} ?: logos.first()
     }
@@ -86,17 +94,7 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
     }
 
     private fun handleSettings(){
-        val enteredTarga = settingsTargaEt.text.toString().trim()
-        val enteredConsuption = settingsConsuptionEt.text.toString().trim()
-
-        if(enteredConsuption.isEmpty() || enteredTarga.isEmpty()){
-            Utility.showToast(homeActivity, homeActivity.getString(R.string.errore_input))
-            return
-        }
-
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
-        ApplicationData.setTarga(enteredTarga)
-        ApplicationData.setFuelConsuption(enteredConsuption)
         ApplicationData.doesSpotifyRunOnBoot(settingsSpotifyOnBootCB.isChecked)
 
         if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
@@ -104,6 +102,19 @@ class HomeSettingsDialog(val homeActivity: HomeActivity) : Dialog(homeActivity, 
             homeActivity.setWallpaper()
         }
 
-        this.dismiss()
+        finish()
+    }
+
+    override fun finish() {
+        if(isFirstLaunch)
+            homeActivity.continueToActivity()
+
+        homeActivity.homePage1?.updateData()
+        super.finish()
+    }
+
+    override fun onBackPressed() {
+        if(isFirstLaunch)
+            super.onBackPressed()
     }
 }

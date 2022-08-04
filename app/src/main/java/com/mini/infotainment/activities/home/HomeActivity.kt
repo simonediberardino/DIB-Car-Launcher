@@ -22,6 +22,8 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.PagerAdapter
+import com.mini.infotainment.activities.login.RegisterActivity
+import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
@@ -44,31 +46,34 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
     internal lateinit var sideMenu: SideMenu
-    internal var appsMenu: AppsMenu? = null
-    lateinit var homePage0: HomeZeroPage
-    lateinit var homePage1: HomeFirstPage
-    lateinit var homePage2: HomeSecondPage
-    lateinit var homePageAds: HomeAdsPage
+    var appsMenu: AppsMenu? = null
+    var homePage0: HomeZeroPage? = null
+    var homePage1: HomeFirstPage? = null
+    var homePage2: HomeSecondPage? = null
+    var homePageAds: HomeAdsPage? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         homeActivity = this
 
         super.onCreate(savedInstanceState)
-        val areSettingsSet = ApplicationData.getTarga() != null && ApplicationData.getBrandName() != null && ApplicationData.getFuelConsuption() != null
+        this.initializeExceptionHandler()
 
-        initializeExceptionHandler()
-
-        if(!areSettingsSet){
-            val loginDialog = HomeSettingsDialog(this)
-            loginDialog.setCancelable(false)
-            loginDialog.setOnDismissListener {
-                continueToActivity()
-            }
-            loginDialog.show()
-        }else{
-            continueToActivity()
+        if(!Utility.hasLoginData()){
+            val intent = Intent(this, RegisterActivity::class.java)
+            intent.putExtra("isFirstLaunch", true)
+            startActivity(intent)
+            return
         }
+
+        if(!Utility.areSettingsSet()){
+            val intent = Intent(this, SettingsActivity::class.java)
+            intent.putExtra("isFirstLaunch", true)
+            startActivity(intent)
+            return
+        }
+
+        this.continueToActivity()
     }
 
     internal fun continueToActivity(){
@@ -99,14 +104,28 @@ class HomeActivity : ActivityExtended() {
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
 
-        val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
-        viewPager.adapter = PagerAdapter(viewPages)
-        viewPager.currentItem = 2
+        FirebaseClass.updatePremiumDate(30)
+
+        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
+            override fun run(p: Any?) {
+                var startPage = 2
+                val isPremiumCar = p as Boolean
+
+                if(isPremiumCar) {
+                    viewPages.removeAt(0)
+                    startPage = 1
+                }
+
+                val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
+                viewPager.adapter = PagerAdapter(viewPages)
+                viewPager.currentItem = startPage
+            }
+        })
     }
 
     private fun setupOnConnectivityChange(){
         fun callback(){
-            homePageAds.showAds()
+            homePageAds?.showAds()
 
             server?.serverSocket?.close()
             SocketServer(this).also {
@@ -220,12 +239,12 @@ class HomeActivity : ActivityExtended() {
             gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: 0f
         )
 
-        homePage0.onLocationChanged(gpsManager.currentUserLocation ?: return)
+        homePage0?.onLocationChanged(gpsManager.currentUserLocation ?: return)
     }
 
     private fun handleSpeedReport(){
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
-        homePage1.speedometerTW.text = speedInKmH.toString()
+        homePage1?.speedometerTW?.text = speedInKmH.toString()
 
         if(speedInKmH > 2)
             StatsData.addSpeedReport(speedInKmH.toFloat())
@@ -243,7 +262,7 @@ class HomeActivity : ActivityExtended() {
             this,
             object: RunnablePar{
                 override fun run(p: Any?) {
-                    homePage1.addressTW.text = if(p == null) String() else p as String
+                    homePage1?.addressTW?.text = if(p == null) String() else p as String
                 }
             }
         )
@@ -356,8 +375,8 @@ class HomeActivity : ActivityExtended() {
             val trackName = intent.getStringExtra("track")
 
             if(activity is HomeActivity){
-                homeActivity.homePage1.spotifyTitleTW.text = trackName
-                homeActivity.homePage1.spotifyAuthorTw.text = artistName
+                homeActivity.homePage1?.spotifyTitleTW?.text = trackName
+                homeActivity.homePage1?.spotifyAuthorTw?.text = artistName
             }
         }
     }

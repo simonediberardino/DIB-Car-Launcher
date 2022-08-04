@@ -1,6 +1,7 @@
 package com.mini.infotainment.data
 import android.location.Location
 import com.google.firebase.database.*
+import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
 
 
@@ -10,11 +11,50 @@ object FirebaseClass{
     private var SERVER_IP_REF = "serverip"
     private var TIME_REF = "time"
     private var START_REF = "start"
+    private var PASSWORD_REF = "password"
+    private var PREMIUM_DATE_REF = "premiumDate"
 
-    val databaseReference: DatabaseReference
-        get() {
-            return FirebaseDatabase.getInstance(DB_REF).reference
+    fun isPremiumCar(plateNum: String, runnablePar: RunnablePar){
+        getCarObject(plateNum, object : RunnablePar{
+            override fun run(p: Any?) {
+                val carObject = p as MyCar?
+                val isPremium = (carObject?.premiumDate ?: 0) > System.currentTimeMillis()
+                runnablePar.run(isPremium)
+            }
+        })
+    }
+
+    fun doesCarExist(plateNum: String, runnablePar: RunnablePar){
+        getCarObjectReference(plateNum).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                runnablePar.run(snapshot.exists())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                runnablePar.run(false)
+            }
+        })
+    }
+
+    fun areCredentialsCorrect(plateNum: String?, password: String?, runnablePar: RunnablePar){
+        if(plateNum.isNullOrEmpty() || password.isNullOrEmpty()) {
+            runnablePar.run(false)
+            return
         }
+
+        getCarObject(plateNum, object: RunnablePar{
+            override fun run(p: Any?) {
+                val carObject = p as MyCar?
+                runnablePar.run(carObject?.password == password)
+            }
+        })
+    }
+
+    fun updatePremiumDate(days: Long) {
+        val daysInMs: Long = (1000 * 60 * 60 * 24) * days
+        val nextDeadline = System.currentTimeMillis() + daysInMs
+        getPremiumDateReference().setValue(nextDeadline)
+    }
 
     fun updateCarLocation(location: Location){
         getCarLocationReference().setValue(location)
@@ -28,53 +68,51 @@ object FirebaseClass{
         getTimeReference().setValue(time)
     }
 
-    fun getCarLocation(callback: RunnablePar){
-        getCarLocationReference().addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                callback.run(snapshot.getValue(Location::class.java))
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
-    }
-
     fun updateServerIp(ip: String){
         getServerIpReference().setValue(ip)
     }
 
-    fun getServerIP(callback: RunnablePar){
-        getServerIpReference().addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                callback.run(snapshot.getValue(String::class.java))
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
-    }
-
     fun getCarLocationReference(): DatabaseReference {
-        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(LOCATION_REF)
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(LOCATION_REF)
     }
 
     fun getTimeReference(): DatabaseReference {
-        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(TIME_REF)
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(TIME_REF)
     }
 
     fun getStartReference(): DatabaseReference {
-        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(START_REF)
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(START_REF)
     }
 
     fun getServerIpReference(): DatabaseReference {
-        return getSpecificField(DB_REF, ApplicationData.getTarga()!!).child(SERVER_IP_REF)
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(SERVER_IP_REF)
+    }
+
+    fun getPasswordReference(): DatabaseReference {
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(PASSWORD_REF)
+    }
+
+    fun getPremiumDateReference(): DatabaseReference{
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(PREMIUM_DATE_REF)
+    }
+
+    fun getCarObjectReference(plateNum: String): DatabaseReference {
+        return FirebaseDatabase.getInstance(DB_REF).getReference(plateNum)
+    }
+
+    fun getCarObject(plateNum: String, runnablePar: RunnablePar){
+        getCarObjectReference(plateNum).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                runnablePar.run(snapshot.getValue(MyCar::class.java))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                runnablePar.run(null)
+            }
+        })
     }
 
     fun getSpecificField(referString: String, path: String): DatabaseReference {
         return FirebaseDatabase.getInstance(referString).getReference(path)
     }
-
-    fun deleteFieldFirebase(reference: DatabaseReference, child: String?) {
-        if(child != null)
-            reference.child(child).removeValue()
-    }
-
 }

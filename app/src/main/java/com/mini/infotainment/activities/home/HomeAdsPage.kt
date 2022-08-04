@@ -1,16 +1,21 @@
 package com.mini.infotainment.activities.home
 
+import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.Page
+import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.support.RunnablePar
 
 class HomeAdsPage(override val ctx: HomeActivity) : Page() {
     companion object{
-        val BANNER_ID = "ca-app-pub-5725383971112097/9554636134"
-        // TEST ID: val BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
+        //val BANNER_ID = "ca-app-pub-5725383971112097/9554636134"
+        val BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
         val N_ADS = 5
     }
 
@@ -27,8 +32,26 @@ class HomeAdsPage(override val ctx: HomeActivity) : Page() {
         val viewGroup = parent!!.findViewById<ViewGroup>(R.id.home_ads_ll)!!
         viewGroup.removeAllViews()
 
-        for(i in 0 until N_ADS)
-            showBanner(viewGroup)
+        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar {
+            override fun run(p: Any?) {
+                val isPremium = p as Boolean
+                if(!isPremium){
+                    for(i in 0 until N_ADS)
+                        showBanner(viewGroup)
+                }else{
+                    showEmptyTextView(viewGroup)
+                }
+            }
+        })
+
+    }
+
+    fun showEmptyTextView(viewGroup: ViewGroup){
+        val textView = TextView(ctx)
+        textView.textSize = 32f
+        textView.gravity = Gravity.CENTER
+        textView.text = ctx.getString(R.string.no_ads_available)
+        viewGroup.addView(textView)
     }
 
     fun showBanner(viewGroup: ViewGroup){

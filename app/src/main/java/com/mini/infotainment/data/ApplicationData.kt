@@ -11,6 +11,8 @@ object ApplicationData {
     private val NOTIFICHE_DEFAULT = true
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
+    private const val PASSWORD_ID = "PASSWORD_ID"
+    private val PASSWORD_DEFAULT = null
     private const val BRAND_ID = "BRAND_ID"
     private val BRAND_DEFAULT = null
     private const val CONSUPTION_ID = "CONSUPTION_ID"
@@ -84,9 +86,19 @@ object ApplicationData {
         return applicationData.getString(TARGA_ID, TARGA_DEFAULT)
     }
 
-    fun setTarga(targa: String){
+    fun setTarga(targa: String?){
         val dataEditor = applicationData.edit()
-        dataEditor.putString(TARGA_ID, targa.uppercase())
+        dataEditor.putString(TARGA_ID, targa?.uppercase().toString())
+        dataEditor.apply()
+    }
+
+    fun getCarPassword(): String? {
+        return applicationData.getString(PASSWORD_ID, PASSWORD_DEFAULT)
+    }
+
+    fun setCarPassword(password: String?){
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(PASSWORD_ID, password.toString())
         dataEditor.apply()
     }
 }

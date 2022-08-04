@@ -16,7 +16,7 @@
         android:layout_marginTop="32px"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="@string/config"
+        android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="@dimen/h2"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         android:layout_height="0px"
         android:layout_marginTop="32px"
         android:layout_marginBottom="32px"
-        app:layout_constraintBottom_toTopOf="@+id/settings_confirm_button"
+        app:layout_constraintBottom_toTopOf="@+id/login_confirm_button"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="8px">
 
@@ -49,52 +49,58 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/settings_spotify_boot"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/login_targa"
+                    android:layout_width="600px"
                     android:layout_height="60px"
                     android:background="#11000000"
+                    android:drawableLeft="@drawable/ic_baseline_credit_card_24"
+                    android:drawablePadding="8px"
+                    android:ems="10"
+                    android:focusedByDefault="false"
+                    android:hint="@string/targa"
                     android:padding="8px"
-                    android:text="@string/start_spotify_on_boot"
+                    android:password="false"
+                    android:textColor="@color/silver"
+                    android:textColorHint="@color/silver"
                     android:textSize="@dimen/h4" />
 
-                <CheckBox
-                    android:id="@+id/settings_default_wp"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                <EditText
+                    android:id="@+id/login_psw"
                     android:layout_width="match_parent"
                     android:layout_height="60px"
                     android:layout_marginTop="32px"
                     android:background="#11000000"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:drawablePadding="8px"
+                    android:ems="10"
+                    android:focusedByDefault="false"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
                     android:padding="8px"
-                    android:text="@string/settings_default_wp"
+                    android:password="false"
+                    android:textColor="@color/silver"
+                    android:textColorHint="@color/silver"
                     android:textSize="@dimen/h4" />
+
             </LinearLayout>
 
-            <HorizontalScrollView
-                android:id="@+id/scrollView3"
-                android:layout_width="750px"
+            <TextView
+                android:id="@+id/login_reg_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="32px"
-                android:scrollbars="none">
+                android:layout_marginTop="32px"
+                android:gravity="center"
+                android:text="@string/not_registered_yet_question"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5" />
 
-                <LinearLayout
-                    android:id="@+id/ll_logos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="32px"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="32px"
-                    android:paddingRight="32px" />
-            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/settings_confirm_button"
+        android:id="@+id/login_confirm_button"
         android:layout_width="400px"
         android:layout_height="65px"
         android:layout_marginBottom="32px"
@@ -112,7 +118,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/settings_confirm_text"
+                android:id="@+id/login_confirm_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@android:string/ok"

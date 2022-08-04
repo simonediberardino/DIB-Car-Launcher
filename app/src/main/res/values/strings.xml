@@ -35,8 +35,9 @@
     <string name="credits">Developed by Simone Di Berardino</string>
     <string name="login_error">Error while logging in.</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Register your car</string>
     <string name="proceed_no_internet">Proceed without internet</string>
     <string name="connecting">Connecting…</string>
     <string name="password_errata">Wrong password.</string>
@@ -80,5 +81,14 @@
     <string name="total_kmh">Overall: {tot} km/h</string>
     <string name="total_km">Overall: {tot} km</string>
     <string name="chart_bottom">Stats about your car</string>
+    <string name="not_registered_yet_question">Not registered yet?</string>
+    <string name="already_registered_question">Already registered?</string>
+    <string name="error_car_registered">This car is already registered.</string>
+    <string name="error_password_dont_match">Password do not match.</string>
+    <string name="error_invalid_details">Invalid details, please retry.</string>
+    <string name="error_no_internet">Internet connection unavailable, retry.</string>
+    <string name="no_ads_available">No ads available</string>
+    <string name="upgrade_to_premium">Upgrade to premium!</string>
+    <string name="premium_confirm">Upgrade to premium now</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>
