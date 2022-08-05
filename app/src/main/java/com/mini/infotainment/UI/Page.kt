@@ -8,6 +8,7 @@ abstract class Page {
     abstract val ctx: ActivityExtended
     var parent: ViewGroup? = null
 
+    open fun show(){}
     open fun build(){}
     fun pageLoaded(){
         Utility.ridimensionamento(ctx, parent ?: return)

@@ -4,13 +4,10 @@ import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.media.MediaPlayer
 import android.net.Uri
@@ -24,7 +21,9 @@ import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
+import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.activities.stats.store.StatsData
@@ -49,10 +48,10 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var TTS: TextToSpeech
     internal lateinit var sideMenu: SideMenu
-    var appsMenu: AppsMenu? = null
-    var homePage0: HomeZeroPage? = null
-    var homePage1: HomeFirstPage? = null
-    var homePage2: HomeSecondPage? = null
+    lateinit var appsMenu: AppsMenu
+    lateinit var homePage0: HomeZeroPage
+    lateinit var homePage1: HomeFirstPage
+    lateinit var homePage2: HomeSecondPage
     var homePageAds: HomeAdsPage? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
@@ -106,8 +105,6 @@ class HomeActivity : ActivityExtended() {
         homePage2 = HomeSecondPage(this).also { it.build() }
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
-
-        FirebaseClass.updatePremiumDate(30)
 
         FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
             override fun run(p: Any?) {
@@ -272,14 +269,25 @@ class HomeActivity : ActivityExtended() {
     }
 
     internal fun premiumFeature(callback: Runnable){
+        premiumFeature(callback, true)
+    }
+
+    internal fun premiumFeature(callback: Runnable = Runnable {  }, showLoadMessage: Boolean = true){
+        if(showLoadMessage)
+            CustomToast(getString(R.string.caricamento), this).show()
+
         FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
             override fun run(p: Any?) {
                 val isPremium = p as Boolean
                 if(!isPremium){
-                    showUpgradeToPremiumDialog()
+                   goToCheckout()
                 }else callback.run()
             }
         })
+    }
+
+    fun goToCheckout(){
+        Utility.navigateTo(this@HomeActivity, CheckoutActivity::class.java)
     }
 
     internal fun runSpotify() {
@@ -292,24 +300,6 @@ class HomeActivity : ActivityExtended() {
         }catch (exception: Exception){
             Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
-    }
-
-    fun showUpgradeToPremiumDialog(){
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_upgrade_premium)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val closeBtn = dialog.findViewById<View>(R.id.dialog_premium_closeDialog)
-        val confirmBtn = dialog.findViewById<View>(R.id.dialog_premium_okDialog)
-
-        closeBtn.setOnClickListener { dialog.dismiss() }
-        confirmBtn.setOnClickListener {
-
-        }
-
-        Utility.ridimensionamento(this, dialog.findViewById(R.id.parent))
-
-        dialog.show()
     }
 
     internal fun runFileManager(){

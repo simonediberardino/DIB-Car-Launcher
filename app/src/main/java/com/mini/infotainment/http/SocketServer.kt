@@ -42,7 +42,7 @@ class SocketServer(val activity: HomeActivity) {
     }
 
     private fun listenClients() {
-        while (serverSocket != null || serverSocket?.isClosed == false) {
+        while (serverSocket != null || serverSocket?.isClosed != true) {
             try {
                 this.handleClientConnection(serverSocket?.accept() ?: return)
             } catch (e: IOException) {

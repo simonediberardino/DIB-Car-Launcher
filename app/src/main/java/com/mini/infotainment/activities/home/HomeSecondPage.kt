@@ -36,7 +36,9 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             }
         }
 
-        GridButton(ctx.getString(R.string.menu_phone), R.drawable.menu_phone) { showQrCodeDialog() }
+        GridButton(ctx.getString(R.string.menu_phone), R.drawable.menu_phone) {
+            showQrCodeDialog()
+        }
         GridButton(ctx.getString(R.string.stats_title), R.drawable.menu_stats) { goToStatsActivity() }
 
         GridButton(

@@ -50,7 +50,7 @@ object FirebaseClass{
         })
     }
 
-    fun updatePremiumDate(days: Long) {
+    fun promoteToPremium(days: Long) {
         val daysInMs: Long = (1000 * 60 * 60 * 24) * days
         val nextDeadline = System.currentTimeMillis() + daysInMs
         getPremiumDateReference().setValue(nextDeadline)

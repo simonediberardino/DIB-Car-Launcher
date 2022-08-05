@@ -27,7 +27,7 @@ abstract class StatsTab : Page(){
     protected abstract fun createMaxSpeedChart()
     protected abstract fun createAvgSpeedChart()
 
-    fun show(){
+    override fun show(){
         if(state == STATE_SELECTED) return
         state = STATE_SELECTED
         button.setBackgroundResource(R.drawable.square_light_grey_round)

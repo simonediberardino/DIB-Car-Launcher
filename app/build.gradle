@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.mini.infotainment"
@@ -16,8 +16,12 @@ android {
     }
 
     buildTypes {
+        debug{
+            manifestPlaceholders = [orientation: "landscape"]
+        }
         release {
             minifyEnabled false
+            manifestPlaceholders = [orientation: "landscape"]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -29,6 +33,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation 'com.github.kittinunf.fuel:fuel-json:2.3.1'
+    implementation 'com.stripe:stripe-android:20.8.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'

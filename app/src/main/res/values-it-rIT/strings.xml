@@ -92,5 +92,7 @@
     <string name="premium_confirm">Passa a premium ora</string>
     <string name="premium_desc_1">Passa a premium ora, a soli 2.99€ al mese!</string>
     <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di connettere il cellulare all\'auto\n• Visualizzare le statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
+    <string name="premium_success">Hai sbloccato con successo le funzionalità premium per un mese!</string>
+    <string name="premium_error">Errore durante il processo.</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

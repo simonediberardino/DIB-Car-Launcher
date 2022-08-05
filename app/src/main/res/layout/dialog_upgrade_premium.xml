@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="700px"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,32 +21,27 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="24dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/dialog_premium_closeDialog"
                 android:layout_width="40px"
                 android:layout_height="40px"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dialog_premium_titleDialog"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close" />
 
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/giftIcon"
-                android:layout_width="170px"
-                android:layout_height="170px"
-                android:src="@drawable/gift"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView5" />
-
             <ScrollView
                 android:id="@+id/scrollView5"
-                android:layout_width="match_parent"
-                android:layout_height="200px"
+                android:layout_width="0dp"
+                android:layout_height="300px"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_premium_titleDialog">
 
                 <LinearLayout
@@ -61,20 +58,28 @@
                         android:gravity="center"
                         android:text="@string/premium_desc_1"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/h6"
+                        android:textSize="@dimen/h7"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:gravity="center"
                         android:text="@string/premium_desc_2"
                         android:textColor="@color/black"
                         android:textSize="@dimen/h7" />
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/giftIcon"
+                        android:layout_width="150px"
+                        android:layout_height="150px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/gift" />
+
                 </LinearLayout>
             </ScrollView>
 
@@ -83,13 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carter_one"
+                android:gravity="center"
                 android:shadowColor="#000"
                 android:shadowDx="2"
                 android:shadowDy="5"
                 android:shadowRadius="1.5"
                 android:text="@string/upgrade_to_premium"
                 android:textColor="@color/darkblue"
-                android:textSize="@dimen/h3"
+                android:textSize="@dimen/h5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,14 +104,16 @@
                 android:id="@+id/dialog_premium_okDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:alpha="0.85"
                 android:background="@drawable/blue_button"
                 android:padding="24px"
                 android:text="@string/premium_confirm"
-                android:textSize="@dimen/h7"
+                android:textSize="@dimen/h8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/giftIcon" />
+                app:layout_constraintTop_toBottomOf="@+id/scrollView5" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
