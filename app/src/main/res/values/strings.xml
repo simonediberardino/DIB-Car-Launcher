@@ -93,6 +93,9 @@
     <string name="premium_desc_1">Upgrade to premium now, for just 2.99€/month!</string>
     <string name="premium_success">You successfully unlocked all the premium features for a month!</string>
     <string name="premium_error">Error while processing.</string>
+    <string name="payment_not_ready">Payment instance not ready yet, retry in a couple of seconds.</string>
+    <string name="already_premium">You are already premium!</string>
     <string name="premium_desc_2"> <b>What you will receive:</b>\n• Ads removed\n• Being able to connect your phone to your car\n• Access to real-time stats of your car\n• And much more in the future!</string>
+    <string name="premium_dib">DIB Premium</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

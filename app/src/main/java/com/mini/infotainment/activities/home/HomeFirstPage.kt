@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.receivers.SpotifyIntegration
-import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.UI.Page
+import com.mini.infotainment.activities.stats.store.StatsData
+import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.utility.Utility
 
 
@@ -22,7 +23,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
     internal lateinit var timeTW: TextView
     internal lateinit var spotifyWidget: View
     internal lateinit var carIcon: ImageView
-    internal lateinit var carConsuptionTW: TextView
+    internal lateinit var travSpeedTW: TextView
     internal lateinit var carTargaTW: TextView
 
     @SuppressLint("ClickableViewAccessibility")
@@ -37,7 +38,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
         spotifyAuthorTw = parent!!.findViewById(R.id.spotify_author)
         homeButton = parent!!.findViewById(R.id.home_1_swipe)
         carIcon = parent!!.findViewById(R.id.home_1_car_icon)
-        carConsuptionTW = parent!!.findViewById(R.id.home_1_consuption)
+        travSpeedTW = parent!!.findViewById(R.id.home_1_trav_speed)
         carTargaTW = parent!!.findViewById(R.id.home_1_targa)
 
         ctx.viewPages.add(parent!!)
@@ -69,13 +70,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
 
     fun updateData(){
         updateLogoImageView()
-        updateFuelConsuption()
         updateCarName()
+        updateTravSpeed()
     }
 
-    fun updateFuelConsuption(){
-        val fuelConsuption = "${ApplicationData.getFuelConsuption() ?: return}\nl/100km"
-        carConsuptionTW.text = fuelConsuption
+    fun updateTravSpeed(){
+        travSpeedTW.text = "${StatsData.getTraveledDistance(StatsData.Mode.DAY)}\nkm/24h"
     }
 
     fun updateCarName(){

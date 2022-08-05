@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.support.QrcodeData
+import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility
 
 class HomeSecondPage(override val ctx: HomeActivity) : Page() {
@@ -42,9 +45,9 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
         GridButton(ctx.getString(R.string.stats_title), R.drawable.menu_stats) { goToStatsActivity() }
 
         GridButton(
-            ctx.getString(R.string.menu_voice),
-            R.drawable.menu_voice
-        ) { ctx.runGoogleAssistant() }
+            ctx.getString(R.string.premium_dib),
+            R.drawable.menu_premium
+        ) { showPremiumPage() }
 
         GridButton(
             ctx.getString(R.string.menu_navigatore),
@@ -61,6 +64,22 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
 
         ctx.viewPages.add(parent!!)
         super.pageLoaded()
+    }
+
+    private fun showPremiumPage(){
+        if(!Utility.isInternetAvailable()) {
+            Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
+            return
+        }
+
+        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar {
+            override fun run(p: Any?) {
+                val isPremium = p as Boolean
+                if(!isPremium){
+                    ctx.goToCheckout()
+                }else CustomToast(ctx.getString(R.string.already_premium), ctx).show()
+            }
+        })
     }
 
     private fun goToStatsActivity(){

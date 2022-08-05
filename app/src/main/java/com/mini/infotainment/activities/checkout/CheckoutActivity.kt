@@ -10,6 +10,7 @@ import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
+import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.utility.Utility
@@ -18,10 +19,10 @@ import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 
 class CheckoutActivity : ActivityExtended() {
-    lateinit var dialog: Dialog
-    lateinit var paymentSheet: PaymentSheet
-    lateinit var customerConfig: PaymentSheet.CustomerConfiguration
-    lateinit var paymentIntentClientSecret: String
+    private lateinit var dialog: Dialog
+    private lateinit var paymentSheet: PaymentSheet
+    private lateinit var customerConfig: PaymentSheet.CustomerConfiguration
+    private var paymentIntentClientSecret: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +76,16 @@ class CheckoutActivity : ActivityExtended() {
     }
 
     private fun presentPaymentSheet() {
+        if(paymentIntentClientSecret == null){
+            CustomToast(getString(R.string.payment_not_ready), this).show()
+            return
+        }
+
         dialog.setOnDismissListener {  }
         dialog.dismiss()
 
         paymentSheet.presentWithPaymentIntent(
-            paymentIntentClientSecret,
+            paymentIntentClientSecret!!,
             PaymentSheet.Configuration(
                 merchantDisplayName = this.getString(R.string.app_name),
                 customer = customerConfig,
@@ -98,15 +104,17 @@ class CheckoutActivity : ActivityExtended() {
                 this.onSuccess()
             }
         }
+        onBackPressed()
     }
 
     private fun onSuccess(){
-        FirebaseClass.promoteToPremium(30)
+        FirebaseClass.promoteToPremium(30){
+            HomeActivity.homeActivity.generateViewPager()
+        }
         CustomToast(this.getString(R.string.premium_success), this).show()
     }
 
     private fun onError(){
         CustomToast(this.getString(R.string.premium_error), this).show()
     }
-
 }

@@ -29,6 +29,7 @@ import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.errors.ExceptionHandler
 import com.mini.infotainment.gps.GPSManager
@@ -86,6 +87,7 @@ class HomeActivity : ActivityExtended() {
         this.setupGPS()
         this.welcomeUser()
         this.requestStoragePermission()
+        this.checkIfPremiumExpired()
 
         if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
@@ -106,17 +108,22 @@ class HomeActivity : ActivityExtended() {
         appsMenu = AppsMenu(this).also { it.build() }
         sideMenu = SideMenu(this).also { it.build() }
 
+        this.generateViewPager()
+    }
+
+    fun generateViewPager(){
         FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
             override fun run(p: Any?) {
                 var startPage = 2
                 val isPremiumCar = p as Boolean
 
-                if(isPremiumCar) {
+                if(isPremiumCar && viewPages.size == 4) {
                     viewPages.removeAt(0)
                     startPage = 1
                 }
 
                 val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
+                viewPager.removeAllViews()
                 viewPager.adapter = PagerAdapter(viewPages)
                 viewPager.currentItem = startPage
             }
@@ -178,6 +185,18 @@ class HomeActivity : ActivityExtended() {
         wallpaperView.setBackgroundDrawable(Utility.getWallpaper(this))
     }
 
+    private fun checkIfPremiumExpired(){
+        FirebaseClass.getCarObject(ApplicationData.getTarga()!!, object : RunnablePar{
+            override fun run(p: Any?) {
+                val carObject = p as MyCar? ?: return
+                val wasPremium = carObject.premiumDate < System.currentTimeMillis() && carObject.premiumDate != 0L
+                if(wasPremium){
+
+                }
+            }
+
+        })
+    }
     private fun setupGPS() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -239,12 +258,13 @@ class HomeActivity : ActivityExtended() {
             gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: 0f
         )
 
-        homePage0?.onLocationChanged(gpsManager.currentUserLocation ?: return)
+        homePage1.updateTravSpeed()
+        homePage0.onLocationChanged(gpsManager.currentUserLocation ?: return)
     }
 
     private fun handleSpeedReport(){
         val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
-        homePage1?.speedometerTW?.text = speedInKmH.toString()
+        homePage1.speedometerTW.text = speedInKmH.toString()
 
         if(speedInKmH > 2)
             StatsData.addSpeedReport(speedInKmH.toFloat())
@@ -262,7 +282,7 @@ class HomeActivity : ActivityExtended() {
             this,
             object: RunnablePar{
                 override fun run(p: Any?) {
-                    homePage1?.addressTW?.text = if(p == null) String() else p as String
+                    homePage1.addressTW.text = if(p == null) String() else p as String
                 }
             }
         )

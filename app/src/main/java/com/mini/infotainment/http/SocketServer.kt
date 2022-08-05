@@ -2,7 +2,9 @@ package com.mini.infotainment.http
 
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -44,7 +46,13 @@ class SocketServer(val activity: HomeActivity) {
     private fun listenClients() {
         while (serverSocket != null || serverSocket?.isClosed != true) {
             try {
-                this.handleClientConnection(serverSocket?.accept() ?: return)
+                FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
+                    override fun run(p: Any?) {
+                        val isPremium = p as Boolean
+                        if(isPremium)
+                            handleClientConnection(serverSocket?.accept() ?: return)
+                    }
+                })
             } catch (e: IOException) {
                 e.printStackTrace()
             }
