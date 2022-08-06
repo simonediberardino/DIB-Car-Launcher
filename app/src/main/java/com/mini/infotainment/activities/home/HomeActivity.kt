@@ -195,19 +195,6 @@ class HomeActivity : ActivityExtended() {
         })
     }
 
-    private fun checkIfPremiumExpired(){
-        FirebaseClass.getCarObject(ApplicationData.getTarga()!!, object : RunnablePar{
-            override fun run(p: Any?) {
-                val carObject = p as MyCar? ?: return
-                val wasPremium = carObject.premiumDate!! < System.currentTimeMillis() && carObject.premiumDate != 0L
-                if(wasPremium){
-
-                }
-            }
-
-        })
-    }
-
     private fun setupGPS() {
         if (ActivityCompat.checkSelfPermission(
                 this,
