@@ -29,7 +29,7 @@
     <string name="errore_sconosciuto">Errore sconosciuto.</string>
     <string name="menu_spotify">Spotify</string>
     <string name="menu_phone">Connetti smartphone</string>
-    <string name="spotify_no_data">Non disponibile</string>
+    <string name="spotify_no_data">Non disponibile. Perché?</string>
     <string name="menu_voice">Assistente vocale</string>
     <string name="settings">Impostazioni</string>
     <string name="credits">Sviluppato da Simone Di Berardino</string>
@@ -97,5 +97,7 @@
     <string name="premium_error">Errore durante il processo.</string>
     <string name="already_premium">Sei già premium!</string>
     <string name="premium_dib">DIB Premium</string>
+    <string name="applying_data">Applicando le impostazioni…</string>
+    <string name="spotify_no_data_why">Assicurati che Spotify sia aperto e che \'Stato trasmissione\' sia abilitato in Spotify!</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

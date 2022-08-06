@@ -9,19 +9,19 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Location
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.speech.RecognizerIntent
-import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
@@ -47,24 +47,22 @@ class HomeActivity : ActivityExtended() {
     internal lateinit var viewPager: ViewPager
     internal lateinit var gpsManager: GPSManager
     internal lateinit var locationManager: FusedLocationProviderClient
-    internal lateinit var TTS: TextToSpeech
     internal lateinit var sideMenu: SideMenu
-    lateinit var appsMenu: AppsMenu
     lateinit var homePage0: HomeZeroPage
     lateinit var homePage1: HomeFirstPage
     lateinit var homePage2: HomeSecondPage
     var homePageAds: HomeAdsPage? = null
+    var appsMenu: AppsMenu? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
-        homeActivity = this
+        instance = this
 
         super.onCreate(savedInstanceState)
         this.initializeExceptionHandler()
 
         if(!Utility.hasLoginData()){
             val intent = Intent(this, RegisterActivity::class.java)
-            intent.putExtra("isFirstLaunch", true)
             startActivity(intent)
             return
         }
@@ -76,18 +74,18 @@ class HomeActivity : ActivityExtended() {
             return
         }
 
-        this.continueToActivity()
+        this.initializeActivity()
     }
 
-    internal fun continueToActivity(){
+    internal fun initializeActivity(){
         this.initializeLayout()
-        this.initializeTTS()
         this.initializeBroadcastReceiver()
         this.setupOnConnectivityChange()
         this.setupGPS()
         this.welcomeUser()
+        this.initializeCarObject()
+        this.onPremiumAccountListener()
         this.requestStoragePermission()
-        this.checkIfPremiumExpired()
 
         if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
@@ -95,6 +93,10 @@ class HomeActivity : ActivityExtended() {
                 runSpotify()
             }.start()
         }
+    }
+
+    private fun initializeCarObject(){
+        MyCar.instance = MyCar(ApplicationData.getTarga()!!)
     }
 
     private fun initializeLayout(){
@@ -112,12 +114,14 @@ class HomeActivity : ActivityExtended() {
     }
 
     fun generateViewPager(){
-        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
-            override fun run(p: Any?) {
-                var startPage = 2
-                val isPremiumCar = p as Boolean
+        var startPage = 2
+        val areAdsShowing = viewPages.size == 4
 
-                if(isPremiumCar && viewPages.size == 4) {
+        FirebaseClass.isPremiumCar(object : RunnablePar{
+            override fun run(p: Any?) {
+                val isPremium = p as Boolean
+
+                if(isPremium && areAdsShowing){
                     viewPages.removeAt(0)
                     startPage = 1
                 }
@@ -172,11 +176,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun welcomeUser(){
-        MediaPlayer.create(this, R.raw.startup_sound).start()
-    }
-
-    private fun initializeTTS(){
-        TTS = TextToSpeech(this) {}
+        //MediaPlayer.create(this, R.raw.startup_sound).start()
     }
 
     @SuppressLint("MissingPermission", "ResourceType")
@@ -185,11 +185,21 @@ class HomeActivity : ActivityExtended() {
         wallpaperView.setBackgroundDrawable(Utility.getWallpaper(this))
     }
 
+    private fun onPremiumAccountListener(){
+        FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                MyCar.instance.premiumDate = snapshot.value as Long? ?: return
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
     private fun checkIfPremiumExpired(){
         FirebaseClass.getCarObject(ApplicationData.getTarga()!!, object : RunnablePar{
             override fun run(p: Any?) {
                 val carObject = p as MyCar? ?: return
-                val wasPremium = carObject.premiumDate < System.currentTimeMillis() && carObject.premiumDate != 0L
+                val wasPremium = carObject.premiumDate!! < System.currentTimeMillis() && carObject.premiumDate != 0L
                 if(wasPremium){
 
                 }
@@ -197,6 +207,7 @@ class HomeActivity : ActivityExtended() {
 
         })
     }
+
     private fun setupGPS() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -289,21 +300,9 @@ class HomeActivity : ActivityExtended() {
     }
 
     internal fun premiumFeature(callback: Runnable){
-        premiumFeature(callback, true)
-    }
-
-    internal fun premiumFeature(callback: Runnable = Runnable {  }, showLoadMessage: Boolean = true){
-        if(showLoadMessage)
-            CustomToast(getString(R.string.caricamento), this).show()
-
-        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
-            override fun run(p: Any?) {
-                val isPremium = p as Boolean
-                if(!isPremium){
-                   goToCheckout()
-                }else callback.run()
-            }
-        })
+        if(!MyCar.instance.isPremium()){
+            goToCheckout()
+        }else callback.run()
     }
 
     fun goToCheckout(){
@@ -313,11 +312,10 @@ class HomeActivity : ActivityExtended() {
     internal fun runSpotify() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.component = ComponentName(SpotifyIntegration.SPOTIFY_PACKAGE, "${SpotifyIntegration.SPOTIFY_PACKAGE}.MainActivity")
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        try{
+        try {
             startActivity(intent)
-        }catch (exception: Exception){
+        } catch (exception: Exception) {
             Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
     }
@@ -406,7 +404,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     companion object {
-        lateinit var homeActivity: HomeActivity
+        lateinit var instance: HomeActivity
         internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val SLIDE_ANIMATION_DURATION: Long = 300
@@ -417,8 +415,8 @@ class HomeActivity : ActivityExtended() {
             val trackName = intent.getStringExtra("track")
 
             if(activity is HomeActivity){
-                homeActivity.homePage1?.spotifyTitleTW?.text = trackName
-                homeActivity.homePage1?.spotifyAuthorTw?.text = artistName
+                instance.homePage1.spotifyTitleTW.text = trackName
+                instance.homePage1.spotifyAuthorTw.text = artistName
             }
         }
     }

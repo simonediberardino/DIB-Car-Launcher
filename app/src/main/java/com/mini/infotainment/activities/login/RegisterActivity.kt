@@ -20,10 +20,8 @@ class RegisterActivity : ProfileActivity() {
     private lateinit var confirmPasswordTw: TextView
     private lateinit var confirmBtn: View
     private lateinit var loginBtn: TextView
-    private var isFirstLaunch = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isFirstLaunch = intent.getBooleanExtra("isFirstLaunch", false)
         super.onCreate(savedInstanceState)
         this.initializeLayout()
         super.pageLoaded()
@@ -94,7 +92,7 @@ class RegisterActivity : ProfileActivity() {
         val plateNum = plateNumTW.text.toString().uppercase().trim()
         val password = Utility.getMD5(passwordTW.text.toString().trim())
 
-        val myCar = MyCar(plateNum, Utility.getMD5(password))
+        val myCar = MyCar(plateNum, password)
 
         ApplicationData.setTarga(plateNum)
         ApplicationData.setCarPassword(password)
@@ -108,7 +106,6 @@ class RegisterActivity : ProfileActivity() {
     }
 
     override fun onBackPressed() {
-        if(!isFirstLaunch)
-            super.onBackPressed()
+
     }
 }

@@ -9,7 +9,6 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.ActivityExtended
@@ -77,7 +76,7 @@ class CheckoutActivity : ActivityExtended() {
 
     private fun presentPaymentSheet() {
         if(paymentIntentClientSecret == null){
-            CustomToast(getString(R.string.payment_not_ready), this).show()
+            Utility.toast(this, getString(R.string.payment_not_ready))
             return
         }
 
@@ -109,12 +108,12 @@ class CheckoutActivity : ActivityExtended() {
 
     private fun onSuccess(){
         FirebaseClass.promoteToPremium(30){
-            HomeActivity.homeActivity.generateViewPager()
+            HomeActivity.instance.generateViewPager()
         }
-        CustomToast(this.getString(R.string.premium_success), this).show()
+        Utility.toast(this, this.getString(R.string.premium_success))
     }
 
     private fun onError(){
-        CustomToast(this.getString(R.string.premium_error), this).show()
+        Utility.toast(this, this.getString(R.string.premium_error))
     }
 }

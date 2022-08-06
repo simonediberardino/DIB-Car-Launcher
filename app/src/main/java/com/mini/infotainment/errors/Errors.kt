@@ -13,7 +13,7 @@ object Errors {
     }
 
     fun printError(errorCode: ErrorCodes, activity: Activity){
-        Utility.showToast(activity,
+        Utility.toast(activity,
             activity.getString(when(errorCode){
                 ErrorCodes.APP_NOT_INSTALLED -> R.string.app_not_installed
                 ErrorCodes.GPS_REQUIRED -> R.string.gps_not_enabled

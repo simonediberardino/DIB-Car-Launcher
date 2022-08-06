@@ -15,24 +15,34 @@
         android:textColor="@color/white"
         android:textSize="@dimen/h5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/home2linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/home2linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/home2linearLayout" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home2linearLayout"
         android:layout_width="245px"
-        android:layout_height="135px"
-        android:background="@drawable/grey_border"
+        android:layout_height="137px"
         android:orientation="horizontal"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="16dp"
         tools:layout_editor_absoluteX="16px"
         tools:layout_editor_absoluteY="16px">
 
-        <ImageView
-            android:id="@+id/home_2_item_image"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/menu_navigation" />
-    </LinearLayout>
+            android:layout_margin="3dp"
+            app:cardCornerRadius="16dp">
+
+            <ImageView
+                android:id="@+id/home_2_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/menu_navigation" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

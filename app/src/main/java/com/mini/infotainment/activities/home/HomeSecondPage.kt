@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
-import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.support.QrcodeData
-import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility
 
 class HomeSecondPage(override val ctx: HomeActivity) : Page() {
@@ -67,19 +65,15 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun showPremiumPage(){
+        println(MyCar.instance.premiumDate)
         if(!Utility.isInternetAvailable()) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
             return
         }
 
-        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar {
-            override fun run(p: Any?) {
-                val isPremium = p as Boolean
-                if(!isPremium){
-                    ctx.goToCheckout()
-                }else CustomToast(ctx.getString(R.string.already_premium), ctx).show()
-            }
-        })
+        if(!MyCar.instance.isPremium()){
+            ctx.goToCheckout()
+        }else Utility.toast(ctx, ctx.getString(R.string.already_premium))
     }
 
     private fun goToStatsActivity(){

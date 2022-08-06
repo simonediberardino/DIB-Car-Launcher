@@ -199,11 +199,11 @@ object Utility {
     fun String.capitalizeWords(): String =
         lowercase().split(" ").joinToString(" ") { it.capitalize() }
 
-    fun showToast(c: Activity, message: String){
+    fun toast(c: Activity, message: String){
         c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
     }
 
-    fun showToast(c: AppCompatActivity, message: String){
+    fun toast(c: AppCompatActivity, message: String){
         c.runOnUiThread { Toast.makeText(c, message, Toast.LENGTH_LONG).show() }
     }
 

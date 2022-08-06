@@ -56,8 +56,14 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
             when(e.action){
                 MotionEvent.ACTION_UP -> {
                     val isRight = v.width/2 < e.x
-                    if(isRight) SpotifyIntegration.nextSpotifyTrack(ctx)
-                    else SpotifyIntegration.previousSpotifyTrack(ctx)
+                    if(isRight)
+                        SpotifyIntegration.nextSpotifyTrack(ctx)
+                    else
+                        SpotifyIntegration.previousSpotifyTrack(ctx)
+
+                    if(spotifyTitleTW.text == ctx.getString(R.string.spotify_no_data)){
+                        Utility.toast(ctx, ctx.getString(R.string.spotify_no_data_why))
+                    }
                 }
             }
             true

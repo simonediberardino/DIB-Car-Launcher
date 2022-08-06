@@ -1,10 +1,12 @@
 package com.mini.infotainment.activities.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
@@ -35,7 +37,7 @@ class LoginActivity : ProfileActivity() {
         registerBtn = findViewById(R.id.login_reg_btn)
 
         confirmBtn.setOnClickListener { proceed() }
-        registerBtn.setOnClickListener { Utility.navigateTo(this, RegisterActivity::class.java) }
+        registerBtn.setOnClickListener { onBackPressed() }
     }
 
     private fun proceed(){
@@ -51,8 +53,18 @@ class LoginActivity : ProfileActivity() {
                 }
 
                 doLogin(MyCar(plateNum, password))
+
+                val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
+                intent.putExtra("isFirstLaunch", true)
+                startActivity(intent)
+
+                finish()
             }
         })
+    }
+
+    override fun onBackPressed() {
+        Utility.navigateTo(this, RegisterActivity::class.java)
     }
 
     companion object{

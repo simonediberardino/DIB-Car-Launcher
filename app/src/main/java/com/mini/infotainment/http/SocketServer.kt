@@ -2,9 +2,7 @@ package com.mini.infotainment.http
 
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity
-import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
-import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -23,7 +21,9 @@ class SocketServer(val activity: HomeActivity) {
 
     fun init(){
         this.startSocketServer()
-        Thread { this.listenClients() }.start()
+        Thread{
+            this.listenClients()
+        }.start()
     }
 
     private fun startSocketServer() {
@@ -46,13 +46,7 @@ class SocketServer(val activity: HomeActivity) {
     private fun listenClients() {
         while (serverSocket != null || serverSocket?.isClosed != true) {
             try {
-                FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar{
-                    override fun run(p: Any?) {
-                        val isPremium = p as Boolean
-                        if(isPremium)
-                            handleClientConnection(serverSocket?.accept() ?: return)
-                    }
-                })
+                handleClientConnection(serverSocket?.accept() ?: return)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -60,17 +54,19 @@ class SocketServer(val activity: HomeActivity) {
     }
 
     private fun handleClientConnection(socket: Socket) {
-        this.closeClientInstance()
+        activity.runOnUiThread {
+            this.closeClientInstance()
 
-        ClientInstance(
-            DataOutputStream(socket.getOutputStream()),
-            DataInputStream(socket.getInputStream()),
-            socket.localAddress
-        ).also {
-            this.client = it
+            ClientInstance(
+                DataOutputStream(socket.getOutputStream()),
+                DataInputStream(socket.getInputStream()),
+                socket.localAddress
+            ).also {
+                this.client = it
 
-            Utility.showToast(activity, activity.getString(R.string.client_connesso))
-            Thread { messageListener(it) }.start()
+                Utility.toast(activity, activity.getString(R.string.client_connesso))
+                Thread { messageListener(it) }.start()
+            }
         }
     }
 

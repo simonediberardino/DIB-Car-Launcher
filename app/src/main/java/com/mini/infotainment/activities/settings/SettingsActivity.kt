@@ -11,7 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.home.HomeActivity.Companion.homeActivity
+import com.mini.infotainment.activities.home.HomeActivity
+import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.utility.Utility
@@ -38,7 +39,7 @@ class SettingsActivity : ActivityExtended() {
                 logo.view.setBackgroundColor(
                     if(logo != selectedLogo)
                         Color.TRANSPARENT
-                    else homeActivity.getColor(R.color.darkblue)
+                    else instance.getColor(R.color.darkblue)
                 )
         }
 
@@ -50,7 +51,7 @@ class SettingsActivity : ActivityExtended() {
 
     private fun initializeLayout(){
         this.setContentView(R.layout.activity_settings)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(homeActivity))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(HomeActivity.instance))
 
         confirmButton = findViewById(R.id.settings_confirm_button)
         llLogos = findViewById(R.id.ll_logos)
@@ -73,12 +74,12 @@ class SettingsActivity : ActivityExtended() {
 
     private fun inflateLogo(brandName: String){
         val gallery = findViewById<ViewGroup>(R.id.ll_logos)
-        val inflater = LayoutInflater.from(homeActivity)
+        val inflater = LayoutInflater.from(instance)
 
-        val logoId: Int = homeActivity.resources.getIdentifier("logo_${brandName}", "drawable", homeActivity.packageName)
+        val logoId: Int = instance.resources.getIdentifier("logo_${brandName}", "drawable", instance.packageName)
         val view: View = inflater.inflate(R.layout.single_logo, gallery, false)
 
-        val logoDrawable: Drawable = homeActivity.getDrawable(logoId) ?: return
+        val logoDrawable: Drawable = instance.getDrawable(logoId) ?: return
         val logoNameTW = view.findViewById<TextView>(R.id.car_brand)
         val logoIW = view.findViewById<ImageView>(R.id.car_logo)
 
@@ -99,17 +100,19 @@ class SettingsActivity : ActivityExtended() {
 
         if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
             ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)
-            homeActivity.setWallpaper()
+            instance.setWallpaper()
         }
 
         finish()
     }
 
     override fun finish() {
-        if(isFirstLaunch)
-            homeActivity.continueToActivity()
+        Utility.toast(this, this.getString(R.string.applying_data))
 
-        homeActivity.homePage1?.updateData()
+        if(isFirstLaunch)
+            instance.initializeActivity()
+
+        instance.homePage1.updateData()
         super.finish()
     }
 

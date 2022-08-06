@@ -14,6 +14,10 @@ object FirebaseClass{
     private var PASSWORD_REF = "password"
     private var PREMIUM_DATE_REF = "premiumDate"
 
+    fun isPremiumCar(runnablePar: RunnablePar){
+        isPremiumCar(ApplicationData.getTarga()!!, runnablePar)
+    }
+
     fun isPremiumCar(plateNum: String, runnablePar: RunnablePar){
         getCarObject(plateNum, object : RunnablePar{
             override fun run(p: Any?) {

@@ -8,9 +8,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.Page
-import com.mini.infotainment.data.ApplicationData
-import com.mini.infotainment.data.FirebaseClass
-import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.entities.MyCar
 
 class HomeAdsPage(override val ctx: HomeActivity) : Page() {
     companion object{
@@ -32,18 +30,12 @@ class HomeAdsPage(override val ctx: HomeActivity) : Page() {
         val viewGroup = parent!!.findViewById<ViewGroup>(R.id.home_ads_ll)!!
         viewGroup.removeAllViews()
 
-        FirebaseClass.isPremiumCar(ApplicationData.getTarga()!!, object : RunnablePar {
-            override fun run(p: Any?) {
-                val isPremium = p as Boolean
-                if(!isPremium){
-                    for(i in 0 until N_ADS)
-                        showBanner(viewGroup)
-                }else{
-                    showEmptyTextView(viewGroup)
-                }
-            }
-        })
-
+        if(!MyCar.instance.isPremium()){
+            for(i in 0 until N_ADS)
+                showBanner(viewGroup)
+        }else{
+            showEmptyTextView(viewGroup)
+        }
     }
 
     fun showEmptyTextView(viewGroup: ViewGroup){

@@ -154,9 +154,7 @@ object StatsData {
     }
 
     fun getTraveledDistance(mode: Mode, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): Float {
-        return getDataFromMode(mode, calendar).values.sumOf {
-            Utility.metersToKm(it.travDist.toDouble()).toDouble()
-        }.toFloat()
+        return getTraveledDistanceForEachDay(mode, calendar).values.sum()
     }
 
     fun getDayDataValue(calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())): StatsOfDay {

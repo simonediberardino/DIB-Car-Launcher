@@ -9,9 +9,8 @@ import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.support.ActivityExtended
 
 class SpotifyIntegration : BroadcastReceiver() {
-    var lastIntent: Intent? = null
-
     companion object {
+        var lastIntent: Intent? = null
         const val SPOTIFY_PACKAGE = "com.spotify.music"
         const val PLAYBACK_STATE_CHANGED = "$SPOTIFY_PACKAGE.playbackstatechanged"
         const val QUEUE_CHANGED = "$SPOTIFY_PACKAGE.queuechanged"
@@ -47,7 +46,7 @@ class SpotifyIntegration : BroadcastReceiver() {
 
     private fun handleResumeTrack(context: Context, intent: Intent){
         val delay = 1250L
-        HomeActivity.homeActivity.hasStartedSpotify = true
+        HomeActivity.instance.hasStartedSpotify = true
 
         Thread{
             Thread.sleep(delay)
@@ -85,7 +84,7 @@ class SpotifyIntegration : BroadcastReceiver() {
                 HomeActivity.updateSpotifySong(context as Activity, intent)
             }
             PLAYBACK_STATE_CHANGED -> {
-                if(HomeActivity.homeActivity?.hasStartedSpotify == false){
+                if(!HomeActivity.instance.hasStartedSpotify){
                     handleResumeTrack(context!!, intent)
                 }
             }

@@ -22,6 +22,6 @@ open class ProfileActivity : ActivityExtended() {
     }
 
     internal fun showError(errorCode: ErrorCodes){
-        Utility.showToast(this, errors()[errorCode] ?: return)
+        Utility.toast(this, errors()[errorCode] ?: return)
     }
 }
