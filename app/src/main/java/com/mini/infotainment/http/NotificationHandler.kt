@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
 import com.mini.infotainment.data.ApplicationData
@@ -204,7 +205,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             try {
                 ctx.startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
             } catch (e: Exception) {
-                Utility.toast(ctx, e.message.toString())
+                CustomToast(e.message.toString(), ctx).show()
             }
         }
 
@@ -218,7 +219,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
             Thread{
                 HomeActivity.server?.client?.send(inputMessage)
-                Utility.toast(ctx, ctx.getString(R.string.message_sent))
+                CustomToast(ctx.getString(R.string.message_sent), ctx).show()
             }.start()
 
             addNotification(ctx.getString(R.string.you_msg)

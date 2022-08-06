@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
@@ -62,7 +63,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
                         SpotifyIntegration.previousSpotifyTrack(ctx)
 
                     if(spotifyTitleTW.text == ctx.getString(R.string.spotify_no_data)){
-                        Utility.toast(ctx, ctx.getString(R.string.spotify_no_data_why))
+                        CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx).show()
                     }
                 }
             }

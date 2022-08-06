@@ -1,8 +1,8 @@
 package com.mini.infotainment.activities.login
 
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.support.ActivityExtended
-import com.mini.infotainment.utility.Utility
 
 open class ProfileActivity : ActivityExtended() {
     enum class ErrorCodes{
@@ -22,6 +22,6 @@ open class ProfileActivity : ActivityExtended() {
     }
 
     internal fun showError(errorCode: ErrorCodes){
-        Utility.toast(this, errors()[errorCode] ?: return)
+        CustomToast(errors()[errorCode] ?: return, this).show()
     }
 }

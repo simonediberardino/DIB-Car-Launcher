@@ -4,11 +4,13 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.ActivityExtended
@@ -76,7 +78,7 @@ class CheckoutActivity : ActivityExtended() {
 
     private fun presentPaymentSheet() {
         if(paymentIntentClientSecret == null){
-            Utility.toast(this, getString(R.string.payment_not_ready))
+            CustomToast(getString(R.string.payment_not_ready), this).show()
             return
         }
 
@@ -103,17 +105,18 @@ class CheckoutActivity : ActivityExtended() {
                 this.onSuccess()
             }
         }
-        onBackPressed()
+
+        Handler().postDelayed({ finish() }, CustomToast.DURATION)
     }
 
     private fun onSuccess(){
         FirebaseClass.promoteToPremium(30){
             HomeActivity.instance.generateViewPager()
         }
-        Utility.toast(this, this.getString(R.string.premium_success))
+        CustomToast(getString(R.string.premium_success), this).show()
     }
 
     private fun onError(){
-        Utility.toast(this, this.getString(R.string.premium_error))
+        CustomToast(getString(R.string.premium_error), this).show()
     }
 }

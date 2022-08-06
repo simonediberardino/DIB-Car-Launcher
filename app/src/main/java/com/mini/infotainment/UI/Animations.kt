@@ -1,5 +1,8 @@
 package com.mini.infotainment.UI
 
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
+import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
@@ -7,9 +10,22 @@ import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 
 object Animations {
-     fun alphaAnimation(v: View, startAlpha: Float, endAlpha: Float, duration: Long){
-        v.alpha = startAlpha
-        v.animate().alpha(endAlpha).duration = duration
+    val DEFAULT_ANIM_DURATION = 500L
+
+     fun alphaAnimation(v: View, startAlpha: Float, endAlpha: Float, delay: Long = 0, duration: Long = DEFAULT_ANIM_DURATION, callback: Runnable = Runnable {  }){
+         Handler().postDelayed({
+             v.alpha = startAlpha
+             v.animate().setListener(object: AnimatorListener
+             {
+                 override fun onAnimationEnd(p0: Animator?) {
+                     callback.run()
+                 }
+                 override fun onAnimationStart(p0: Animator?) {}
+                 override fun onAnimationCancel(p0: Animator?) {}
+                 override fun onAnimationRepeat(p0: Animator?) {}
+
+             }).alpha(endAlpha).duration = duration
+         }, delay)
     }
 
      fun moveAnimation(v: View, startX: Float, endX: Float, startY: Float, endY: Float, duration: Long, accelerateMult: Float = 2f, callback: Runnable?){

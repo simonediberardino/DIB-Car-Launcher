@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.data.ApplicationData
@@ -107,7 +108,7 @@ class SettingsActivity : ActivityExtended() {
     }
 
     override fun finish() {
-        Utility.toast(this, this.getString(R.string.applying_data))
+        CustomToast(getString(R.string.applying_data), this).show()
 
         if(isFirstLaunch)
             instance.initializeActivity()

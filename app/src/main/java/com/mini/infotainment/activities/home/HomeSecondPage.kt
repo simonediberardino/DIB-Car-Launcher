@@ -65,7 +65,6 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun showPremiumPage(){
-        println(MyCar.instance.premiumDate)
         if(!Utility.isInternetAvailable()) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
             return

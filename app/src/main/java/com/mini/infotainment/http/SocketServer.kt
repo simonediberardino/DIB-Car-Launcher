@@ -1,6 +1,7 @@
 package com.mini.infotainment.http
 
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.utility.Utility
@@ -64,7 +65,7 @@ class SocketServer(val activity: HomeActivity) {
             ).also {
                 this.client = it
 
-                Utility.toast(activity, activity.getString(R.string.client_connesso))
+                CustomToast(activity.getString(R.string.client_connesso), activity).show()
                 Thread { messageListener(it) }.start()
             }
         }

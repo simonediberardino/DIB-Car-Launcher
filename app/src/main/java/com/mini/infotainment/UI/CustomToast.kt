@@ -1,11 +1,24 @@
 package com.mini.infotainment.UI
 
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import com.mini.infotainment.R
+import com.mini.infotainment.support.ActivityExtended
 
 
-class CustomToast(val text: String, val activity: AppCompatActivity) {
+class CustomToast(val text: String, val activity: ActivityExtended) {
+    companion object{
+        var DURATION: Long = 4000L
+    }
+    private lateinit var toastView: ViewGroup
+    private lateinit var parent: ConstraintLayout
+
     init{
-/*        activity.runOnUiThread{
+        activity.runOnUiThread{
+            parent = activity.findViewById(R.id.parent)
             val inflater = activity.layoutInflater
 
             val layout: View = inflater.inflate(
@@ -13,16 +26,28 @@ class CustomToast(val text: String, val activity: AppCompatActivity) {
                 activity.findViewById<View>(R.id.toast_parent) as ViewGroup?
             )
 
-            val parent = layout.findViewById<ViewGroup>(R.id.toast_parent)
+            toastView = layout.findViewById(R.id.toast_parent)
             val toastText = layout.findViewById<TextView>(R.id.toast_text)
-
             toastText.text = text
-            setGravity(Gravity.BOTTOM, 0, 0)
-            duration = LENGTH_LONG
-            view = layout
+        }
+    }
 
-            Utility.ridimensionamento(activity, parent!!)
-        }*/
+    fun show(){
+        toastView.alpha = 0f
+        parent.addView(toastView)
+
+        val set = ConstraintSet()
+        set.clone(parent)
+        set.connect(toastView.id, ConstraintSet.RIGHT, parent.id, ConstraintSet.RIGHT, 0)
+        set.connect(toastView.id, ConstraintSet.LEFT, parent.id, ConstraintSet.LEFT, 0)
+        set.connect(toastView.id, ConstraintSet.BOTTOM, parent.id, ConstraintSet.BOTTOM, 0)
+        set.applyTo(parent)
+
+        Animations.alphaAnimation(toastView, 0F, 1F){
+            Animations.alphaAnimation(toastView, 1f, 0f, DURATION){
+                parent.removeView(toastView)
+            }
+        }
     }
 
 }
