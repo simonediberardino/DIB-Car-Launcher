@@ -6,7 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
@@ -27,7 +27,7 @@ class CheckoutActivity : ActivityExtended() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setContentView(R.layout.activity_checkout)
         initializePaymentSheet()
         showDialog()
@@ -56,7 +56,7 @@ class CheckoutActivity : ActivityExtended() {
         val endPoint = "http://snrservers.vpsgh.it:3000/payment-sheet"
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
-        endPoint.httpPost().responseJson { _, _, result ->
+        endPoint.httpGet().responseJson { _, _, result ->
             when(result){
                 is Result.Success -> {
                     val responseJson = result.get().obj()
@@ -77,7 +77,7 @@ class CheckoutActivity : ActivityExtended() {
     }
 
     private fun presentPaymentSheet() {
-        if(paymentIntentClientSecret == null){
+        if(paymentIntentClientSecret == null) {
             CustomToast(getString(R.string.payment_not_ready), this).show()
             return
         }

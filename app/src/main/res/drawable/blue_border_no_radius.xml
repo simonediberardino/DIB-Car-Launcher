@@ -4,11 +4,6 @@
     <solid
         android:color="@android:color/transparent"/>
 
-    <corners
-        android:bottomRightRadius="12px"
-        android:bottomLeftRadius="12px"
-        android:topLeftRadius="12px"
-        android:topRightRadius="12px"/>
     <stroke
         android:color="@color/darkblue"
         android:width="1px"/>

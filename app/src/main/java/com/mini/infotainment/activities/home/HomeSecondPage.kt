@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
@@ -72,7 +73,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
 
         if(!MyCar.instance.isPremium()){
             ctx.goToCheckout()
-        }else Utility.toast(ctx, ctx.getString(R.string.already_premium))
+        }else CustomToast(ctx.getString(R.string.already_premium), ctx)
     }
 
     private fun goToStatsActivity(){

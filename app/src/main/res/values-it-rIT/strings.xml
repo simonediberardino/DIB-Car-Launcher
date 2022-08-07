@@ -87,17 +87,19 @@
     <string name="error_password_dont_match">Le password non corrispondono.</string>
     <string name="error_invalid_details">Credenziali non valide, riprova.</string>
     <string name="error_no_internet">Nessuna connessione a internet, riprova.</string>
-    <string name="no_ads_available">Nessun annuncio disponibile</string>
+    <string name="no_ads_available">Nessun annuncio disponibile.</string>
     <string name="upgrade_to_premium">Passa a premium!</string>
     <string name="premium_confirm">Passa a premium ora</string>
     <string name="premium_desc_1">Passa a premium ora, a soli 2.99€ al mese!</string>
-    <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di connettere il cellulare all\'auto\n• Visualizzare le statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
+    <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
     <string name="premium_success">Hai sbloccato con successo le funzionalità premium per un mese!</string>
     <string name="payment_not_ready">L\'instanza di pagamento non è ancora pronta, riprova tra un paio di secondi.</string>
     <string name="premium_error">Errore durante il processo.</string>
     <string name="already_premium">Sei già premium!</string>
     <string name="premium_dib">DIB Premium</string>
     <string name="applying_data">Applicando le impostazioni…</string>
+    <string name="premium_no_ads">Gli utenti premium non visualizzano gli annunci.</string>
+    <string name="premium_expired">Il tuo account premium è scaduto, rinnovalo ora se non vuoi perdere le funzionalità premium!</string>
     <string name="spotify_no_data_why">Assicurati che Spotify sia aperto e che \'Stato trasmissione\' sia abilitato in Spotify!</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

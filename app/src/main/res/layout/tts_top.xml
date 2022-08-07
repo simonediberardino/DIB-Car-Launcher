@@ -65,7 +65,7 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_marginStart="32px"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/blue_border"
             android:hint="@string/inserisci"
             android:padding="16px"
             android:textColor="@color/darkgrey"

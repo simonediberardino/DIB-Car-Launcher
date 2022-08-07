@@ -13,8 +13,8 @@ class CustomToast(val text: String, val activity: ActivityExtended) {
     companion object{
         var DURATION: Long = 4000L
     }
-    private lateinit var toastView: ViewGroup
-    private lateinit var parent: ConstraintLayout
+    private var toastView: ViewGroup? = null
+    private var parent: ConstraintLayout? = null
 
     init{
         activity.runOnUiThread{
@@ -33,19 +33,21 @@ class CustomToast(val text: String, val activity: ActivityExtended) {
     }
 
     fun show(){
-        toastView.alpha = 0f
-        parent.addView(toastView)
+        if(toastView == null || parent == null) return
+
+        toastView!!.alpha = 0f
+        parent!!.addView(toastView)
 
         val set = ConstraintSet()
         set.clone(parent)
-        set.connect(toastView.id, ConstraintSet.RIGHT, parent.id, ConstraintSet.RIGHT, 0)
-        set.connect(toastView.id, ConstraintSet.LEFT, parent.id, ConstraintSet.LEFT, 0)
-        set.connect(toastView.id, ConstraintSet.BOTTOM, parent.id, ConstraintSet.BOTTOM, 0)
+        set.connect(toastView!!.id, ConstraintSet.RIGHT, parent!!.id, ConstraintSet.RIGHT, 0)
+        set.connect(toastView!!.id, ConstraintSet.LEFT, parent!!.id, ConstraintSet.LEFT, 0)
+        set.connect(toastView!!.id, ConstraintSet.BOTTOM, parent!!.id, ConstraintSet.BOTTOM, 0)
         set.applyTo(parent)
 
-        Animations.alphaAnimation(toastView, 0F, 1F){
-            Animations.alphaAnimation(toastView, 1f, 0f, DURATION){
-                parent.removeView(toastView)
+        Animations.alphaAnimation(toastView!!, 0F, 1F){
+            Animations.alphaAnimation(toastView!!, 1f, 0f, DURATION){
+                parent!!.removeView(toastView)
             }
         }
     }

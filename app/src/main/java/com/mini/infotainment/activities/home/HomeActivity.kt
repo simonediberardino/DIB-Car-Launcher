@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
@@ -114,30 +115,14 @@ class HomeActivity : ActivityExtended() {
     }
 
     fun generateViewPager(){
-        var startPage = 2
-        val areAdsShowing = viewPages.size == 4
-
-        FirebaseClass.isPremiumCar(object : RunnablePar{
-            override fun run(p: Any?) {
-                val isPremium = p as Boolean
-
-                if(isPremium && areAdsShowing){
-                    viewPages.removeAt(0)
-                    startPage = 1
-                }
-
-                val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
-                viewPager.removeAllViews()
-                viewPager.adapter = PagerAdapter(viewPages)
-                viewPager.currentItem = startPage
-            }
-        })
+        val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
+        viewPager.removeAllViews()
+        viewPager.adapter = PagerAdapter(viewPages)
+        viewPager.currentItem = 2
     }
 
     private fun setupOnConnectivityChange(){
         fun callback(){
-            homePageAds?.showAds()
-
             server?.serverSocket?.close()
             SocketServer(this).also {
                 server = it
@@ -189,10 +174,18 @@ class HomeActivity : ActivityExtended() {
         FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 MyCar.instance.premiumDate = snapshot.value as Long? ?: return
+                homePageAds?.handleAds()
+                if(MyCar.instance.premiumDate != 0L && !MyCar.instance.isPremium()){
+                    premiumExpired()
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    private fun premiumExpired(){
+        CustomToast(getString(R.string.premium_expired), this).show()
     }
 
     private fun setupGPS() {
