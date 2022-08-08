@@ -63,7 +63,7 @@ class SocketServer(val activity: HomeActivity) {
             ).also {
                 this.client = it
 
-                CustomToast(activity.getString(R.string.client_connesso), activity).show()
+                CustomToast(activity.getString(R.string.client_connesso), activity)
                 Thread { messageListener(it) }.start()
             }
         }

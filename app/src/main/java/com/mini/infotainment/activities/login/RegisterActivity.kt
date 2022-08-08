@@ -39,19 +39,16 @@ class RegisterActivity : ProfileActivity() {
         confirmBtn = findViewById(R.id.register_confirm_button)
         loginBtn = findViewById(R.id.register_log_btn)
 
-        confirmBtn.setOnClickListener { handleData() }
+        confirmBtn.setOnClickListener { this.handleData() }
         loginBtn.setOnClickListener { Utility.navigateTo(this, LoginActivity::class.java) }
     }
 
-    private fun handleData(){
-        if(!Utility.isInternetAvailable()){
-            showError(ErrorCodes.NO_INTERNET)
-            return
-        }
-
-        checkIfExists {
-            validateDetails{
-                doRegister()
+    override fun handleData(){
+        super.handleData {
+            checkIfExists {
+                validateDetails{
+                    doRegister()
+                }
             }
         }
     }

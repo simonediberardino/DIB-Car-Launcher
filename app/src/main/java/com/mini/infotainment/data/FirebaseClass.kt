@@ -127,6 +127,16 @@ object FirebaseClass{
         })
     }
 
+    fun addCarObject(car: MyCar, callback: Runnable = Runnable {}){
+        getCarObjectReference(car.plateNum).setValue(car).addOnCompleteListener { callback.run() }
+    }
+
+    fun deleteField(referString: String, callback: Runnable = Runnable {}){
+        FirebaseDatabase.getInstance(DB_REF).getReference(referString).setValue(null).addOnCompleteListener {
+            callback.run()
+        }
+    }
+
     fun getSpecificField(referString: String, path: String): DatabaseReference {
         return FirebaseDatabase.getInstance(referString).getReference(path)
     }

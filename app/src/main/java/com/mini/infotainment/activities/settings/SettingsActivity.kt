@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
+import com.mini.infotainment.activities.login.EditProfileActivity
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
@@ -23,8 +23,8 @@ class SettingsActivity : SActivity() {
     }
 
     private lateinit var settingsDefaultWPCB: CheckBox
-    private lateinit var settingsSpotifyOnBootCB: CheckBox
     private lateinit var confirmButton: View
+    private lateinit var editAccountButton: View
     private lateinit var llLogos: LinearLayout
     private var isFirstLaunch = true
 
@@ -42,21 +42,30 @@ class SettingsActivity : SActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isFirstLaunch = intent.getBooleanExtra("isFirstLaunch", true)
+        isFirstLaunch = intent.getBooleanExtra("isFirstLaunch", false)
         this.initializeLayout()
     }
 
     private fun initializeLayout(){
         this.setContentView(R.layout.activity_settings)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(HomeActivity.instance))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(
+            instance
+        ))
 
         confirmButton = findViewById(R.id.settings_confirm_button)
+        editAccountButton = findViewById<View?>(R.id.settings_edit_account)
+            .also {
+                it.visibility = if(isFirstLaunch) View.GONE else View.VISIBLE
+                it.setOnClickListener {
+                    Utility.navigateTo(this, EditProfileActivity::class.java)
+                    finish()
+                }
+            }
+
         llLogos = findViewById(R.id.ll_logos)
-        settingsSpotifyOnBootCB = findViewById(R.id.settings_spotify_boot)
         settingsDefaultWPCB = findViewById(R.id.settings_default_wp)
 
         confirmButton.setOnClickListener { this.handleSettings() }
-        settingsSpotifyOnBootCB.isChecked = ApplicationData.doesSpotifyRunOnBoot()
         settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
 
         inflateLogos()
@@ -95,7 +104,6 @@ class SettingsActivity : SActivity() {
         Toast.makeText(this, getString(R.string.applying_data), Toast.LENGTH_LONG).show()
 
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
-        ApplicationData.doesSpotifyRunOnBoot(settingsSpotifyOnBootCB.isChecked)
 
         if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
             ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)

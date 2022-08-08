@@ -32,8 +32,8 @@ import com.google.gson.Gson
 import com.google.zxing.WriterException
 import com.mini.infotainment.R
 import com.mini.infotainment.data.ApplicationData
-import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility.Resolution.Companion.BASE_RESOLUTION
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -54,6 +54,7 @@ object Utility {
     fun areSettingsSet(): Boolean {
         return ApplicationData.getBrandName() != null
     }
+
     fun hasLoginData(): Boolean {
         return ApplicationData.getCarPassword() != null && ApplicationData.getTarga() != null
     }

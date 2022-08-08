@@ -78,7 +78,7 @@ class CheckoutActivity : SActivity() {
 
     private fun presentPaymentSheet() {
         if(paymentIntentClientSecret == null) {
-            CustomToast(getString(R.string.payment_not_ready), this).show()
+            CustomToast(getString(R.string.payment_not_ready), this)
             return
         }
 
@@ -113,10 +113,10 @@ class CheckoutActivity : SActivity() {
         FirebaseClass.promoteToPremium(30){
             HomeActivity.instance.generateViewPager()
         }
-        CustomToast(getString(R.string.premium_success), this).show()
+        CustomToast(getString(R.string.premium_success), this)
     }
 
     private fun onError(){
-        CustomToast(getString(R.string.premium_error), this).show()
+        CustomToast(getString(R.string.premium_error), this)
     }
 }

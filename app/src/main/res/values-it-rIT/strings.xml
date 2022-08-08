@@ -98,8 +98,15 @@
     <string name="already_premium">Sei già premium!</string>
     <string name="premium_dib">DIB Premium</string>
     <string name="applying_data">Applicando le impostazioni…</string>
+    <string name="remove_ads_premium">Lo sapevi? Passa a premium per rimuovere gli annunci!</string>
     <string name="premium_no_ads">Gli utenti premium non visualizzano gli annunci.</string>
     <string name="premium_expired">Il tuo account premium è scaduto, rinnovalo ora se non vuoi perdere le funzionalità premium!</string>
     <string name="spotify_no_data_why">Assicurati che Spotify sia aperto e che \'Stato trasmissione\' sia abilitato in Spotify!</string>
+    <string name="edit_plate_num">Modifica targa</string>
+    <string name="edit_password">Cambia password</string>
+    <string name="edit_car_info">Modifica profilo</string>
+    <string name="current_password">Password attuale</string>
+    <string name="new_password">Nuova password</string>
+    <string name="success">Operazione completata con successo!</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

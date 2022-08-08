@@ -1,15 +1,24 @@
 package com.mini.infotainment.activities.login
 
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.support.SActivity
+import com.mini.infotainment.utility.Utility
 
-open class ProfileActivity : SActivity() {
+abstract class ProfileActivity : SActivity() {
     enum class ErrorCodes{
         EXISTS,
         INVALID_DETAILS,
         PASSWORD_DONT_MATCH,
         NO_INTERNET
+    }
+
+    abstract fun handleData()
+    internal open fun handleData(callback: Runnable = Runnable {}){
+        if(!Utility.isInternetAvailable()){
+            showError(ErrorCodes.NO_INTERNET)
+            return
+        }
+        callback.run()
     }
 
     internal fun errors(): HashMap<ErrorCodes, String> {
@@ -22,6 +31,10 @@ open class ProfileActivity : SActivity() {
     }
 
     internal fun showError(errorCode: ErrorCodes){
-        CustomToast(errors()[errorCode] ?: return, this).show()
+        Utility.toast(this, errors()[errorCode] ?: return)
+    }
+
+    internal fun success(){
+        Utility.toast(this, this.getString(R.string.success))
     }
 }

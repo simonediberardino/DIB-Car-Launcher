@@ -66,7 +66,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
                         SpotifyIntegration.previousSpotifyTrack(ctx)
 
                     if(spotifyTitleTW.text == ctx.getString(R.string.spotify_no_data)){
-                        CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx).show()
+                        CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx)
                     }
                 }
             }

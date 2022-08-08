@@ -23,6 +23,8 @@ import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
+import com.mini.infotainment.ads.AdHandler
+import com.mini.infotainment.ads.VideoInterstitial
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
@@ -78,6 +80,7 @@ class HomeActivity : SActivity() {
         this.initializeCarObject()
         this.onPremiumAccountListener()
         this.requestStoragePermission()
+        this.initializeAdsHandler()
 
         if(ApplicationData.doesSpotifyRunOnBoot()){
             Thread{
@@ -89,6 +92,10 @@ class HomeActivity : SActivity() {
 
     private fun initializeCarObject(){
         MyCar.instance = MyCar(ApplicationData.getTarga()!!)
+    }
+
+    private fun initializeAdsHandler(){
+        AdHandler(this, VideoInterstitial::class.java).startTimeout()
     }
 
     private fun initializeLayout(){
@@ -168,7 +175,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun premiumExpired(){
-        CustomToast(getString(R.string.premium_expired), this).show()
+        CustomToast(getString(R.string.premium_expired), this)
     }
 
     private fun setupGPS() {

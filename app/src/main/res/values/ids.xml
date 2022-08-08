@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="custom_toast_tw" type="id"/>
+    <item name="custom_toast_iw" type="id"/>
+    <item name="custom_toast_parent" type="id"/>
+</resources>

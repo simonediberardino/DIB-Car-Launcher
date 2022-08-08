@@ -205,7 +205,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             try {
                 ctx.startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
             } catch (e: Exception) {
-                CustomToast(e.message.toString(), ctx).show()
+                CustomToast(e.message.toString(), ctx)
             }
         }
 
@@ -219,7 +219,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
 
             Thread{
                 HomeActivity.server?.client?.send(inputMessage)
-                CustomToast(ctx.getString(R.string.message_sent), ctx).show()
+                CustomToast(ctx.getString(R.string.message_sent), ctx)
             }.start()
 
             addNotification(ctx.getString(R.string.you_msg)

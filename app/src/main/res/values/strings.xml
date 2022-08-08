@@ -98,8 +98,15 @@
     <string name="premium_desc_2"> <b>What you will receive:</b>\n• Ads removed\n• Access to your smartphone\'s notifications\n• Access to the real-time location of your car on the companion app\n• Access to real-time stats of your car\n• And much more in the future!</string>
     <string name="premium_dib">DIB Premium</string>
     <string name="applying_data">Applying settings…</string>
+    <string name="remove_ads_premium">Did you know? Upgrade to premium to remove ads!</string>
     <string name="premium_no_ads">As a premium user, you won\'t see any ads.</string>
     <string name="premium_expired">Your premium account has expired, renew it now if you don\'t want to lose the premium features!</string>
     <string name="spotify_no_data_why">Make sure Spotify is running and \'Device Broadcast Status\' is enabled in your Spotify app!</string>
+    <string name="edit_plate_num">Edit plate number</string>
+    <string name="edit_password">Change password</string>
+    <string name="edit_car_info">Edit profile</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="success">Operation completed successfully!</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

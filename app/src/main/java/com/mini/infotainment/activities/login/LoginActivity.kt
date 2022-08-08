@@ -36,31 +36,33 @@ class LoginActivity : ProfileActivity() {
         confirmBtn = findViewById(R.id.login_confirm_button)
         registerBtn = findViewById(R.id.login_reg_btn)
 
-        confirmBtn.setOnClickListener { proceed() }
+        confirmBtn.setOnClickListener { handleData() }
         registerBtn.setOnClickListener { onBackPressed() }
     }
 
-    private fun proceed(){
-        val plateNum = plateNumTW.text.toString().uppercase().trim()
-        val password = Utility.getMD5(passwordTW.text.toString().trim())
+    override fun handleData() {
+        super.handleData{
+            val plateNum = plateNumTW.text.toString().uppercase().trim()
+            val password = Utility.getMD5(passwordTW.text.toString().trim())
 
-        FirebaseClass.areCredentialsCorrect(plateNum, password, object : RunnablePar{
-            override fun run(p: Any?) {
-                val canLogin = p as Boolean
-                if(!canLogin){
-                    showError(ErrorCodes.INVALID_DETAILS)
-                    return
+            FirebaseClass.areCredentialsCorrect(plateNum, password, object : RunnablePar{
+                override fun run(p: Any?) {
+                    val canLogin = p as Boolean
+                    if(!canLogin){
+                        showError(ErrorCodes.INVALID_DETAILS)
+                        return
+                    }
+
+                    doLogin(MyCar(plateNum, password))
+
+                    val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
+                    intent.putExtra("isFirstLaunch", true)
+                    startActivity(intent)
+
+                    finish()
                 }
-
-                doLogin(MyCar(plateNum, password))
-
-                val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
-                intent.putExtra("isFirstLaunch", true)
-                startActivity(intent)
-
-                finish()
-            }
-        })
+            })
+        }
     }
 
     override fun onBackPressed() {
