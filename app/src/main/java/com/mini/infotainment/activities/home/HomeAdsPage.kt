@@ -72,7 +72,7 @@ class HomeAdsPage(override val ctx: HomeActivity) : Page() {
         val textView = TextView(ctx)
         textView.setTextColor(Color.WHITE)
         textView.text = ctx.getString(R.string.no_ads_available)
-        textView.textSize = 12f
+        textView.textSize = Utility.convertValue(12f, ctx).toFloat()
 
         viewGroup.addView(textView)
 

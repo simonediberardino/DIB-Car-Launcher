@@ -1,11 +1,11 @@
 package com.mini.infotainment.UI
 
 import android.view.ViewGroup
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
 abstract class Page {
-    abstract val ctx: ActivityExtended
+    abstract val ctx: SActivity
     var parent: ViewGroup? = null
 
     open fun show(){}

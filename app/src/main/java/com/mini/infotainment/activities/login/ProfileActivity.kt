@@ -2,9 +2,9 @@ package com.mini.infotainment.activities.login
 
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 
-open class ProfileActivity : ActivityExtended() {
+open class ProfileActivity : SActivity() {
     enum class ErrorCodes{
         EXISTS,
         INVALID_DETAILS,

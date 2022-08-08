@@ -43,7 +43,7 @@
     <string name="password_errata">Wrong password.</string>
     <string name="menu_musica">Spotify</string>
     <string name="menu_youtube">YouTube</string>
-    <string name="menu_navigatore">Navigator</string>
+    <string name="menu_navigatore">3D Maps</string>
     <string name="menu_settings">Settings</string>
     <string name="tts_n_sentence">Phrase {numero}</string>
     <string name="tts_sen_title">Welcome messages</string>
@@ -90,7 +90,7 @@
     <string name="no_ads_available">No ads available.</string>
     <string name="upgrade_to_premium">Upgrade to premium!</string>
     <string name="premium_confirm">Upgrade to premium now</string>
-    <string name="premium_desc_1">Upgrade to premium now, for just 2.99€/month!</string>
+    <string name="premium_desc_1">Upgrade to premium now, for just 1.99€/month!</string>
     <string name="premium_success">You successfully unlocked all the premium features for a month!</string>
     <string name="premium_error">Error while processing.</string>
     <string name="payment_not_ready">Payment instance not ready yet, retry in a couple of seconds.</string>

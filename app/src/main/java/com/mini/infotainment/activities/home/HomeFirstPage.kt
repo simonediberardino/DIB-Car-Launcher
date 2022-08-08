@@ -29,6 +29,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun build() {
+        ctx.viewPager = ctx.findViewById(R.id.home_view_pager)
+        ctx.viewPages.clear()
+
         parent = ctx.layoutInflater.inflate(R.layout.activity_home_1, ctx.viewPager, false) as ViewGroup
 
         spotifyWidget = parent!!.findViewById(R.id.home_1_spotify)

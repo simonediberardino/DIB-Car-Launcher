@@ -48,9 +48,7 @@ class SocketServer(val activity: HomeActivity) {
         while (serverSocket != null || serverSocket?.isClosed != true) {
             try {
                 handleClientConnection(serverSocket?.accept() ?: return)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            } catch (e: IOException) {}
         }
     }
 

@@ -32,12 +32,15 @@ import com.google.gson.Gson
 import com.google.zxing.WriterException
 import com.mini.infotainment.R
 import com.mini.infotainment.data.ApplicationData
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.utility.Utility.Resolution.Companion.BASE_RESOLUTION
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.apache.commons.net.ntp.NTPUDPClient
+import org.apache.commons.net.ntp.TimeInfo
 import java.math.BigInteger
+import java.net.InetAddress
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.LocalDateTime
@@ -74,6 +77,18 @@ object Utility {
     fun getCurrentDate(): String {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         return getDateString(calendar)
+    }
+
+    fun getNetworkDate(): Date {
+        return Date(getNetworkDateMillis())
+    }
+
+    fun getNetworkDateMillis(): Long {
+        val TIME_SERVER = "time-a.nist.gov";
+        val timeClient = NTPUDPClient()
+        val inetAddress: InetAddress = InetAddress.getByName(TIME_SERVER)
+        val timeInfo: TimeInfo = timeClient.getTime(inetAddress)
+        return timeInfo.message.transmitTimeStamp.time
     }
 
     fun getDateString(calendar: Calendar) : String{
@@ -139,7 +154,7 @@ object Utility {
     }
 
     fun isInternetAvailable(): Boolean {
-        return isInternetAvailable(ActivityExtended.lastActivity)
+        return isInternetAvailable(SActivity.lastActivity)
     }
 
     fun confirmDialog(c: Activity, runnable: Runnable){

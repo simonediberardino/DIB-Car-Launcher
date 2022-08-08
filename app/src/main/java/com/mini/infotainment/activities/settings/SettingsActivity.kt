@@ -6,20 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.data.ApplicationData
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
 
-class SettingsActivity : ActivityExtended() {
+class SettingsActivity : SActivity() {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
@@ -96,6 +92,8 @@ class SettingsActivity : ActivityExtended() {
     }
 
     private fun handleSettings(){
+        Toast.makeText(this, getString(R.string.applying_data), Toast.LENGTH_LONG).show()
+
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
         ApplicationData.doesSpotifyRunOnBoot(settingsSpotifyOnBootCB.isChecked)
 
@@ -108,12 +106,11 @@ class SettingsActivity : ActivityExtended() {
     }
 
     override fun finish() {
-        CustomToast(getString(R.string.applying_data), this).show()
-
         if(isFirstLaunch)
             instance.initializeActivity()
 
         instance.homePage1.updateData()
+
         super.finish()
     }
 

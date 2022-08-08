@@ -1,12 +1,11 @@
 package com.mini.infotainment.receivers
 
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import com.mini.infotainment.activities.home.HomeActivity
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 
 class SpotifyIntegration : BroadcastReceiver() {
     companion object {
@@ -56,7 +55,7 @@ class SpotifyIntegration : BroadcastReceiver() {
             if(!isPlayingSong()) {
                 handleResumeTrack(context, intent)
             }else{
-                if(context is ActivityExtended) {
+                if(context is SActivity) {
                     context.log("Starting spotify ${intent.action.toString()}")
                 }
             }
@@ -81,7 +80,7 @@ class SpotifyIntegration : BroadcastReceiver() {
 
         when (intent.action) {
             METADATA_CHANGED -> {
-                HomeActivity.updateSpotifySong(context as Activity, intent)
+                HomeActivity.updateSpotifySong(intent)
             }
             PLAYBACK_STATE_CHANGED -> {
                 if(!HomeActivity.instance.hasStartedSpotify){

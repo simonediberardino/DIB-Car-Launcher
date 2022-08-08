@@ -6,10 +6,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mini.infotainment.R
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 
 
-class CustomToast(val text: String, val activity: ActivityExtended) {
+class CustomToast(val text: String, val activity: SActivity) {
     companion object{
         var DURATION: Long = 4000L
     }

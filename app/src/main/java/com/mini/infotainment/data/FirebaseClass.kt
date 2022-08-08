@@ -3,6 +3,7 @@ import android.location.Location
 import com.google.firebase.database.*
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.utility.Utility
 
 
 object FirebaseClass{
@@ -21,9 +22,13 @@ object FirebaseClass{
     fun isPremiumCar(plateNum: String, runnablePar: RunnablePar){
         getCarObject(plateNum, object : RunnablePar{
             override fun run(p: Any?) {
-                val carObject = p as MyCar?
-                val isPremium = (carObject?.premiumDate ?: 0) > System.currentTimeMillis()
-                runnablePar.run(isPremium)
+                Thread{
+                    val currMs = Utility.getNetworkDateMillis()
+                    val carObject = p as MyCar?
+                    val isPremium = (carObject?.premiumDate ?: 0) > currMs
+                    
+                    runnablePar.run(isPremium)
+                }.start()
             }
         })
     }
@@ -55,11 +60,15 @@ object FirebaseClass{
     }
 
     fun promoteToPremium(days: Long, callback: Runnable = Runnable {}) {
-        val daysInMs: Long = (1000 * 60 * 60 * 24) * days
-        val nextDeadline = System.currentTimeMillis() + daysInMs
-        getPremiumDateReference().setValue(nextDeadline).addOnCompleteListener {
-            callback.run()
-        }
+        Thread{
+            val currMs = Utility.getNetworkDateMillis()
+            val daysInMs: Long = (1000 * 60 * 60 * 24) * days
+            val nextDeadline = currMs + daysInMs
+
+            getPremiumDateReference().setValue(nextDeadline).addOnCompleteListener {
+                callback.run()
+            }
+        }.start()
     }
 
     fun updateCarLocation(location: Location){

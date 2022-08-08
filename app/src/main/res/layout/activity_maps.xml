@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="32px">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_border_no_radius"
+            android:padding="2px"
+            tools:layout_editor_absoluteX="32px"
+            tools:layout_editor_absoluteY="32px">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/maps_resetpos_btn"
+                android:layout_width="75px"
+                android:layout_height="75px"
+
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16px"
+                android:background="@drawable/round_white_button_shadow"
+                android:elevation="28px"
+                android:src="@drawable/ic_baseline_my_location_24"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/maps_speed_iw"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/road_sign" />
+
+            <TextView
+                android:id="@+id/maps_speed_tw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/h3"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/maps_speed_iw"
+                app:layout_constraintEnd_toEndOf="@+id/maps_speed_iw"
+                app:layout_constraintStart_toStartOf="@+id/maps_speed_iw"
+                app:layout_constraintTop_toTopOf="@+id/maps_speed_iw" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,20 +6,20 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 
-class CheckoutActivity : ActivityExtended() {
+class CheckoutActivity : SActivity() {
     private lateinit var dialog: Dialog
     private lateinit var paymentSheet: PaymentSheet
     private lateinit var customerConfig: PaymentSheet.CustomerConfiguration
@@ -56,7 +56,7 @@ class CheckoutActivity : ActivityExtended() {
         val endPoint = "http://snrservers.vpsgh.it:3000/payment-sheet"
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
-        endPoint.httpGet().responseJson { _, _, result ->
+        endPoint.httpPost().responseJson { _, _, result ->
             when(result){
                 is Result.Success -> {
                     val responseJson = result.get().obj()

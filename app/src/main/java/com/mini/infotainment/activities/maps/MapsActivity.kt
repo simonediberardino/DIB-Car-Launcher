@@ -1,10 +1,10 @@
-package com.mini.infotainment.activities.home
+package com.mini.infotainment.activities.maps
 
 import android.annotation.SuppressLint
-import android.location.Location
 import android.os.Build
+import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,18 +14,21 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.MapInteractions
-import com.mini.infotainment.UI.Page
+import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
-class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback, MapInteractions {
+class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     companion object{
         internal const val CIRCLE_RADIUS = 150.0
         internal const val CIRCLE_MIN_ZOOM = 21f
         internal const val MAP_DEFAULT_ZOOM = 19.2f
     }
 
-    internal lateinit var googleMap: GoogleMap
+    var googleMap: GoogleMap? = null
+    internal var mapFragment: SupportMapFragment? = null
     internal lateinit var resetLocBtn: View
+    private lateinit var speedTw: TextView
     /** Location icon placed on the user location updated every time the user location changes; */
     internal var userLocMarker: Marker? = null
     /** Circle placed on the user location updated every time the user location changes; */
@@ -37,50 +40,69 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
             field = value
         }
 
-    override fun build() {
-        parent = ctx.layoutInflater.inflate(R.layout.activity_home_0, ctx.viewPager, false) as ViewGroup
-        ctx.viewPages.add(parent!!)
-
-        resetLocBtn = parent!!.findViewById(R.id.home_0_resetpos_btn)
-
-        setListeners()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.initialize()
+    }
+    
+    private fun initialize() {
+        setViews()
         createMap()
+        setWallpaper()
+        addGpsCallback()
 
         super.pageLoaded()
     }
 
-    override fun setListeners() {
+    private fun setViews() {
+        setContentView(R.layout.activity_maps)
+
+        resetLocBtn = findViewById(R.id.maps_resetpos_btn)
+        speedTw = findViewById(R.id.maps_speed_tw)
+
         resetLocBtn.setOnClickListener {
-            zoomMapToUser(true, null)
+            zoomMapToUser()
         }
+    }
+
+    private fun addGpsCallback(){
+        gpsManager.callbacks[packageName] = (object: RunnablePar {
+            override fun run(p: Any?) {
+                onLocationChanged()
+            }
+        })
     }
 
     @SuppressLint("RestrictedApi")
     fun createMap(){
-        val mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment!!.getMapAsync(this)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onMapReady(p0: GoogleMap) {
         googleMap = p0
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(ctx, R.raw.map_night))
-        googleMap.uiSettings.isScrollGesturesEnabled = false
-        googleMap.uiSettings.isRotateGesturesEnabled = false
-        googleMap.uiSettings.isCompassEnabled = false
+        googleMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_night))
+        googleMap!!.uiSettings.isScrollGesturesEnabled = false
+        googleMap!!.uiSettings.isRotateGesturesEnabled = false
+        googleMap!!.uiSettings.isCompassEnabled = false
         mapFollowsUser = true
 
+        println("MYMAPISREADY!")
         this.setMapInteractionTrackingListeners()
+        this.onLocationChanged()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.N)
-    fun onLocationChanged(newLocation: Location){
+    fun onLocationChanged(){
+        if(googleMap == null) return
+        
+        val newLocation = gpsManager.currentUserLocation ?: return
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
-        val height: Int = (Utility.getDisplayRatio(ctx) * 15).toInt()
-        val width: Int = (Utility.getDisplayRatio(ctx) * 15).toInt()
-        val drawable = ctx.getDrawable(R.drawable.location_icon)
+        val height: Int = (Utility.getDisplayRatio(this) * 15).toInt()
+        val width: Int = (Utility.getDisplayRatio(this) * 15).toInt()
+        val drawable = getDrawable(R.drawable.location_icon)
         val bitmap = drawable?.toBitmap(width, height)
 
         val markerOptions = MarkerOptions()
@@ -98,8 +120,10 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
 
         userLocCircle?.remove()
         userLocMarker?.remove()
-        userLocMarker = googleMap.addMarker(markerOptions)
-        userLocCircle = googleMap.addCircle(circleOptions)
+        userLocMarker = googleMap!!.addMarker(markerOptions)
+        userLocCircle = googleMap!!.addCircle(circleOptions)
+
+        speedTw.text = gpsManager.currentSpeed.toString()
 
         if(mapFollowsUser)
             zoomMapToUser()
@@ -112,55 +136,55 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
     }
 
     private fun setMapInteractionTrackingListeners() {
-        var cameraPositionBeforeCameraMoveStarted = googleMap.cameraPosition
+        var cameraPositionBeforeCameraMoveStarted = googleMap!!.cameraPosition
         var cameraChangeReason = GoogleMap.OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION
         var isZoomInStarted = false
         var isZoomOutStarted = false
 
-        googleMap.setOnCameraMoveStartedListener { reason ->
+        googleMap!!.setOnCameraMoveStartedListener { reason ->
             cameraChangeReason = reason
             if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                cameraPositionBeforeCameraMoveStarted = googleMap.cameraPosition
+                cameraPositionBeforeCameraMoveStarted = googleMap!!.cameraPosition
                 this.onMapPanListener().invoke()
             }
         }
 
-        googleMap.setOnCameraMoveListener {
-            if (googleMap.cameraPosition.zoom > cameraPositionBeforeCameraMoveStarted.zoom && !isZoomInStarted) {
+        googleMap!!.setOnCameraMoveListener {
+            if (googleMap!!.cameraPosition.zoom > cameraPositionBeforeCameraMoveStarted.zoom && !isZoomInStarted) {
                 isZoomInStarted = true
-                this.onMapZoomInStartListener().invoke(googleMap.cameraPosition.zoom.toDouble())
-            } else if (googleMap.cameraPosition.zoom < cameraPositionBeforeCameraMoveStarted.zoom && !isZoomOutStarted) {
+                this.onMapZoomInStartListener().invoke(googleMap!!.cameraPosition.zoom.toDouble())
+            } else if (googleMap!!.cameraPosition.zoom < cameraPositionBeforeCameraMoveStarted.zoom && !isZoomOutStarted) {
                 isZoomOutStarted = true
-                this.onMapZoomOutStartListener().invoke(googleMap.cameraPosition.zoom.toDouble())
+                this.onMapZoomOutStartListener().invoke(googleMap!!.cameraPosition.zoom.toDouble())
             }
         }
 
-        googleMap.setOnCameraIdleListener {
+        googleMap!!.setOnCameraIdleListener {
             if (cameraChangeReason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                if (googleMap.cameraPosition.bearing != cameraPositionBeforeCameraMoveStarted.bearing) {
+                if (googleMap!!.cameraPosition.bearing != cameraPositionBeforeCameraMoveStarted.bearing) {
                     this.onMapRotateListener().invoke()
                 }
 
                 val isZoomInOrOutStarted = isZoomInStarted || isZoomOutStarted
 
-                if (googleMap.cameraPosition.bearing == cameraPositionBeforeCameraMoveStarted.bearing
-                    && googleMap.cameraPosition.target != cameraPositionBeforeCameraMoveStarted.target
+                if (googleMap!!.cameraPosition.bearing == cameraPositionBeforeCameraMoveStarted.bearing
+                    && googleMap!!.cameraPosition.target != cameraPositionBeforeCameraMoveStarted.target
                     && !isZoomInOrOutStarted
                 ) {
                     this.onMapPanListener().invoke()
                 }
 
-                if (googleMap.cameraPosition.zoom > cameraPositionBeforeCameraMoveStarted.zoom && isZoomInStarted) {
-                    this.onMapZoomInEndListener().invoke(googleMap.cameraPosition.zoom.toDouble())
+                if (googleMap!!.cameraPosition.zoom > cameraPositionBeforeCameraMoveStarted.zoom && isZoomInStarted) {
+                    this.onMapZoomInEndListener().invoke(googleMap!!.cameraPosition.zoom.toDouble())
                     isZoomInStarted = false
                 }
 
-                if (googleMap.cameraPosition.zoom < cameraPositionBeforeCameraMoveStarted.zoom && isZoomOutStarted) {
-                    this.onMapZoomOutEndListener().invoke(googleMap.cameraPosition.zoom.toDouble())
+                if (googleMap!!.cameraPosition.zoom < cameraPositionBeforeCameraMoveStarted.zoom && isZoomOutStarted) {
+                    this.onMapZoomOutEndListener().invoke(googleMap!!.cameraPosition.zoom.toDouble())
                     isZoomOutStarted = false
                 }
 
-                cameraPositionBeforeCameraMoveStarted = googleMap.cameraPosition
+                cameraPositionBeforeCameraMoveStarted = googleMap!!.cameraPosition
                 cameraChangeReason = GoogleMap.OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION
             }
         }
@@ -168,12 +192,12 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
 
 
     override fun onMapZoomInEndListener(): (zoomLevel: Double) -> Unit = {
-        googleMap.uiSettings.isScrollGesturesEnabled = true
+        googleMap!!.uiSettings.isScrollGesturesEnabled = true
         mapFollowsUser = false
     }
 
     override fun onMapZoomOutEndListener(): (zoomLevel: Double) -> Unit = {
-        googleMap.uiSettings.isScrollGesturesEnabled = true
+        googleMap!!.uiSettings.isScrollGesturesEnabled = true
         mapFollowsUser = false
     }
 
@@ -183,42 +207,37 @@ class HomeZeroPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback,
     override fun onMapRotateListener(): () -> Unit = {}
 
     private fun getMapZoom(): Float {
-        return googleMap.cameraPosition.zoom
+        return googleMap!!.cameraPosition.zoom
     }
 
-    private fun zoomMapToUser(){
-        zoomMapToUser(false, null)
-    }
-
-
-    private fun zoomMapToUser(forceZoom: Boolean, callback: Runnable?){
-        if(ctx.gpsManager.currentUserLocation == null)
+    private fun zoomMapToUser(callback: Runnable = Runnable {}){
+        if(gpsManager.currentUserLocation == null)
             return
 
-        if(!forceZoom && 1 > (
-                    ctx.gpsManager.previousUserLocation
-                        ?.distanceTo(ctx.gpsManager.currentUserLocation) ?: 1f))
-            return
-
-        googleMap.uiSettings.isScrollGesturesEnabled = false
+        googleMap!!.uiSettings.isScrollGesturesEnabled = false
         mapFollowsUser = true
 
-        val bearing: Float = ctx.gpsManager.previousUserLocation?.bearingTo(ctx.gpsManager.currentUserLocation) ?: 0f
+        val bearing: Float = gpsManager.previousUserLocation?.bearingTo(gpsManager.currentUserLocation) ?: 0f
 
         val cameraPosition = CameraPosition.Builder()
-            .target(LatLng(ctx.gpsManager.currentUserLocation!!.latitude, ctx.gpsManager.currentUserLocation!!.longitude))
+            .target(
+                LatLng(
+                    gpsManager.currentUserLocation!!.latitude,
+                    gpsManager.currentUserLocation!!.longitude
+                )
+            )
             .zoom(MAP_DEFAULT_ZOOM)
             .bearing(bearing)
             .tilt(80f)
             .build()
 
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), object: GoogleMap.CancelableCallback{
+        googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), object: GoogleMap.CancelableCallback{
             override fun onCancel(){
-                callback?.run()
+                callback.run()
             }
 
             override fun onFinish() {
-                callback?.run()
+                callback.run()
             }
         })
     }

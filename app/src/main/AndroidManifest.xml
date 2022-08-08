@@ -116,6 +116,20 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.maps.MapsActivity"
+            android:label="@string/app_name"
+            android:clearTaskOnLaunch="true"
+            android:noHistory="true"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"
+            tools:ignore="AppLinkUrlError">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5725383971112097~1025409421"/>

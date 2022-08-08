@@ -3,7 +3,7 @@ package com.mini.infotainment.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.mini.infotainment.support.ActivityExtended
+import com.mini.infotainment.support.SActivity
 
 object ApplicationData {
     const val DATA_ID = "data"
@@ -24,7 +24,7 @@ object ApplicationData {
 
     val applicationData: SharedPreferences
         get() {
-            return ActivityExtended.lastActivity.getSharedPreferences(
+            return SActivity.lastActivity.getSharedPreferences(
                 DATA_ID,
                 Context.MODE_PRIVATE
             )!!

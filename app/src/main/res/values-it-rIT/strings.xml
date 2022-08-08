@@ -43,7 +43,7 @@
     <string name="password_errata">Password errata.</string>
     <string name="menu_musica">Spotify</string>
     <string name="menu_youtube">YouTube</string>
-    <string name="menu_navigatore">Navigatore</string>
+    <string name="menu_navigatore">Mappe 3D</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="tts_n_sentence">Frase {numero}</string>
     <string name="tts_sen_title">Messaggi di benvenuto</string>
@@ -90,7 +90,7 @@
     <string name="no_ads_available">Nessun annuncio disponibile.</string>
     <string name="upgrade_to_premium">Passa a premium!</string>
     <string name="premium_confirm">Passa a premium ora</string>
-    <string name="premium_desc_1">Passa a premium ora, a soli 2.99€ al mese!</string>
+    <string name="premium_desc_1">Passa a premium ora, a soli 1.99€ al mese!</string>
     <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
     <string name="premium_success">Hai sbloccato con successo le funzionalità premium per un mese!</string>
     <string name="payment_not_ready">L\'instanza di pagamento non è ancora pronta, riprova tra un paio di secondi.</string>

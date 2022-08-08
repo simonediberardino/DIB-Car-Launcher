@@ -1,23 +1,32 @@
 package com.mini.infotainment.support
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.mini.infotainment.R
+import com.mini.infotainment.gps.GPSManager
 import com.mini.infotainment.utility.Utility
 
-open class ActivityExtended : AppCompatActivity() {
+open class SActivity : AppCompatActivity() {
+    var savedInstanceState: Bundle? = null
     var mContentView: View? = null
 
     companion object{
-        lateinit var lastActivity: ActivityExtended
+        @SuppressLint("StaticFieldLeak")
+        lateinit var lastActivity: SActivity
+        @SuppressLint("StaticFieldLeak")
+        lateinit var gpsManager: GPSManager
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        this.savedInstanceState = savedInstanceState
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
@@ -30,6 +39,12 @@ open class ActivityExtended : AppCompatActivity() {
     override fun setContentView(view: View?) {
         super.setContentView(view)
         mContentView = view!!
+    }
+
+    @SuppressLint("MissingPermission", "ResourceType")
+    fun setWallpaper(){
+        val wallpaperView = findViewById<ViewGroup>(R.id.parent)
+        wallpaperView.setBackgroundDrawable(Utility.getWallpaper(this))
     }
 
     fun pageLoaded(){

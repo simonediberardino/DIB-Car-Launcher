@@ -3,21 +3,17 @@ package com.mini.infotainment.activities.home
 import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.speech.RecognizerIntent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
-import com.google.android.gms.location.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -27,7 +23,6 @@ import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
-import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
@@ -37,22 +32,18 @@ import com.mini.infotainment.gps.GPSManager
 import com.mini.infotainment.http.SocketServer
 import com.mini.infotainment.receivers.NetworkStatusReceiver
 import com.mini.infotainment.receivers.SpotifyIntegration
-import com.mini.infotainment.support.ActivityExtended
 import com.mini.infotainment.support.RunnablePar
+import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
 
-class HomeActivity : ActivityExtended() {
+class HomeActivity : SActivity() {
     internal var hasStartedSpotify = false
     internal val viewPages = mutableListOf<ViewGroup>()
     internal lateinit var viewPager: ViewPager
-    internal lateinit var gpsManager: GPSManager
-    internal lateinit var locationManager: FusedLocationProviderClient
     internal lateinit var sideMenu: SideMenu
-    lateinit var homePage0: HomeZeroPage
     lateinit var homePage1: HomeFirstPage
     lateinit var homePage2: HomeSecondPage
-    var homePageAds: HomeAdsPage? = null
     var appsMenu: AppsMenu? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
@@ -62,7 +53,7 @@ class HomeActivity : ActivityExtended() {
         super.onCreate(savedInstanceState)
         this.initializeExceptionHandler()
 
-        if(!Utility.hasLoginData()){
+        if(!Utility.hasLoginData()) {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             return
@@ -104,8 +95,6 @@ class HomeActivity : ActivityExtended() {
         this.setContentView(R.layout.activity_home)
         this.setWallpaper()
 
-        homePageAds = HomeAdsPage(this).also { it.build() }
-        homePage0 = HomeZeroPage(this).also { it.build() }
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
         appsMenu = AppsMenu(this).also { it.build() }
@@ -118,7 +107,7 @@ class HomeActivity : ActivityExtended() {
         val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
         viewPager.removeAllViews()
         viewPager.adapter = PagerAdapter(viewPages)
-        viewPager.currentItem = 2
+        viewPager.currentItem = 0
     }
 
     private fun setupOnConnectivityChange(){
@@ -164,17 +153,11 @@ class HomeActivity : ActivityExtended() {
         //MediaPlayer.create(this, R.raw.startup_sound).start()
     }
 
-    @SuppressLint("MissingPermission", "ResourceType")
-    fun setWallpaper(){
-        val wallpaperView = findViewById<ViewGroup>(R.id.parent)
-        wallpaperView.setBackgroundDrawable(Utility.getWallpaper(this))
-    }
-
     private fun onPremiumAccountListener(){
         FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 MyCar.instance.premiumDate = snapshot.value as Long? ?: return
-                homePageAds?.handleAds()
+                //homePageAds?.handleAds()
                 if(MyCar.instance.premiumDate != 0L && !MyCar.instance.isPremium()){
                     premiumExpired()
                 }
@@ -189,14 +172,7 @@ class HomeActivity : ActivityExtended() {
     }
 
     private fun setupGPS() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -206,59 +182,31 @@ class HomeActivity : ActivityExtended() {
                 GEOLOCATION_PERMISSION_CODE
             )
         }else{
-            this.setupUserLocation()
+            this.initializeGpsManager()
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun setupUserLocation(){
-        gpsManager = GPSManager()
+    private fun initializeGpsManager(){
+        gpsManager = GPSManager(this).also{ it.init() }
+        this.addGpsCallback()
+    }
 
-        val locationRequest = LocationRequest.create()
-        locationRequest.interval = 1
-        locationRequest.fastestInterval = 1
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
-        val locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                this@HomeActivity.onLocationChanged(locationResult?.lastLocation)
+    private fun addGpsCallback(){
+        gpsManager.callbacks[packageName] = (object: RunnablePar{
+            override fun run(p: Any?) {
+                this@HomeActivity.onLocationChanged()
             }
-        }
-
-        locationManager = LocationServices.getFusedLocationProviderClient(this)
-        locationManager.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        })
     }
 
-    private fun onLocationChanged(newLocation: Location?){
-        if(newLocation == null || !Utility.isInternetAvailable() || ApplicationData.getTarga() == null)
-            return
-
-        handleGPSLocation(newLocation)
-        handleSpeedReport()
+    private fun onLocationChanged() {
+        handleGPSLocation()
         handleAddressReport()
     }
 
-    private fun handleGPSLocation(newLocation: Location?){
-        if(gpsManager.currentUserLocation != null){
-            gpsManager.previousUserLocation = gpsManager.currentUserLocation
-        }
-
-        gpsManager.currentUserLocation = newLocation
-
-        StatsData.increaseTraveledDistance(
-            gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: 0f
-        )
-
+    private fun handleGPSLocation(){
         homePage1.updateTravSpeed()
-        homePage0.onLocationChanged(gpsManager.currentUserLocation ?: return)
-    }
-
-    private fun handleSpeedReport(){
-        val speedInKmH = Utility.msToKmH(gpsManager.calculateSpeed())
-        homePage1.speedometerTW.text = speedInKmH.toString()
-
-        if(speedInKmH > 2)
-            StatsData.addSpeedReport(speedInKmH.toFloat())
+        homePage1.speedometerTW.text = gpsManager.currentSpeed.toString()
     }
 
     private fun handleAddressReport() {
@@ -299,14 +247,7 @@ class HomeActivity : ActivityExtended() {
             Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
         }
     }
-
-    internal fun runFileManager(){
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "*/*"
-        startActivityForResult(intent, 1000)
-    }
-
+    
     internal fun runYoutube(){
         startActivity(
             Intent(
@@ -358,7 +299,7 @@ class HomeActivity : ActivityExtended() {
                 if(grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     this.insufficientPermissions()
                 }else{
-                    this.setupUserLocation()
+                    this.initializeGpsManager()
                 }
             }
         }
@@ -378,11 +319,6 @@ class HomeActivity : ActivityExtended() {
         appsMenu?.show(false, SLIDE_ANIMATION_DURATION)
     }
 
-    override fun onResume() {
-        super.onResume()
-        appsMenu?.show(false, 0)
-    }
-
     companion object {
         lateinit var instance: HomeActivity
         internal var server: SocketServer? = null
@@ -390,14 +326,12 @@ class HomeActivity : ActivityExtended() {
         const val SLIDE_ANIMATION_DURATION: Long = 300
         const val REQUEST_CODE_SPEECH_INPUT = 10
 
-        fun updateSpotifySong(activity: Activity, intent: Intent){
+        fun updateSpotifySong(intent: Intent){
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
 
-            if(activity is HomeActivity){
-                instance.homePage1.spotifyTitleTW.text = trackName
-                instance.homePage1.spotifyAuthorTw.text = artistName
-            }
+            instance.homePage1.spotifyTitleTW.text = trackName
+            instance.homePage1.spotifyAuthorTw.text = artistName
         }
     }
 }

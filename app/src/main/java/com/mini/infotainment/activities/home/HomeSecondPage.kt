@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
+import com.mini.infotainment.activities.maps.MapsActivity
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.entities.MyCar
@@ -51,7 +52,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
         GridButton(
             ctx.getString(R.string.menu_navigatore),
             R.drawable.menu_navigation
-        ) { ctx.runGoogleMaps() }
+        ) { Utility.navigateTo(ctx, MapsActivity::class.java) }
         GridButton(
             ctx.getString(R.string.menu_spotify),
             R.drawable.menu_spotify
