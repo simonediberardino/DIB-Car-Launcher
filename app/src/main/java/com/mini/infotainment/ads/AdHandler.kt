@@ -3,6 +3,7 @@ package com.mini.infotainment.ads
 import android.icu.util.Calendar
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
+import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.SActivity
 
 class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
@@ -18,7 +19,11 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
         }.start()
     }
 
-    private fun showAd(){
+    private fun showAd() {
+        if(!MyCar.instance.isPremium()){
+            return
+        }
+
         ad = adClass.newInstance().also {
             it.ctx = ctx
             it.onAdDismissed = Runnable {
