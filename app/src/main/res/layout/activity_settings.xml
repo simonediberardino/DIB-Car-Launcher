@@ -54,7 +54,6 @@
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="60px"
-                    android:background="@drawable/blue_border"
                     android:padding="8px"
                     android:text="@string/settings_default_wp"
                     android:textSize="@dimen/h4" />

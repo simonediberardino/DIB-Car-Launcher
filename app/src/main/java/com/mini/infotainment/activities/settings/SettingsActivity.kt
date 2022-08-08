@@ -26,7 +26,7 @@ class SettingsActivity : SActivity() {
     private lateinit var confirmButton: View
     private lateinit var editAccountButton: View
     private lateinit var llLogos: LinearLayout
-    private var isFirstLaunch = true
+    private var isFirstLaunch = false
 
     private var logos = arrayListOf<Logo>()
     private var selectedLogo: Logo? = null
@@ -123,7 +123,7 @@ class SettingsActivity : SActivity() {
     }
 
     override fun onBackPressed() {
-        if(isFirstLaunch)
+        if(!isFirstLaunch)
             super.onBackPressed()
     }
 }
