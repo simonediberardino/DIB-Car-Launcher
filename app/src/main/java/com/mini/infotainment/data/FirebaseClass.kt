@@ -60,15 +60,13 @@ object FirebaseClass{
     }
 
     fun promoteToPremium(days: Long, callback: Runnable = Runnable {}) {
-        Thread{
-            val currMs = Utility.getNetworkDateMillis()
-            val daysInMs: Long = (1000 * 60 * 60 * 24) * days
-            val nextDeadline = currMs + daysInMs
+        val currMs = System.currentTimeMillis()
+        val daysInMs: Long = (1000 * 60 * 60 * 24) * days * 30
+        val nextDeadline = currMs + daysInMs
 
-            getPremiumDateReference().setValue(nextDeadline).addOnCompleteListener {
-                callback.run()
-            }
-        }.start()
+        getPremiumDateReference().setValue(nextDeadline).addOnCompleteListener {
+            callback.run()
+        }
     }
 
     fun updateCarLocation(location: Location){

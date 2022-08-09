@@ -8,6 +8,7 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.graphics.drawable.Drawable
@@ -244,7 +245,10 @@ object Utility {
     fun ridimensionamento(activity: AppCompatActivity, v: ViewGroup) {
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val height = displayMetrics.heightPixels.toDouble()
+
+        val height = if(activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            displayMetrics.heightPixels.toDouble()
+        }else displayMetrics.widthPixels.toDouble()
 
         if(getDisplayRatio(activity) == 1.0) return
 

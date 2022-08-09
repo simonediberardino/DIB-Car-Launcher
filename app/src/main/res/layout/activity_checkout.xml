@@ -6,13 +6,130 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <ImageView
-        android:id="@+id/checkout_logo"
-        android:layout_width="300px"
-        android:layout_height="300px"
+    <Button
+        android:id="@+id/checkout_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:alpha="1"
+        android:background="@drawable/blue_button"
+        android:padding="24px"
+        android:text="@string/premium_confirm"
+        android:textSize="@dimen/h8"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/blue_border"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_logo" />
+        app:layout_constraintVertical_bias="0.329">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/checkout_tv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
+                    android:text="@string/premium_desc_1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/checkout_tv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:text="@string/premium_desc_2"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h6" />
+
+<!--                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/checkout_gift_icon"
+                    android:layout_width="250px"
+                    android:layout_height="250px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gift" />-->
+                <TextView
+                    android:id="@+id/checkout_tv_"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
+                    android:text="@string/select_plan"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/checkout_plan_1"
+                            layout="@layout/checkout_plan"
+                            android:layout_width="160px"
+                            android:layout_height="175px" />
+
+                        <include
+                            android:id="@+id/checkout_plan_2"
+                            layout="@layout/checkout_plan"
+                            android:layout_width="160px"
+                            android:layout_height="175px"
+                            android:layout_marginLeft="16px" />
+
+                        <include
+                            android:id="@+id/checkout_plan_3"
+                            layout="@layout/checkout_plan"
+                            android:layout_width="160px"
+                            android:layout_height="175px"
+                            android:layout_marginLeft="16px" />
+                    </LinearLayout>
+                </ScrollView>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

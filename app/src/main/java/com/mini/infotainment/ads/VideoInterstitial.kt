@@ -9,7 +9,8 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mini.infotainment.support.SActivity
 
 class VideoInterstitial(override var ctx: SActivity?) : Ads(){
-    override val AD_ID = "ca-app-pub-3940256099942544/1033173712"
+    override val TEST_ID = "ca-app-pub-3940256099942544/1033173712"
+    override val AD_ID = "ca-app-pub-5725383971112097/5863846712"
     private var mInterstitialAd: InterstitialAd? = null
 
     constructor() : this(null)

@@ -1,5 +1,7 @@
 package com.mini.infotainment.activities.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -7,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.activities.login.EditProfileActivity
@@ -44,6 +47,7 @@ class SettingsActivity : SActivity() {
         super.onCreate(savedInstanceState)
         isFirstLaunch = intent.getBooleanExtra("isFirstLaunch", false)
         this.initializeLayout()
+        this.requestStoragePermission()
     }
 
     private fun initializeLayout(){
@@ -111,6 +115,15 @@ class SettingsActivity : SActivity() {
         }
 
         finish()
+    }
+
+    private fun requestStoragePermission(){
+        val READ_EXTERNAL_STORAGE_ID = 1005
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_ID)
+        }
     }
 
     override fun finish() {

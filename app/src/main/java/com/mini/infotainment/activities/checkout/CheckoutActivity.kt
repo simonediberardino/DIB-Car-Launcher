@@ -1,122 +1,159 @@
 package com.mini.infotainment.activities.checkout
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
-import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.SActivity
-import com.mini.infotainment.utility.Utility
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 
 class CheckoutActivity : SActivity() {
-    private lateinit var dialog: Dialog
-    private lateinit var paymentSheet: PaymentSheet
-    private lateinit var customerConfig: PaymentSheet.CustomerConfiguration
-    private var paymentIntentClientSecret: String? = null
+    private lateinit var confirmBtn: View
+    private var plans: MutableList<Plan> = mutableListOf()
+    private var confirmedPlan: Plan? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_checkout)
-        initializePaymentSheet()
-        showDialog()
-        
+        this.initializeLayout()
         super.pageLoaded()
     }
 
-    private fun showDialog(){
-        dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_upgrade_premium)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    private fun initializeLayout(){
+        setContentView(R.layout.activity_checkout)
 
-        val confirmBtn = dialog.findViewById<View>(R.id.dialog_premium_okDialog)
-
-        dialog.setOnDismissListener { onBackPressed() }
+        confirmBtn = findViewById(R.id.checkout_confirm)
         confirmBtn.setOnClickListener {
-            presentPaymentSheet()
-        }
-
-        Utility.ridimensionamento(this, dialog.findViewById(R.id.parent))
-
-        dialog.show()
-    }
-
-    private fun initializePaymentSheet(){
-        val endPoint = "http://snrservers.vpsgh.it:3000/payment-sheet"
-        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
-
-        endPoint.httpPost().responseJson { _, _, result ->
-            when(result){
-                is Result.Success -> {
-                    val responseJson = result.get().obj()
-
-                    paymentIntentClientSecret = responseJson.getString("paymentIntent")
-
-                    customerConfig = PaymentSheet.CustomerConfiguration(
-                        responseJson.getString("customer"),
-                        responseJson.getString("ephemeralKey")
-                    )
-
-                    val publishableKey = responseJson.getString("publishableKey")
-                    PaymentConfiguration.init(this, publishableKey)
-                }
-                is Result.Failure -> this.onError()
+            confirmedPlan = plans.first { it.isSelected }.also {
+                it.payment.presentPaymentSheet()
             }
         }
-    }
 
-    private fun presentPaymentSheet() {
-        if(paymentIntentClientSecret == null) {
-            CustomToast(getString(R.string.payment_not_ready), this)
-            return
-        }
-
-        dialog.setOnDismissListener {  }
-        dialog.dismiss()
-
-        paymentSheet.presentWithPaymentIntent(
-            paymentIntentClientSecret!!,
-            PaymentSheet.Configuration(
-                merchantDisplayName = this.getString(R.string.app_name),
-                customer = customerConfig,
-                allowsDelayedPaymentMethods = true
+        plans.add(Plan(
+                findViewById(R.id.checkout_plan_1),
+                1.50f,
+               1
             )
         )
+
+        plans.add(Plan(
+                findViewById(R.id.checkout_plan_2),
+                6.99f,
+                6
+            )
+        )
+
+        plans.add(Plan(
+                findViewById(R.id.checkout_plan_3),
+                14.99f,
+                12
+            )
+        )
+
+        plans[1].isSelected = true
     }
 
-    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
-        when (paymentSheetResult) {
-            is PaymentSheetResult.Canceled -> {}
-            is PaymentSheetResult.Failed -> {
-                this.onError()
+    inner class Plan(val view: ViewGroup, val price: Float, val months: Int){
+        var payment: StripePayment = StripePayment().also { it.initializePaymentSheet(price) }
+
+        var isSelected = false
+            set(value) {
+                val bgResource = if(value) R.drawable.red_button else R.drawable.blue_button
+                view.setBackgroundResource(bgResource)
+                field = value
             }
-            is PaymentSheetResult.Completed -> {
-                this.onSuccess()
+
+        init {
+            view.setOnClickListener {
+                for (plan in plans) plan.isSelected = plan.view == it
+            }
+
+            view.findViewById<TextView>(R.id.plan_months).text =
+                getString(R.string.n_months).replace("{n}", months.toString())
+
+            view.findViewById<TextView>(R.id.plan_price).text = price.toString()
+            isSelected = false
+        }
+    }
+
+    inner class StripePayment{
+        private var paymentSheet: PaymentSheet? = null
+        private var paymentIntentClientSecret: String? = null
+        private var customerConfiguration: PaymentSheet.CustomerConfiguration? = null
+
+        fun initializePaymentSheet(price: Float){
+            val endPoint = "http://snrservers.vpsgh.it:3000/payment-sheet/$price"
+            paymentSheet = PaymentSheet(this@CheckoutActivity, ::onPaymentSheetResult)
+
+            endPoint.httpPost().responseJson { _, _, result ->
+                when(result){
+                    is Result.Success -> {
+                        val responseJson = result.get().obj()
+
+                        paymentIntentClientSecret = responseJson.getString("paymentIntent")
+
+                        customerConfiguration = PaymentSheet.CustomerConfiguration(
+                            responseJson.getString("customer"),
+                            responseJson.getString("ephemeralKey")
+                        )
+
+                        val publishableKey = responseJson.getString("publishableKey")
+                        PaymentConfiguration.init(this@CheckoutActivity, publishableKey)
+                    }
+                    is Result.Failure -> onError()
+                }
             }
         }
 
-        Handler().postDelayed({ finish() }, CustomToast.DURATION)
-    }
+        fun presentPaymentSheet() {
+            if(paymentIntentClientSecret == null) {
+                CustomToast(getString(R.string.payment_not_ready), this@CheckoutActivity)
+                return
+            }
 
-    private fun onSuccess(){
-        FirebaseClass.promoteToPremium(30){
-            HomeActivity.instance.generateViewPager()
+            paymentSheet?.presentWithPaymentIntent(
+                paymentIntentClientSecret!!,
+                PaymentSheet.Configuration(
+                    merchantDisplayName = getString(R.string.app_name),
+                    customer = customerConfiguration,
+                    allowsDelayedPaymentMethods = true
+                )
+            )
         }
-        CustomToast(getString(R.string.premium_success), this)
-    }
 
-    private fun onError(){
-        CustomToast(getString(R.string.premium_error), this)
+        private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+            when (paymentSheetResult) {
+                is PaymentSheetResult.Canceled -> {}
+                is PaymentSheetResult.Failed -> {
+                    onError()
+                }
+                is PaymentSheetResult.Completed -> {
+                    onSuccess()
+                    finish()
+                }
+            }
+        }
+
+        private fun onSuccess(){
+            FirebaseClass.promoteToPremium(confirmedPlan!!.months.toLong()){
+                Toast.makeText(
+                    this@CheckoutActivity,
+                    getString(R.string.premium_success).replace("{n_months}", confirmedPlan!!.months.toString()),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        private fun onError(){
+            CustomToast(getString(R.string.premium_error), this@CheckoutActivity)
+        }
     }
 }

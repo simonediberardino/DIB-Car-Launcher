@@ -1,6 +1,10 @@
 package com.mini.infotainment.support
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,6 +19,14 @@ import com.mini.infotainment.utility.Utility
 open class SActivity : AppCompatActivity() {
     var savedInstanceState: Bundle? = null
     var mContentView: View? = null
+    val Context.isMyLauncherDefault: Boolean
+        get() = ArrayList<ComponentName>().apply {
+            packageManager.getPreferredActivities(
+                arrayListOf(IntentFilter(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_HOME) }),
+                this,
+                packageName
+            )
+        }.isNotEmpty()
 
     companion object{
         @SuppressLint("StaticFieldLeak")
@@ -40,6 +52,7 @@ open class SActivity : AppCompatActivity() {
         super.setContentView(view)
         mContentView = view!!
     }
+
 
     @SuppressLint("MissingPermission", "ResourceType")
     fun setWallpaper(){

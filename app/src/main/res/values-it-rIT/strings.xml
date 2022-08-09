@@ -92,7 +92,7 @@
     <string name="premium_confirm">Passa a premium ora</string>
     <string name="premium_desc_1">Passa a premium ora, a soli 1.99€ al mese!</string>
     <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
-    <string name="premium_success">Hai sbloccato con successo le funzionalità premium per un mese!</string>
+    <string name="premium_success">Hai sbloccato con successo le funzionalità premium per {n_months} mese/i!</string>
     <string name="payment_not_ready">L\'instanza di pagamento non è ancora pronta, riprova tra un paio di secondi.</string>
     <string name="premium_error">Errore durante il processo.</string>
     <string name="already_premium">Sei già premium!</string>
@@ -108,5 +108,7 @@
     <string name="current_password">Password attuale</string>
     <string name="new_password">Nuova password</string>
     <string name="success">Operazione completata con successo!</string>
+    <string name="select_plan">Scegli il piano</string>
+    <string name="n_months">{n} mesi</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

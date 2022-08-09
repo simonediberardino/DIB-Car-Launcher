@@ -91,7 +91,7 @@
     <string name="upgrade_to_premium">Upgrade to premium!</string>
     <string name="premium_confirm">Upgrade to premium now</string>
     <string name="premium_desc_1">Upgrade to premium now, for just 1.99€/month!</string>
-    <string name="premium_success">You successfully unlocked all the premium features for a month!</string>
+    <string name="premium_success">You successfully unlocked all the premium features for {n_months} month(s)!</string>
     <string name="premium_error">Error while processing.</string>
     <string name="payment_not_ready">Payment instance not ready yet, retry in a couple of seconds.</string>
     <string name="already_premium">You are already premium!</string>
@@ -108,5 +108,7 @@
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
     <string name="success">Operation completed successfully!</string>
+    <string name="select_plan">Choose your plan</string>
+    <string name="n_months">{n} months</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

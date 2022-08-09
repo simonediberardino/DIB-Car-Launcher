@@ -5,6 +5,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.SActivity
+import com.mini.infotainment.utility.Utility
 
 class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
     private lateinit var ad: T
@@ -20,7 +21,7 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
     }
 
     private fun showAd() {
-        if(!MyCar.instance.isPremium()){
+        if(MyCar.instance.isPremium() || !Utility.isInternetAvailable()){
             return
         }
 

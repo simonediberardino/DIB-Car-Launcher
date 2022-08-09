@@ -1,7 +1,6 @@
 package com.mini.infotainment.activities.home
 
 import android.Manifest
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
@@ -22,6 +21,7 @@ import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.RegisterActivity
+import com.mini.infotainment.activities.misc.FakeLauncherActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.ads.AdHandler
 import com.mini.infotainment.ads.VideoInterstitial
@@ -79,15 +79,31 @@ class HomeActivity : SActivity() {
         this.welcomeUser()
         this.initializeCarObject()
         this.onPremiumAccountListener()
-        this.requestStoragePermission()
         this.initializeAdsHandler()
+        this.requestDefaultLauncher()
+    }
 
-        if(ApplicationData.doesSpotifyRunOnBoot()){
-            Thread{
-                Thread.sleep(10000)
-                runSpotify()
-            }.start()
-        }
+    private fun requestDefaultLauncher() {
+        if(isMyLauncherDefault) return
+
+        val packageManager: PackageManager = packageManager
+        val componentName = ComponentName(this, FakeLauncherActivity::class.java)
+        packageManager.setComponentEnabledSetting(
+            componentName,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        val selector = Intent(Intent.ACTION_MAIN)
+        selector.addCategory(Intent.CATEGORY_HOME)
+        selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        startActivity(selector)
+        packageManager.setComponentEnabledSetting(
+            componentName,
+            PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+            PackageManager.DONT_KILL_APP
+        )
     }
 
     private fun initializeCarObject(){
@@ -147,13 +163,6 @@ class HomeActivity : SActivity() {
 
     private fun initializeExceptionHandler(){
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
-    }
-
-    private fun requestStoragePermission(){
-        val READ_EXTERNAL_STORAGE_ID = 1005
-        if(ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_ID)
-        }
     }
 
     private fun welcomeUser(){
