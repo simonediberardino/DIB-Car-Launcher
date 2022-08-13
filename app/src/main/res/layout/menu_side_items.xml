@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_round_btn">
+    android:background="@drawable/white_round_btn_transparent">
 
     <ImageView
         android:id="@+id/side_menu_image"

@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout4"
         android:layout_width="125px"
         android:layout_height="125px"
-        android:background="@drawable/white_round_btn_pressed"
+        android:background="@drawable/white_round_btn"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp"

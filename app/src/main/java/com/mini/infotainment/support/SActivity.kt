@@ -48,6 +48,11 @@ open class SActivity : AppCompatActivity() {
         lastActivity = this
     }
 
+    override fun onResume() {
+        super.onResume()
+        lastActivity = this
+    }
+
     override fun setContentView(view: View?) {
         super.setContentView(view)
         mContentView = view!!

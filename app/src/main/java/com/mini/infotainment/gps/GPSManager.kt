@@ -65,9 +65,9 @@ class GPSManager(val ctx: Activity) {
         return if(currentUserLocation?.hasSpeed() == true){
             currentUserLocation!!.speed
         }else{
-            if(previousUserLocation == null)
+            if(previousUserLocation == null) {
                 0f
-            else{
+            }else{
                 val elapsedTimeInSeconds = (currentUserLocation!!.time - previousUserLocation!!.time) / 1000
                 val distanceInMeters = currentUserLocation!!.distanceTo(previousUserLocation)
                 val speed = distanceInMeters / elapsedTimeInSeconds
@@ -77,14 +77,6 @@ class GPSManager(val ctx: Activity) {
     }
 
     fun shouldRefreshAddress(): Boolean {
-        val minimumDistanceAddressCheck = 5
-        val isFarEnough =
-            if(previousUserLocation == null){
-                true
-            }else{
-                currentUserLocation!!.distanceTo(previousUserLocation) > minimumDistanceAddressCheck
-            }
-        val isTimePassed = System.currentTimeMillis() - lastAddressCheck >= 1000*25
-        return isFarEnough && isTimePassed
+        return System.currentTimeMillis() - lastAddressCheck >= 1000 * 25
     }
 }

@@ -96,7 +96,10 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     @RequiresApi(Build.VERSION_CODES.N)
     fun onLocationChanged(){
         if(googleMap == null) return
-        
+
+        if((gpsManager.currentUserLocation?.distanceTo(gpsManager.previousUserLocation) ?: 0f) < 2.5)
+            return
+
         val newLocation = gpsManager.currentUserLocation ?: return
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 

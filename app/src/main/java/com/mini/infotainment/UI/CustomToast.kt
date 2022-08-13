@@ -65,7 +65,7 @@ class CustomToast(val text: String, val activity: SActivity) {
         toastIW.id = R.id.custom_toast_iw
 
         val toastTW = TextView(activity)
-        toastTW.textSize = 7f
+        toastTW.textSize = 17f
         toastTW.setTextColor(Color.WHITE)
         toastTW.id = R.id.custom_toast_tw
         toastTW.setPadding(16, 0, 0, 0)
@@ -74,8 +74,8 @@ class CustomToast(val text: String, val activity: SActivity) {
         childLayout.addView(toastTW)
         parentLayout.addView(childLayout)
 
-        toastIW.layoutParams.width = 20
-        toastIW.layoutParams.height = 20
+        toastIW.layoutParams.width = 40
+        toastIW.layoutParams.height = 40
         (toastIW.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.CENTER
 
         toastTW.layoutParams = LinearLayout.LayoutParams(
@@ -85,7 +85,6 @@ class CustomToast(val text: String, val activity: SActivity) {
             gravity = Gravity.CENTER
         }
 
-        Utility.ridimensionamento(activity, parentLayout)
         return parentLayout
     }
 

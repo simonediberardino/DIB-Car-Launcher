@@ -13,7 +13,7 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
     fun startTimeout() {
         Thread{
             while(true){
-                val timeOut = (getTimeout()*60*1000).toLong()
+                val timeOut = 1000*60*7L
                 Thread.sleep(timeOut)
                 ctx.runOnUiThread { showAd() }
             }
