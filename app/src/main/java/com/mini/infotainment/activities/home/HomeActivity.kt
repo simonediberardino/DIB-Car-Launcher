@@ -331,6 +331,14 @@ class HomeActivity : SActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(isGpsManagerInitializated){
+            addGpsCallback()
+        }
+    }
+
     override fun onBackPressed(){
         appsMenu?.show(false, SLIDE_ANIMATION_DURATION)
     }

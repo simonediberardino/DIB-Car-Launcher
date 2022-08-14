@@ -65,7 +65,7 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
         val title = ctx.getString(R.string.dist_trav)
         val description =
             ctx.getString(R.string.total_km)
-                .replace("{tot}", totalDistTrav.toString())
+                .replace("{tot}", totalDistTrav.toInt().toString())
 
         super.addChart(
             StatsChart(

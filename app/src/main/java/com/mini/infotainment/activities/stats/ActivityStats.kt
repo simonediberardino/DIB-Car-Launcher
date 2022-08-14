@@ -22,49 +22,13 @@ class ActivityStats : SActivity() {
         this.createCharts()
     }
 
-    fun initializeLayout(){
+    private fun initializeLayout(){
         setContentView(R.layout.activity_stats)
         this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(instance))
 
     }
 
-    fun createCharts(){
-/*        var calendar = Calendar.getInstance()
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        StatsData.addSpeedReport(10f, calendar)
-        StatsData.addSpeedReport(50f, calendar)
-        StatsData.addSpeedReport(55f, calendar)
-        StatsData.increaseTraveledDistance(2f, calendar)
-        StatsData.increaseTraveledDistance(5f, calendar)
-        StatsData.increaseTraveledDistance(7f, calendar)
-
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        StatsData.addSpeedReport(70f, calendar)
-        StatsData.addSpeedReport(100f, calendar)
-        StatsData.addSpeedReport(80f, calendar)
-        StatsData.increaseTraveledDistance(10f, calendar)
-        StatsData.increaseTraveledDistance(10f, calendar)
-        StatsData.increaseTraveledDistance(5f, calendar)
-
-        calendar.add(Calendar.DAY_OF_YEAR, 3)
-        StatsData.addSpeedReport(50f, calendar)
-        StatsData.addSpeedReport(10f, calendar)
-        StatsData.addSpeedReport(30f, calendar)
-        StatsData.increaseTraveledDistance(2f, calendar)
-        StatsData.increaseTraveledDistance(10f, calendar)
-        StatsData.increaseTraveledDistance(5f, calendar)
-
-
-        calendar.add(Calendar.DAY_OF_YEAR, 3)
-        StatsData.addSpeedReport(150f, calendar)
-        StatsData.addSpeedReport(10f, calendar)
-        StatsData.addSpeedReport(40f, calendar)
-        StatsData.increaseTraveledDistance(2f, calendar)
-        StatsData.increaseTraveledDistance(20f, calendar)
-        StatsData.increaseTraveledDistance(5f, calendar)*/
-
+    private fun createCharts(){
         statsWeek = StatsWeek(this)
         statsWeek.create()
 

@@ -33,6 +33,7 @@ open class SActivity : AppCompatActivity() {
         lateinit var lastActivity: SActivity
         @SuppressLint("StaticFieldLeak")
         lateinit var gpsManager: GPSManager
+        val isGpsManagerInitializated get() = ::gpsManager.isInitialized
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

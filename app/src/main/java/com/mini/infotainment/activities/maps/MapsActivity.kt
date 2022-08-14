@@ -1,11 +1,9 @@
 package com.mini.infotainment.activities.maps
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -87,17 +85,17 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         googleMap!!.uiSettings.isCompassEnabled = false
         mapFollowsUser = true
 
-        println("MYMAPISREADY!")
         this.setMapInteractionTrackingListeners()
         this.onLocationChanged()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(Build.VERSION_CODES.N)
     fun onLocationChanged(){
         if(googleMap == null) return
+        if(gpsManager.currentUserLocation == null) return
 
-        if((gpsManager.currentUserLocation?.distanceTo(gpsManager.previousUserLocation) ?: 0f) < 2.5)
+        val minDistToUpdate = 2.5f
+        if((gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
             return
 
         val newLocation = gpsManager.currentUserLocation ?: return

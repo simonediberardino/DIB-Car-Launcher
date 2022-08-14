@@ -65,7 +65,7 @@ class CustomToast(val text: String, val activity: SActivity) {
         toastIW.id = R.id.custom_toast_iw
 
         val toastTW = TextView(activity)
-        toastTW.textSize = 17f
+        toastTW.textSize = 15f
         toastTW.setTextColor(Color.WHITE)
         toastTW.id = R.id.custom_toast_tw
         toastTW.setPadding(16, 0, 0, 0)
