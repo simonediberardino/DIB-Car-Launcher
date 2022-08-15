@@ -76,9 +76,15 @@ class RegisterActivity : ProfileActivity() {
             return
         }
 
-        val minLength = 4
-        if(psw1.length < minLength || plateNum.length < minLength){
-            showError(ErrorCodes.INVALID_DETAILS)
+        val minLengthPass = 4
+        if(psw1.length < minLengthPass){
+            showError(ErrorCodes.PASSWORD_SHORT)
+            return
+        }
+
+        val minLengthPlate = 6
+        if(plateNum.length < minLengthPlate){
+            showError(ErrorCodes.PLATE_SHORT)
             return
         }
 

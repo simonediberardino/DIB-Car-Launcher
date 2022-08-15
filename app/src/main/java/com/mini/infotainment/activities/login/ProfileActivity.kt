@@ -8,6 +8,8 @@ abstract class ProfileActivity : SActivity() {
     enum class ErrorCodes{
         EXISTS,
         INVALID_DETAILS,
+        PASSWORD_SHORT,
+        PLATE_SHORT,
         PASSWORD_DONT_MATCH,
         NO_INTERNET
     }
@@ -23,6 +25,8 @@ abstract class ProfileActivity : SActivity() {
 
     internal fun errors(): HashMap<ErrorCodes, String> {
         return hashMapOf(
+            ErrorCodes.PASSWORD_SHORT to getString(R.string.error_password_short),
+            ErrorCodes.PLATE_SHORT to getString(R.string.error_plate_short),
             ErrorCodes.EXISTS to getString(R.string.error_car_registered),
             ErrorCodes.INVALID_DETAILS to getString(R.string.error_invalid_details),
             ErrorCodes.PASSWORD_DONT_MATCH to getString(R.string.error_password_dont_match),

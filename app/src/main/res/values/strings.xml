@@ -83,6 +83,8 @@
     <string name="chart_bottom">Stats about your car</string>
     <string name="not_registered_yet_question">Not registered yet?</string>
     <string name="already_registered_question">Already registered?</string>
+    <string name="error_password_short">Password needs to be atleast 4 characters long.</string>
+    <string name="error_plate_short">Plate number needs to be atleast 6 characters long.</string>
     <string name="error_car_registered">This car is already registered.</string>
     <string name="error_password_dont_match">Password do not match.</string>
     <string name="error_invalid_details">Invalid details, please retry.</string>

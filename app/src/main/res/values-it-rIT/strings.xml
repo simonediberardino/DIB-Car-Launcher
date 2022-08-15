@@ -83,6 +83,8 @@
     <string name="chart_bottom">Statistiche relative alla tua auto</string>
     <string name="not_registered_yet_question">Non sei registrato?</string>
     <string name="already_registered_question">Sei già registrato?</string>
+    <string name="error_password_short">La password deve essere lunga almeno 4 caratteri.</string>
+    <string name="error_plate_short">La targa deve essere lunga almeno 6 caratteri.</string>
     <string name="error_car_registered">Questa auto è già registrata.</string>
     <string name="error_password_dont_match">Le password non corrispondono.</string>
     <string name="error_invalid_details">Credenziali non valide, riprova.</string>
