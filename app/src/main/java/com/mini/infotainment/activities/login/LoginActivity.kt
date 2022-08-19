@@ -27,9 +27,7 @@ class LoginActivity : ProfileActivity() {
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_login)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(
-            this
-        ))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         plateNumTW = findViewById(R.id.login_targa)
         passwordTW = findViewById(R.id.login_psw)

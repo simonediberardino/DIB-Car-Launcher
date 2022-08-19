@@ -13,9 +13,11 @@ import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.utility.Utility
+import java.util.*
 
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page() {
+    private lateinit var dayTW: TextView
     internal lateinit var homeButton: View
     internal lateinit var spotifyAuthorTw: TextView
     internal lateinit var spotifyTitleTW: TextView
@@ -36,6 +38,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
 
         spotifyWidget = parent!!.findViewById(R.id.home_1_spotify)
         timeTW = parent!!.findViewById(R.id.home_1_datetime)
+        dayTW = parent!!.findViewById<TextView>(R.id.home_1_day)
         speedometerTW = parent!!.findViewById(R.id.home_1_speed)
         addressTW = parent!!.findViewById(R.id.home_1_address)
         spotifyTitleTW = parent!!.findViewById(R.id.spotify_title)
@@ -59,11 +62,16 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
         spotifyWidget.setOnTouchListener { v, e ->
             when(e.action){
                 MotionEvent.ACTION_UP -> {
-                    val isRight = v.width/2 < e.x
+                    val isLeft = v.width/3 > e.x
+                    val isRight = (v.width/3)*2 < e.x
+                    val isCenter = !isLeft && !isRight
+
+                    println("Is center $isCenter is left $isLeft isRight $isRight")
+
                     if(isRight)
                         SpotifyIntegration.nextSpotifyTrack(ctx)
-                    else
-                        SpotifyIntegration.previousSpotifyTrack(ctx)
+                    else if(isLeft) SpotifyIntegration.previousSpotifyTrack(ctx)
+                    else SpotifyIntegration.togglePlayState(ctx)
 
                     if(spotifyTitleTW.text == ctx.getString(R.string.spotify_no_data)){
                         CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx)
@@ -110,6 +118,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun updateTime() {
-        ctx.runOnUiThread { timeTW.text = Utility.getTime() }
+        ctx.runOnUiThread {
+            timeTW.text = Utility.getTime()
+            dayTW.text = ctx.resources.getStringArray(R.array.days_week)[Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK)-1]
+        }
     }
 }

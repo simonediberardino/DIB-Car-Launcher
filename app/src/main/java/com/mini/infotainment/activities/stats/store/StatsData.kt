@@ -3,6 +3,7 @@ package com.mini.infotainment.activities.stats.store
 import com.google.gson.internal.LinkedTreeMap
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.utility.Utility.toKm
 import java.util.*
 
 object StatsData {
@@ -144,8 +145,8 @@ object StatsData {
         val data = getDataFromMode(mode, calendar)
 
         for(key: String in data.keys){
-            val valueInKm = Utility.metersToKm(((data[key]) as LinkedTreeMap<*, *>?)
-                ?.get("travDist") as Double)
+            val valueInKm = (((data[key]) as LinkedTreeMap<*, *>?)
+                ?.get("travDist") as Double).toKm()
 
             hashMap[key] = valueInKm
         }

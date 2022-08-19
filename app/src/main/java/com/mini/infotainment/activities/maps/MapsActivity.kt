@@ -14,7 +14,6 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.MapInteractions
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.support.SActivity
-import com.mini.infotainment.utility.Utility
 
 class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     companion object{
@@ -86,23 +85,28 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         mapFollowsUser = true
 
         this.setMapInteractionTrackingListeners()
-        this.onLocationChanged()
+        this.doOnLocationChanged()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun onLocationChanged(){
-        if(googleMap == null) return
         if(gpsManager.currentUserLocation == null) return
 
         val minDistToUpdate = 2.5f
         if((gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
             return
 
-        val newLocation = gpsManager.currentUserLocation ?: return
+        doOnLocationChanged()
+    }
+
+    private fun doOnLocationChanged(){
+        if(googleMap == null) return
+
+        val newLocation = gpsManager.currentUserLocation!!
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
-        val height: Int = (Utility.getDisplayRatio(this) * 15).toInt()
-        val width: Int = (Utility.getDisplayRatio(this) * 15).toInt()
+        val height: Int = (displayRatio * 15).toInt()
+        val width: Int = (displayRatio * 15).toInt()
         val drawable = getDrawable(R.drawable.location_icon)
         val bitmap = drawable?.toBitmap(width, height)
 

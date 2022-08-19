@@ -3,7 +3,8 @@ import android.location.Location
 import com.google.firebase.database.*
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
-import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.utility.Utility.networkDateMillis
+import java.util.*
 
 
 object FirebaseClass{
@@ -23,7 +24,7 @@ object FirebaseClass{
         getCarObject(plateNum, object : RunnablePar{
             override fun run(p: Any?) {
                 Thread{
-                    val currMs = Utility.getNetworkDateMillis()
+                    val currMs = Date().networkDateMillis
                     val carObject = p as MyCar?
                     val isPremium = (carObject?.premiumDate ?: 0) > currMs
                     

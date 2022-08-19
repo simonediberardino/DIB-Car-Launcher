@@ -55,13 +55,13 @@ class HomeActivity : SActivity() {
         super.onCreate(savedInstanceState)
         this.initializeExceptionHandler()
 
-        if(!Utility.hasLoginData()) {
+        if(!hasLoginData()) {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             return
         }
 
-        if(!Utility.areSettingsSet()){
+        if(!areSettingsSet()){
             val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("isFirstLaunch", true)
             startActivity(intent)
@@ -76,7 +76,6 @@ class HomeActivity : SActivity() {
         this.initializeBroadcastReceiver()
         this.setupOnConnectivityChange()
         this.setupGPS()
-        this.welcomeUser()
         this.initializeCarObject()
         this.onPremiumAccountListener()
         this.initializeAdsHandler()
@@ -165,10 +164,6 @@ class HomeActivity : SActivity() {
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
     }
 
-    private fun welcomeUser(){
-        //MediaPlayer.create(this, R.raw.startup_sound).start()
-    }
-
     private fun onPremiumAccountListener(){
         FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -232,9 +227,8 @@ class HomeActivity : SActivity() {
         FirebaseClass.updateCarLocation(gpsManager.currentUserLocation ?: return)
         gpsManager.lastAddressCheck = System.currentTimeMillis()
 
-        Utility.getSimpleAddress(
+        gpsManager.getSimpleAddress(
             gpsManager.currentUserLocation ?: return,
-            this,
             object: RunnablePar{
                 override fun run(p: Any?) {
                     homePage1.addressTW.text = if(p == null) String() else p as String
@@ -273,38 +267,20 @@ class HomeActivity : SActivity() {
         )
     }
 
-    internal fun runGoogleMaps(){
-        val location = gpsManager.currentUserLocation
-        if(location == null){
-            Errors.printError(Errors.ErrorCodes.GPS_REQUIRED, this)
-            return
-        }
-
-        val gmmIntentUri: Uri = Uri.parse("geo:${location.latitude},${location.longitude}")
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.setPackage("com.google.android.apps.maps")
-
-        try{
-            startActivity(mapIntent)
-        }catch (exception: Exception){
-            Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
-        }
-    }
-
-    internal fun runGoogleAssistant(){
-        try{
-            startActivity(Intent(Intent.ACTION_VOICE_COMMAND).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        }catch (exception: Exception){
-            Errors.printError(Errors.ErrorCodes.APP_NOT_INSTALLED, this)
-        }
-    }
-
     internal fun runSettings(){
         startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
     }
 
     private fun insufficientPermissions(){
         Errors.printError(Errors.ErrorCodes.GPS_REQUIRED, this)
+    }
+
+    private fun areSettingsSet(): Boolean {
+        return ApplicationData.getBrandName() != null
+    }
+
+    private fun hasLoginData(): Boolean {
+        return ApplicationData.getCarPassword() != null && ApplicationData.getTarga() != null
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

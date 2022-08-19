@@ -29,9 +29,7 @@ class RegisterActivity : ProfileActivity() {
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_register)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(
-            this
-        ))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         plateNumTW = findViewById(R.id.register_targa)
         passwordTW = findViewById(R.id.register_psw)

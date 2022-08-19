@@ -20,9 +20,9 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
     }
 
     private var isResized: Boolean = false
-    internal var isAppDrawerVisible = true
-    internal lateinit var containAppDrawer: ConstraintLayout
-    internal lateinit var grdView: GridView
+    private var isAppDrawerVisible = true
+    private lateinit var containAppDrawer: ConstraintLayout
+    private lateinit var grdView: GridView
 
     override fun build() {
         isResized = false

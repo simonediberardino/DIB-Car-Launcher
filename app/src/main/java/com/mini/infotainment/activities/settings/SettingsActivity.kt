@@ -52,9 +52,7 @@ class SettingsActivity : SActivity() {
 
     private fun initializeLayout(){
         this.setContentView(R.layout.activity_settings)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(
-            instance
-        ))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         confirmButton = findViewById(R.id.settings_confirm_button)
         editAccountButton = findViewById<View?>(R.id.settings_edit_account)

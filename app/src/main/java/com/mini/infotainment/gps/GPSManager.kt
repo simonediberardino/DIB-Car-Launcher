@@ -1,9 +1,10 @@
 package com.mini.infotainment.gps
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.location.Location
 import android.os.Looper
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -12,9 +13,12 @@ import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.support.SActivity
-import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.support.SActivity.Companion.isInternetAvailable
+import com.mini.infotainment.utility.Utility.msToKmH
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
-class GPSManager(val ctx: Activity) {
+class GPSManager(val ctx: AppCompatActivity) {
     internal lateinit var locationManager: FusedLocationProviderClient
     internal var lastAddressCheck: Long = 0
     internal var previousUserLocation: Location? = null
@@ -40,7 +44,7 @@ class GPSManager(val ctx: Activity) {
     }
 
     private fun onLocationUpdate(newLocation: Location?){
-        if(newLocation == null || !Utility.isInternetAvailable() || ApplicationData.getTarga() == null)
+        if(newLocation == null || !ctx.isInternetAvailable || ApplicationData.getTarga() == null)
             return
 
         if(currentUserLocation != null){
@@ -53,7 +57,7 @@ class GPSManager(val ctx: Activity) {
             previousUserLocation?.distanceTo(currentUserLocation) ?: 0f
         )
 
-        currentSpeed = Utility.msToKmH(calculateSpeed())
+        currentSpeed = (calculateSpeed().toDouble()).msToKmH()
 
         if(currentSpeed > 2)
             StatsData.addSpeedReport(currentSpeed.toFloat())
@@ -79,4 +83,54 @@ class GPSManager(val ctx: Activity) {
     fun shouldRefreshAddress(): Boolean {
         return System.currentTimeMillis() - lastAddressCheck >= 1000 * 25
     }
+
+    fun getAddress(location: Location, callback: RunnablePar) {
+        if(!ctx.isInternetAvailable) return
+
+        Thread{
+            try{
+                val client = OkHttpClient().newBuilder()
+                    .build()
+                val request: Request = Request.Builder()
+                    .url("https://api.geoapify.com/v1/geocode/reverse?lat=${location.latitude}&lon=${location.longitude}&apiKey=827645ed3da54b00a91ac7217a17fdb9")
+                    .method("GET", null)
+                    .build()
+
+                client.newCall(request).execute().use {
+                        response ->
+                    run {
+                        var result = response.body?.string()
+                        val field = "formatted"
+                        if(result != null && field in result) {
+                            result = result
+                                .split(field)[1]
+                                .split("\n")[0]
+                                .drop(3)
+                                .dropLast(2)
+
+                            ctx.runOnUiThread {
+                                callback.run(result)
+                            }
+                        }else{
+                            callback.run(String())
+                        }
+                    }
+                }
+            }catch (exception: Exception){
+                return@Thread
+            }
+        }.start()
+    }
+
+    fun getSimpleAddress(location: Location, callback: RunnablePar) {
+        getAddress(location, object: RunnablePar{
+            override fun run(p: Any?) {
+                mutableListOf<View>().toTypedArray()
+                callback.run(
+                    (p as String).split(",")[0]
+                )
+            }
+        })
+    }
+
 }

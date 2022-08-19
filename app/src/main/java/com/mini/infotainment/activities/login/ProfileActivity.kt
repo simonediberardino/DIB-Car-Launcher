@@ -16,26 +16,27 @@ abstract class ProfileActivity : SActivity() {
 
     abstract fun handleData()
     internal open fun handleData(callback: Runnable = Runnable {}){
-        if(!Utility.isInternetAvailable()){
+        if(!isInternetAvailable){
             showError(ErrorCodes.NO_INTERNET)
             return
         }
         callback.run()
     }
 
-    internal fun errors(): HashMap<ErrorCodes, String> {
-        return hashMapOf(
-            ErrorCodes.PASSWORD_SHORT to getString(R.string.error_password_short),
-            ErrorCodes.PLATE_SHORT to getString(R.string.error_plate_short),
-            ErrorCodes.EXISTS to getString(R.string.error_car_registered),
-            ErrorCodes.INVALID_DETAILS to getString(R.string.error_invalid_details),
-            ErrorCodes.PASSWORD_DONT_MATCH to getString(R.string.error_password_dont_match),
-            ErrorCodes.NO_INTERNET to getString(R.string.error_no_internet)
-        )
-    }
+    private val errors: HashMap<ErrorCodes, String>
+        get() {
+            return hashMapOf(
+                ErrorCodes.PASSWORD_SHORT to getString(R.string.error_password_short),
+                ErrorCodes.PLATE_SHORT to getString(R.string.error_plate_short),
+                ErrorCodes.EXISTS to getString(R.string.error_car_registered),
+                ErrorCodes.INVALID_DETAILS to getString(R.string.error_invalid_details),
+                ErrorCodes.PASSWORD_DONT_MATCH to getString(R.string.error_password_dont_match),
+                ErrorCodes.NO_INTERNET to getString(R.string.error_no_internet)
+            )
+        }
 
     internal fun showError(errorCode: ErrorCodes){
-        Utility.toast(this, errors()[errorCode] ?: return)
+        Utility.toast(this, errors[errorCode] ?: return)
     }
 
     internal fun success(){

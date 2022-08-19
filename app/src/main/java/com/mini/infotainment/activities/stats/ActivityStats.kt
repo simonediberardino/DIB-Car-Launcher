@@ -3,11 +3,9 @@ package com.mini.infotainment.activities.stats
 import android.os.Bundle
 import android.view.ViewGroup
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.activities.stats.tab.StatsMonth
 import com.mini.infotainment.activities.stats.tab.StatsWeek
 import com.mini.infotainment.support.SActivity
-import com.mini.infotainment.utility.Utility
 
 
 class ActivityStats : SActivity() {
@@ -24,7 +22,7 @@ class ActivityStats : SActivity() {
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_stats)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(Utility.getWallpaper(instance))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
     }
 

@@ -9,7 +9,7 @@ import com.mini.infotainment.UI.Animations
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.activities.stats.chart.StatsChart
 import com.mini.infotainment.activities.stats.store.StatsData
-import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.support.SActivity.Companion.screenSize
 
 class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
     override val scrollView: HorizontalScrollView
@@ -28,7 +28,7 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
         Animations
             .moveAnimation(
                 scrollView,
-                (Utility.getScreenWidth(ctx) + scrollView.width).toFloat(),
+                (ctx.screenSize[0] + scrollView.width).toFloat(),
                 0f,
                 0f,
                 0f,
@@ -46,7 +46,7 @@ class StatsMonth(override val ctx: ActivityStats) : StatsTab() {
             .moveAnimation(
                 scrollView,
                 0f,
-                (Utility.getScreenWidth(ctx) + scrollView.width).toFloat(),
+                (ctx.screenSize[0]+ scrollView.width).toFloat(),
                 0f,
                 0f,
                 ANIMATION_DURATION,

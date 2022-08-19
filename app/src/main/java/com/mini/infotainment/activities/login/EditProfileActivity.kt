@@ -26,10 +26,7 @@ class EditProfileActivity : ProfileActivity(){
 
     private fun initializeLayout(){
         setContentView(R.layout.activity_edit_profile)
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(
-            Utility.getWallpaper(
-            this
-        ))
+        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         plateNumValueET = findViewById(R.id.edit_plate_et)
         plateNumPassEt = findViewById(R.id.edit_plate_passw_et)

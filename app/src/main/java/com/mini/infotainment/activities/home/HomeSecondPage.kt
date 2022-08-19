@@ -16,6 +16,7 @@ import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.support.QrcodeData
+import com.mini.infotainment.support.SActivity.Companion.isInternetAvailable
 import com.mini.infotainment.utility.Utility
 
 class HomeSecondPage(override val ctx: HomeActivity) : Page() {
@@ -67,7 +68,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun showPremiumPage(){
-        if(!Utility.isInternetAvailable()) {
+        if(!ctx.isInternetAvailable) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
             return
         }
@@ -78,7 +79,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun goToStatsActivity(){
-        if(!Utility.isInternetAvailable()) {
+        if(!ctx.isInternetAvailable) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
             return
         }
@@ -92,7 +93,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     }
 
     private fun showQrCodeDialog() {
-        if(!Utility.isInternetAvailable()) {
+        if(!ctx.isInternetAvailable) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
             return
         }

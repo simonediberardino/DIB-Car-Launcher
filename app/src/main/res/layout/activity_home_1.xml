@@ -13,8 +13,7 @@
         android:id="@+id/home_1_speedometer"
         android:layout_width="800px"
         android:layout_height="280px"
-        android:layout_marginTop="32px"
-        android:src="@drawable/speedometer2"
+        android:src="@drawable/speedometer3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,27 +55,26 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
-        android:padding="1px"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
         android:text="0"
         android:textColor="@color/white"
-        android:textSize="@dimen/h"
+        android:textSize="@dimen/h0"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.473" />
+        app:layout_constraintVertical_bias="0.444" />
 
     <TextView
         android:id="@+id/home_1_speed_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
-        android:padding="1px"
         android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
@@ -100,27 +98,46 @@
         android:text="@string/caricamento"
         android:textColor="@color/white"
         android:textSize="@dimen/h6"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/home_1_speed"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer" />
+        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer"
+        app:layout_constraintVertical_bias="0.266" />
+
+    <TextView
+        android:id="@+id/home_1_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="@color/darkblue"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:text="LUN"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h7"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
+        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
+        app:layout_constraintTop_toBottomOf="@+id/home_1_datetime" />
 
     <TextView
         android:id="@+id/home_1_address"
         android:layout_width="300px"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36px"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:shadowColor="@color/darkblue"
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
         android:textColor="@color/white"
-        android:textSize="@dimen/h7"
+        android:textSize="@dimen/h9"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_1_speed_desc"
+        app:layout_constraintVertical_bias="0.317" />
 
     <TextView
         android:id="@+id/home_1_targa"
@@ -130,10 +147,10 @@
         android:textSize="@dimen/h10"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toStartOf="@+id/home_1_speed_desc"
-        app:layout_constraintHorizontal_bias="0.668"
+        app:layout_constraintHorizontal_bias="0.665"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
         app:layout_constraintTop_toTopOf="@+id/home_1_speedometer"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.599" />
 
     <TextView
         android:id="@+id/home_1_trav_speed"
@@ -143,7 +160,7 @@
         android:text="@string/caricamento"
         android:textSize="@dimen/h10"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toEndOf="@+id/home_1_speed_desc"
         app:layout_constraintTop_toTopOf="@+id/home_1_targa" />
 

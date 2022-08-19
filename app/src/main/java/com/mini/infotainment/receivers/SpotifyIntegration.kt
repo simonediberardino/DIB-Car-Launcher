@@ -23,6 +23,15 @@ class SpotifyIntegration : BroadcastReceiver() {
             sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PREVIOUS)
         }
 
+        fun togglePlayState(ctx: Context){
+            if(lastIntent == null) return
+            if(lastIntent!!.getBooleanExtra("playing", false)){
+                resumeSpotifyTrack(ctx)
+            }else{
+                pauseSpotifyTrack(ctx)
+            }
+        }
+
         fun resumeSpotifyTrack(ctx: Context) {
             sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PLAY)
         }
