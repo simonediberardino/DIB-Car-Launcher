@@ -11,6 +11,7 @@ import android.view.animation.TranslateAnimation
 
 object Animations {
     val DEFAULT_ANIM_DURATION = 500L
+    const val SLIDE_ANIMATION_DURATION: Long = 300
 
      fun alphaAnimation(v: View, startAlpha: Float, endAlpha: Float, delay: Long = 0, duration: Long = DEFAULT_ANIM_DURATION, callback: Runnable = Runnable {  }){
          Handler().postDelayed({

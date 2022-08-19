@@ -10,6 +10,7 @@ import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.activities.stats.chart.StatsChart
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.support.SActivity.Companion.screenSize
+import com.mini.infotainment.utility.Utility
 
 class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
     override val scrollView: HorizontalScrollView
@@ -65,7 +66,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
 
         val title = ctx.getString(R.string.dist_trav)
         val description =
-            ctx.getString(R.string.total_km)
+            ctx.getString(R.string.total_dist)
+                .replace("{um}", Utility.getDistMeasure(ctx))
                 .replace("{tot}", totalDistTrav.toInt().toString())
 
         super.addChart(
@@ -87,7 +89,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
 
         val title = ctx.getString(R.string.max_speed)
         val description =
-            ctx.getString(R.string.total_kmh)
+            ctx.getString(R.string.total_speed)
+                .replace("{um}", Utility.getSpeedMeasure(ctx))
                 .replace("{tot}", maxSpeedTot.toInt().toString())
 
         super.addChart(
@@ -108,7 +111,8 @@ class StatsWeek(override val ctx: ActivityStats) : StatsTab() {
 
         val title = ctx.getString(R.string.avg_speed)
         val description =
-            ctx.getString(R.string.total_kmh)
+            ctx.getString(R.string.total_speed)
+                .replace("{um}", Utility.getSpeedMeasure(ctx))
                 .replace("{tot}", avgSpeedTot.toInt().toString())
 
         super.addChart(

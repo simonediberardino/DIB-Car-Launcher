@@ -14,6 +14,25 @@
         <item>SAB</item>
     </string-array>
 
+    <string-array name="measures">
+        <item>KM</item>
+        <item>Miglia</item>
+    </string-array>
+
+    <string-array name="speedmeasures">
+        <item>km/h</item>
+        <item>mph</item>
+    </string-array>
+
+    <string-array name="travdistmeasures">
+        <item>km/gg</item>
+        <item>m/gg</item>
+    </string-array>
+
+    <string name="u_measure">Unità di misura</string>
+    <string name="km">KM</string>
+    <string name="mile">Miglio</string>
+    <string name="distday">{dist}{um}/gg</string>
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="example" translatable="false">Example</string>
 
@@ -78,8 +97,8 @@
     <string name="avg_speed">Velocità media</string>
     <string name="max_speed">Velocità massima</string>
     <string name="dist_trav">Distanza percorsa</string>
-    <string name="total_kmh">Complessivo: {tot} km/h</string>
-    <string name="total_km">Complessivo: {tot} km</string>
+    <string name="total_speed">Complessivo: {tot} {um}</string>
+    <string name="total_dist">Complessivo: {tot} {um}</string>
     <string name="chart_bottom">Statistiche relative alla tua auto</string>
     <string name="not_registered_yet_question">Non sei registrato?</string>
     <string name="already_registered_question">Sei già registrato?</string>

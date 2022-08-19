@@ -1,196 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:padding="8px">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.login.edit.EditProfileActivity">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.mini.infotainment.activities.login.edit.EditProfileViewModel"/>
+    </data>
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32px"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="@string/edit_car_info"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8px" />
+        android:id="@+id/parent"
+       >
 
-    <ScrollView
-        android:id="@+id/scrollView4"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/blue_border"
-        app:layout_constraintBottom_toTopOf="@+id/edit_profile_confirm_button"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="8px">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8px"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/edit_plate_tw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:text="@string/edit_plate_num"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/h3"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="8px" />
-
-                <EditText
-                    android:id="@+id/edit_plate_et"
-                    android:layout_width="600px"
-                    android:layout_height="60px"
-                    android:layout_marginTop="16px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_credit_card_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/targa"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-                <EditText
-                    android:id="@+id/edit_plate_passw_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="60px"
-                    android:layout_marginTop="32px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_input2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16px"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/edit_passw_tw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:text="@string/edit_password"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/h3"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="8px" />
-
-                <EditText
-                    android:id="@+id/edit_passw_curr_et"
-                    android:layout_width="600px"
-                    android:layout_height="60px"
-                    android:layout_marginTop="16px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/current_password"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-                <EditText
-                    android:id="@+id/edit_passw_new_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="60px"
-                    android:layout_marginTop="32px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/new_password"
-                    android:inputType="textPassword"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/edit_profile_confirm_button"
-        android:layout_width="400px"
-        android:layout_height="65px"
-        android:layout_marginBottom="32px"
-        app:cardCornerRadius="25px"
-        app:cardElevation="10px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@color/darkblue"
-            android:gravity="center">
+            android:layout_marginTop="32px"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="@string/edit_car_info"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8px" />
 
-            <TextView
-                android:id="@+id/edit_profile_confirm_text"
-                android:layout_width="wrap_content"
+        <ScrollView
+            android:id="@+id/scrollView4"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/blue_border"
+            app:layout_constraintBottom_toTopOf="@+id/edit_profile_confirm_button"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:layout_editor_absoluteX="8px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@android:string/ok"
-                android:textColor="@color/white"
-                android:textSize="@dimen/h5" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+                android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/ll_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_plate_tw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:text="@string/edit_plate_num"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/h3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="8px" />
+
+                    <EditText
+                        android:id="@+id/edit_plate_et"
+                        android:layout_width="600px"
+                        android:layout_height="60px"
+                        android:layout_marginTop="16px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_credit_card_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:hint="@string/targa"
+                        android:text="@={viewmodel.plateNumValue}"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                    <EditText
+                        android:id="@+id/edit_plate_passw_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="60px"
+                        android:layout_marginTop="32px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:text="@={viewmodel.plateNumPass}"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_input2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_passw_tw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:text="@string/edit_password"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/h3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="8px" />
+
+                    <EditText
+                        android:id="@+id/edit_passw_curr_et"
+                        android:layout_width="600px"
+                        android:layout_height="60px"
+                        android:layout_marginTop="16px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:text="@={viewmodel.passCurr}"
+                        android:hint="@string/current_password"
+                        android:padding="8px"
+                        android:inputType="textPassword"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                    <EditText
+                        android:id="@+id/edit_passw_new_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="60px"
+                        android:layout_marginTop="32px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:text="@={viewmodel.passNew}"
+                        android:hint="@string/new_password"
+                        android:inputType="textPassword"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_profile_confirm_button"
+            android:layout_width="400px"
+            android:layout_height="65px"
+            android:layout_marginBottom="32px"
+            app:cardCornerRadius="25px"
+            app:cardElevation="10px"
+            android:onClick="@{() -> viewmodel.handleData()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/darkblue"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/edit_profile_confirm_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@android:string/ok"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h5" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

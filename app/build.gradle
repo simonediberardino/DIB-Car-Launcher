@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation group: 'commons-net', name: 'commons-net', version: '3.0.1'
 //Thanks for using https://jar-download.com
-
+    implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.github.kittinunf.fuel:fuel-json:2.3.1'
     implementation 'com.stripe:stripe-android:20.8.0'

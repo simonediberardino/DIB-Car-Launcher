@@ -3,6 +3,7 @@ package com.mini.infotainment.activities.stats.store
 import com.google.gson.internal.LinkedTreeMap
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.utility.Utility.kmToMile
 import com.mini.infotainment.utility.Utility.toKm
 import java.util.*
 
@@ -44,7 +45,7 @@ object StatsData {
                 ((data[key]) as LinkedTreeMap<*, *>?)
                     ?.get("avgSpeed") as LinkedTreeMap<*, *>
 
-            hashMap[key] = (avgSpeed["value"] as Double).toFloat()
+            hashMap[key] = if(Utility.isUMeasureKM())(avgSpeed["value"] as Double).toFloat() else (avgSpeed["value"] as Double).toFloat().kmToMile()
         }
         return hashMap
     }
@@ -73,7 +74,7 @@ object StatsData {
                 (((data[key]) as LinkedTreeMap<*, *>?)
                     ?.get("maxSpeed") as Double).toFloat()
 
-            hashMap[key] = maxSpeed
+            hashMap[key] = if(Utility.isUMeasureKM()) maxSpeed else maxSpeed.kmToMile()
         }
         return hashMap
     }
@@ -148,7 +149,7 @@ object StatsData {
             val valueInKm = (((data[key]) as LinkedTreeMap<*, *>?)
                 ?.get("travDist") as Double).toKm()
 
-            hashMap[key] = valueInKm
+            hashMap[key] = if(Utility.isUMeasureKM()) valueInKm else valueInKm.kmToMile()
         }
 
         return hashMap

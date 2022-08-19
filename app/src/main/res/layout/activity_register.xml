@@ -1,148 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:padding="8px">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.login.edit.EditProfileActivity">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.mini.infotainment.activities.login.register.RegisterViewModel"/>
+    </data>
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32px"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8px" />
-
-    <ScrollView
-        android:id="@+id/scrollView4"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_marginTop="32px"
-        android:layout_marginBottom="32px"
-        app:layout_constraintBottom_toTopOf="@+id/register_confirm_button"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="8px">
-
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:id="@+id/parent">
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_marginTop="32px"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8px" />
+
+        <ScrollView
+            android:id="@+id/scrollView4"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_marginTop="32px"
+            android:layout_marginBottom="32px"
+            app:layout_constraintBottom_toTopOf="@+id/register_confirm_button"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:layout_editor_absoluteX="8px">
 
             <LinearLayout
-                android:id="@+id/ll_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8px"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/register_targa"
-                    android:layout_width="600px"
-                    android:layout_height="60px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_credit_card_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/targa"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-                <EditText
-                    android:id="@+id/register_psw"
-                    android:layout_width="match_parent"
-                    android:layout_height="60px"
-                    android:layout_marginTop="32px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-                <EditText
-                    android:id="@+id/register_psw2"
-                    android:layout_width="match_parent"
-                    android:layout_height="60px"
-                    android:layout_marginTop="32px"
-                    android:background="#11000000"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="8px"
-                    android:ems="10"
-                    android:focusedByDefault="false"
-                    android:hint="@string/confirm_password"
-                    android:inputType="textPassword"
-                    android:padding="8px"
-                    android:password="false"
-                    android:textColor="@color/silver"
-                    android:textColorHint="@color/silver"
-                    android:textSize="@dimen/h4" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/register_log_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/register_targa"
+                        android:layout_width="600px"
+                        android:layout_height="60px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_credit_card_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:hint="@string/targa"
+                        android:text="@={viewmodel.plateNum}"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                    <EditText
+                        android:id="@+id/register_psw"
+                        android:layout_width="match_parent"
+                        android:layout_height="60px"
+                        android:layout_marginTop="32px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:text="@={viewmodel.pass}"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                    <EditText
+                        android:id="@+id/register_psw2"
+                        android:layout_width="match_parent"
+                        android:layout_height="60px"
+                        android:layout_marginTop="32px"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8px"
+                        android:ems="10"
+                        android:focusedByDefault="false"
+                        android:text="@={viewmodel.passConfirm}"
+                        android:hint="@string/confirm_password"
+                        android:inputType="textPassword"
+                        android:padding="8px"
+                        android:password="false"
+                        android:textColor="@color/silver"
+                        android:textColorHint="@color/silver"
+                        android:textSize="@dimen/h4" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/register_log_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32px"
+                    android:gravity="center"
+                    android:text="@string/already_registered_question"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h5" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/register_confirm_button"
+            android:layout_width="400px"
+            android:layout_height="65px"
+            android:layout_marginBottom="32px"
+            app:cardCornerRadius="25px"
+            app:cardElevation="10px"
+            android:onClick="@{() -> viewmodel.handleData()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="32px"
-                android:gravity="center"
-                android:text="@string/already_registered_question"
-                android:textColor="@color/white"
-                android:textSize="@dimen/h5" />
+                android:background="@color/darkblue"
+                android:gravity="center">
 
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/register_confirm_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@android:string/ok"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h5" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/register_confirm_button"
-        android:layout_width="400px"
-        android:layout_height="65px"
-        android:layout_marginBottom="32px"
-        app:cardCornerRadius="25px"
-        app:cardElevation="10px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@color/darkblue"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/register_confirm_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@android:string/ok"
-                android:textColor="@color/white"
-                android:textSize="@dimen/h5" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

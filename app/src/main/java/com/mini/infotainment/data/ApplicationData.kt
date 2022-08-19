@@ -2,25 +2,20 @@ package com.mini.infotainment.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
 import com.mini.infotainment.support.SActivity
 
 object ApplicationData {
     const val DATA_ID = "data"
-    private const val NOTIFICHE_ID = "NOTIFICHE_ID"
-    private val NOTIFICHE_DEFAULT = true
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
     private const val PASSWORD_ID = "PASSWORD_ID"
     private val PASSWORD_DEFAULT = null
     private const val BRAND_ID = "BRAND_ID"
     private val BRAND_DEFAULT = null
-    private const val CONSUPTION_ID = "CONSUPTION_ID"
-    private val CONSUPTION_DEFAULT = null
-    private const val SPOTIFY_ID = "SPOTIFY_ID"
-    private val SPOTIFY_DEFAULT = false
     private const val WP_ID = "WP_ID"
     private val WP_DEFAULT = true
+    private const val U_MEASURE_ID = "U_MEASURE_ID"
+    private val U_MEASURE_DEFAULT = 0
 
     val applicationData: SharedPreferences
         get() {
@@ -29,26 +24,6 @@ object ApplicationData {
                 Context.MODE_PRIVATE
             )!!
         }
-
-    fun areNotificationsEnabled(): Boolean {
-        return applicationData.getBoolean(NOTIFICHE_ID, NOTIFICHE_DEFAULT)
-    }
-
-    fun areNotificationsEnabled(boolean: Boolean){
-        val dataEditor = applicationData.edit()
-        dataEditor.putBoolean(NOTIFICHE_ID, boolean)
-        dataEditor.apply()
-    }
-
-    fun doesSpotifyRunOnBoot(): Boolean {
-        return applicationData.getBoolean(SPOTIFY_ID, SPOTIFY_DEFAULT)
-    }
-
-    fun doesSpotifyRunOnBoot(boolean: Boolean){
-        val dataEditor = applicationData.edit()
-        dataEditor.putBoolean(SPOTIFY_ID, boolean)
-        dataEditor.apply()
-    }
 
     fun useDefaultWP(): Boolean {
         return applicationData.getBoolean(WP_ID, WP_DEFAULT)
@@ -60,6 +35,16 @@ object ApplicationData {
         dataEditor.apply()
     }
 
+    fun getUMeasure(): Int {
+        return applicationData.getInt(U_MEASURE_ID, U_MEASURE_DEFAULT)
+    }
+
+    fun setUMeasure(id: Int){
+        val dataEditor = applicationData.edit()
+        dataEditor.putInt(U_MEASURE_ID, id)
+        dataEditor.apply()
+    }
+
     fun getBrandName(): String? {
         return applicationData.getString(BRAND_ID, BRAND_DEFAULT)
     }
@@ -67,18 +52,6 @@ object ApplicationData {
     fun setBrandName(brand: String?){
         val dataEditor = applicationData.edit()
         dataEditor.putString(BRAND_ID, brand)
-        dataEditor.apply()
-    }
-
-    fun getFuelConsuption(): String? {
-        val savedJson: String? = applicationData.getString(CONSUPTION_ID, CONSUPTION_DEFAULT)
-        return Gson().fromJson(savedJson, String::class.java)
-    }
-
-    fun setFuelConsuption(consuption: String){
-        val json = Gson().toJson(consuption)
-        val dataEditor = applicationData.edit()
-        dataEditor.putString(CONSUPTION_ID, json)
         dataEditor.apply()
     }
 

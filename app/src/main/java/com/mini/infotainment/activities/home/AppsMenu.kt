@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mini.infotainment.R
+import com.mini.infotainment.UI.Animations
 import com.mini.infotainment.UI.Animations.alphaAnimation
 import com.mini.infotainment.UI.Animations.moveAnimation
 import com.mini.infotainment.UI.AppInfo
@@ -109,7 +110,7 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
         }catch (ex: Exception) {}
     }
 
-    internal fun show(visibility: Boolean, duration: Long) {
+    internal fun show(visibility: Boolean, duration: Long = Animations.SLIDE_ANIMATION_DURATION) {
         if(visibility == isAppDrawerVisible)
             return
 

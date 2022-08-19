@@ -13,7 +13,6 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.utility.Utility
 import java.util.*
@@ -131,58 +130,57 @@ class NotificationHandler(private val ctx: HomeActivity) {
             }
 
         init{
-            if(ApplicationData.areNotificationsEnabled()){
-                requestWindowFeature(Window.FEATURE_NO_TITLE)
-                setContentView(R.layout.notification_dialog)
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.notification_dialog)
 
-                notificationMainLayout = findViewById(R.id.noti_cw)
-                notificationTitle = findViewById(R.id.noti_title)
-                notificationCarLogo = findViewById(R.id.noti_car_icon)
-                notificationAppName = findViewById(R.id.noti_app_name)
-                notificationIcon = findViewById(R.id.noti_icon)
-                notificationConfirm = findViewById(R.id.noti_confirm_button)
-                notificationBar = findViewById(R.id.noti_progress)
-                notificationInputText = findViewById(R.id.noti_edit_text)
-                notificationInputLayout = findViewById(R.id.noti_input_layout)
-                notificationInputVoice = findViewById(R.id.noti_input_voice)
+            notificationMainLayout = findViewById(R.id.noti_cw)
+            notificationTitle = findViewById(R.id.noti_title)
+            notificationCarLogo = findViewById(R.id.noti_car_icon)
+            notificationAppName = findViewById(R.id.noti_app_name)
+            notificationIcon = findViewById(R.id.noti_icon)
+            notificationConfirm = findViewById(R.id.noti_confirm_button)
+            notificationBar = findViewById(R.id.noti_progress)
+            notificationInputText = findViewById(R.id.noti_edit_text)
+            notificationInputLayout = findViewById(R.id.noti_input_layout)
+            notificationInputVoice = findViewById(R.id.noti_input_voice)
 
-                notificationMainLayout.setOnClickListener{
-                    isTimerRunning = false
-                }
-
-                notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
-                notificationAppName.text = if(appName == UNKNOWN)
-                        ctx.getString(R.string.new_notification)
-                    else ctx.getString(R.string.notifica_da).replace("{appname}", appName)
-
-                notificationIcon.background = if(application == null)
-                        ctx.getDrawable(R.drawable.ic_baseline_notifications_active_24)
-                    else application.icon
-
-                Utility.getBrandDrawable(ctx)?.let { notificationCarLogo.setImageDrawable(it) }
-
-                notificationConfirm.setOnClickListener {
-                    handleConfirm()
-                }
-
-                notificationInputVoice.setOnClickListener {
-                    if(!isVoiceActivated){
-                        isTimerRunning = false
-                        handleVoice()
-                    }
-                }
-
-                notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
-
-                Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
-
-                for(notification: NotificationData in notiList)
-                    addNotification(notification.text)
-
-                show()
-
-                isTimerRunning = true
+            notificationMainLayout.setOnClickListener{
+                isTimerRunning = false
             }
+
+            notificationTitle.text = "${ctx.getString(R.string.new_notification)}: $title"
+            notificationAppName.text = if(appName == UNKNOWN)
+                    ctx.getString(R.string.new_notification)
+                else ctx.getString(R.string.notifica_da).replace("{appname}", appName)
+
+            notificationIcon.background = if(application == null)
+                    ctx.getDrawable(R.drawable.ic_baseline_notifications_active_24)
+                else application.icon
+
+            Utility.getBrandDrawable(ctx)?.let { notificationCarLogo.setImageDrawable(it) }
+
+            notificationConfirm.setOnClickListener {
+                handleConfirm()
+            }
+
+            notificationInputVoice.setOnClickListener {
+                if(!isVoiceActivated){
+                    isTimerRunning = false
+                    handleVoice()
+                }
+            }
+
+            notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
+
+            Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
+
+            for(notification: NotificationData in notiList)
+                addNotification(notification.text)
+
+            show()
+
+            isTimerRunning = true
+
         }
 
         private fun handleVoice(){
@@ -243,7 +241,6 @@ class NotificationHandler(private val ctx: HomeActivity) {
             val gallery: LinearLayout = findViewById(R.id.noti_lllayout)
             val newNotif = layoutInflater.inflate(R.layout.single_notification, gallery, false)
 
-            val notificationParent = newNotif.findViewById<ViewGroup>(R.id.single_notification_parent)
             val notificationBody = newNotif.findViewById<TextView>(R.id.single_noti_text)
             notificationBody.text = body
 

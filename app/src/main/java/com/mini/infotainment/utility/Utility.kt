@@ -41,6 +41,25 @@ import kotlin.math.roundToInt
 import android.R as R1
 
 object Utility {
+    fun getSpeedMeasure(context: Context): String {
+        return context.resources.getStringArray(R.array.speedmeasures)[ApplicationData.getUMeasure()]
+    }
+
+    fun getDistMeasure(context: Context): String {
+        return context.resources.getStringArray(R.array.measures)[ApplicationData.getUMeasure()]
+    }
+
+    fun getTravDistMeasure(context: Context): String {
+        return context.resources.getStringArray(R.array.travdistmeasures)[ApplicationData.getUMeasure()]
+    }
+
+    fun isUMeasureKM(): Boolean {
+        return ApplicationData.getUMeasure() == 0
+    }
+
+    fun Float.kmToMile(): Float {
+        return this/1.60934449789f
+    }
 
     fun Double.msToKmH(): Int {
         return (this * 3.6).toInt()

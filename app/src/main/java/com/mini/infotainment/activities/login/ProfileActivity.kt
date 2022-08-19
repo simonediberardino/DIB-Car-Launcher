@@ -5,6 +5,11 @@ import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
 abstract class ProfileActivity : SActivity() {
+    companion object{
+        const val PLATE_LENGTH = 6
+        const val PASS_LENGTH = 4
+    }
+
     enum class ErrorCodes{
         EXISTS,
         INVALID_DETAILS,
@@ -12,15 +17,6 @@ abstract class ProfileActivity : SActivity() {
         PLATE_SHORT,
         PASSWORD_DONT_MATCH,
         NO_INTERNET
-    }
-
-    abstract fun handleData()
-    internal open fun handleData(callback: Runnable = Runnable {}){
-        if(!isInternetAvailable){
-            showError(ErrorCodes.NO_INTERNET)
-            return
-        }
-        callback.run()
     }
 
     private val errors: HashMap<ErrorCodes, String>

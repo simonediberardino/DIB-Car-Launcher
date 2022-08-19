@@ -41,6 +41,8 @@ class SpotifyIntegration : BroadcastReceiver() {
         }
 
         private fun sendEventToTrack(ctx: Context, keyCode: Int) {
+            if(lastIntent == null) return
+
             val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
             intent.setPackage(SPOTIFY_PACKAGE)
             synchronized(this) {

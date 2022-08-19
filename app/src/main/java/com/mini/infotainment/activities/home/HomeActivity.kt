@@ -9,7 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.view.View
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
@@ -19,8 +19,9 @@ import com.google.firebase.database.ValueEventListener
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
+import com.mini.infotainment.UI.SwipeHandler
 import com.mini.infotainment.activities.checkout.CheckoutActivity
-import com.mini.infotainment.activities.login.RegisterActivity
+import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.activities.misc.FakeLauncherActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.ads.AdHandler
@@ -125,11 +126,21 @@ class HomeActivity : SActivity() {
         this.generateViewPager()
     }
 
-    fun generateViewPager(){
-        val viewPager = findViewById<View>(R.id.home_view_pager) as ViewPager
+    @SuppressLint("ClickableViewAccessibility")
+    private fun generateViewPager(){
         viewPager.removeAllViews()
         viewPager.adapter = PagerAdapter(viewPages)
         viewPager.currentItem = 0
+
+        var swipeHandler: SwipeHandler? = null
+        viewPager.setOnTouchListener { _, motionEvent ->
+            if(motionEvent.action == MotionEvent.ACTION_UP)
+                swipeHandler = SwipeHandler(motionEvent, this)
+
+            else if(swipeHandler?.wasSwipeUp(motionEvent) == true)
+                appsMenu?.show(true)
+            false
+        }
     }
 
     private fun setupOnConnectivityChange(){
@@ -147,6 +158,7 @@ class HomeActivity : SActivity() {
                     // Restarts/Starts the socket when internet is available
                     if(p == true)
                         callback()
+                    else CustomToast(getString(R.string.connect_internet), this@HomeActivity)
                 }
             }
         ), intentFilter)
@@ -168,7 +180,6 @@ class HomeActivity : SActivity() {
         FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 MyCar.instance.premiumDate = snapshot.value as Long? ?: return
-                //homePageAds?.handleAds()
                 if(MyCar.instance.premiumDate != 0L && !MyCar.instance.isPremium()){
                     premiumExpired()
                 }
@@ -216,8 +227,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun handleGPSLocation(){
-        homePage1.updateTravSpeed()
-        homePage1.speedometerTW.text = gpsManager.currentSpeed.toString()
+        homePage1.onLocationChanged()
     }
 
     private fun handleAddressReport() {
@@ -316,14 +326,13 @@ class HomeActivity : SActivity() {
     }
 
     override fun onBackPressed(){
-        appsMenu?.show(false, SLIDE_ANIMATION_DURATION)
+        appsMenu?.show(false)
     }
 
     companion object {
         lateinit var instance: HomeActivity
         internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
-        const val SLIDE_ANIMATION_DURATION: Long = 300
         const val REQUEST_CODE_SPEECH_INPUT = 10
 
         fun updateSpotifySong(intent: Intent){

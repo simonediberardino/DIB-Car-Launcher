@@ -112,9 +112,7 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
 
         val markerOptions = MarkerOptions()
             .position(locationLatLng)
-            .icon(
-                BitmapDescriptorFactory
-                    .fromBitmap(bitmap!!))
+            .icon(BitmapDescriptorFactory.fromBitmap(bitmap!!))
 
         val circleOptions = CircleOptions()
             .center(markerOptions.position)

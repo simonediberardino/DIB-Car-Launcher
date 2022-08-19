@@ -9,24 +9,23 @@
     app:layout_constraintStart_toEndOf="@+id/scrollView2"
     app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/home_1_speedometer"
-        android:layout_width="800px"
-        android:layout_height="280px"
-        android:src="@drawable/speedometer3"
+    <View
+        android:id="@+id/view4"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/home_1_swipe"
-        android:layout_width="65px"
-        android:layout_height="65px"
-        android:layout_marginBottom="32px"
-        android:background="@drawable/home_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/home_1_speedometer"
+        android:layout_width="900px"
+        android:layout_height="330px"
+        android:src="@drawable/speedometer3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/home_1_spotify"
@@ -35,9 +34,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/home_1_swipe"
+        app:layout_constraintEnd_toStartOf="@+id/view4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="400px"
+        android:layout_height="150px"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="100dp"
+        app:cardMaxElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
+        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
+        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
+        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2px"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="100dp">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="400px"
+                android:layout_height="250px"
+                android:layout_gravity="center"
+                android:layout_marginTop="16px" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/home_1_car_icon"
@@ -45,85 +74,51 @@
         android:layout_height="150px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/home_1_swipe"
+        app:layout_constraintStart_toEndOf="@+id/view4"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"
         app:srcCompat="@drawable/logo_alfaromeo" />
 
-    <TextView
-        android:id="@+id/home_1_speed"
-        android:layout_width="0px"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="0"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h0"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444" />
-
-    <TextView
-        android:id="@+id/home_1_speed_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="km/h"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h6"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speed"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speed"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_speed" />
-
-    <TextView
-        android:id="@+id/home_1_datetime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="@string/caricamento"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h6"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/home_1_speed"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer"
-        app:layout_constraintVertical_bias="0.266" />
+        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer">
 
-    <TextView
-        android:id="@+id/home_1_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="LUN"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h7"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_datetime" />
+        <TextView
+            android:id="@+id/home_1_datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/darkblue"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="8"
+            android:text="@string/caricamento"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h6"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/home_1_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/darkblue"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="8"
+            android:text="DAY"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h7"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/home_1_address"
-        android:layout_width="300px"
+        android:layout_width="250px"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
@@ -132,36 +127,72 @@
         android:shadowDy="0.0"
         android:shadowRadius="8"
         android:textColor="@color/white"
-        android:textSize="@dimen/h9"
+        android:textSize="@dimen/h7"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_speed_desc"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.254" />
 
     <TextView
-        android:id="@+id/home_1_targa"
+        android:id="@+id/home_1_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/caricamento"
-        android:textSize="@dimen/h10"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
-        app:layout_constraintEnd_toStartOf="@+id/home_1_speed_desc"
-        app:layout_constraintHorizontal_bias="0.665"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer"
-        app:layout_constraintVertical_bias="0.599" />
-
-    <TextView
-        android:id="@+id/home_1_trav_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:gravity="right"
-        android:text="@string/caricamento"
-        android:textSize="@dimen/h10"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toEndOf="@+id/home_1_speed_desc"
-        app:layout_constraintTop_toTopOf="@+id/home_1_targa" />
+        android:shadowColor="@color/darkblue"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:text="0"
+        android:textSize="@dimen/h1"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.41" />
 
+    <TextView
+        android:id="@+id/home_1_trav_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="right"
+        android:shadowColor="@color/darkblue"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:text="0"
+        android:textSize="@dimen/h3"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.389" />
+
+    <TextView
+        android:id="@+id/home_1_speed_um"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8px"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:textSize="@dimen/h9"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
+        app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
+
+    <TextView
+        android:id="@+id/home_1_trav_dist_um"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:textSize="@dimen/h9"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_trav_dist"
+        app:layout_constraintEnd_toStartOf="@+id/home_1_trav_dist" />
 </androidx.constraintlayout.widget.ConstraintLayout>

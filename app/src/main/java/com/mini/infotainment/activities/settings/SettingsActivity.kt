@@ -12,7 +12,7 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
-import com.mini.infotainment.activities.login.EditProfileActivity
+import com.mini.infotainment.activities.login.edit.EditProfileActivity
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
@@ -25,6 +25,7 @@ class SettingsActivity : SActivity() {
         private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
     }
 
+    private lateinit var uMeasureSpinner: Spinner
     private lateinit var settingsDefaultWPCB: CheckBox
     private lateinit var confirmButton: View
     private lateinit var editAccountButton: View
@@ -70,11 +71,15 @@ class SettingsActivity : SActivity() {
         confirmButton.setOnClickListener { this.handleSettings() }
         settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
 
+        uMeasureSpinner = findViewById<Spinner?>(R.id.settings_um).also {
+            it.setSelection(ApplicationData.getUMeasure())
+        }
+
         inflateLogos()
         super.pageLoaded()
     }
 
-    private fun inflateLogos(){
+    private fun inflateLogos() {
         for(brand: String in BRANDS)
             inflateLogo(brand)
         selectedLogo = logos.find { it.brandName == ApplicationData.getBrandName()} ?: logos.first()
@@ -106,6 +111,7 @@ class SettingsActivity : SActivity() {
         Toast.makeText(this, getString(R.string.applying_data), Toast.LENGTH_LONG).show()
 
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
+        ApplicationData.setUMeasure(uMeasureSpinner.selectedItemPosition)
 
         if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
             ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)

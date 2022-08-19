@@ -14,6 +14,22 @@
         <item>SAT</item>
     </string-array>
 
+    <string-array name="measures">
+        <item>KM</item>
+        <item>Miles</item>
+    </string-array>
+
+    <string-array name="speedmeasures">
+        <item>km/h</item>
+        <item>mph</item>
+    </string-array>
+
+    <string-array name="travdistmeasures">
+        <item>km/dd</item>
+        <item>m/dd</item>
+    </string-array>
+
+    <string name="u_measure">Unit of measure</string>
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="example" translatable="false">Example</string>
 
@@ -78,8 +94,8 @@
     <string name="avg_speed">Average speed</string>
     <string name="max_speed">Max speed</string>
     <string name="dist_trav">Distance travelled</string>
-    <string name="total_kmh">Overall: {tot} km/h</string>
-    <string name="total_km">Overall: {tot} km</string>
+    <string name="total_speed">Overall: {tot} {um}</string>
+    <string name="total_dist">Overall: {tot} {um}</string>
     <string name="chart_bottom">Stats about your car</string>
     <string name="not_registered_yet_question">Not registered yet?</string>
     <string name="already_registered_question">Already registered?</string>
