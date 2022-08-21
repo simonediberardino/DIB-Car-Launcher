@@ -9,20 +9,339 @@
     app:layout_constraintStart_toEndOf="@+id/scrollView2"
     app:layout_constraintTop_toTopOf="parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_1_speedometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/home_1_speedometer_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/speedometer1"
+            app:layout_constraintDimensionRatio="30:11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/home_1_seperator"
+            android:layout_width="0dp"
+            android:layout_height="2px"
+            android:layout_marginStart="8px"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+        <View
+            android:id="@+id/home_1_seperator2"
+            android:layout_width="0dp"
+            android:layout_height="2px"
+            android:layout_marginEnd="8px"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+        <ImageView
+            android:id="@+id/home_1_trav_iv"
+            android:layout_width="30px"
+            android:layout_height="25px"
+            android:layout_marginLeft="16px"
+            android:layout_marginTop="16px"
+            app:layout_constraintStart_toStartOf="@+id/home_1_seperator2"
+            app:layout_constraintTop_toBottomOf="@+id/home_1_seperator2"
+            app:srcCompat="@drawable/ic_baseline_directions_24" />
+
+        <ImageView
+            android:id="@+id/home_1_speed_iv"
+            android:layout_width="30px"
+            android:layout_height="30px"
+            android:layout_marginTop="16px"
+            android:layout_marginRight="16px"
+            app:layout_constraintEnd_toEndOf="@+id/home_1_seperator"
+            app:layout_constraintTop_toBottomOf="@+id/home_1_seperator"
+            app:srcCompat="@drawable/ic_baseline_speed_24" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="400px"
+            android:layout_height="150px"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="100dp"
+            app:cardMaxElevation="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintStart_toStartOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintTop_toTopOf="@+id/home_1_speedometer_bg">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2px"
+                app:cardCornerRadius="100dp">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="400px"
+                    android:layout_height="250px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16px" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <LinearLayout
+            android:id="@+id/home_1_day_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintStart_toStartOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintTop_toTopOf="@+id/home_1_speedometer_bg">
+
+            <TextView
+                android:id="@+id/home_1_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/darkblue"
+                android:shadowDx="0.0"
+                android:shadowDy="0.0"
+                android:shadowRadius="8"
+                android:text="@string/caricamento"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/home_1_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/darkblue"
+                android:shadowDx="0.0"
+                android:shadowDy="0.0"
+                android:shadowRadius="8"
+                android:text="DAY"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/home_1_address"
+            android:layout_width="250px"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="8"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h6"
+            app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.254" />
+
+        <LinearLayout
+            android:id="@+id/home_1_trip_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/home_1_trav_iv"
+            app:layout_constraintTop_toTopOf="@+id/home_1_speed_ll">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/home_1_trav_dist_um"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8px"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:textSize="@dimen/h9"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_1_trav_dist"
+                    app:layout_constraintEnd_toStartOf="@+id/home_1_trav_dist" />
+
+                <TextView
+                    android:id="@+id/home_1_trav_dist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:shadowColor="@color/darkblue"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="0"
+                    android:textSize="@dimen/h0"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
+                    app:layout_constraintHorizontal_bias="0.357"
+                    app:layout_constraintStart_toEndOf="@+id/cardView"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.389" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/home_1_time_um"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8px"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="@string/trip"
+                    android:textSize="@dimen/h9"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_1_trav_dist"
+                    app:layout_constraintEnd_toStartOf="@+id/home_1_trav_dist" />
+
+                <TextView
+                    android:id="@+id/home_1_trip_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:shadowColor="@color/darkblue"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="0"
+                    android:textSize="@dimen/h5"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
+                    app:layout_constraintHorizontal_bias="0.357"
+                    app:layout_constraintStart_toEndOf="@+id/cardView"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.389" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home_1_speed_ll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer_bg"
+            app:layout_constraintEnd_toStartOf="@+id/home_1_speed_iv"
+            app:layout_constraintTop_toBottomOf="@+id/home_1_seperator"
+            app:layout_constraintVertical_bias="0.35">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/home_1_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:shadowColor="@color/darkblue"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="0"
+                    android:textSize="@dimen/h"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView"
+                    app:layout_constraintHorizontal_bias="0.708"
+                    app:layout_constraintStart_toStartOf="@+id/home_1_speedometer_bg"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.41" />
+
+                <TextView
+                    android:id="@+id/home_1_speed_um"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:layout_marginStart="8px"
+                    android:gravity="left"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:textSize="@dimen/h9"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
+                    app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/home_1_acc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:shadowColor="@color/darkblue"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="0"
+                    android:textSize="@dimen/h3"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView"
+                    app:layout_constraintHorizontal_bias="0.708"
+                    app:layout_constraintStart_toStartOf="@+id/home_1_speedometer_bg"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.41" />
+
+                <TextView
+                    android:id="@+id/home_1_acc_um"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:layout_marginStart="8px"
+                    android:gravity="bottom|left"
+                    android:shadowDx="0.0"
+                    android:shadowDy="0.0"
+                    android:shadowRadius="8"
+                    android:text="@string/ms2"
+                    android:textSize="@dimen/h9"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
+                    app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
-        android:id="@+id/view4"
+        android:id="@+id/home_1_seperator3"
         android:layout_width="1dp"
         android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/home_1_speedometer"
-        android:layout_width="900px"
-        android:layout_height="330px"
-        android:src="@drawable/speedometer3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,166 +352,21 @@
         layout="@layout/spotify_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/view4"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/home_1_seperator3"
+        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="400px"
-        android:layout_height="150px"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="100dp"
-        app:cardMaxElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2px"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="100dp">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="400px"
-                android:layout_height="250px"
-                android:layout_gravity="center"
-                android:layout_marginTop="16px" />
-        </androidx.cardview.widget.CardView>
-
-    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/home_1_car_icon"
         android:layout_width="340px"
         android:layout_height="150px"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_spotify"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/view4"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"
+        app:layout_constraintStart_toEndOf="@+id/home_1_seperator3"
+        app:layout_constraintTop_toTopOf="@+id/home_1_spotify"
         app:srcCompat="@drawable/logo_alfaromeo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toTopOf="@+id/home_1_speedometer">
-
-        <TextView
-            android:id="@+id/home_1_datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:shadowColor="@color/darkblue"
-            android:shadowDx="0.0"
-            android:shadowDy="0.0"
-            android:shadowRadius="8"
-            android:text="@string/caricamento"
-            android:textColor="@color/white"
-            android:textSize="@dimen/h6"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/home_1_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:shadowColor="@color/darkblue"
-            android:shadowDx="0.0"
-            android:shadowDy="0.0"
-            android:shadowRadius="8"
-            android:text="DAY"
-            android:textColor="@color/white"
-            android:textSize="@dimen/h7"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/home_1_address"
-        android:layout_width="250px"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h7"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.254" />
-
-    <TextView
-        android:id="@+id/home_1_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:gravity="right"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="0"
-        android:textSize="@dimen/h1"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toStartOf="@+id/cardView"
-        app:layout_constraintHorizontal_bias="0.708"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.41" />
-
-    <TextView
-        android:id="@+id/home_1_trav_dist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:gravity="right"
-        android:shadowColor="@color/darkblue"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:text="0"
-        android:textSize="@dimen/h3"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer"
-        app:layout_constraintHorizontal_bias="0.357"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.389" />
-
-    <TextView
-        android:id="@+id/home_1_speed_um"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8px"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:textSize="@dimen/h9"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
-        app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
-
-    <TextView
-        android:id="@+id/home_1_trav_dist_um"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:shadowDx="0.0"
-        android:shadowDy="0.0"
-        android:shadowRadius="8"
-        android:textSize="@dimen/h9"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_trav_dist"
-        app:layout_constraintEnd_toStartOf="@+id/home_1_trav_dist" />
 </androidx.constraintlayout.widget.ConstraintLayout>

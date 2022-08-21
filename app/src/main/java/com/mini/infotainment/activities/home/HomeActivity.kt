@@ -241,7 +241,7 @@ class HomeActivity : SActivity() {
             gpsManager.currentUserLocation ?: return,
             object: RunnablePar{
                 override fun run(p: Any?) {
-                    homePage1.addressTW.text = if(p == null) String() else p as String
+                    homePage1.addressTV.text = if(p == null) String() else p as String
                 }
             }
         )
@@ -339,8 +339,8 @@ class HomeActivity : SActivity() {
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
 
-            instance.homePage1.spotifyTitleTW.text = trackName
-            instance.homePage1.spotifyAuthorTw.text = artistName
+            instance.homePage1.spotifyTitleTV.text = trackName
+            instance.homePage1.spotifyAuthorTV.text = artistName
         }
     }
 }

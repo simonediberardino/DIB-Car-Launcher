@@ -30,9 +30,7 @@
     </string-array>
 
     <string name="u_measure">Unità di misura</string>
-    <string name="km">KM</string>
-    <string name="mile">Miglio</string>
-    <string name="distday">{dist}{um}/gg</string>
+    <string name="ms2">m/s2</string>
     <string name="top_sheet_behavior" translatable="false">com.github.techisfun.android.topsheet.TopSheetBehavior</string>
     <string name="example" translatable="false">Example</string>
 
@@ -67,6 +65,7 @@
     <string name="tts_n_sentence">Frase {numero}</string>
     <string name="tts_sen_title">Messaggi di benvenuto</string>
     <string name="inserisci">Inserisci</string>
+    <string name="speak">Parla</string>
     <string name="tts_add_sentence">Aggiungi messaggio</string>
     <string name="conferma">Conferma</string>
     <string name="personalizza">Personalizza</string>
@@ -112,7 +111,7 @@
     <string name="upgrade_to_premium">Passa a premium!</string>
     <string name="premium_confirm">Passa a premium ora</string>
     <string name="premium_desc_1">Passa a premium ora, a soli 1.99€ al mese!</string>
-    <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• E molte altre nuove funzionalità in arrivo!</string>
+    <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• Accesso alle mappe 3D\n• E molte altre nuove funzionalità in arrivo!</string>
     <string name="premium_success">Hai sbloccato con successo le funzionalità premium per {n_months} mese/i!</string>
     <string name="payment_not_ready">L\'instanza di pagamento non è ancora pronta, riprova tra un paio di secondi.</string>
     <string name="premium_error">Errore durante il processo.</string>
@@ -131,5 +130,10 @@
     <string name="success">Operazione completata con successo!</string>
     <string name="select_plan">Scegli il piano</string>
     <string name="n_months">{n} mesi</string>
+    <string name="trip">Tempo</string>
+    <string name="quick_reply_1">Ok.</string>
+    <string name="quick_reply_2">Sto arrivando.</string>
+    <string name="quick_reply_3">Sono qua.</string>
+    <string name="quick_reply_4">A dopo.</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

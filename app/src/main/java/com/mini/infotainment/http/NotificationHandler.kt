@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.view.forEach
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
@@ -22,6 +23,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
     companion object{
         var notifications = HashMap<String, MutableList<NotificationData>>()
     }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private val APPS_MAP: HashMap<String, Application> = hashMapOf(
         "com.instagram.android" to Application(
@@ -110,17 +112,17 @@ class NotificationHandler(private val ctx: HomeActivity) {
             const val DIALOG_DURATION = 20000
         }
 
-        internal lateinit var notificationMainLayout: View
-        internal lateinit var notificationInputLayout: ViewGroup
-        internal lateinit var notificationConfirm: View
-        internal lateinit var notificationIcon: ImageView
-        private lateinit var notificationCarLogo: ImageView
-        internal lateinit var notificationAppName: TextView
-        internal lateinit var notificationTitle: TextView
-        internal lateinit var notificationBar: ProgressBar
-        internal lateinit var notificationInputText: Button
-        internal lateinit var notificationInputVoice: View
-        internal var isVoiceActivated = false
+        private var notificationQuickReplies: ViewGroup
+        private var notificationCarLogo: ImageView
+        private var notificationMainLayout: View
+        private var notificationInputLayout: ViewGroup
+        private var notificationConfirm: View
+        private var notificationIcon: ImageView
+        private var notificationAppName: TextView
+        private var notificationTitle: TextView
+        private var notificationBar: ProgressBar
+        var notificationInputText: Button
+        private var notificationInputVoice: View
 
         var isTimerRunning: Boolean = true
             set(value) {
@@ -143,6 +145,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
             notificationInputText = findViewById(R.id.noti_edit_text)
             notificationInputLayout = findViewById(R.id.noti_input_layout)
             notificationInputVoice = findViewById(R.id.noti_input_voice)
+            notificationQuickReplies = findViewById(R.id.noti_quick_replies)
 
             notificationMainLayout.setOnClickListener{
                 isTimerRunning = false
@@ -164,13 +167,15 @@ class NotificationHandler(private val ctx: HomeActivity) {
             }
 
             notificationInputVoice.setOnClickListener {
-                if(!isVoiceActivated){
-                    isTimerRunning = false
-                    handleVoice()
-                }
+                isTimerRunning = false
+                handleVoice()
             }
 
             notificationInputLayout.visibility = if(application?.doesAllowInput == true) View.VISIBLE else View.GONE
+            notificationQuickReplies.visibility = notificationInputLayout.visibility
+            notificationQuickReplies.forEach {
+                it.setOnClickListener { it1 -> handleQuickResponse((it1 as TextView)) }
+            }
 
             Utility.ridimensionamento(ctx, this.findViewById(R.id.parent))
 
@@ -180,7 +185,11 @@ class NotificationHandler(private val ctx: HomeActivity) {
             show()
 
             isTimerRunning = true
+        }
 
+        private fun handleQuickResponse(view: TextView){
+            isTimerRunning = false
+            notificationInputText.text = view.text.trim()
         }
 
         private fun handleVoice(){

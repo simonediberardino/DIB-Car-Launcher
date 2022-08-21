@@ -18,6 +18,7 @@ import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.maps.MapsActivity
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.entities.MyCar
+import com.mini.infotainment.gps.TripHandler
 import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.SActivity.Companion.displayRatio
@@ -28,24 +29,27 @@ import java.util.*
 
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback {
-    internal var mapFragment: SupportMapFragment? = null
+    private lateinit var tripHandler: TripHandler
+    private var mapFragment: SupportMapFragment? = null
+
+    /** Location icon placed on the user location updated every time the user location changes; */
+    private var userLocMarker: Marker? = null
 
     private var googleMap: GoogleMap? = null
-    private lateinit var dayTW: TextView
+    private lateinit var tripTimeTV: TextView
+    private lateinit var dayTV: TextView
     private lateinit var speedUmTV: TextView
     private lateinit var distUmTV: TextView
-    internal lateinit var spotifyAuthorTw: TextView
-    internal lateinit var spotifyTitleTW: TextView
-    internal lateinit var addressTW: TextView
-    internal lateinit var speedometerTW: TextView
-    internal lateinit var timeTW: TextView
-    internal lateinit var spotifyWidget: View
-    internal lateinit var carIcon: ImageView
-    internal lateinit var travDist: TextView
-    /** Location icon placed on the user location updated every time the user location changes; */
-    internal var userLocMarker: Marker? = null
-
+    private lateinit var speedometerTV: TextView
+    private lateinit var timeTV: TextView
+    private lateinit var spotifyWidget: View
+    private lateinit var carIcon: ImageView
+    private lateinit var travDist: TextView
+    internal lateinit var spotifyAuthorTV: TextView
+    internal lateinit var spotifyTitleTV: TextView
+    internal lateinit var addressTV: TextView
     @SuppressLint("ClickableViewAccessibility")
+    
     override fun build() {
         ctx.viewPager = ctx.findViewById(R.id.home_view_pager)
         ctx.viewPages.clear()
@@ -53,12 +57,13 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         parent = ctx.layoutInflater.inflate(R.layout.activity_home_1, ctx.viewPager, false) as ViewGroup
 
         spotifyWidget = parent!!.findViewById(R.id.home_1_spotify)
-        timeTW = parent!!.findViewById(R.id.home_1_datetime)
-        dayTW = parent!!.findViewById(R.id.home_1_day)
-        speedometerTW = parent!!.findViewById(R.id.home_1_speed)
-        addressTW = parent!!.findViewById(R.id.home_1_address)
-        spotifyTitleTW = parent!!.findViewById(R.id.spotify_title)
-        spotifyAuthorTw = parent!!.findViewById(R.id.spotify_author)
+        timeTV = parent!!.findViewById(R.id.home_1_datetime)
+        tripTimeTV = parent!!.findViewById(R.id.home_1_trip_time)
+        dayTV = parent!!.findViewById(R.id.home_1_day)
+        speedometerTV = parent!!.findViewById(R.id.home_1_speed)
+        addressTV = parent!!.findViewById(R.id.home_1_address)
+        spotifyTitleTV = parent!!.findViewById(R.id.spotify_title)
+        spotifyAuthorTV = parent!!.findViewById(R.id.spotify_author)
         carIcon = parent!!.findViewById(R.id.home_1_car_icon)
         travDist = parent!!.findViewById(R.id.home_1_trav_dist)
         speedUmTV = parent!!.findViewById(R.id.home_1_speed_um)
@@ -67,9 +72,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         ctx.viewPages.add(parent!!)
 
         createMap()
-        updateData()
         setListeners()
         setupTimer()
+        updateData()
 
         super.pageLoaded()
     }
@@ -87,7 +92,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                     else if(isLeft) SpotifyIntegration.previousSpotifyTrack(ctx)
                     else SpotifyIntegration.togglePlayState(ctx)
 
-                    if(spotifyTitleTW.text == ctx.getString(R.string.spotify_no_data)){
+                    if(spotifyTitleTV.text == ctx.getString(R.string.spotify_no_data)){
                         CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx)
                     }
                 }
@@ -100,11 +105,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         updateLogoImageView()
         updateTravDist()
         updateSpeed()
+        updateTripTime()
     }
 
     private fun updateSpeed(){
-        val temp = if(isGpsManagerInitializated) SActivity.gpsManager.currentSpeed.toFloat() else 0f
-        speedometerTW.text = (if(Utility.isUMeasureKM()) temp else temp.kmToMile()).toInt().toString()
+        val temp = if(isGpsManagerInitializated) SActivity.gpsManager.currentSpeed.value.toFloat() else 0f
+        speedometerTV.text = (if(Utility.isUMeasureKM()) temp else temp.kmToMile()).toInt().toString()
         speedUmTV.text = Utility.getSpeedMeasure(ctx)
     }
 
@@ -118,24 +124,24 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun setupTimer(){
-        Thread{
-            while(true){
-                try{
-                    updateTime()
-                    Thread.sleep(1000)
-                }catch (exception: Exception){}
+        tripHandler = TripHandler{
+            ctx.runOnUiThread {
+                updateDayHour()
+                updateTripTime()
             }
-        }.start()
+        }.apply { start() }
     }
 
-    private fun updateTime() {
-        ctx.runOnUiThread {
-            timeTW.text = Utility.getTime()
-            dayTW.text = ctx.resources.getStringArray(R.array.days_week)[Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK)-1]
-        }
+    private fun updateDayHour() {
+        timeTV.text = Utility.getTime()
+        dayTV.text = ctx.resources.getStringArray(R.array.days_week)[Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK)-1]
     }
 
-    fun createMap(){
+    private fun updateTripTime(){
+        tripTimeTV.text = tripHandler.getElapsedTime()
+    }
+    
+    private fun createMap(){
         mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
     }
@@ -216,7 +222,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                     SActivity.gpsManager.currentUserLocation!!.longitude
                 )
             )
-            .zoom(15.5f)
+            .zoom(15.2f)
             .bearing(bearing)
             .tilt(80f)
             .build()

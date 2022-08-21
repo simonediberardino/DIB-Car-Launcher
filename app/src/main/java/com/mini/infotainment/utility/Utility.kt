@@ -41,6 +41,18 @@ import kotlin.math.roundToInt
 import android.R as R1
 
 object Utility {
+    fun millisToHoursFormatted(milliseconds: Long): String {
+        val hours: Int = (milliseconds / 1000 / 60 / 60).toInt()
+        val minutes: Int = (milliseconds / 1000 / 60).toInt()
+        val seconds: Int = (milliseconds / 1000 % 60).toInt()
+
+        val hoursStr = if(hours.toString().length == 1) "0$hours" else hours.toString()
+        val minutesStr = if(minutes.toString().length == 1) "0$minutes" else minutes.toString()
+        val secondsStr = if(seconds.toString().length == 1) "0$seconds" else seconds.toString()
+
+        return "$hoursStr:$minutesStr:$secondsStr"
+    }
+
     fun getSpeedMeasure(context: Context): String {
         return context.resources.getStringArray(R.array.speedmeasures)[ApplicationData.getUMeasure()]
     }
@@ -58,7 +70,7 @@ object Utility {
     }
 
     fun Float.kmToMile(): Float {
-        return this/1.60934449789f
+        return (((this/1.60934449789f)*10).toInt())/10f
     }
 
     fun Double.msToKmH(): Int {

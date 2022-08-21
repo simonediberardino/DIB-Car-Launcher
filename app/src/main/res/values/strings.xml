@@ -35,6 +35,7 @@
 
     <string name="app_name">DIB Car Launcher</string>
     <string name="home">Go to home</string>
+    <string name="ms2">m/s2</string>
     <string name="caricamento">Loading…</string>
     <string name="request_permissions">This app needs your GPS location in order to work properly.</string>
     <string name="google_maps">MAPS</string>
@@ -64,6 +65,7 @@
     <string name="tts_n_sentence">Phrase {numero}</string>
     <string name="tts_sen_title">Welcome messages</string>
     <string name="inserisci">Insert</string>
+    <string name="speak">Speak</string>
     <string name="tts_add_sentence">Add message</string>
     <string name="conferma">Confirm</string>
     <string name="personalizza">Customize</string>
@@ -113,7 +115,7 @@
     <string name="premium_error">Error while processing.</string>
     <string name="payment_not_ready">Payment instance not ready yet, retry in a couple of seconds.</string>
     <string name="already_premium">You are already premium!</string>
-    <string name="premium_desc_2"> <b>What you will receive:</b>\n• Ads removed\n• Access to your smartphone\'s notifications\n• Access to the real-time location of your car on the companion app\n• Access to real-time stats of your car\n• And much more in the future!</string>
+    <string name="premium_desc_2"> <b>What you will receive:</b>\n• Ads removed\n• Access to your smartphone\'s notifications\n• Access to the real-time location of your car on the companion app\n• Access to real-time stats of your car\n• Access to 3D maps\n• And much more in the future!</string>
     <string name="premium_dib">DIB Premium</string>
     <string name="applying_data">Applying settings…</string>
     <string name="remove_ads_premium">Did you know? Upgrade to premium to remove ads!</string>
@@ -128,5 +130,10 @@
     <string name="success">Operation completed successfully!</string>
     <string name="select_plan">Choose your plan</string>
     <string name="n_months">{n} months</string>
+    <string name="trip">Trip</string>
+    <string name="quick_reply_1">OK.</string>
+    <string name="quick_reply_2">I\'m coming.</string>
+    <string name="quick_reply_3">I\'m here.</string>
+    <string name="quick_reply_4">See you later.</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

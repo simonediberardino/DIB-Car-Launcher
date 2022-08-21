@@ -53,7 +53,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
         GridButton(
             ctx.getString(R.string.menu_navigatore),
             R.drawable.menu_navigation
-        ) { Utility.navigateTo(ctx, MapsActivity::class.java) }
+        ) { goToMapsActivity() }
         GridButton(
             ctx.getString(R.string.menu_spotify),
             R.drawable.menu_spotify
@@ -89,6 +89,17 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
                 ctx,
                 ActivityStats::class.java
             )
+        }
+    }
+
+    private fun goToMapsActivity(){
+        if(!ctx.isInternetAvailable) {
+            Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
+            return
+        }
+
+        ctx.premiumFeature {
+            Utility.navigateTo(ctx, MapsActivity::class.java)
         }
     }
 

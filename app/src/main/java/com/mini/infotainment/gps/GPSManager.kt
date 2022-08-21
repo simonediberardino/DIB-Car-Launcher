@@ -23,8 +23,10 @@ class GPSManager(val ctx: AppCompatActivity) {
     internal var lastAddressCheck: Long = 0
     internal var previousUserLocation: Location? = null
     internal var callbacks: HashMap<String, RunnablePar> = hashMapOf()
+    var currentAcceleration: Float = 0f
     var currentUserLocation: Location? = null
-    var currentSpeed: Int = 0
+    var currentSpeed: Speed = Speed(0, 0)
+    private var previousSpeed: Speed = Speed(0, 0)
 
     @SuppressLint("MissingPermission")
     fun init(){
@@ -57,10 +59,12 @@ class GPSManager(val ctx: AppCompatActivity) {
             previousUserLocation?.distanceTo(currentUserLocation) ?: 0f
         )
 
-        currentSpeed = (calculateSpeed().toDouble()).msToKmH()
+        previousSpeed = currentSpeed
+        currentSpeed = Speed((calculateSpeed().toDouble()).msToKmH(), newLocation.time)
+        currentAcceleration = calculateAcceleration()
 
-        if(currentSpeed > 2)
-            StatsData.addSpeedReport(currentSpeed.toFloat())
+        if(currentSpeed.value > 2)
+            StatsData.addSpeedReport(currentSpeed.value.toFloat())
 
         callbacks[SActivity.lastActivity.packageName]?.run(newLocation)
     }
@@ -78,6 +82,11 @@ class GPSManager(val ctx: AppCompatActivity) {
                 return if(speed == Float.POSITIVE_INFINITY) 0f else speed
             }
         }
+    }
+
+    private fun calculateAcceleration(): Float {
+        if(previousSpeed.time == 0L || currentSpeed.time == 0L) return 0f
+        return (currentSpeed.value/3.6f - previousSpeed.value/3.6f) / (currentUserLocation!!.time-previousUserLocation!!.time)
     }
 
     fun shouldRefreshAddress(): Boolean {
@@ -132,5 +141,7 @@ class GPSManager(val ctx: AppCompatActivity) {
             }
         })
     }
+
+    data class Speed(val value: Int, val time: Long)
 
 }

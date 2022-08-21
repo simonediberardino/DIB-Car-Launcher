@@ -25,7 +25,7 @@ class SpotifyIntegration : BroadcastReceiver() {
 
         fun togglePlayState(ctx: Context){
             if(lastIntent == null) return
-            if(lastIntent!!.getBooleanExtra("playing", false)){
+            if(!lastIntent!!.getBooleanExtra("playing", false)){
                 resumeSpotifyTrack(ctx)
             }else{
                 pauseSpotifyTrack(ctx)
@@ -33,10 +33,13 @@ class SpotifyIntegration : BroadcastReceiver() {
         }
 
         fun resumeSpotifyTrack(ctx: Context) {
+            println("RESUMING")
             sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PLAY)
         }
 
         fun pauseSpotifyTrack(ctx: Context) {
+            println("pausing")
+
             sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PAUSE)
         }
 
