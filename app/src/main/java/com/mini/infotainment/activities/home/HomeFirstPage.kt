@@ -84,16 +84,20 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         spotifyWidget.setOnTouchListener { v, e ->
             when(e.action){
                 MotionEvent.ACTION_UP -> {
-                    val isLeft = v.width/3 > e.x
-                    val isRight = (v.width/3)*2 < e.x
-
-                    if(isRight)
-                        SpotifyIntegration.nextSpotifyTrack(ctx)
-                    else if(isLeft) SpotifyIntegration.previousSpotifyTrack(ctx)
-                    else SpotifyIntegration.togglePlayState(ctx)
-
                     if(spotifyTitleTV.text == ctx.getString(R.string.spotify_no_data)){
                         CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx)
+                        return@setOnTouchListener true
+                    }
+
+                    val isLeft = v.width/3 > e.x
+                    val isRight = (v.width/3)*2 < e.x
+                    val isCenter = !isLeft && !isRight
+
+                    when(true){
+                        isLeft -> SpotifyIntegration.previousSpotifyTrack(ctx)
+                        isRight -> SpotifyIntegration.nextSpotifyTrack(ctx)
+                        isCenter -> SpotifyIntegration.togglePlayState(ctx)
+                        else -> {}
                     }
                 }
             }
