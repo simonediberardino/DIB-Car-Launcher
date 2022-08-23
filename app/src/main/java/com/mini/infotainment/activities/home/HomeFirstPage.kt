@@ -38,6 +38,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private var googleMap: GoogleMap? = null
     private lateinit var tripTimeTV: TextView
     private lateinit var dayTV: TextView
+    private lateinit var accelTV: TextView
     private lateinit var speedUmTV: TextView
     private lateinit var distUmTV: TextView
     private lateinit var speedometerTV: TextView
@@ -68,6 +69,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         travDist = parent!!.findViewById(R.id.home_1_trav_dist)
         speedUmTV = parent!!.findViewById(R.id.home_1_speed_um)
         distUmTV = parent!!.findViewById(R.id.home_1_trav_dist_um)
+        accelTV = parent!!.findViewById(R.id.home_1_acc)
 
         ctx.viewPages.add(parent!!)
 
@@ -110,6 +112,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         updateTravDist()
         updateSpeed()
         updateTripTime()
+    }
+
+    private fun updateAccel(){
+        val accel = if(isGpsManagerInitializated) SActivity.gpsManager.currentAcceleration else 0f
+        accelTV.text = accel.toString()
     }
 
     private fun updateSpeed(){
@@ -179,6 +186,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     fun onLocationChanged(){
         updateTravDist()
         updateSpeed()
+        updateAccel()
 
         if(!isGpsManagerInitializated) return
         if(SActivity.gpsManager.currentUserLocation == null) return

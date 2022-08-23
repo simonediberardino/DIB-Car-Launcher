@@ -86,7 +86,10 @@ class GPSManager(val ctx: AppCompatActivity) {
 
     private fun calculateAcceleration(): Float {
         if(previousSpeed.time == 0L || currentSpeed.time == 0L) return 0f
-        return (currentSpeed.value/3.6f - previousSpeed.value/3.6f) / (currentUserLocation!!.time-previousUserLocation!!.time)
+        val diffSpeed = currentSpeed.value/3.6f - previousSpeed.value/3.6f
+        val diffTime = (currentUserLocation!!.time-previousUserLocation!!.time)/1000
+        val result = diffSpeed/diffTime
+        return ((result*100).toInt())/100f
     }
 
     fun shouldRefreshAddress(): Boolean {
