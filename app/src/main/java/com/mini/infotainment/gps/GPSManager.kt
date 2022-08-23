@@ -59,7 +59,7 @@ class GPSManager(val ctx: AppCompatActivity) {
             previousUserLocation?.distanceTo(currentUserLocation) ?: 0f
         )
 
-        previousSpeed = currentSpeed
+        previousSpeed = currentSpeed.copy()
         currentSpeed = Speed((calculateSpeed().toDouble()).msToKmH(), newLocation.time)
         currentAcceleration = calculateAcceleration()
 

@@ -126,7 +126,7 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         userLocMarker = googleMap!!.addMarker(markerOptions)
         userLocCircle = googleMap!!.addCircle(circleOptions)
 
-        speedTw.text = gpsManager.currentSpeed.toString()
+        speedTw.text = gpsManager.currentSpeed.value.toString()
 
         if(mapFollowsUser)
             zoomMapToUser()

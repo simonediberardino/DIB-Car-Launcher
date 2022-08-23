@@ -55,8 +55,8 @@
             android:id="@+id/home_1_trav_iv"
             android:layout_width="30px"
             android:layout_height="25px"
-            android:layout_marginLeft="16px"
-            android:layout_marginTop="16px"
+            android:layout_marginStart="8px"
+            android:layout_marginTop="8px"
             app:layout_constraintStart_toStartOf="@+id/home_1_seperator2"
             app:layout_constraintTop_toBottomOf="@+id/home_1_seperator2"
             app:srcCompat="@drawable/ic_baseline_directions_24" />
@@ -65,8 +65,8 @@
             android:id="@+id/home_1_speed_iv"
             android:layout_width="30px"
             android:layout_height="30px"
-            android:layout_marginTop="16px"
-            android:layout_marginRight="16px"
+            android:layout_marginTop="8px"
+            android:layout_marginEnd="8px"
             app:layout_constraintEnd_toEndOf="@+id/home_1_seperator"
             app:layout_constraintTop_toBottomOf="@+id/home_1_seperator"
             app:srcCompat="@drawable/ic_baseline_speed_24" />
@@ -123,7 +123,7 @@
                 android:shadowRadius="8"
                 android:text="@string/caricamento"
                 android:textColor="@color/white"
-                android:textSize="@dimen/h4"
+                android:textSize="@dimen/h5"
                 android:textStyle="bold" />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:shadowRadius="8"
                 android:text="DAY"
                 android:textColor="@color/white"
-                android:textSize="@dimen/h5"
+                android:textSize="@dimen/h6"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -162,10 +162,10 @@
             android:id="@+id/home_1_trip_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:gravity="left"
             android:orientation="vertical"
             app:layout_constraintStart_toEndOf="@+id/home_1_trav_iv"
-            app:layout_constraintTop_toTopOf="@+id/home_1_speed_ll">
+            app:layout_constraintTop_toBottomOf="@+id/home_1_trav_iv">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -180,6 +180,7 @@
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
+                    android:text="km/dd"
                     android:textSize="@dimen/h9"
                     app:layout_constraintBottom_toBottomOf="@+id/home_1_trav_dist"
                     app:layout_constraintEnd_toStartOf="@+id/home_1_trav_dist" />
@@ -194,7 +195,7 @@
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
                     android:text="0"
-                    android:textSize="@dimen/h0"
+                    android:textSize="@dimen/h5"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
                     app:layout_constraintHorizontal_bias="0.357"
@@ -231,7 +232,7 @@
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
-                    android:text="0"
+                    android:text="00:00:00"
                     android:textSize="@dimen/h5"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/home_1_speedometer_bg"
@@ -246,10 +247,9 @@
 
         <LinearLayout
             android:id="@+id/home_1_speed_ll"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
+            android:gravity="right"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/home_1_speedometer_bg"
             app:layout_constraintEnd_toStartOf="@+id/home_1_speed_iv"
@@ -271,7 +271,7 @@
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
                     android:text="0"
-                    android:textSize="@dimen/h"
+                    android:textSize="@dimen/h1"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toStartOf="@+id/cardView"
                     app:layout_constraintHorizontal_bias="0.708"
@@ -289,6 +289,7 @@
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
+                    android:text="km/h"
                     android:textSize="@dimen/h9"
                     app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
                     app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
