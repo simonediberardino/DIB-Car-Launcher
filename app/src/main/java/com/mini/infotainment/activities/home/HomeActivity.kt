@@ -165,11 +165,11 @@ class HomeActivity : SActivity() {
     }
 
     private fun initializeBroadcastReceiver(){
-        val filter = IntentFilter()
-        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.playbackstatechanged")
-        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.metadatachanged")
-        filter.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.queuechanged")
-        registerReceiver(SpotifyIntegration(), filter)
+        val intent1 = IntentFilter()
+        intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.playbackstatechanged")
+        intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.metadatachanged")
+        intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.queuechanged")
+        registerReceiver(SpotifyIntegration(), intent1)
     }
 
     private fun initializeExceptionHandler(){
@@ -307,6 +307,7 @@ class HomeActivity : SActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
@@ -330,17 +331,18 @@ class HomeActivity : SActivity() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var instance: HomeActivity
         internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val REQUEST_CODE_SPEECH_INPUT = 10
 
-        fun updateSpotifySong(intent: Intent){
+        fun updateSong(intent: Intent){
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
 
-            instance.homePage1.spotifyTitleTV.text = trackName
-            instance.homePage1.spotifyAuthorTV.text = artistName
+            instance.homePage1.musicTitleTV.text = trackName
+            instance.homePage1.musicAuthorTV.text = artistName
         }
     }
 }

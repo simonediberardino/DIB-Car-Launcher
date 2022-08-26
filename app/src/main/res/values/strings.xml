@@ -46,7 +46,7 @@
     <string name="errore_sconosciuto">Unknown error.</string>
     <string name="menu_spotify">Spotify</string>
     <string name="menu_phone">Connect phone</string>
-    <string name="spotify_no_data">Not available. Why?</string>
+    <string name="music_no_data">Not available. Why?</string>
     <string name="menu_voice">Vocal assistant</string>
     <string name="settings">Settings</string>
     <string name="credits">Developed by Simone Di Berardino</string>
@@ -121,7 +121,7 @@
     <string name="remove_ads_premium">Did you know? Upgrade to premium to remove ads!</string>
     <string name="premium_no_ads">As a premium user, you won\'t see any ads.</string>
     <string name="premium_expired">Your premium account has expired, renew it now if you don\'t want to lose the premium features!</string>
-    <string name="spotify_no_data_why">Make sure Spotify is running and \'Device Broadcast Status\' is enabled in your Spotify app!</string>
+    <string name="music_no_data_why">If you\'re listening to Spotify, make sure \'Device Broadcast Status\' is enabled in your Spotify app!</string>
     <string name="edit_plate_num">Edit plate number</string>
     <string name="edit_password">Change password</string>
     <string name="edit_car_info">Edit profile</string>
@@ -135,5 +135,6 @@
     <string name="quick_reply_2">I\'m coming.</string>
     <string name="quick_reply_3">I\'m here.</string>
     <string name="quick_reply_4">See you later.</string>
+    <string name="default_audio">System audio</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/home_1_speedometer_bg"
-            android:layout_width="910px"
-            android:layout_height="330px"
+            android:layout_width="890px"
+            android:layout_height="322px"
             android:src="@drawable/speedometer1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -345,9 +345,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/home_1_spotify"
+        android:id="@+id/home_1_music"
 
-        layout="@layout/spotify_widget"
+        layout="@layout/music_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -360,10 +360,10 @@
         android:id="@+id/home_1_car_icon"
         android:layout_width="340px"
         android:layout_height="150px"
-        app:layout_constraintBottom_toBottomOf="@+id/home_1_spotify"
+        app:layout_constraintBottom_toBottomOf="@+id/home_1_music"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/home_1_seperator3"
-        app:layout_constraintTop_toTopOf="@+id/home_1_spotify"
+        app:layout_constraintTop_toTopOf="@+id/home_1_music"
         app:srcCompat="@drawable/logo_alfaromeo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

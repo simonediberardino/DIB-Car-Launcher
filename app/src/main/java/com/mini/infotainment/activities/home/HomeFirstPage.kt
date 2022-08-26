@@ -13,13 +13,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.maps.MapsActivity
 import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.gps.TripHandler
-import com.mini.infotainment.receivers.SpotifyIntegration
+import com.mini.infotainment.receivers.MusicIntegration
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.SActivity.Companion.displayRatio
 import com.mini.infotainment.support.SActivity.Companion.isGpsManagerInitializated
@@ -36,6 +35,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private var userLocMarker: Marker? = null
 
     private var googleMap: GoogleMap? = null
+    private var bearing: Float = 0f
     private lateinit var tripTimeTV: TextView
     private lateinit var dayTV: TextView
     private lateinit var accelTV: TextView
@@ -43,11 +43,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private lateinit var distUmTV: TextView
     private lateinit var speedometerTV: TextView
     private lateinit var timeTV: TextView
-    private lateinit var spotifyWidget: View
+    private lateinit var musicWidget: View
     private lateinit var carIcon: ImageView
     private lateinit var travDist: TextView
-    internal lateinit var spotifyAuthorTV: TextView
-    internal lateinit var spotifyTitleTV: TextView
+    internal lateinit var musicAuthorTV: TextView
+    internal lateinit var musicTitleTV: TextView
     internal lateinit var addressTV: TextView
     @SuppressLint("ClickableViewAccessibility")
     
@@ -57,14 +57,14 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
 
         parent = ctx.layoutInflater.inflate(R.layout.activity_home_1, ctx.viewPager, false) as ViewGroup
 
-        spotifyWidget = parent!!.findViewById(R.id.home_1_spotify)
+        musicWidget = parent!!.findViewById(R.id.home_1_music)
         timeTV = parent!!.findViewById(R.id.home_1_datetime)
         tripTimeTV = parent!!.findViewById(R.id.home_1_trip_time)
         dayTV = parent!!.findViewById(R.id.home_1_day)
         speedometerTV = parent!!.findViewById(R.id.home_1_speed)
         addressTV = parent!!.findViewById(R.id.home_1_address)
-        spotifyTitleTV = parent!!.findViewById(R.id.spotify_title)
-        spotifyAuthorTV = parent!!.findViewById(R.id.spotify_author)
+        musicTitleTV = parent!!.findViewById(R.id.music_title)
+        musicAuthorTV = parent!!.findViewById(R.id.music_author)
         carIcon = parent!!.findViewById(R.id.home_1_car_icon)
         travDist = parent!!.findViewById(R.id.home_1_trav_dist)
         speedUmTV = parent!!.findViewById(R.id.home_1_speed_um)
@@ -83,22 +83,17 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
-        spotifyWidget.setOnTouchListener { v, e ->
+        musicWidget.setOnTouchListener { v, e ->
             when(e.action){
                 MotionEvent.ACTION_UP -> {
-                    if(spotifyTitleTV.text == ctx.getString(R.string.spotify_no_data)){
-                        CustomToast(ctx.getString(R.string.spotify_no_data_why), ctx)
-                        return@setOnTouchListener true
-                    }
-
                     val isLeft = v.width/3 > e.x
                     val isRight = (v.width/3)*2 < e.x
                     val isCenter = !isLeft && !isRight
 
                     when(true){
-                        isLeft -> SpotifyIntegration.previousSpotifyTrack(ctx)
-                        isRight -> SpotifyIntegration.nextSpotifyTrack(ctx)
-                        isCenter -> SpotifyIntegration.togglePlayState(ctx)
+                        isLeft -> MusicIntegration.previousTrack(ctx)
+                        isRight -> MusicIntegration.nextTrack(ctx)
+                        isCenter -> MusicIntegration.togglePlayState(ctx)
                         else -> {}
                     }
                 }
@@ -225,7 +220,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         if(SActivity.gpsManager.currentUserLocation == null)
             return
 
-        val bearing: Float = SActivity.gpsManager.previousUserLocation?.bearingTo(SActivity.gpsManager.currentUserLocation) ?: 0f
+        val bearing: Float =
+            if(SActivity.gpsManager.currentSpeed.value > 2)
+                SActivity.gpsManager.previousUserLocation?.bearingTo(SActivity.gpsManager.currentUserLocation) ?: 0f
+            else this.bearing
+
+        this.bearing = bearing
 
         val cameraPosition = CameraPosition.Builder()
             .target(
@@ -235,7 +235,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                 )
             )
             .zoom(15.2f)
-            .bearing(bearing)
+            .bearing(this.bearing)
             .tilt(80f)
             .build()
 

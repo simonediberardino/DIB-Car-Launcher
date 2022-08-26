@@ -14,7 +14,6 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -193,8 +192,6 @@ class NotificationHandler(private val ctx: HomeActivity) {
         }
 
         private fun handleVoice(){
-            SpotifyIntegration.pauseSpotifyTrack(ctx)
-
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
             intent.putExtra(

@@ -3,9 +3,10 @@ package com.mini.infotainment.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.view.KeyEvent
+import android.media.AudioManager
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.support.SActivity
+
 
 class SpotifyIntegration : BroadcastReceiver() {
     companion object {
@@ -14,47 +15,6 @@ class SpotifyIntegration : BroadcastReceiver() {
         const val PLAYBACK_STATE_CHANGED = "$SPOTIFY_PACKAGE.playbackstatechanged"
         const val QUEUE_CHANGED = "$SPOTIFY_PACKAGE.queuechanged"
         const val METADATA_CHANGED = "$SPOTIFY_PACKAGE.metadatachanged"
-
-        fun nextSpotifyTrack(ctx: Context) {
-            sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_NEXT)
-        }
-
-        fun previousSpotifyTrack(ctx: Context) {
-            sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PREVIOUS)
-        }
-
-        fun togglePlayState(ctx: Context){
-            if(lastIntent == null) return
-            if(!lastIntent!!.getBooleanExtra("playing", false)){
-                resumeSpotifyTrack(ctx)
-            }else{
-                pauseSpotifyTrack(ctx)
-            }
-        }
-
-        fun resumeSpotifyTrack(ctx: Context) {
-            println("RESUMING")
-            sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PLAY)
-        }
-
-        fun pauseSpotifyTrack(ctx: Context) {
-            println("pausing")
-
-            sendEventToTrack(ctx, KeyEvent.KEYCODE_MEDIA_PAUSE)
-        }
-
-        private fun sendEventToTrack(ctx: Context, keyCode: Int) {
-            if(lastIntent == null) return
-
-            val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
-            intent.setPackage(SPOTIFY_PACKAGE)
-            synchronized(this) {
-                intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-                ctx.sendOrderedBroadcast(intent, null)
-                intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
-                ctx.sendOrderedBroadcast(intent, null)
-            }
-        }
     }
 
     private fun handleResumeTrack(context: Context, intent: Intent){
@@ -63,7 +23,7 @@ class SpotifyIntegration : BroadcastReceiver() {
 
         Thread{
             Thread.sleep(delay)
-            resumeSpotifyTrack(context)
+            MusicIntegration.resumeTrack(context)
             Thread.sleep(delay)
 
             if(!isPlayingSong()) {
@@ -77,6 +37,11 @@ class SpotifyIntegration : BroadcastReceiver() {
     }
 
     private fun isPlayingSong(): Boolean {
+        val audioManager: AudioManager = SActivity.lastActivity.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if(audioManager.isMusicActive)
+            return true
+
         if(lastIntent == null)
             return false
 
@@ -94,7 +59,7 @@ class SpotifyIntegration : BroadcastReceiver() {
 
         when (intent.action) {
             METADATA_CHANGED -> {
-                HomeActivity.updateSpotifySong(intent)
+                HomeActivity.updateSong(intent)
             }
             PLAYBACK_STATE_CHANGED -> {
                 if(!HomeActivity.instance.hasStartedSpotify){

@@ -38,6 +38,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml" value="0.568359375" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_baseline_play_circle_24.xml" value="0.4931640625" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.4931640625" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_baseline_speaker_24.xml" value="0.2805" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_baseline_speaker_phone_24.xml" value="0.4970703125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/ic_close.xml" value="0.1285" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/main_background.xml" value="0.51171875" />
@@ -63,6 +64,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button.xml" value="0.482421875" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button_not_pressed.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button_pressed.xml" value="0.1" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_gradient.xml" value="0.2355" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_round_btn.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_round_btn_pressed.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_round_btn_pressed_2.xml" value="0.1" />
@@ -74,7 +76,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_edit_profile.xml" value="0.5" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home.xml" value="0.3924050632911392" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_0.xml" value="0.1" />
-        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_1.xml" value="0.33" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_1.xml" value="0.67" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_2.xml" value="0.75" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_3.xml" value="0.33" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_ads.xml" value="0.33" />
@@ -99,12 +101,13 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/menu_side_items.xml" value="0.75" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/menu_single_app.xml" value="1.0" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/menu_single_tts_text.xml" value="0.67" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/music_widget.xml" value="0.9" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/notification_dialog.xml" value="0.67" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/short_dialog.xml" value="0.6704260651629073" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/single_ads.xml" value="0.3740234375" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/single_logo.xml" value="0.75" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/single_notification.xml" value="0.67" />
-        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/spotify_widget.xml" value="0.8642857142857143" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/spotify_widget.xml" value="0.67" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/tts_bottom_sheet.xml" value="0.4233576642335766" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/tts_top.xml" value="0.5" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/viewgroup_premium_no_ads.xml" value="0.25" />

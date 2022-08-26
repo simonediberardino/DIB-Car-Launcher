@@ -23,15 +23,16 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     }
 
     var googleMap: GoogleMap? = null
-    internal var mapFragment: SupportMapFragment? = null
-    internal lateinit var resetLocBtn: View
+    private var mapFragment: SupportMapFragment? = null
+    private lateinit var resetLocBtn: View
     private lateinit var speedTw: TextView
     /** Location icon placed on the user location updated every time the user location changes; */
     internal var userLocMarker: Marker? = null
     /** Circle placed on the user location updated every time the user location changes; */
-    internal var userLocCircle: Circle? = null
+    private var userLocCircle: Circle? = null
+    private var bearing: Float = 0f
 
-    internal var mapFollowsUser = true
+    private var mapFollowsUser = true
         set(value) {
             resetLocBtn.visibility = if(value) View.INVISIBLE else View.VISIBLE
             field = value
@@ -100,6 +101,8 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     }
 
     private fun doOnLocationChanged(){
+        speedTw.text = gpsManager.currentSpeed.value.toString()
+
         if(googleMap == null) return
 
         val newLocation = gpsManager.currentUserLocation!!
@@ -125,8 +128,6 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         userLocMarker?.remove()
         userLocMarker = googleMap!!.addMarker(markerOptions)
         userLocCircle = googleMap!!.addCircle(circleOptions)
-
-        speedTw.text = gpsManager.currentSpeed.value.toString()
 
         if(mapFollowsUser)
             zoomMapToUser()
@@ -220,7 +221,14 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         googleMap!!.uiSettings.isScrollGesturesEnabled = false
         mapFollowsUser = true
 
-        val bearing: Float = gpsManager.previousUserLocation?.bearingTo(gpsManager.currentUserLocation) ?: 0f
+        val bearing: Float =
+            if(gpsManager.currentSpeed.value > 2) {
+                gpsManager.previousUserLocation?.bearingTo(gpsManager.currentUserLocation) ?: 0f
+            } else {
+                this.bearing
+            }
+
+        this.bearing = bearing
 
         val cameraPosition = CameraPosition.Builder()
             .target(
@@ -230,7 +238,7 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
                 )
             )
             .zoom(MAP_DEFAULT_ZOOM)
-            .bearing(bearing)
+            .bearing(this.bearing)
             .tilt(80f)
             .build()
 

@@ -121,7 +121,7 @@
     <string name="remove_ads_premium">Lo sapevi? Passa a premium per rimuovere gli annunci!</string>
     <string name="premium_no_ads">Gli utenti premium non visualizzano gli annunci.</string>
     <string name="premium_expired">Il tuo account premium è scaduto, rinnovalo ora se non vuoi perdere le funzionalità premium!</string>
-    <string name="spotify_no_data_why">Assicurati che Spotify sia aperto e che \'Stato trasmissione\' sia abilitato in Spotify!</string>
+    <string name="music_no_data_why">Se stai ascoltando Spotify, assicurati che \'Stato trasmissione\' sia abilitato in Spotify!</string>
     <string name="edit_plate_num">Modifica targa</string>
     <string name="edit_password">Cambia password</string>
     <string name="edit_car_info">Modifica profilo</string>
@@ -135,5 +135,6 @@
     <string name="quick_reply_2">Sto arrivando.</string>
     <string name="quick_reply_3">Sono qua.</string>
     <string name="quick_reply_4">A dopo.</string>
+    <string name="default_audio">Audio di sistema</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>
