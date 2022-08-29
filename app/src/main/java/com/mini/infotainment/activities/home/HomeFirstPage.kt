@@ -234,7 +234,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                     SActivity.gpsManager.currentUserLocation!!.longitude
                 )
             )
-            .zoom(15.2f)
+            .zoom(15.45f)
             .bearing(this.bearing)
             .tilt(80f)
             .build()
