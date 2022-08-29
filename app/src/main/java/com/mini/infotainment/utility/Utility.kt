@@ -42,9 +42,9 @@ import android.R as R1
 
 object Utility {
     fun millisToHoursFormatted(milliseconds: Long): String {
-        val hours: Int = (milliseconds / 1000 / 60 / 60).toInt()
-        val minutes: Int = (milliseconds / 1000 / 60).toInt()
-        val seconds: Int = (milliseconds / 1000 % 60).toInt()
+        val seconds = (milliseconds / 1000).toInt() % 60
+        val minutes = (milliseconds / (1000 * 60) % 60).toInt()
+        val hours = (milliseconds / (1000 * 60 * 60)).toInt()
 
         val hoursStr = if(hours.toString().length == 1) "0$hours" else hours.toString()
         val minutesStr = if(minutes.toString().length == 1) "0$minutes" else minutes.toString()
@@ -73,8 +73,8 @@ object Utility {
         return (((this/1.60934449789f)*10).toInt())/10f
     }
 
-    fun Double.msToKmH(): Int {
-        return (this * 3.6).toInt()
+    fun Float.msToKmH(): Float {
+        return (this * 3.6f)
     }
 
     fun Double.toKm(): Float{

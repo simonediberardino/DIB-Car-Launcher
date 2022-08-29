@@ -115,7 +115,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun updateSpeed(){
-        val temp = if(isGpsManagerInitializated) SActivity.gpsManager.currentSpeed.value.toFloat() else 0f
+        val temp = (if(isGpsManagerInitializated) SActivity.gpsManager.currentSpeed.value else 0f)
         speedometerTV.text = (if(Utility.isUMeasureKM()) temp else temp.kmToMile()).toInt().toString()
         speedUmTV.text = Utility.getSpeedMeasure(ctx)
     }

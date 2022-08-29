@@ -8,7 +8,7 @@ class TripHandler(val tickCallback: Runnable) {
 
     fun getElapsedTime(): String {
         val currTime = System.currentTimeMillis()
-        val elapsTime = currTime - startTime
+        val elapsTime = (currTime) - startTime
 
         return Utility.millisToHoursFormatted(elapsTime)
     }

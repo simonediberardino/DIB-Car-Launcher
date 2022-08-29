@@ -13,15 +13,17 @@
         android:id="@+id/home_1_speedometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/home_1_speedometer_bg"
-            android:layout_width="890px"
-            android:layout_height="322px"
+            android:layout_width="800px"
+            android:layout_height="0dp"
             android:src="@drawable/speedometer1"
+            app:layout_constraintDimensionRatio="H,30:11"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -308,7 +310,7 @@
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
                     android:text="0"
-                    android:textSize="@dimen/h4"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toStartOf="@+id/cardView"
                     app:layout_constraintHorizontal_bias="0.708"
@@ -352,6 +354,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/home_1_seperator3"
         app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
         app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
 
@@ -359,7 +362,7 @@
     <ImageView
         android:id="@+id/home_1_car_icon"
         android:layout_width="340px"
-        android:layout_height="150px"
+        android:layout_height="175px"
         app:layout_constraintBottom_toBottomOf="@+id/home_1_music"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/home_1_seperator3"

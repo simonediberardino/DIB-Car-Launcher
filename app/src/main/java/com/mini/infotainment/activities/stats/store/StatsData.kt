@@ -122,6 +122,7 @@ object StatsData {
     }
 
     fun addSpeedReport(curSpeed: Float, calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())){
+        val curSpeed = curSpeed.toInt().toFloat()
         val stats = getStats()
         val key = Utility.getDateString(calendar)
 

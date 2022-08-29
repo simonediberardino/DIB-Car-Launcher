@@ -25,8 +25,8 @@ class GPSManager(val ctx: AppCompatActivity) {
     internal var callbacks: HashMap<String, RunnablePar> = hashMapOf()
     var currentAcceleration: Float = 0f
     var currentUserLocation: Location? = null
-    var currentSpeed: Speed = Speed(0, 0)
-    private var previousSpeed: Speed = Speed(0, 0)
+    var currentSpeed: Speed = Speed(0f, 0)
+    private var previousSpeed: Speed = Speed(0f, 0)
 
     @SuppressLint("MissingPermission")
     fun init(){
@@ -60,11 +60,11 @@ class GPSManager(val ctx: AppCompatActivity) {
         )
 
         previousSpeed = currentSpeed.copy()
-        currentSpeed = Speed((calculateSpeed().toDouble()).msToKmH(), newLocation.time)
+        currentSpeed = Speed(calculateSpeed().msToKmH(), newLocation.time)
         currentAcceleration = calculateAcceleration()
 
         if(currentSpeed.value > 2)
-            StatsData.addSpeedReport(currentSpeed.value.toFloat())
+            StatsData.addSpeedReport(currentSpeed.value)
 
         callbacks[SActivity.lastActivity.packageName]?.run(newLocation)
     }
@@ -145,6 +145,6 @@ class GPSManager(val ctx: AppCompatActivity) {
         })
     }
 
-    data class Speed(val value: Int, val time: Long)
+    data class Speed(val value: Float, val time: Long)
 
 }
