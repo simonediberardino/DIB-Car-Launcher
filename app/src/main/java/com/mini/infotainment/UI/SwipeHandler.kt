@@ -20,7 +20,7 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
                 this.downY = event.y
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y + activity.screenSize[1]/5 < 0
+            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y + activity.screenSize[1]/4 < 0
             else -> false
         }
     }
@@ -31,7 +31,7 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
                 this.downY = event.y
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y - activity.screenSize[1]/5 > 0
+            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y - activity.screenSize[1]/4 > 0
             else -> false
         }
     }
@@ -42,7 +42,7 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
                 downX = event.x
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downX - event.x - activity.screenSize[1]/5 > 0
+            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downX - event.x - activity.screenSize[1]/4 > 0
             else -> false
         }
     }
@@ -53,7 +53,7 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
                 downX = event.x
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downX - event.x + activity.screenSize[1]/5 < 0
+            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downX - event.x + activity.screenSize[1]/4 < 0
             else -> false
         }
     }
