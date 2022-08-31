@@ -101,7 +101,7 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     }
 
     private fun doOnLocationChanged(){
-        speedTw.text = gpsManager.currentSpeed.value.toString()
+        speedTw.text = gpsManager.currentSpeed.value.toInt().toString()
 
         if(googleMap == null) return
 

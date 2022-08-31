@@ -4,7 +4,6 @@ package com.mini.infotainment.activities.login.register
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.mini.infotainment.R
@@ -33,7 +32,6 @@ class RegisterActivity : ProfileActivity(){
             this.viewmodel = viewModel
         }
 
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
         this.findViewById<View>(R.id.register_log_btn).setOnClickListener { Utility.navigateTo(this, LoginActivity::class.java) }
 
         viewModel.result.observe(this) {

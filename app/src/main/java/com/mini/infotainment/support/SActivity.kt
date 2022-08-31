@@ -51,6 +51,7 @@ open class SActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        setWallpaper()
         lastActivity = this
     }
 
@@ -59,15 +60,15 @@ open class SActivity : AppCompatActivity() {
         mContentView = view!!
     }
 
-
     @SuppressLint("MissingPermission", "ResourceType")
     fun setWallpaper(){
         val wallpaperView = findViewById<ViewGroup>(R.id.parent)
-        wallpaperView.setBackgroundDrawable(wpaper)
+        wallpaperView?.setBackgroundDrawable(wpaper)
     }
 
     fun pageLoaded(){
         Utility.ridimensionamento(this, findViewById(R.id.parent))
+        setWallpaper()
     }
 
     fun log(event: String){

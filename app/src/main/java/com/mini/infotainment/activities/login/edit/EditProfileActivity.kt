@@ -2,7 +2,6 @@ package com.mini.infotainment.activities.login.edit
 
 
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.mini.infotainment.R
@@ -27,8 +26,6 @@ class EditProfileActivity : ProfileActivity(){
             this.lifecycleOwner = this@EditProfileActivity
             this.viewmodel = viewModel
         }
-
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         viewModel.result.observe(this) {
             when (it) {

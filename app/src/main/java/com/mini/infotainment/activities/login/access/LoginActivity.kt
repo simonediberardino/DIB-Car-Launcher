@@ -3,7 +3,6 @@ package com.mini.infotainment.activities.login.access
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.mini.infotainment.R
@@ -31,8 +30,6 @@ class LoginActivity : ProfileActivity(){
             this.lifecycleOwner = this@LoginActivity
             this.viewmodel = viewModel
         }
-
-        this.findViewById<ViewGroup>(R.id.parent).setBackgroundDrawable(wpaper)
 
         this.findViewById<View>(R.id.login_reg_btn).setOnClickListener { onBackPressed() }
 
