@@ -31,7 +31,8 @@ class RegisterViewModel : ViewModel(){
     }
 
     private fun checkIfExists(runnable: Runnable){
-        val plateNum = plateNum.value.toString().uppercase().trim()
+        val plateNum = plateNum.value.toString().replace(" ", "").uppercase().trim()
+
         FirebaseClass.doesCarExist(plateNum,
             object: RunnablePar {
                 override fun run(p: Any?) {
@@ -44,7 +45,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     private fun validateDetails(runnable: Runnable){
-        val plateNum = plateNum.value.toString().uppercase().trim()
+        val plateNum = plateNum.value.toString().replace(" ", "").uppercase().trim()
         val psw1 = pass.value.toString().trim()
         val psw2 = passConfirm.value.toString().trim()
 
@@ -67,7 +68,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     private fun doRegister(){
-        val plateNum = plateNum.value.toString().uppercase().trim()
+        val plateNum = plateNum.value.toString().replace(" ", "").uppercase().trim()
         val password = Utility.getMD5(pass.value.toString().trim())
 
         val myCar = MyCar(plateNum, password)

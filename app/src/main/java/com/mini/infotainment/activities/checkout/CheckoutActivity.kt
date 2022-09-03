@@ -9,7 +9,6 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.mini.infotainment.R
-import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.SActivity
 import com.stripe.android.PaymentConfiguration
@@ -115,7 +114,12 @@ class CheckoutActivity : SActivity() {
 
         fun presentPaymentSheet() {
             if(paymentIntentClientSecret == null) {
-                CustomToast(getString(R.string.payment_not_ready), this@CheckoutActivity)
+                Toast.makeText(
+                    this@CheckoutActivity,
+                    getString(R.string.payment_not_ready),
+                    Toast.LENGTH_LONG
+                ).show()
+
                 return
             }
 
@@ -153,7 +157,11 @@ class CheckoutActivity : SActivity() {
         }
 
         private fun onError(){
-            CustomToast(getString(R.string.premium_error), this@CheckoutActivity)
+            Toast.makeText(
+                this@CheckoutActivity,
+                getString(R.string.premium_error),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
