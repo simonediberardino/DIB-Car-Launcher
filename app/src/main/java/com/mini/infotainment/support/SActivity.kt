@@ -80,8 +80,7 @@ open class SActivity : AppCompatActivity() {
         @SuppressLint("StaticFieldLeak")
         lateinit var lastActivity: SActivity
         @SuppressLint("StaticFieldLeak")
-        lateinit var gpsManager: GPSManager
-        val isGpsManagerInitializated get() = ::gpsManager.isInitialized
+        var gpsManager: GPSManager? = null
 
         val Context.wpaper: Drawable
             get(){

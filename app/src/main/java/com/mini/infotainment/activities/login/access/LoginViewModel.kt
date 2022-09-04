@@ -46,6 +46,7 @@ class LoginViewModel : ViewModel(){
         }
 
         fun doLogout(){
+            SActivity.gpsManager = null
             ApplicationData.setCarPassword(null)
             ApplicationData.setTarga(null)
         }

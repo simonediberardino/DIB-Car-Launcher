@@ -19,9 +19,8 @@ import com.mini.infotainment.activities.stats.store.StatsData
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.gps.TripHandler
 import com.mini.infotainment.receivers.MusicIntegration
-import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.SActivity.Companion.displayRatio
-import com.mini.infotainment.support.SActivity.Companion.isGpsManagerInitializated
+import com.mini.infotainment.support.SActivity.Companion.gpsManager
 import com.mini.infotainment.utility.Utility
 import com.mini.infotainment.utility.Utility.kmToMile
 import java.util.*
@@ -110,12 +109,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun updateAccel(){
-        val accel = if(isGpsManagerInitializated) SActivity.gpsManager.currentAcceleration else 0f
+        val accel = if(gpsManager != null) gpsManager?.currentAcceleration else 0f
         accelTV.text = accel.toString()
     }
 
     private fun updateSpeed(){
-        val temp = (if(isGpsManagerInitializated) SActivity.gpsManager.currentSpeed.value else 0f)
+        val temp = (if(gpsManager != null) gpsManager!!.currentSpeed.value else 0f)
         speedometerTV.text = (if(Utility.isUMeasureKM()) temp else temp.kmToMile()).toInt().toString()
         speedUmTV.text = Utility.getSpeedMeasure(ctx)
     }
@@ -154,7 +153,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
 
     override fun onMapReady(p0: GoogleMap) {
         fun onClickCallback(){
-            if(MyCar.instance.isPremium()){
+            if(MyCar.instance.isPremium() && gpsManager?.currentUserLocation != null){
                 Utility.navigateTo(ctx, MapsActivity::class.java)
             }
         }
@@ -183,11 +182,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         updateSpeed()
         updateAccel()
 
-        if(!isGpsManagerInitializated) return
-        if(SActivity.gpsManager.currentUserLocation == null) return
+        if(gpsManager == null) return
+        if(gpsManager?.currentUserLocation == null) return
 
         val minDistToUpdate = 2.5f
-        if((SActivity.gpsManager.previousUserLocation?.distanceTo(SActivity.gpsManager.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
+        if((gpsManager?.previousUserLocation?.distanceTo(gpsManager?.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
             return
 
         doOnLocationChanged()
@@ -196,7 +195,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private fun doOnLocationChanged(){
         if(googleMap == null) return
 
-        val newLocation = SActivity.gpsManager.currentUserLocation!!
+        val newLocation = gpsManager?.currentUserLocation!!
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
         val height: Int = (ctx.displayRatio * 15).toInt()
@@ -217,12 +216,13 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun zoomMapToUser() {
-        if(SActivity.gpsManager.currentUserLocation == null)
+        if(gpsManager == null) return
+        if(gpsManager?.currentUserLocation == null)
             return
 
         val bearing: Float =
-            if(SActivity.gpsManager.currentSpeed.value > 2)
-                SActivity.gpsManager.previousUserLocation?.bearingTo(SActivity.gpsManager.currentUserLocation) ?: 0f
+            if(gpsManager!!.currentSpeed.value > 2)
+                gpsManager!!.previousUserLocation?.bearingTo(gpsManager?.currentUserLocation) ?: 0f
             else this.bearing
 
         this.bearing = bearing
@@ -230,11 +230,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         val cameraPosition = CameraPosition.Builder()
             .target(
                 LatLng(
-                    SActivity.gpsManager.currentUserLocation!!.latitude,
-                    SActivity.gpsManager.currentUserLocation!!.longitude
+                    gpsManager!!.currentUserLocation!!.latitude,
+                    gpsManager!!.currentUserLocation!!.longitude
                 )
             )
-            .zoom(15.45f)
+            .zoom(17f)
             .bearing(this.bearing)
             .tilt(80f)
             .build()

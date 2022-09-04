@@ -21,6 +21,7 @@ import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.UI.SwipeHandler
 import com.mini.infotainment.activities.checkout.CheckoutActivity
+import com.mini.infotainment.activities.login.access.LoginViewModel
 import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.activities.misc.FakeLauncherActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
@@ -79,6 +80,7 @@ class HomeActivity : SActivity() {
         this.setupGPS()
         this.initializeCarObject()
         this.onPremiumAccountListener()
+        this.onPasswordChangedListener()
         this.initializeAdsHandler()
         this.requestDefaultLauncher()
     }
@@ -176,6 +178,25 @@ class HomeActivity : SActivity() {
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
     }
 
+    private fun onPasswordChangedListener(){
+        FirebaseClass.getPasswordReference().addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val dbPass = snapshot.value as String? ?: return
+                println("Password changed! $dbPass ${ApplicationData.getCarPassword()}")
+
+                if(ApplicationData.getCarPassword() != dbPass){
+                    LoginViewModel.doLogout()
+                    startActivity(Intent(this@HomeActivity, HomeActivity::class.java))
+                    finish()
+
+                    return
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
     private fun onPremiumAccountListener(){
         FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -214,11 +235,11 @@ class HomeActivity : SActivity() {
     }
 
     private fun addGpsCallback(){
-        gpsManager.callbacks[packageName] = (object: RunnablePar{
+        gpsManager?.callbacks?.set(packageName, (object: RunnablePar{
             override fun run(p: Any?) {
                 this@HomeActivity.onLocationChanged()
             }
-        })
+        }))
     }
 
     private fun onLocationChanged() {
@@ -227,18 +248,19 @@ class HomeActivity : SActivity() {
     }
 
     private fun handleGPSLocation(){
-        homePage1.onLocationChanged()
+        if(this::homePage1.isInitialized)
+            homePage1.onLocationChanged()
     }
 
     private fun handleAddressReport() {
-        if(!gpsManager.shouldRefreshAddress())
+        if(gpsManager?.shouldRefreshAddress() != true)
             return
 
-        FirebaseClass.updateCarLocation(gpsManager.currentUserLocation ?: return)
-        gpsManager.lastAddressCheck = System.currentTimeMillis()
+        FirebaseClass.updateCarLocation(gpsManager?.currentUserLocation ?: return)
+        gpsManager?.lastAddressCheck = System.currentTimeMillis()
 
-        gpsManager.getSimpleAddress(
-            gpsManager.currentUserLocation ?: return,
+        gpsManager?.getSimpleAddress(
+            gpsManager?.currentUserLocation ?: return,
             object: RunnablePar{
                 override fun run(p: Any?) {
                     homePage1.addressTV.text = if(p == null) String() else p as String
@@ -290,7 +312,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun hasLoginData(): Boolean {
-        return ApplicationData.getCarPassword() != null && ApplicationData.getTarga() != null
+        return ApplicationData.getCarPassword().toString() != "null" && ApplicationData.getTarga().toString() != "null"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -321,7 +343,7 @@ class HomeActivity : SActivity() {
     override fun onResume() {
         super.onResume()
 
-        if(isGpsManagerInitializated){
+        if(gpsManager != null){
             addGpsCallback()
         }
     }

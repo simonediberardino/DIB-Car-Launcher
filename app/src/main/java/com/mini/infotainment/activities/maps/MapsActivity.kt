@@ -64,11 +64,11 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     }
 
     private fun addGpsCallback(){
-        gpsManager.callbacks[packageName] = (object: RunnablePar {
+        gpsManager?.callbacks?.set(packageName, (object: RunnablePar {
             override fun run(p: Any?) {
                 onLocationChanged()
             }
-        })
+        }))
     }
 
     @SuppressLint("RestrictedApi")
@@ -91,21 +91,21 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun onLocationChanged(){
-        if(gpsManager.currentUserLocation == null) return
+        if(gpsManager?.currentUserLocation == null) return
 
         val minDistToUpdate = 2.5f
-        if((gpsManager.previousUserLocation?.distanceTo(gpsManager.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
+        if((gpsManager?.previousUserLocation?.distanceTo(gpsManager?.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
             return
 
         doOnLocationChanged()
     }
 
     private fun doOnLocationChanged(){
-        speedTw.text = gpsManager.currentSpeed.value.toInt().toString()
+        speedTw.text = gpsManager?.currentSpeed!!.value.toInt().toString()
 
         if(googleMap == null) return
 
-        val newLocation = gpsManager.currentUserLocation!!
+        val newLocation = gpsManager?.currentUserLocation!!
         val locationLatLng = LatLng(newLocation.latitude, newLocation.longitude)
 
         val height: Int = (displayRatio * 15).toInt()
@@ -215,15 +215,15 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
     }
 
     private fun zoomMapToUser(callback: Runnable = Runnable {}){
-        if(gpsManager.currentUserLocation == null)
+        if(gpsManager?.currentUserLocation == null)
             return
 
         googleMap!!.uiSettings.isScrollGesturesEnabled = false
         mapFollowsUser = true
 
         val bearing: Float =
-            if(gpsManager.currentSpeed.value > 2) {
-                gpsManager.previousUserLocation?.bearingTo(gpsManager.currentUserLocation) ?: 0f
+            if(gpsManager?.currentSpeed!!.value > 2) {
+                gpsManager?.previousUserLocation?.bearingTo(gpsManager?.currentUserLocation) ?: 0f
             } else {
                 this.bearing
             }
@@ -233,8 +233,8 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
         val cameraPosition = CameraPosition.Builder()
             .target(
                 LatLng(
-                    gpsManager.currentUserLocation!!.latitude,
-                    gpsManager.currentUserLocation!!.longitude
+                    gpsManager?.currentUserLocation!!.latitude,
+                    gpsManager?.currentUserLocation!!.longitude
                 )
             )
             .zoom(MAP_DEFAULT_ZOOM)
