@@ -79,13 +79,17 @@ class EditProfileViewModel : ViewModel() {
             return
         }
 
-        FirebaseClass.areCredentialsCorrect(ApplicationData.getTarga()!!, Utility.getMD5(passCurr), object :
+        val cripNewPass = Utility.getMD5(passNew)
+        val cripCurrPass = Utility.getMD5(passCurr)
+
+        FirebaseClass.areCredentialsCorrect(ApplicationData.getTarga()!!, cripCurrPass, object :
             RunnablePar {
             override fun run(p: Any?) {
                 val isPwCorrect = p as Boolean? ?: false
 
                 if(isPwCorrect){
-                    FirebaseClass.getPasswordReference().setValue(Utility.getMD5(passNew)).addOnCompleteListener {
+                    ApplicationData.setCarPassword(cripNewPass)
+                    FirebaseClass.getPasswordReference().setValue(cripNewPass).addOnCompleteListener {
                         result.value = null
                     }
                 }else result.value = ProfileActivity.ErrorCodes.INVALID_DETAILS
