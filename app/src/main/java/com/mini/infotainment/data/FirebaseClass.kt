@@ -10,6 +10,7 @@ import java.util.*
 object FirebaseClass{
     private var DB_REF = "https://infotainment-8c303-default-rtdb.europe-west1.firebasedatabase.app/"
     private var LOCATION_REF = "location"
+    private var CAR_BRAND_REF = "carbrand"
     private var SERVER_IP_REF = "serverip"
     private var TIME_REF = "time"
     private var START_REF = "start"
@@ -20,7 +21,7 @@ object FirebaseClass{
         isPremiumCar(ApplicationData.getTarga()!!, runnablePar)
     }
 
-    fun isPremiumCar(plateNum: String, runnablePar: RunnablePar){
+    private fun isPremiumCar(plateNum: String, runnablePar: RunnablePar){
         getCarObject(plateNum, object : RunnablePar{
             override fun run(p: Any?) {
                 Thread{
@@ -74,6 +75,10 @@ object FirebaseClass{
         getCarLocationReference().setValue(location)
     }
 
+    fun updateCarBrand(brand: String){
+        getCarBrandReference().setValue(brand)
+    }
+
     fun updateStartTime(time: Long){
         getStartReference().setValue(time)
     }
@@ -88,6 +93,10 @@ object FirebaseClass{
 
     fun getCarLocationReference(): DatabaseReference {
         return getCarObjectReference(ApplicationData.getTarga()!!).child(LOCATION_REF)
+    }
+
+    fun getCarBrandReference(): DatabaseReference {
+        return getCarObjectReference(ApplicationData.getTarga()!!).child(CAR_BRAND_REF)
     }
 
     fun getTimeReference(): DatabaseReference {

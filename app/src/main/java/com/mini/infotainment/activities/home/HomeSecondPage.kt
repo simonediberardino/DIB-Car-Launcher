@@ -109,30 +109,28 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        ctx.premiumFeature{
-            val qrCodeBitmap = Utility.generateQrCode(
-                Utility.objectToJsonString(
-                    QrcodeData(
-                        HomeActivity.server?.serverIPV4 ?: return@premiumFeature,
-                        ApplicationData.getTarga()!!
-                    )
-                ),
-                ctx
-            )
+        val qrCodeBitmap = Utility.generateQrCode(
+            Utility.objectToJsonString(
+                QrcodeData(
+                    HomeActivity.server?.serverIPV4 ?: return,
+                    ApplicationData.getTarga()!!
+                )
+            ),
+            ctx
+        )
 
-            val dialog = Dialog(ctx)
-            dialog.setContentView(R.layout.dialog_qrcode)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialog = Dialog(ctx)
+        dialog.setContentView(R.layout.dialog_qrcode)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
-            val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
+        val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
+        val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
 
-            qrCodeIW.setImageBitmap(qrCodeBitmap)
-            closeBtn.setOnClickListener { dialog.dismiss() }
+        qrCodeIW.setImageBitmap(qrCodeBitmap)
+        closeBtn.setOnClickListener { dialog.dismiss() }
 
-            Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
+        Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
 
-            dialog.show()
-        }
+        dialog.show()
     }
 }

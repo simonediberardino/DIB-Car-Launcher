@@ -15,13 +15,16 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
             while(true){
                 val timeOut = 1000*60*7L
                 Thread.sleep(timeOut)
-                ctx.runOnUiThread { showAd() }
+                ctx.runOnUiThread {
+                    if(!MyCar.instance.isPremium())
+                        showAd()
+                }
             }
         }.start()
     }
 
-    private fun showAd() {
-        if(MyCar.instance.isPremium() || !ctx.isInternetAvailable){
+    fun showAd() {
+        if(!ctx.isInternetAvailable){
             return
         }
 

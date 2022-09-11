@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -300,7 +301,7 @@ class HomeActivity : SActivity() {
     }
 
     internal fun runSettings(){
-        startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
+        startActivity(Intent(Settings.ACTION_SETTINGS))
     }
 
     private fun insufficientPermissions(){
@@ -345,6 +346,10 @@ class HomeActivity : SActivity() {
 
         if(gpsManager != null){
             addGpsCallback()
+        }
+
+        if(this::homePage1.isInitialized && homePage1.mapFragment?.isAdded != true){
+            homePage1.createMap()
         }
     }
 

@@ -14,6 +14,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.activities.login.edit.EditProfileActivity
 import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
@@ -116,6 +117,8 @@ class SettingsActivity : SActivity() {
             ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)
             instance.setWallpaper()
         }
+
+        FirebaseClass.updateCarBrand(selectedLogo?.brandName!!.lowercase())
 
         finish()
     }

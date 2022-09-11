@@ -28,7 +28,7 @@ import java.util.*
 
 class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback {
     private lateinit var tripHandler: TripHandler
-    private var mapFragment: SupportMapFragment? = null
+    var mapFragment: SupportMapFragment? = null
 
     /** Location icon placed on the user location updated every time the user location changes; */
     private var userLocMarker: Marker? = null
@@ -58,7 +58,6 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
 
         musicWidget = parent!!.findViewById(R.id.home_1_music)
         timeTV = parent!!.findViewById(R.id.home_1_datetime)
-        tripTimeTV = parent!!.findViewById(R.id.home_1_trip_time)
         dayTV = parent!!.findViewById(R.id.home_1_day)
         speedometerTV = parent!!.findViewById(R.id.home_1_speed)
         addressTV = parent!!.findViewById(R.id.home_1_address)
@@ -69,6 +68,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         speedUmTV = parent!!.findViewById(R.id.home_1_speed_um)
         distUmTV = parent!!.findViewById(R.id.home_1_trav_dist_um)
         accelTV = parent!!.findViewById(R.id.home_1_acc)
+        tripTimeTV = parent!!.findViewById(R.id.home_1_trip_time)
 
         ctx.viewPages.add(parent!!)
 
@@ -98,6 +98,11 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                 }
             }
             true
+        }
+
+        tripTimeTV.setOnClickListener {
+            tripHandler.reset()
+            updateTripTime()
         }
     }
 
@@ -143,11 +148,12 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun updateTripTime(){
-        tripTimeTV.text = tripHandler.getElapsedTime()
+        tripTimeTV.text = tripHandler.elapsedTime
     }
     
-    private fun createMap(){
+    fun createMap(){
         mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment!!.onCreate(ctx.savedInstanceState)
         mapFragment!!.getMapAsync(this)
     }
 

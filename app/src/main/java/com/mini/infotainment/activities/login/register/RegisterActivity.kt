@@ -10,6 +10,8 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.login.ProfileActivity
 import com.mini.infotainment.activities.login.access.LoginActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
+import com.mini.infotainment.ads.AdHandler
+import com.mini.infotainment.ads.VideoInterstitial
 import com.mini.infotainment.databinding.ActivityRegisterBinding
 import com.mini.infotainment.utility.Utility
 
@@ -23,6 +25,8 @@ class RegisterActivity : ProfileActivity(){
     }
 
     private fun initializeLayout(){
+        AdHandler(this, VideoInterstitial::class.java).showAd()
+
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
         DataBindingUtil.setContentView<ActivityRegisterBinding>(
