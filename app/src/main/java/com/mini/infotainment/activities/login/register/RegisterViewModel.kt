@@ -3,7 +3,7 @@ package com.mini.infotainment.activities.login.register
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mini.infotainment.activities.login.ProfileActivity
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.activities.login.access.LoginViewModel
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
@@ -73,9 +73,7 @@ class RegisterViewModel : ViewModel(){
 
         val myCar = MyCar(plateNum, password)
 
-        ApplicationData.setTarga(plateNum)
-        ApplicationData.setCarPassword(password)
-        FirebaseClass.getCarObjectReference(plateNum).setValue(myCar)
+        LoginViewModel.doLogin(myCar)
 
         result.value = null
     }

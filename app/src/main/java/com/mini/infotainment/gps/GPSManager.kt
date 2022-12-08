@@ -10,7 +10,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.mini.infotainment.activities.stats.store.StatsData
-import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.SActivity.Companion.isInternetAvailable
@@ -46,7 +45,7 @@ class GPSManager(val ctx: AppCompatActivity) {
     }
 
     private fun onLocationUpdate(newLocation: Location?){
-        if(newLocation == null || !ctx.isInternetAvailable || ApplicationData.getTarga() == null)
+        if(newLocation == null || !ctx.isInternetAvailable)
             return
 
         if(currentUserLocation != null){

@@ -38,21 +38,21 @@ class CheckoutActivity : SActivity() {
 
         plans.add(Plan(
                 findViewById(R.id.checkout_plan_1),
-                1.50f,
+                2.toString(),
                1
             )
         )
 
         plans.add(Plan(
                 findViewById(R.id.checkout_plan_2),
-                6.99f,
+                7.toString(),
                 6
             )
         )
 
         plans.add(Plan(
                 findViewById(R.id.checkout_plan_3),
-                14.99f,
+                12.toString(),
                 12
             )
         )
@@ -60,7 +60,7 @@ class CheckoutActivity : SActivity() {
         plans[1].isSelected = true
     }
 
-    inner class Plan(val view: ViewGroup, val price: Float, val months: Int){
+    inner class Plan(val view: ViewGroup, val price: String, val months: Int){
         var payment: StripePayment = StripePayment().also { it.initializePaymentSheet(price) }
 
         var isSelected = false
@@ -88,7 +88,7 @@ class CheckoutActivity : SActivity() {
         private var paymentIntentClientSecret: String? = null
         private var customerConfiguration: PaymentSheet.CustomerConfiguration? = null
 
-        fun initializePaymentSheet(price: Float){
+        fun initializePaymentSheet(price: String){
             val endPoint = "http://snrservers.vpsgh.it:3000/payment-sheet/$price"
             paymentSheet = PaymentSheet(this@CheckoutActivity, ::onPaymentSheetResult)
 

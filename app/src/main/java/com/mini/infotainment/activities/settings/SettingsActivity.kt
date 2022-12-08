@@ -13,8 +13,10 @@ import androidx.core.app.ActivityCompat
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.activities.login.edit.EditProfileActivity
+import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
+import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
 
@@ -60,8 +62,13 @@ class SettingsActivity : SActivity() {
             .also {
                 it.visibility = if(isFirstLaunch) View.GONE else View.VISIBLE
                 it.setOnClickListener {
-                    Utility.navigateTo(this, EditProfileActivity::class.java)
-                    finish()
+                    if(ApplicationData.isLogged()){
+                        Utility.navigateTo(this, EditProfileActivity::class.java)
+                        finish()
+                    }else{
+                        Utility.navigateTo(this, RegisterActivity::class.java)
+                        finish()
+                    }
                 }
             }
 
@@ -118,6 +125,7 @@ class SettingsActivity : SActivity() {
             instance.setWallpaper()
         }
 
+        MyCar.instance.carbrand = selectedLogo?.brandName!!.lowercase()
         FirebaseClass.updateCarBrand(selectedLogo?.brandName!!.lowercase())
 
         finish()

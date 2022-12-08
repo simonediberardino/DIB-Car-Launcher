@@ -2,6 +2,7 @@ package com.mini.infotainment.activities.login.access
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.login.ProfileActivity
 import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.data.FirebaseClass
@@ -40,13 +41,22 @@ class LoginViewModel : ViewModel(){
     }
 
     companion object{
+
         fun doLogin(myCar: MyCar){
+            MyCar.instance.plateNum = myCar.plateNum
+            MyCar.instance.password = myCar.password
+
             ApplicationData.setCarPassword(myCar.password)
             ApplicationData.setTarga(myCar.plateNum)
+
+            FirebaseClass.getCarObjectReference(myCar.plateNum).setValue(MyCar.instance)
+
+            HomeActivity.instance.addFirebaseListeners()
         }
 
+
         fun doLogout(){
-            SActivity.gpsManager = null
+            HomeActivity.instance.removeFirebaseListeners()
             ApplicationData.setCarPassword(null)
             ApplicationData.setTarga(null)
         }

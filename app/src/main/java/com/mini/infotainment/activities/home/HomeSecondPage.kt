@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.UI.Page
+import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.activities.maps.MapsActivity
 import com.mini.infotainment.activities.stats.ActivityStats
 import com.mini.infotainment.data.ApplicationData
@@ -73,6 +74,11 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
+        if(!ApplicationData.isLogged()){
+            Utility.navigateTo(ctx, RegisterActivity::class.java)
+            return
+        }
+        
         if(!MyCar.instance.isPremium()){
             ctx.goToCheckout()
         }else CustomToast(ctx.getString(R.string.already_premium), ctx)
@@ -81,6 +87,11 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
     private fun goToStatsActivity(){
         if(!ctx.isInternetAvailable) {
             Errors.printError(Errors.ErrorCodes.INTERNET_NOT_AVAILABLE, ctx)
+            return
+        }
+
+        if(!ApplicationData.isLogged()){
+            Utility.navigateTo(ctx, RegisterActivity::class.java)
             return
         }
 
@@ -98,6 +109,11 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
+        if(!ApplicationData.isLogged()){
+            Utility.navigateTo(ctx, RegisterActivity::class.java)
+            return
+        }
+
         ctx.premiumFeature {
             Utility.navigateTo(ctx, MapsActivity::class.java)
         }
@@ -109,28 +125,35 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        val qrCodeBitmap = Utility.generateQrCode(
-            Utility.objectToJsonString(
-                QrcodeData(
-                    HomeActivity.server?.serverIPV4 ?: return,
-                    ApplicationData.getTarga()!!
-                )
-            ),
-            ctx
-        )
+        if(!ApplicationData.isLogged()){
+            Utility.navigateTo(ctx, RegisterActivity::class.java)
+            return
+        }
 
-        val dialog = Dialog(ctx)
-        dialog.setContentView(R.layout.dialog_qrcode)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        ctx.premiumFeature{
+            val qrCodeBitmap = Utility.generateQrCode(
+                Utility.objectToJsonString(
+                    QrcodeData(
+                        HomeActivity.server?.serverIPV4 ?: return@premiumFeature,
+                        ApplicationData.getTarga()!!
+                    )
+                ),
+                ctx
+            )
 
-        val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
-        val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
+            val dialog = Dialog(ctx)
+            dialog.setContentView(R.layout.dialog_qrcode)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        qrCodeIW.setImageBitmap(qrCodeBitmap)
-        closeBtn.setOnClickListener { dialog.dismiss() }
+            val closeBtn = dialog.findViewById<View>(R.id.qrcode_close)
+            val qrCodeIW = dialog.findViewById<ImageView>(R.id.qrcode_qrcode)
 
-        Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
+            qrCodeIW.setImageBitmap(qrCodeBitmap)
+            closeBtn.setOnClickListener { dialog.dismiss() }
 
-        dialog.show()
+            Utility.ridimensionamento(ctx, dialog.findViewById(R.id.parent))
+
+            dialog.show()
+        }
     }
 }

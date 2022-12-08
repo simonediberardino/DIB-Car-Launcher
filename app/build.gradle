@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId "com.mini.infotainment"
         minSdk 27
-        targetSdk 30
-        versionCode 161
-        versionName "1.6"
+        targetSdk 31
+        versionCode 163
+        versionName "1.8"
 
     }
 

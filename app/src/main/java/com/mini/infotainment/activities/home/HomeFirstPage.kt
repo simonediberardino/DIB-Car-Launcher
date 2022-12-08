@@ -152,6 +152,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
     
     fun createMap(){
+        mapFragment?.onDetach()
         mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.onCreate(ctx.savedInstanceState)
         mapFragment!!.getMapAsync(this)

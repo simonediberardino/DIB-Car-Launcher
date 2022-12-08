@@ -66,57 +66,57 @@ object FirebaseClass{
         val daysInMs: Long = (1000 * 60 * 60 * 24) * days * 30
         val nextDeadline = currMs + daysInMs
 
-        getPremiumDateReference().setValue(nextDeadline).addOnCompleteListener {
+        getPremiumDateReference()?.setValue(nextDeadline)?.addOnCompleteListener {
             callback.run()
         }
     }
 
     fun updateCarLocation(location: Location){
-        getCarLocationReference().setValue(location)
+        getCarLocationReference()?.setValue(location)
     }
 
     fun updateCarBrand(brand: String){
-        getCarBrandReference().setValue(brand)
+        getCarBrandReference()?.setValue(brand)
     }
 
     fun updateStartTime(time: Long){
-        getStartReference().setValue(time)
+        getStartReference()?.setValue(time)
     }
 
     fun updateLiveTime(time: Long){
-        getTimeReference().setValue(time)
+        getTimeReference()?.setValue(time)
     }
 
     fun updateServerIp(ip: String){
-        getServerIpReference().setValue(ip)
+        getServerIpReference()?.setValue(ip)
     }
 
-    fun getCarLocationReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(LOCATION_REF)
+    fun getCarLocationReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(LOCATION_REF)
     }
 
-    fun getCarBrandReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(CAR_BRAND_REF)
+    fun getCarBrandReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(CAR_BRAND_REF)
     }
 
-    fun getTimeReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(TIME_REF)
+    fun getTimeReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(TIME_REF)
     }
 
-    fun getStartReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(START_REF)
+    fun getStartReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(START_REF)
     }
 
-    fun getServerIpReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(SERVER_IP_REF)
+    fun getServerIpReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(SERVER_IP_REF)
     }
 
-    fun getPasswordReference(): DatabaseReference {
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(PASSWORD_REF)
+    fun getPasswordReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(PASSWORD_REF)
     }
 
-    fun getPremiumDateReference(): DatabaseReference{
-        return getCarObjectReference(ApplicationData.getTarga()!!).child(PREMIUM_DATE_REF)
+    fun getPremiumDateReference(): DatabaseReference? {
+        return getCarObjectReference(ApplicationData.getTarga() ?: return null).child(PREMIUM_DATE_REF)
     }
 
     fun getCarObjectReference(plateNum: String): DatabaseReference {

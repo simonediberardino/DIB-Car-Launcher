@@ -15,7 +15,7 @@ class SideMenu(override val ctx: HomeActivity) : Page() {
         val buttons = arrayOf(
             SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo)) { ctx.runSpotify() },
             SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
-            SideMenuButton(ctx.getDrawable(R.drawable.more_logo)){
+            SideMenuButton(ctx.getDrawable(R.drawable.logo_settings)){
                 Utility.navigateTo(ctx, SettingsActivity::class.java)
             }
         )

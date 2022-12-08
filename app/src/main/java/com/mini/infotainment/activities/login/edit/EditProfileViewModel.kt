@@ -89,7 +89,7 @@ class EditProfileViewModel : ViewModel() {
 
                 if(isPwCorrect){
                     ApplicationData.setCarPassword(cripNewPass)
-                    FirebaseClass.getPasswordReference().setValue(cripNewPass).addOnCompleteListener {
+                    FirebaseClass.getPasswordReference()?.setValue(cripNewPass)?.addOnCompleteListener {
                         result.value = null
                     }
                 }else result.value = ProfileActivity.ErrorCodes.INVALID_DETAILS

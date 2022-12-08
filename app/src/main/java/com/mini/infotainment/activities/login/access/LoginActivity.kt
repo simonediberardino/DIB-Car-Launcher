@@ -1,6 +1,5 @@
 package com.mini.infotainment.activities.login.access
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -8,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.login.ProfileActivity
 import com.mini.infotainment.activities.login.register.RegisterActivity
-import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.databinding.ActivityLoginBinding
 import com.mini.infotainment.utility.Utility
 
@@ -36,10 +34,7 @@ class LoginActivity : ProfileActivity(){
         viewModel.result.observe(this) {
             when (it) {
                 null -> {
-                    val intent = Intent(this, SettingsActivity::class.java)
-                    intent.putExtra("isFirstLaunch", true)
-                    startActivity(intent)
-
+                    Utility.toast(this, this.getString(R.string.logged))
                     finish()
                 }
                 else -> showError(it)

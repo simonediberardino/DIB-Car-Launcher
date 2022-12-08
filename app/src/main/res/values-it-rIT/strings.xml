@@ -82,7 +82,7 @@
     <string name="connect_internet">Connessione a internet assente</string>
     <string name="message_sent">Messaggio inviato</string>
     <string name="listening">In ascolto…</string>
-    <string name="targa">Targa</string>
+    <string name="targa">Nome utente</string>
     <string name="errore_input">Dettagli forniti non validi</string>
     <string name="consumi">Consumi (l/100km)</string>
     <string name="start_spotify_on_boot">Esegui Spotify al lancio</string>
@@ -102,7 +102,7 @@
     <string name="not_registered_yet_question">Non sei registrato?</string>
     <string name="already_registered_question">Sei già registrato?</string>
     <string name="error_password_short">La password deve essere lunga almeno 4 caratteri.</string>
-    <string name="error_plate_short">La targa deve essere lunga almeno 6 caratteri.</string>
+    <string name="error_plate_short">Il nome utente deve essere lunga almeno 6 caratteri.</string>
     <string name="error_car_registered">Questa auto è già registrata.</string>
     <string name="error_password_dont_match">Le password non corrispondono.</string>
     <string name="error_invalid_details">Credenziali non valide, riprova.</string>
@@ -110,7 +110,7 @@
     <string name="no_ads_available">Nessun annuncio disponibile.</string>
     <string name="upgrade_to_premium">Passa a premium!</string>
     <string name="premium_confirm">Passa a premium ora</string>
-    <string name="premium_desc_1">Passa a premium ora, a soli 1.99€ al mese!</string>
+    <string name="premium_desc_1">Passa a premium ora, a soli 2€ al mese!</string>
     <string name="premium_desc_2"> <b>Cosa riceverai?</b>\n• Nessuna pubblicità\n• Possibilità di visualizzare e rispondere alle notifiche del tuo smartphone\n• Accesso alla posizione in tempo reale della tua auto nella companion app\n• Accesso alle statistiche in tempo reale della tua auto\n• Accesso alle mappe 3D\n• E molte altre nuove funzionalità in arrivo!</string>
     <string name="premium_success">Hai sbloccato con successo le funzionalità premium per {n_months} mese/i!</string>
     <string name="payment_not_ready">L\'instanza di pagamento non è ancora pronta, riprova tra un paio di secondi.</string>
@@ -122,7 +122,7 @@
     <string name="premium_no_ads">Gli utenti premium non visualizzano gli annunci.</string>
     <string name="premium_expired">Il tuo account premium è scaduto, rinnovalo ora se non vuoi perdere le funzionalità premium!</string>
     <string name="music_no_data_why">Se stai ascoltando Spotify, assicurati che \'Stato trasmissione\' sia abilitato in Spotify!</string>
-    <string name="edit_plate_num">Modifica targa</string>
+    <string name="edit_plate_num">Modifica nome utente</string>
     <string name="edit_password">Cambia password</string>
     <string name="edit_car_info">Modifica profilo</string>
     <string name="current_password">Password attuale</string>
@@ -136,5 +136,12 @@
     <string name="quick_reply_3">Sono qua.</string>
     <string name="quick_reply_4">A dopo.</string>
     <string name="default_audio">Audio di sistema</string>
+    <string name="profile">Il mio profilo</string>
+    <string name="disconnect">Disconnettiti</string>
+    <string name="disconnected">Disconnesso con successo!</string>
+    <string name="logged">Accesso effettuato con successo!</string>
+    <string name="registered">Registrato con successo!</string>
+    <string name="data_safety_policy"><u>Politica della sicurezza dei dati di DIB Car Launcher</u></string>
+    <string name="disconnected_pw_changed">Disconnesso dall\'account: Credenziali errate.</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

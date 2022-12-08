@@ -23,7 +23,6 @@ import com.mini.infotainment.UI.PagerAdapter
 import com.mini.infotainment.UI.SwipeHandler
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.access.LoginViewModel
-import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.activities.misc.FakeLauncherActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.ads.AdHandler
@@ -49,6 +48,8 @@ class HomeActivity : SActivity() {
     internal lateinit var sideMenu: SideMenu
     lateinit var homePage1: HomeFirstPage
     lateinit var homePage2: HomeSecondPage
+    private var premiumAccountEventListener: ValueEventListener? = null
+    private var passWordEventListener: ValueEventListener? = null
     var appsMenu: AppsMenu? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
@@ -58,11 +59,11 @@ class HomeActivity : SActivity() {
         super.onCreate(savedInstanceState)
         this.initializeExceptionHandler()
 
-        if(!hasLoginData()) {
+        /*if(!hasLoginData()) {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             return
-        }
+        }*/
 
         if(!areSettingsSet()){
             val intent = Intent(this, SettingsActivity::class.java)
@@ -80,10 +81,25 @@ class HomeActivity : SActivity() {
         this.setupOnConnectivityChange()
         this.setupGPS()
         this.initializeCarObject()
-        this.onPremiumAccountListener()
-        this.onPasswordChangedListener()
+        this.addFirebaseListeners()
         this.initializeAdsHandler()
         this.requestDefaultLauncher()
+        this.updateSettings()
+    }
+
+    fun addFirebaseListeners(){
+        this.removeFirebaseListeners()
+        this.onPremiumAccountListener()
+        this.onPasswordChangedListener()
+    }
+
+    fun removeFirebaseListeners(){
+        premiumAccountEventListener?.let {
+            FirebaseClass.getPremiumDateReference()?.removeEventListener(
+                it
+            )
+        }
+        passWordEventListener?.let { FirebaseClass.getPasswordReference()?.removeEventListener(it) }
     }
 
     private fun requestDefaultLauncher() {
@@ -110,7 +126,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun initializeCarObject(){
-        MyCar.instance = MyCar(ApplicationData.getTarga()!!)
+        MyCar.instance = MyCar()
     }
 
     private fun initializeAdsHandler(){
@@ -180,26 +196,32 @@ class HomeActivity : SActivity() {
     }
 
     private fun onPasswordChangedListener(){
-        FirebaseClass.getPasswordReference().addValueEventListener(object: ValueEventListener{
+        if(!ApplicationData.isLogged())
+            return
+
+        passWordEventListener = object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dbPass = snapshot.value as String? ?: return
-                println("Password changed! $dbPass ${ApplicationData.getCarPassword()}")
 
                 if(ApplicationData.getCarPassword() != dbPass){
                     LoginViewModel.doLogout()
-                    startActivity(Intent(this@HomeActivity, HomeActivity::class.java))
-                    finish()
+                    Utility.toast(this@HomeActivity, this@HomeActivity.getString(R.string.disconnected_pw_changed))
 
                     return
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {}
-        })
+        }
+
+        FirebaseClass.getPasswordReference()?.addValueEventListener(passWordEventListener!!)
     }
 
     private fun onPremiumAccountListener(){
-        FirebaseClass.getPremiumDateReference().addValueEventListener(object : ValueEventListener{
+        if(!ApplicationData.isLogged())
+            return
+
+        premiumAccountEventListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 MyCar.instance.premiumDate = snapshot.value as Long? ?: return
                 if(MyCar.instance.premiumDate != 0L && !MyCar.instance.isPremium()){
@@ -208,7 +230,9 @@ class HomeActivity : SActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {}
-        })
+        }
+
+        FirebaseClass.getPremiumDateReference()?.addValueEventListener(premiumAccountEventListener!!)
     }
 
     private fun premiumExpired(){
@@ -268,6 +292,11 @@ class HomeActivity : SActivity() {
                 }
             }
         )
+    }
+
+    private fun updateSettings(){
+        MyCar.instance.carbrand = ApplicationData.getBrandName().toString()
+        MyCar.instance.plateNum = ApplicationData.getTarga().toString()
     }
 
     internal fun premiumFeature(callback: Runnable){
@@ -348,8 +377,9 @@ class HomeActivity : SActivity() {
             addGpsCallback()
         }
 
-        if(this::homePage1.isInitialized && homePage1.mapFragment?.isAdded != true){
-            homePage1.createMap()
+        if(this::homePage1.isInitialized){
+            if(homePage1.mapFragment?.isVisible != true)
+                homePage1.createMap()
         }
     }
 

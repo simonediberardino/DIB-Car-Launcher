@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.mini.infotainment.support.SActivity
 
 object ApplicationData {
+    const val POLICY_URL = "https://play.google.com/store/apps/datasafety?id=com.mini.infotainment&hl=it&gl=US"
     const val DATA_ID = "data"
     private const val TARGA_ID = "TARGA_ID"
     private val TARGA_DEFAULT = null
@@ -73,5 +74,9 @@ object ApplicationData {
         val dataEditor = applicationData.edit()
         dataEditor.putString(PASSWORD_ID, password.toString())
         dataEditor.apply()
+    }
+
+    fun isLogged(): Boolean {
+        return !(getTarga() == null || getTarga().equals("null", ignoreCase = true))
     }
 }

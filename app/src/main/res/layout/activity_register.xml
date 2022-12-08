@@ -28,6 +28,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8px" />
 
+        <TextView
+            android:id="@+id/register_data_safety"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/data_safety_policy"
+            android:textColor="@color/darkblue"
+            android:textSize="@dimen/h7"
+            android:onClick="showPolicy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_confirm_button" />
+
         <ScrollView
             android:id="@+id/scrollView4"
             android:layout_width="match_parent"
@@ -130,10 +143,10 @@
             android:id="@+id/register_confirm_button"
             android:layout_width="400px"
             android:layout_height="65px"
-            android:layout_marginBottom="32px"
+            android:layout_marginBottom="64dp"
+            android:onClick="@{() -> viewmodel.handleData()}"
             app:cardCornerRadius="25px"
             app:cardElevation="10px"
-            android:onClick="@{() -> viewmodel.handleData()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

@@ -175,6 +175,34 @@
 
                 </LinearLayout>
 
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/edit_disconnect"
+                    android:layout_width="300px"
+                    android:layout_height="60px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="48px"
+                    app:cardCornerRadius="15px"
+                    app:cardElevation="10px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/blue_background_gradient"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/disconnect"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/h5" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
         </ScrollView>
 
