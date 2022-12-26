@@ -65,6 +65,8 @@ class HomeActivity : SActivity() {
             return
         }*/
 
+        this.initializeCarObject()
+
         if(!areSettingsSet()){
             val intent = Intent(this, SettingsActivity::class.java)
             intent.putExtra("isFirstLaunch", true)
@@ -80,7 +82,6 @@ class HomeActivity : SActivity() {
         this.initializeBroadcastReceiver()
         this.setupOnConnectivityChange()
         this.setupGPS()
-        this.initializeCarObject()
         this.addFirebaseListeners()
         this.initializeAdsHandler()
         this.requestDefaultLauncher()

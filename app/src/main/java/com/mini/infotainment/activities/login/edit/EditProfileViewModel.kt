@@ -61,7 +61,7 @@ class EditProfileViewModel : ViewModel() {
                 FirebaseClass.getCarObject(ApplicationData.getTarga()!!, object: RunnablePar {
                     override fun run(p: Any?) {
                         val currCar = p as MyCar? ?: return
-                        currCar.plateNum = plateNumValue
+                        currCar.plateNum = plateNumValue.uppercase()
 
                         FirebaseClass.deleteField(ApplicationData.getTarga()!!){
                             ApplicationData.setTarga(currCar.plateNum)

@@ -34,8 +34,13 @@ class LoginViewModel : ViewModel(){
                     return
                 }
 
-                doLogin(MyCar(plateNum, password))
-                result.value = null
+                FirebaseClass.getCarObject(plateNum, object : RunnablePar{
+                    override fun run(p: Any?) {
+                        val myCar = p as MyCar?
+                        result.value = if(myCar == null) ProfileActivity.ErrorCodes.NO_INTERNET else null
+                        doLogin(myCar ?: return)
+                    }
+                })
             }
         })
     }
@@ -43,11 +48,12 @@ class LoginViewModel : ViewModel(){
     companion object{
 
         fun doLogin(myCar: MyCar){
-            MyCar.instance.plateNum = myCar.plateNum
+            MyCar.instance.plateNum = myCar.plateNum.uppercase()
             MyCar.instance.password = myCar.password
+            MyCar.instance.premiumDate = myCar.premiumDate
 
             ApplicationData.setCarPassword(myCar.password)
-            ApplicationData.setTarga(myCar.plateNum)
+            ApplicationData.setTarga(myCar.plateNum.uppercase())
 
             FirebaseClass.getCarObjectReference(myCar.plateNum).setValue(MyCar.instance)
 

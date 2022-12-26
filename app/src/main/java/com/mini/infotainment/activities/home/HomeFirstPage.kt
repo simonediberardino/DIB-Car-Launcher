@@ -114,8 +114,8 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun updateAccel(){
-        val accel = if(gpsManager != null) gpsManager?.currentAcceleration else 0f
-        accelTV.text = accel.toString()
+        /*val accel = if(gpsManager != null) gpsManager?.currentAcceleration else 0f
+        accelTV.text = accel.toString()*/
     }
 
     private fun updateSpeed(){

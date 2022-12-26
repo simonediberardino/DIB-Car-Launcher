@@ -124,7 +124,7 @@ object FirebaseClass{
     }
 
     fun getCarObject(plateNum: String, runnablePar: RunnablePar){
-        getCarObjectReference(plateNum).addListenerForSingleValueEvent(object: ValueEventListener{
+        getCarObjectReference(plateNum.uppercase()).addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 runnablePar.run(snapshot.getValue(MyCar::class.java))
             }
@@ -136,7 +136,7 @@ object FirebaseClass{
     }
 
     fun addCarObject(car: MyCar, callback: Runnable = Runnable {}){
-        getCarObjectReference(car.plateNum).setValue(car).addOnCompleteListener { callback.run() }
+        getCarObjectReference(car.plateNum.uppercase()).setValue(car).addOnCompleteListener { callback.run() }
     }
 
     fun deleteField(referString: String, callback: Runnable = Runnable {}){
