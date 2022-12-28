@@ -272,7 +272,7 @@
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
                     android:text="0"
-                    android:textSize="@dimen/h0"
+                    android:textSize="@dimen/h1"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toStartOf="@+id/cardView"
                     app:layout_constraintHorizontal_bias="0.708"
@@ -291,7 +291,7 @@
                     android:shadowDy="0.0"
                     android:shadowRadius="8"
                     android:text="km/h"
-                    android:textSize="@dimen/h8"
+                    android:textSize="@dimen/h9"
                     app:layout_constraintBottom_toBottomOf="@+id/home_1_speed"
                     app:layout_constraintStart_toEndOf="@+id/home_1_speed" />
             </LinearLayout>

@@ -298,6 +298,7 @@ class HomeActivity : SActivity() {
     private fun updateSettings(){
         MyCar.instance.carbrand = ApplicationData.getBrandName().toString()
         MyCar.instance.plateNum = ApplicationData.getTarga().toString()
+        FirebaseClass.updateCarBrand(MyCar.instance.carbrand)
     }
 
     internal fun premiumFeature(callback: Runnable){
