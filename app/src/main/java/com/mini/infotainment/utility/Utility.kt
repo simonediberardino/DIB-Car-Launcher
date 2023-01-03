@@ -41,6 +41,17 @@ import kotlin.math.roundToInt
 import android.R as R1
 
 object Utility {
+    fun String.alphaNumeric(): String {
+        val validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        val result = StringBuilder()
+
+        for(c in this)
+            if(validChars.contains(c.uppercase()))
+                result.append(c)
+
+        return result.toString()
+    }
+
     fun millisToHoursFormatted(milliseconds: Long): String {
         val seconds = (milliseconds / 1000).toInt() % 60
         val minutes = (milliseconds / (1000 * 60) % 60).toInt()

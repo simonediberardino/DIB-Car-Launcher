@@ -350,6 +350,9 @@ class HomeActivity : SActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        if(grantResults.isEmpty())
+            return
+
         when(requestCode){
             GEOLOCATION_PERMISSION_CODE -> {
                 if(grantResults[0] == PackageManager.PERMISSION_DENIED) {
@@ -391,7 +394,7 @@ class HomeActivity : SActivity() {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        lateinit var instance: HomeActivity
+        var instance: HomeActivity? = null
         internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
         const val REQUEST_CODE_SPEECH_INPUT = 10
@@ -400,8 +403,8 @@ class HomeActivity : SActivity() {
             val artistName = intent.getStringExtra("artist")
             val trackName = intent.getStringExtra("track")
 
-            instance.homePage1.musicTitleTV.text = trackName
-            instance.homePage1.musicAuthorTV.text = artistName
+            instance?.homePage1?.musicTitleTV?.text = trackName
+            instance?.homePage1?.musicAuthorTV?.text = artistName
         }
     }
 }

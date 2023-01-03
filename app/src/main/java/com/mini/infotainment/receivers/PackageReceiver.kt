@@ -8,6 +8,6 @@ import com.mini.infotainment.activities.home.HomeActivity
 class PackageReceiver : BroadcastReceiver(){
     override fun onReceive(p0: Context?, p1: Intent?) {
         // Regenerates the list of the apps, needs to be changed in the future;
-        HomeActivity.instance.appsMenu?.build()
+        HomeActivity.instance?.appsMenu?.build()
     }
 }

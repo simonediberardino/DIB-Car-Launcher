@@ -10,6 +10,7 @@ import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.support.SActivity.Companion.isInternetAvailable
 import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.utility.Utility.alphaNumeric
 
 class RegisterViewModel : ViewModel(){
     var plateNum: MutableLiveData<String> = MutableLiveData()
@@ -31,7 +32,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     private fun checkIfExists(runnable: Runnable){
-        val plateNum = plateNum.value.toString().replace(" ", "").uppercase().trim()
+        val plateNum = plateNum.value.toString().uppercase().alphaNumeric()
 
         FirebaseClass.doesCarExist(plateNum,
             object: RunnablePar {
@@ -45,7 +46,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     private fun validateDetails(runnable: Runnable){
-        val plateNum = plateNum.value.toString().replace(" ", "").uppercase().trim()
+        val plateNum = plateNum.value.toString().uppercase().alphaNumeric()
         val psw1 = pass.value.toString().trim()
         val psw2 = passConfirm.value.toString().trim()
 

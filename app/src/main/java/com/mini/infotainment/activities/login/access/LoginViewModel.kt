@@ -57,12 +57,12 @@ class LoginViewModel : ViewModel(){
 
             FirebaseClass.getCarObjectReference(myCar.plateNum).setValue(MyCar.instance)
 
-            HomeActivity.instance.addFirebaseListeners()
+            HomeActivity.instance?.addFirebaseListeners()
         }
 
 
         fun doLogout(){
-            HomeActivity.instance.removeFirebaseListeners()
+            HomeActivity.instance?.removeFirebaseListeners()
             ApplicationData.setCarPassword(null)
             ApplicationData.setTarga(null)
         }

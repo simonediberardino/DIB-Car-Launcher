@@ -43,7 +43,7 @@ class SettingsActivity : SActivity() {
                 logo.view.setBackgroundColor(
                     if(logo != selectedLogo)
                         Color.TRANSPARENT
-                    else instance.getColor(R.color.darkblue)
+                    else getColor(R.color.darkblue)
                 )
         }
 
@@ -94,12 +94,12 @@ class SettingsActivity : SActivity() {
 
     private fun inflateLogo(brandName: String){
         val gallery = findViewById<ViewGroup>(R.id.ll_logos)
-        val inflater = LayoutInflater.from(instance)
+        val inflater = LayoutInflater.from(this)
 
-        val logoId: Int = instance.resources.getIdentifier("logo_${brandName}", "drawable", instance.packageName)
+        val logoId: Int = resources.getIdentifier("logo_${brandName}", "drawable", packageName)
         val view: View = inflater.inflate(R.layout.single_logo, gallery, false)
 
-        val logoDrawable: Drawable = instance.getDrawable(logoId) ?: return
+        val logoDrawable: Drawable = getDrawable(logoId) ?: return
         val logoNameTW = view.findViewById<TextView>(R.id.car_brand)
         val logoIW = view.findViewById<ImageView>(R.id.car_logo)
 
@@ -122,7 +122,7 @@ class SettingsActivity : SActivity() {
 
         if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
             ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)
-            instance.setWallpaper()
+            instance?.setWallpaper()
         }
 
         MyCar.instance.carbrand = selectedLogo?.brandName!!.lowercase()
@@ -142,9 +142,9 @@ class SettingsActivity : SActivity() {
 
     override fun finish() {
         if(isFirstLaunch)
-            instance.initializeActivity()
+            instance?.initializeActivity()
 
-        instance.homePage1.updateData()
+        instance?.homePage1?.updateData()
 
         super.finish()
     }
