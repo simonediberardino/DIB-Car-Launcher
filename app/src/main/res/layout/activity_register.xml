@@ -70,6 +70,7 @@
 
                     <EditText
                         android:id="@+id/register_targa"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                         android:layout_width="600px"
                         android:layout_height="60px"
                         android:background="#11000000"

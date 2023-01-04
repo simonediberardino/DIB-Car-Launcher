@@ -3,6 +3,7 @@ package com.mini.infotainment.UI
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.mini.infotainment.support.SActivity.Companion.screenSize
+import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
@@ -14,13 +15,18 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
         downX = motionEvent.x
     }
 
+    fun wasStraight(event: MotionEvent): Boolean{
+        return abs(downX - event.x) < activity.screenSize[0]/20
+    }
+
     fun wasSwipeDown(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 this.downY = event.y
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y + activity.screenSize[1]/4 < 0
+            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP ->
+                downY - event.y + activity.screenSize[1]/4 < 0 && wasStraight(event)
             else -> false
         }
     }
@@ -28,10 +34,14 @@ class SwipeHandler(motionEvent: MotionEvent, val activity: AppCompatActivity) {
     fun wasSwipeUp(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                this.downX = event.x
                 this.downY = event.y
                 false
             }
-            MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> downY - event.y - activity.screenSize[1]/4 > 0
+            MotionEvent.ACTION_MOVE,
+            MotionEvent.ACTION_UP ->
+                downY - event.y - activity.screenSize[1]/4 > 0 && wasStraight(event)
+
             else -> false
         }
     }

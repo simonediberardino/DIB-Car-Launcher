@@ -73,6 +73,7 @@
 
                     <EditText
                         android:id="@+id/edit_plate_et"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                         android:layout_width="600px"
                         android:layout_height="60px"
                         android:layout_marginTop="16px"
