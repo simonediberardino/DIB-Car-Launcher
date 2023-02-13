@@ -1,11 +1,19 @@
 package com.mini.infotainment.activities.home
 
 import android.annotation.SuppressLint
-import android.view.MotionEvent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.media.AudioManager
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -45,9 +53,15 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private lateinit var musicWidget: View
     private lateinit var carIcon: ImageView
     private lateinit var travDist: TextView
+    private lateinit var audioBar: SeekBar
+    private lateinit var previousSongBtn: TextView
+    private lateinit var nextSongBtn: TextView
+    private lateinit var pauseSongBtn: TextView
     internal lateinit var musicAuthorTV: TextView
     internal lateinit var musicTitleTV: TextView
     internal lateinit var addressTV: TextView
+    private var audioBarEnabled = false
+
     @SuppressLint("ClickableViewAccessibility")
     
     override fun build() {
@@ -69,6 +83,10 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         distUmTV = parent!!.findViewById(R.id.home_1_trav_dist_um)
         accelTV = parent!!.findViewById(R.id.home_1_acc)
         tripTimeTV = parent!!.findViewById(R.id.home_1_trip_time)
+        audioBar = parent!!.findViewById(R.id.music_audiobar)
+        nextSongBtn = parent!!.findViewById(R.id.music_next)
+        previousSongBtn = parent!!.findViewById(R.id.music_previous)
+        pauseSongBtn = parent!!.findViewById(R.id.music_pause)
 
         ctx.viewPages.add(parent!!)
 
@@ -76,13 +94,14 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         setListeners()
         setupTimer()
         updateData()
+        registerVolumeChangedReceiver()
 
         super.pageLoaded()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
-        musicWidget.setOnTouchListener { v, e ->
+        /*musicWidget.setOnTouchListener { v, e ->
             when(e.action){
                 MotionEvent.ACTION_UP -> {
                     val isLeft = v.width/3 > e.x
@@ -98,12 +117,45 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
                 }
             }
             true
+        }*/
+
+        nextSongBtn.setOnClickListener {
+            MusicIntegration.nextTrack(ctx)
+        }
+
+        previousSongBtn.setOnClickListener {
+            MusicIntegration.previousTrack(ctx)
+        }
+
+        pauseSongBtn.setOnClickListener {
+            MusicIntegration.togglePlayState(ctx)
         }
 
         tripTimeTV.setOnClickListener {
             tripHandler.reset()
             updateTripTime()
         }
+
+        audioBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                audioBarEnabled = false
+
+                val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
+                val maxVolume = am?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: return
+                val newVolume = (audioBar.progress.toFloat() / 100f) * maxVolume
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume.toInt(), 0)
+
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    audioBarEnabled = true
+                }, 1000)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+
+        })
     }
 
     fun updateData(){
@@ -111,6 +163,37 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         updateTravDist()
         updateSpeed()
         updateTripTime()
+    }
+
+    private fun registerVolumeChangedReceiver(){
+        updateVolume()
+
+        val intent = IntentFilter()
+        intent.addAction("android.media.VOLUME_CHANGED_ACTION")
+        val receiver = object: BroadcastReceiver(){
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                updateVolume()
+            }
+        }
+
+        ctx.registerReceiver(receiver, intent)
+    }
+
+    fun updateVolume(){
+        val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
+        val volumeLevel = am?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: return
+
+        updateVolume(volumeLevel)
+    }
+
+    fun updateVolume(volume: Int){
+        if(audioBar.isPressed) return
+
+        val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
+        val maxVolume = am?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: return
+        val progress = (volume.toFloat() / maxVolume.toFloat()) * 100
+
+        audioBar.setProgress(progress.toInt(), true)
     }
 
     private fun updateAccel(){
@@ -130,7 +213,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
 
     private fun updateLogoImageView(){
-        carIcon.setImageDrawable(Utility.getBrandDrawable(ctx) ?: return)
+        val brandDrawable = Utility.getBrandDrawable(ctx)
+        carIcon.visibility = if(brandDrawable == null) View.INVISIBLE else View.VISIBLE
+        carIcon.setImageDrawable(brandDrawable)
     }
 
     private fun setupTimer(){

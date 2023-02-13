@@ -79,7 +79,7 @@ class HomeActivity : SActivity() {
 
     internal fun initializeActivity(){
         this.initializeLayout()
-        this.initializeBroadcastReceiver()
+        this.initializeSpotifyBroadcastReceiver()
         this.setupOnConnectivityChange()
         this.setupGPS()
         this.addFirebaseListeners()
@@ -184,7 +184,7 @@ class HomeActivity : SActivity() {
         ), intentFilter)
     }
 
-    private fun initializeBroadcastReceiver(){
+    private fun initializeSpotifyBroadcastReceiver(){
         val intent1 = IntentFilter()
         intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.playbackstatechanged")
         intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.metadatachanged")

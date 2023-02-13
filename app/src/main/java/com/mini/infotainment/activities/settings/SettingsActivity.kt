@@ -25,7 +25,7 @@ class SettingsActivity : SActivity() {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
+        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen", "none")
     }
 
     private lateinit var uMeasureSpinner: Spinner
