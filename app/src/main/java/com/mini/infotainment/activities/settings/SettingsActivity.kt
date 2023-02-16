@@ -28,6 +28,7 @@ class SettingsActivity : SActivity() {
         private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen", "none")
     }
 
+    private lateinit var smartphoneNotiSwitch: CheckBox
     private lateinit var uMeasureSpinner: Spinner
     private lateinit var settingsDefaultWPCB: CheckBox
     private lateinit var confirmButton: View
@@ -58,6 +59,9 @@ class SettingsActivity : SActivity() {
         this.setContentView(R.layout.activity_settings)
 
         confirmButton = findViewById(R.id.settings_confirm_button)
+        smartphoneNotiSwitch = findViewById(R.id.settings_noti_on)
+        smartphoneNotiSwitch.isChecked = ApplicationData.isNotificationStatusEnabled()
+
         editAccountButton = findViewById<View?>(R.id.settings_edit_account)
             .also {
                 it.visibility = if(isFirstLaunch) View.GONE else View.VISIBLE
@@ -75,7 +79,10 @@ class SettingsActivity : SActivity() {
         llLogos = findViewById(R.id.ll_logos)
         settingsDefaultWPCB = findViewById(R.id.settings_default_wp)
 
-        confirmButton.setOnClickListener { this.handleSettings() }
+        confirmButton.setOnClickListener {
+            finish()
+        }
+
         settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
 
         uMeasureSpinner = findViewById<Spinner?>(R.id.settings_um).also {
@@ -114,9 +121,12 @@ class SettingsActivity : SActivity() {
         gallery.addView(view)
     }
 
-    private fun handleSettings(){
-        Toast.makeText(this, getString(R.string.applying_data), Toast.LENGTH_LONG).show()
+    override fun onDestroy() {
+        handleSettings()
+        super.onDestroy()
+    }
 
+    private fun handleSettings(){
         ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
         ApplicationData.setUMeasure(uMeasureSpinner.selectedItemPosition)
 
@@ -125,10 +135,10 @@ class SettingsActivity : SActivity() {
             instance?.setWallpaper()
         }
 
+        ApplicationData.setNotificationStatus(smartphoneNotiSwitch.isChecked)
+
         MyCar.instance.carbrand = selectedLogo?.brandName!!.lowercase()
         FirebaseClass.updateCarBrand(selectedLogo?.brandName!!.lowercase())
-
-        finish()
     }
 
     private fun requestStoragePermission(){

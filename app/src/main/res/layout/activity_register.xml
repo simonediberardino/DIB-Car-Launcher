@@ -11,9 +11,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/parent">
+        android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
@@ -27,19 +28,6 @@
             android:textSize="@dimen/h2"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8px" />
-
-        <TextView
-            android:id="@+id/register_data_safety"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/data_safety_policy"
-            android:textColor="@color/darkblue"
-            android:textSize="@dimen/h7"
-            android:onClick="showPolicy"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_confirm_button" />
 
         <ScrollView
             android:id="@+id/scrollView4"
@@ -70,18 +58,18 @@
 
                     <EditText
                         android:id="@+id/register_targa"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                         android:layout_width="600px"
                         android:layout_height="60px"
                         android:background="#11000000"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                         android:drawableLeft="@drawable/ic_baseline_credit_card_24"
                         android:drawablePadding="8px"
                         android:ems="10"
                         android:focusedByDefault="false"
                         android:hint="@string/targa"
-                        android:text="@={viewmodel.plateNum}"
                         android:padding="8px"
                         android:password="false"
+                        android:text="@={viewmodel.plateNum}"
                         android:textColor="@color/silver"
                         android:textColorHint="@color/silver"
                         android:textSize="@dimen/h4" />
@@ -96,11 +84,11 @@
                         android:drawablePadding="8px"
                         android:ems="10"
                         android:focusedByDefault="false"
-                        android:text="@={viewmodel.pass}"
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:padding="8px"
                         android:password="false"
+                        android:text="@={viewmodel.pass}"
                         android:textColor="@color/silver"
                         android:textColorHint="@color/silver"
                         android:textSize="@dimen/h4" />
@@ -115,11 +103,11 @@
                         android:drawablePadding="8px"
                         android:ems="10"
                         android:focusedByDefault="false"
-                        android:text="@={viewmodel.passConfirm}"
                         android:hint="@string/confirm_password"
                         android:inputType="textPassword"
                         android:padding="8px"
                         android:password="false"
+                        android:text="@={viewmodel.passConfirm}"
                         android:textColor="@color/silver"
                         android:textColorHint="@color/silver"
                         android:textSize="@dimen/h4" />
@@ -139,6 +127,19 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <TextView
+            android:id="@+id/register_data_safety"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="showPolicy"
+            android:text="@string/data_safety_policy"
+            android:textColor="@color/darkblue"
+            android:textSize="@dimen/h7"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView4"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/register_confirm_button"

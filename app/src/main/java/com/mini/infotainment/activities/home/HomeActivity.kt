@@ -178,7 +178,6 @@ class HomeActivity : SActivity() {
                     // Restarts/Starts the socket when internet is available
                     if(p == true)
                         callback()
-                    else CustomToast(getString(R.string.connect_internet), this@HomeActivity)
                 }
             }
         ), intentFilter)
@@ -204,7 +203,7 @@ class HomeActivity : SActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dbPass = snapshot.value as String? ?: return
 
-                if(ApplicationData.getCarPassword() != dbPass){
+                if(ApplicationData.getUserPassword() != dbPass){
                     LoginViewModel.doLogout()
                     Utility.toast(this@HomeActivity, this@HomeActivity.getString(R.string.disconnected_pw_changed))
 
@@ -279,25 +278,30 @@ class HomeActivity : SActivity() {
     }
 
     private fun handleAddressReport() {
-        if(gpsManager?.shouldRefreshAddress() != true)
-            return
+        FirebaseClass.isPremiumCar(object: RunnablePar{
+            override fun run(p: Any?) {
+                if(gpsManager?.shouldRefreshAddress() != true || p != true)
+                    return
 
-        FirebaseClass.updateCarLocation(gpsManager?.currentUserLocation ?: return)
-        gpsManager?.lastAddressCheck = System.currentTimeMillis()
+                FirebaseClass.updateCarLocation(gpsManager?.currentUserLocation ?: return)
+                gpsManager?.lastAddressCheck = System.currentTimeMillis()
 
-        gpsManager?.getSimpleAddress(
-            gpsManager?.currentUserLocation ?: return,
-            object: RunnablePar{
-                override fun run(p: Any?) {
-                    homePage1.addressTV.text = if(p == null) String() else p as String
-                }
+                gpsManager?.getSimpleAddress(
+                    gpsManager?.currentUserLocation ?: return,
+                    object: RunnablePar{
+                        override fun run(p: Any?) {
+                            homePage1.addressTV.text = if(p == null) String() else p as String
+                        }
+                    }
+                )
             }
-        )
+        })
+
     }
 
     private fun updateSettings(){
         MyCar.instance.carbrand = ApplicationData.getBrandName().toString()
-        MyCar.instance.plateNum = ApplicationData.getTarga().toString()
+        MyCar.instance.plateNum = ApplicationData.getUserName().toString()
         FirebaseClass.updateCarBrand(MyCar.instance.carbrand)
     }
 
@@ -344,7 +348,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun hasLoginData(): Boolean {
-        return ApplicationData.getCarPassword().toString() != "null" && ApplicationData.getTarga().toString() != "null"
+        return ApplicationData.getUserPassword().toString() != "null" && ApplicationData.getUserName().toString() != "null"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

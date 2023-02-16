@@ -135,7 +135,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
                 Utility.objectToJsonString(
                     QrcodeData(
                         HomeActivity.server?.serverIPV4 ?: return@premiumFeature,
-                        ApplicationData.getTarga()!!
+                        ApplicationData.getUserName()!!
                     )
                 ),
                 ctx

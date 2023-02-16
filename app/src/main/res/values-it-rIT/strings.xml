@@ -141,6 +141,7 @@
     <string name="disconnected">Disconnesso con successo!</string>
     <string name="logged">Accesso effettuato con successo!</string>
     <string name="registered">Registrato con successo!</string>
+    <string name="setting_noti_toggle">Notifiche smartphone</string>
     <string name="data_safety_policy"><u>Politica della sicurezza dei dati di DIB Car Launcher</u></string>
     <string name="disconnected_pw_changed">Disconnesso dall\'account: Credenziali errate.</string>
     <string name="download_comp_app">Scarica l\'app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>

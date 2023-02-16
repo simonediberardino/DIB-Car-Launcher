@@ -7,8 +7,8 @@ import com.mini.infotainment.support.SActivity
 object ApplicationData {
     const val POLICY_URL = "https://play.google.com/store/apps/datasafety?id=com.mini.infotainment&hl=it&gl=US"
     const val DATA_ID = "data"
-    private const val TARGA_ID = "TARGA_ID"
-    private val TARGA_DEFAULT = null
+    private const val USERNAME_ID = "TARGA_ID"
+    private val USERNAME_DEFAULT = null
     private const val PASSWORD_ID = "PASSWORD_ID"
     private val PASSWORD_DEFAULT = null
     private const val BRAND_ID = "BRAND_ID"
@@ -17,6 +17,9 @@ object ApplicationData {
     private val WP_DEFAULT = true
     private const val U_MEASURE_ID = "U_MEASURE_ID"
     private val U_MEASURE_DEFAULT = 0
+    private const val NOTIFICATION_STATUS_ID = "NOTI_STATUS_ID"
+    private const val NOTIFICATION_DEFAULT = true
+
 
     val applicationData: SharedPreferences
         get() {
@@ -56,27 +59,38 @@ object ApplicationData {
         dataEditor.apply()
     }
 
-    fun getTarga(): String? {
-        return applicationData.getString(TARGA_ID, TARGA_DEFAULT)
+    fun getUserName(): String? {
+        return applicationData.getString(USERNAME_ID, USERNAME_DEFAULT)
     }
 
-    fun setTarga(targa: String?){
+    fun setUsername(username: String?){
         val dataEditor = applicationData.edit()
-        dataEditor.putString(TARGA_ID, targa?.uppercase().toString())
+        dataEditor.putString(USERNAME_ID, username?.uppercase().toString())
         dataEditor.apply()
     }
 
-    fun getCarPassword(): String? {
+    fun getUserPassword(): String? {
         return applicationData.getString(PASSWORD_ID, PASSWORD_DEFAULT)
     }
 
-    fun setCarPassword(password: String?){
+    fun setUserPassword(password: String?){
         val dataEditor = applicationData.edit()
         dataEditor.putString(PASSWORD_ID, password.toString())
         dataEditor.apply()
     }
 
+    fun isNotificationStatusEnabled(): Boolean {
+        return applicationData.getBoolean(NOTIFICATION_STATUS_ID, NOTIFICATION_DEFAULT)
+    }
+
+    fun setNotificationStatus(status: Boolean){
+        val dataEditor = applicationData.edit()
+        dataEditor.putBoolean(NOTIFICATION_STATUS_ID, status)
+        dataEditor.apply()
+    }
+
+
     fun isLogged(): Boolean {
-        return !(getTarga() == null || getTarga().equals("null", ignoreCase = true))
+        return !(getUserName() == null || getUserName().equals("null", ignoreCase = true))
     }
 }

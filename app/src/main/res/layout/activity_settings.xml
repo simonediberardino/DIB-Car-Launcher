@@ -60,6 +60,17 @@
                     android:text="@string/settings_default_wp"
                     android:textSize="@dimen/h4" />
 
+                <CheckBox
+                    android:id="@+id/settings_noti_on"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="60px"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="8px"
+                    android:text="@string/setting_noti_toggle"
+                    android:textSize="@dimen/h4" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

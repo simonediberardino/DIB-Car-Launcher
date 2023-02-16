@@ -350,6 +350,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <include
         android:id="@+id/home_1_music"
 
@@ -359,9 +360,10 @@
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/home_1_seperator3"
-        app:layout_constraintStart_toStartOf="@+id/home_1_speedometer"
-        app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"></include>
-
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_1_speedometer"
+        app:layout_constraintVertical_bias="0.493"></include>
 
     <ImageView
         android:id="@+id/home_1_car_icon"

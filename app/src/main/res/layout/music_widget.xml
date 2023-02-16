@@ -8,15 +8,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15px"
+        app:cardCornerRadius="25px"
         app:cardElevation="4px">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="350px"
+            android:layout_width="450px"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:background="@drawable/blurry_background"
-            app:cardCornerRadius="15px"
+            app:cardCornerRadius="25px"
             app:cardElevation="4px">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +26,7 @@
 
                 <ImageView
                     android:id="@+id/music_audio"
-                    android:layout_width="18px"
+                    android:layout_width="25px"
                     android:layout_height="18px"
                     android:background="@drawable/ic_baseline_audiotrack_24"
                     app:layout_constraintBottom_toBottomOf="@+id/music_audiobar"
@@ -39,41 +38,26 @@
                     style="@android:style/Widget.Material.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:progress="50"
                     android:progressTint="@color/blue"
                     android:thumbTint="@color/darkblue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/music_audio"
                     app:layout_constraintStart_toStartOf="@+id/imageView2"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/music_previous" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16px"
                     android:gravity="top"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+                    app:layout_constraintEnd_toStartOf="@+id/music_previous"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="@+id/imageView2">
-
-                    <TextView
-                        android:id="@+id/music_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:ellipsize="end"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:text="@string/default_audio"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/h9"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/music_author"
@@ -87,44 +71,62 @@
                         android:maxLines="1"
                         android:text="@string/default_audio"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/h9" />
+                        android:textSize="@dimen/h8" />
+
+                    <TextView
+                        android:id="@+id/music_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="@string/default_audio"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/h7"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout2"
-                    android:layout_width="35px"
-                    android:layout_height="30px"
+                    android:id="@+id/music_pause"
+                    android:layout_width="45px"
+                    android:layout_height="40px"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/grey_circle"
-                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
-                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout3"
-                    app:layout_constraintTop_toTopOf="@+id/constraintLayout3">
+                    android:foreground="@drawable/grey_circle_on_click"
+                    app:layout_constraintBottom_toBottomOf="@+id/music_next"
+                    app:layout_constraintEnd_toStartOf="@+id/music_next"
+                    app:layout_constraintTop_toTopOf="@+id/music_next">
 
                     <ImageView
-                        android:id="@+id/music_pause"
-                        android:layout_width="25px"
-                        android:layout_height="25px"
+                        android:id="@+id/music_pause_icon"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/lb_ic_pause" />
+                        app:srcCompat="@drawable/play_stop_audio_icon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout3"
-                    android:layout_width="35px"
-                    android:layout_height="30px"
+                    android:id="@+id/music_next"
+                    android:layout_width="45px"
+                    android:layout_height="40px"
                     android:background="@drawable/grey_circle"
+                    android:foreground="@drawable/grey_circle_on_click"
                     app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/music_title"
                     app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
                     <ImageView
-                        android:id="@+id/music_next"
-                        android:layout_width="25px"
-                        android:layout_height="25px"
+                        android:id="@+id/music_next_icon"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -133,19 +135,20 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="35px"
-                    android:layout_height="30px"
+                    android:id="@+id/music_previous"
+                    android:layout_width="45px"
+                    android:layout_height="40px"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/grey_circle"
-                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
-                    app:layout_constraintTop_toTopOf="@+id/constraintLayout2">
+                    android:foreground="@drawable/grey_circle_on_click"
+                    app:layout_constraintBottom_toBottomOf="@+id/music_pause"
+                    app:layout_constraintEnd_toStartOf="@+id/music_pause"
+                    app:layout_constraintTop_toTopOf="@+id/music_pause">
 
                     <ImageView
-                        android:id="@+id/music_previous"
-                        android:layout_width="25dp"
-                        android:layout_height="23dp"
+                        android:id="@+id/music_previous_icon"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -155,8 +158,10 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="40px"
-                    android:layout_height="40px"
+                    android:layout_width="50px"
+                    android:layout_height="50px"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/app_logo" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -183,8 +188,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/music_logo"
-                    app:layout_constraintEnd_toStartOf="@+id/music_next"
-                    app:layout_constraintStart_toEndOf="@+id/music_previous"
+                    app:layout_constraintEnd_toStartOf="@+id/music_next_icon"
+                    app:layout_constraintStart_toEndOf="@+id/music_previous_icon"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

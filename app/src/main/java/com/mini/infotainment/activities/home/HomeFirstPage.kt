@@ -54,9 +54,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     private lateinit var carIcon: ImageView
     private lateinit var travDist: TextView
     private lateinit var audioBar: SeekBar
-    private lateinit var previousSongBtn: TextView
-    private lateinit var nextSongBtn: TextView
-    private lateinit var pauseSongBtn: TextView
+    private lateinit var previousSongBtn: View
+    private lateinit var nextSongBtn: View
+    private lateinit var pauseSongBtn: View
     internal lateinit var musicAuthorTV: TextView
     internal lateinit var musicTitleTV: TextView
     internal lateinit var addressTV: TextView
@@ -136,6 +136,10 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
             updateTripTime()
         }
 
+
+    }
+
+    fun setSeekBarChangeListener(){
         audioBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 audioBarEnabled = false
@@ -156,6 +160,16 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
             override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
+    }
+
+    fun removeSeekBarChangeListener(){
+        audioBar.setOnSeekBarChangeListener(null)
+    }
+
+    fun setAudiobar(progress: Int){
+        removeSeekBarChangeListener()
+        audioBar.setProgress(progress, true)
+        setSeekBarChangeListener()
     }
 
     fun updateData(){
@@ -179,21 +193,21 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         ctx.registerReceiver(receiver, intent)
     }
 
-    fun updateVolume(){
+    private fun updateVolume(){
         val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
         val volumeLevel = am?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: return
 
         updateVolume(volumeLevel)
     }
 
-    fun updateVolume(volume: Int){
+    private fun updateVolume(volume: Int){
         if(audioBar.isPressed) return
 
         val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
         val maxVolume = am?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: return
         val progress = (volume.toFloat() / maxVolume.toFloat()) * 100
 
-        audioBar.setProgress(progress.toInt(), true)
+        setAudiobar(progress.toInt())
     }
 
     private fun updateAccel(){

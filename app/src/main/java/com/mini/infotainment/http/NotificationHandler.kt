@@ -14,6 +14,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
+import com.mini.infotainment.data.ApplicationData
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -63,14 +64,16 @@ class NotificationHandler(private val ctx: HomeActivity) {
         notificationDialog?.dismiss()
         lastNotification = currentNotification
 
-        notificationDialog = NotificationDialog(
-            ctx,
-            currentNotification.title,
-            previousNotifications.toMutableList(),
-            application,
-            currentNotification.appName,
-            currentNotification.packageName
-        )
+        if(ApplicationData.isNotificationStatusEnabled()){
+            notificationDialog = NotificationDialog(
+                ctx,
+                currentNotification.title,
+                previousNotifications.toMutableList(),
+                application,
+                currentNotification.appName,
+                currentNotification.packageName
+            )
+        }
 
         // Clears the previous notifications, remove this instruction if you want to keep them;
         //notifications[mapKey]?.clear()

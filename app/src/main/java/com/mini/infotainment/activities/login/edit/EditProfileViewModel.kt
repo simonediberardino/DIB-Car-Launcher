@@ -48,7 +48,7 @@ class EditProfileViewModel : ViewModel() {
             return
         }
 
-        FirebaseClass.areCredentialsCorrect(ApplicationData.getTarga()!!, Utility.getMD5(plateNumPass), object :
+        FirebaseClass.areCredentialsCorrect(ApplicationData.getUserName()!!, Utility.getMD5(plateNumPass), object :
             RunnablePar {
             override fun run(p: Any?) {
                 val isPwCorrect = p as Boolean? ?: false
@@ -58,13 +58,13 @@ class EditProfileViewModel : ViewModel() {
                     return
                 }
 
-                FirebaseClass.getCarObject(ApplicationData.getTarga()!!, object: RunnablePar {
+                FirebaseClass.getCarObject(ApplicationData.getUserName()!!, object: RunnablePar {
                     override fun run(p: Any?) {
                         val currCar = p as MyCar? ?: return
                         currCar.plateNum = plateNumValue.uppercase()
 
-                        FirebaseClass.deleteField(ApplicationData.getTarga()!!){
-                            ApplicationData.setTarga(currCar.plateNum)
+                        FirebaseClass.deleteField(ApplicationData.getUserName()!!){
+                            ApplicationData.setUsername(currCar.plateNum)
                             FirebaseClass.addCarObject(currCar){ callback?.run() }
                         }
                     }
@@ -82,13 +82,13 @@ class EditProfileViewModel : ViewModel() {
         val cripNewPass = Utility.getMD5(passNew)
         val cripCurrPass = Utility.getMD5(passCurr)
 
-        FirebaseClass.areCredentialsCorrect(ApplicationData.getTarga()!!, cripCurrPass, object :
+        FirebaseClass.areCredentialsCorrect(ApplicationData.getUserName()!!, cripCurrPass, object :
             RunnablePar {
             override fun run(p: Any?) {
                 val isPwCorrect = p as Boolean? ?: false
 
                 if(isPwCorrect){
-                    ApplicationData.setCarPassword(cripNewPass)
+                    ApplicationData.setUserPassword(cripNewPass)
                     FirebaseClass.getPasswordReference()?.setValue(cripNewPass)?.addOnCompleteListener {
                         result.value = null
                     }
