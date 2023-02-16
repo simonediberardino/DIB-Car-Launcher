@@ -1,6 +1,7 @@
 package com.mini.infotainment.activities.home
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -105,6 +106,7 @@ class AppsMenu(override val ctx: HomeActivity) : Page() {
             grdView.onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, i, _ ->
                     val intent = ctx.packageManager!!.getLaunchIntentForPackage(apps[i].name.toString())
+                    intent?.addFlags(FLAG_ACTIVITY_NEW_TASK)
                     ctx.startActivity(intent)
                 }
         }catch (ex: Exception) {}

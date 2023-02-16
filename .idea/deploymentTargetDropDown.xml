@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\Utente\.android\avd\Autoradio_API_27.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="6TR4IJGQDAWGEEOF" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-02-16T17:12:52.302223100Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-02-16T17:22:48.579675400Z" />
   </component>
 </project>

@@ -379,6 +379,14 @@ class HomeActivity : SActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        if(this::homePage1.isInitialized){
+            homePage1.mapFragment?.onPause()
+        }
+
+    }
     override fun onResume() {
         super.onResume()
 

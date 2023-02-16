@@ -40,6 +40,7 @@
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize"
             tools:ignore="AppLinkUrlError">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
