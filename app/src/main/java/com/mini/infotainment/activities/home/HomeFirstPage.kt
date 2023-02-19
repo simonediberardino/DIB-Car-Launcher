@@ -15,7 +15,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -144,12 +143,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         audioBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 audioBarEnabled = false
-
-                val am = ctx.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager?
-                val maxVolume = am?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: return
-                val newVolume = (audioBar.progress.toFloat() / 100f) * maxVolume
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume.toInt(), 0)
-
+                ctx.setVolume(audioBar.progress.toFloat())
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     audioBarEnabled = true
@@ -252,17 +246,9 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
     }
     
     fun createMap(){
-        if(mapFragment == null){
-            mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment? ?: return
-        }
-
-        mapFragment!!.onCreate(ctx.savedInstanceState)
-        mapFragment!!.getMapAsync(this)
-
-        val ft: FragmentTransaction = ctx.supportFragmentManager.beginTransaction()
-        ft.detach(mapFragment!!)
-        ft.attach(mapFragment!!)
-        ft.commit()
+        mapFragment = ctx.supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment? ?: return
+        mapFragment?.onCreate(ctx.savedInstanceState)
+        mapFragment?.getMapAsync(this)
     }
 
     override fun onMapReady(p0: GoogleMap) {

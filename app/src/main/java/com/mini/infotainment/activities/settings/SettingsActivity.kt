@@ -25,7 +25,7 @@ class SettingsActivity : SActivity() {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen", "none")
+        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen", "no")
     }
 
     private lateinit var smartphoneNotiSwitch: CheckBox
@@ -122,7 +122,6 @@ class SettingsActivity : SActivity() {
     }
 
     override fun onDestroy() {
-        handleSettings()
         super.onDestroy()
     }
 
@@ -151,10 +150,11 @@ class SettingsActivity : SActivity() {
     }
 
     override fun finish() {
+        handleSettings()
+        instance?.homePage1?.updateData()
+
         if(isFirstLaunch)
             instance?.initializeActivity()
-
-        instance?.homePage1?.updateData()
 
         super.finish()
     }

@@ -6,6 +6,8 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -86,6 +88,7 @@ class HomeActivity : SActivity() {
         this.initializeAdsHandler()
         this.requestDefaultLauncher()
         this.updateSettings()
+        this.welcomeUser()
     }
 
     fun addFirebaseListeners(){
@@ -237,6 +240,23 @@ class HomeActivity : SActivity() {
 
     private fun premiumExpired(){
         CustomToast(getString(R.string.premium_expired), this)
+    }
+
+    private fun welcomeUser(){
+        if(!hasWelcomed){
+            hasWelcomed = true
+
+            val mediaPlayer = MediaPlayer.create(this, R.raw.startup_sound)
+            mediaPlayer.start()
+            mediaPlayer.setOnCompletionListener{}
+        }
+    }
+
+    fun setVolume(volume: Float){
+        val am = getSystemService(AUDIO_SERVICE) as AudioManager?
+        val maxVolume = am?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: return
+        val newVolume = (volume / 100f) * maxVolume
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume.toInt(), 0)
     }
 
     private fun setupGPS() {
@@ -409,6 +429,7 @@ class HomeActivity : SActivity() {
         var instance: HomeActivity? = null
         internal var server: SocketServer? = null
         private const val GEOLOCATION_PERMISSION_CODE = 1
+        private var hasWelcomed: Boolean = false
         const val REQUEST_CODE_SPEECH_INPUT = 10
 
         fun updateSong(intent: Intent){

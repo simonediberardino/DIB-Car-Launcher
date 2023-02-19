@@ -130,7 +130,7 @@ object Utility {
 
     fun getBrandDrawable(ctx: Context): Drawable? {
         val brandName = ApplicationData.getBrandName()
-        if(brandName == "none") return null
+        if(brandName == "no" || brandName == "none") return null
 
         val logoId: Int = ctx.resources.getIdentifier("logo_${brandName}", "drawable", ctx.packageName)
         return if(logoId == 0) null else ctx.getDrawable(logoId)
