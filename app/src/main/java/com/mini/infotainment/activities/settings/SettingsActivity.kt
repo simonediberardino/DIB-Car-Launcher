@@ -25,7 +25,7 @@ class SettingsActivity : SActivity() {
     data class Logo(val view: View, val brandName: String)
 
     companion object{
-        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen", "no")
+        private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mazda", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
     }
 
     private lateinit var smartphoneNotiSwitch: CheckBox
@@ -94,7 +94,10 @@ class SettingsActivity : SActivity() {
     }
 
     private fun inflateLogos() {
-        for(brand: String in BRANDS)
+        val brands = BRANDS.map { it.lowercase() }.sorted().toMutableList()
+        brands.add("no")
+
+        for(brand: String in brands)
             inflateLogo(brand)
         selectedLogo = logos.find { it.brandName == ApplicationData.getBrandName()} ?: logos.first()
     }
@@ -151,7 +154,6 @@ class SettingsActivity : SActivity() {
 
     override fun finish() {
         handleSettings()
-        instance?.homePage1?.updateData()
 
         if(isFirstLaunch)
             instance?.initializeActivity()

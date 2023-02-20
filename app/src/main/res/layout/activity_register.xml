@@ -145,7 +145,7 @@
             android:id="@+id/register_confirm_button"
             android:layout_width="400px"
             android:layout_height="65px"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="32px"
             android:onClick="@{() -> viewmodel.handleData()}"
             app:cardCornerRadius="25px"
             app:cardElevation="10px"

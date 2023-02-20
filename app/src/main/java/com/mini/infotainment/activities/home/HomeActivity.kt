@@ -415,6 +415,8 @@ class HomeActivity : SActivity() {
         }
 
         if(this::homePage1.isInitialized){
+            instance?.homePage1?.updateData()
+
             if(homePage1.mapFragment?.isVisible != true)
                 homePage1.createMap()
         }
