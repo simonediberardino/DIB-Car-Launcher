@@ -30,14 +30,19 @@ object FirebaseClass{
         getCarObject(plateNum, object : RunnablePar{
             override fun run(p: Any?) {
                 Thread{
-                    val currMs = Date().networkDateMillis
-                    val carObject = p as MyCar?
-                    val isPremium = (carObject?.premiumDate ?: 0) > currMs
-                    
-                    runnablePar.run(isPremium)
+                    try{
+                        val currMs = Date().networkDateMillis
+                        val carObject = p as MyCar?
+                        val isPremium = (carObject?.premiumDate ?: 0) > currMs
+                        runnablePar.run(isPremium)
+                    }catch (ex: Exception){
+                        runnablePar.run(false)
+                        return@Thread
+                    }
                 }.start()
             }
         })
+
     }
 
     fun doesCarExist(plateNum: String, runnablePar: RunnablePar){

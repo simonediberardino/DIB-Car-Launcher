@@ -300,11 +300,14 @@ class HomeActivity : SActivity() {
     private fun handleAddressReport() {
         FirebaseClass.isPremiumCar(object: RunnablePar{
             override fun run(p: Any?) {
-                if(gpsManager?.shouldRefreshAddress() != true || p != true)
+                if(gpsManager?.shouldRefreshAddress() != true && !isInternetAvailable)
                     return
 
                 FirebaseClass.updateCarLocation(gpsManager?.currentUserLocation ?: return)
                 gpsManager?.lastAddressCheck = System.currentTimeMillis()
+
+                val isPremium = p == true
+                if(!isPremium) return
 
                 gpsManager?.getSimpleAddress(
                     gpsManager?.currentUserLocation ?: return,
