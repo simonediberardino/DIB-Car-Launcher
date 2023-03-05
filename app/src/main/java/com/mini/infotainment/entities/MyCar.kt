@@ -10,7 +10,8 @@ data class MyCar(
     val time: Long = 0,
     var location: LocationExtended = LocationExtended(),
     var carbrand: String = String(),
-    var premiumDate: Long? = 0
+    var premiumDate: Long? = 0,
+    var pin: String = String()
 ){
     constructor() : this(String(), String())
 

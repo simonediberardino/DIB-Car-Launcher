@@ -1,3 +1,3 @@
 package com.mini.infotainment.support
 
-class QrcodeData(val ipv4: String, val targa: String)
+class QrcodeData(val ipv4: String, val targa: String, val pin: String)

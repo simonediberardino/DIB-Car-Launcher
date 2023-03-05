@@ -29,7 +29,7 @@ import com.mini.infotainment.activities.misc.FakeLauncherActivity
 import com.mini.infotainment.activities.settings.SettingsActivity
 import com.mini.infotainment.ads.AdHandler
 import com.mini.infotainment.ads.VideoInterstitial
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.errors.Errors
@@ -52,6 +52,8 @@ class HomeActivity : SActivity() {
     lateinit var homePage2: HomeSecondPage
     private var premiumAccountEventListener: ValueEventListener? = null
     private var passWordEventListener: ValueEventListener? = null
+    private var pinEventListener: ValueEventListener? = null
+
     var appsMenu: AppsMenu? = null
 
     @SuppressLint("SimpleDateFormat", "ResourceType")
@@ -95,6 +97,7 @@ class HomeActivity : SActivity() {
         this.removeFirebaseListeners()
         this.onPremiumAccountListener()
         this.onPasswordChangedListener()
+        this.setupPinFirebase()
     }
 
     fun removeFirebaseListeners(){
@@ -103,7 +106,9 @@ class HomeActivity : SActivity() {
                 it
             )
         }
+
         passWordEventListener?.let { FirebaseClass.getPasswordReference()?.removeEventListener(it) }
+        pinEventListener?.let { FirebaseClass.getPasswordReference()?.removeEventListener(it) }
     }
 
     private fun requestDefaultLauncher() {
@@ -167,23 +172,27 @@ class HomeActivity : SActivity() {
     }
 
     private fun setupOnConnectivityChange(){
-        fun callback(){
-            server?.serverSocket?.close()
-            SocketServer(this).also {
-                server = it
-            }.init()
-        }
-
         val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
         this.registerReceiver(NetworkStatusReceiver(
             object : RunnablePar {
                 override fun run(p: Any?) {
                     // Restarts/Starts the socket when internet is available
-                    if(p == true)
-                        callback()
+                    if(p == true && Data.isLogged())
+                        startServer()
                 }
             }
         ), intentFilter)
+    }
+
+    fun stopServer() {
+        server?.serverSocket?.close()
+    }
+
+    fun startServer(){
+        server?.serverSocket?.close()
+        SocketServer(this).also {
+            server = it
+        }.init()
     }
 
     private fun initializeSpotifyBroadcastReceiver(){
@@ -199,14 +208,14 @@ class HomeActivity : SActivity() {
     }
 
     private fun onPasswordChangedListener(){
-        if(!ApplicationData.isLogged())
+        if(!Data.isLogged())
             return
 
         passWordEventListener = object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dbPass = snapshot.value as String? ?: return
 
-                if(ApplicationData.getUserPassword() != dbPass){
+                if(Data.getUserPassword() != dbPass){
                     LoginViewModel.doLogout()
                     Utility.toast(this@HomeActivity, this@HomeActivity.getString(R.string.disconnected_pw_changed))
 
@@ -221,7 +230,7 @@ class HomeActivity : SActivity() {
     }
 
     private fun onPremiumAccountListener(){
-        if(!ApplicationData.isLogged())
+        if(!Data.isLogged())
             return
 
         premiumAccountEventListener = object : ValueEventListener{
@@ -236,6 +245,55 @@ class HomeActivity : SActivity() {
         }
 
         FirebaseClass.getPremiumDateReference()?.addValueEventListener(premiumAccountEventListener!!)
+    }
+
+    private fun setupPinFirebase(){
+        if(!Data.isLogged())
+            return
+
+        if(!isInternetAvailable) return
+
+        generateAndUpdatePin(false)
+
+        pinEventListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                MyCar.instance.pin = snapshot.value as String? ?: return
+                Data.setPin(MyCar.instance.pin)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        }
+
+        FirebaseClass.getPinReference()?.addValueEventListener(pinEventListener!!)
+    }
+
+    fun generateAndUpdatePin(override: Boolean){
+        if(!Data.isLogged())
+            return
+
+        if(!isInternetAvailable) return
+
+        val pin = Utility.generatePin()
+
+        FirebaseClass.getCarObject(Data.getUserName() ?: return, object: RunnablePar{
+            override fun run(p: Any?) {
+                val user = p as MyCar
+                val action =  fun(){
+                    FirebaseClass.getCarObjectReference(
+                        Data.getUserName() ?: return
+                    ).setValue(pin)
+
+                    MyCar.instance.pin = pin
+                    Data.setPin(pin)
+                }
+
+                if(user.pin.isEmpty() && !override){
+                    action()
+                }else if(override){
+                    action()
+                }
+            }
+        })
     }
 
     private fun premiumExpired(){
@@ -323,8 +381,8 @@ class HomeActivity : SActivity() {
     }
 
     private fun updateSettings(){
-        MyCar.instance.carbrand = ApplicationData.getBrandName().toString()
-        MyCar.instance.plateNum = ApplicationData.getUserName().toString()
+        MyCar.instance.carbrand = Data.getBrandName().toString()
+        MyCar.instance.plateNum = Data.getUserName().toString()
         FirebaseClass.updateCarBrand(MyCar.instance.carbrand)
     }
 
@@ -367,11 +425,11 @@ class HomeActivity : SActivity() {
     }
 
     private fun areSettingsSet(): Boolean {
-        return ApplicationData.getBrandName() != null
+        return Data.getBrandName() != null
     }
 
     private fun hasLoginData(): Boolean {
-        return ApplicationData.getUserPassword().toString() != "null" && ApplicationData.getUserName().toString() != "null"
+        return Data.getUserPassword().toString() != "null" && Data.getUserName().toString() != "null"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

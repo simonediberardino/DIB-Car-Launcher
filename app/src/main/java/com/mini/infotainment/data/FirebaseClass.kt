@@ -15,14 +15,15 @@ object FirebaseClass{
     private var TIME_REF = "time"
     private var START_REF = "start"
     private var PASSWORD_REF = "password"
+    private var PIN_REF = "pin"
     private var PREMIUM_DATE_REF = "premiumDate"
 
     fun isPremiumCar(runnablePar: RunnablePar){
-        val userId = ApplicationData.getUserName()
+        val userId = Data.getUserName()
         if(userId == null){
             runnablePar.run(false)
         }else{
-            isPremiumCar(ApplicationData.getUserName() ?: return, runnablePar)
+            isPremiumCar(Data.getUserName() ?: return, runnablePar)
         }
     }
 
@@ -101,32 +102,40 @@ object FirebaseClass{
         getServerIpReference()?.setValue(ip)
     }
 
+    fun updatePin(ip: String){
+        getPinReference()?.setValue(ip)
+    }
+
     fun getCarLocationReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(LOCATION_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(LOCATION_REF)
     }
 
     fun getCarBrandReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(CAR_BRAND_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(CAR_BRAND_REF)
     }
 
     fun getTimeReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(TIME_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(TIME_REF)
     }
 
     fun getStartReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(START_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(START_REF)
     }
 
     fun getServerIpReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(SERVER_IP_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(SERVER_IP_REF)
     }
 
     fun getPasswordReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(PASSWORD_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(PASSWORD_REF)
+    }
+
+    fun getPinReference(): DatabaseReference? {
+        return getCarObjectReference(Data.getPin() ?: return null).child(PIN_REF)
     }
 
     fun getPremiumDateReference(): DatabaseReference? {
-        return getCarObjectReference(ApplicationData.getUserName() ?: return null).child(PREMIUM_DATE_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null).child(PREMIUM_DATE_REF)
     }
 
     fun getCarObjectReference(plateNum: String): DatabaseReference {

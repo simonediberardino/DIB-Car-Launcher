@@ -13,7 +13,7 @@ import com.mini.infotainment.UI.Page
 import com.mini.infotainment.activities.login.register.RegisterActivity
 import com.mini.infotainment.activities.maps.MapsActivity
 import com.mini.infotainment.activities.stats.ActivityStats
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.errors.Errors
 import com.mini.infotainment.support.QrcodeData
@@ -74,7 +74,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        if(!ApplicationData.isLogged()){
+        if(!Data.isLogged()){
             Utility.navigateTo(ctx, RegisterActivity::class.java)
             return
         }
@@ -90,7 +90,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        if(!ApplicationData.isLogged()){
+        if(!Data.isLogged()){
             Utility.navigateTo(ctx, RegisterActivity::class.java)
             return
         }
@@ -109,7 +109,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        if(!ApplicationData.isLogged()){
+        if(!Data.isLogged()){
             Utility.navigateTo(ctx, RegisterActivity::class.java)
             return
         }
@@ -125,7 +125,7 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
             return
         }
 
-        if(!ApplicationData.isLogged()){
+        if(!Data.isLogged()){
             Utility.navigateTo(ctx, RegisterActivity::class.java)
             return
         }
@@ -135,7 +135,8 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
                 Utility.objectToJsonString(
                     QrcodeData(
                         HomeActivity.server?.serverIPV4 ?: return@premiumFeature,
-                        ApplicationData.getUserName()!!
+                        Data.getUserName()!!,
+                        Data.getPin()!!
                     )
                 ),
                 ctx

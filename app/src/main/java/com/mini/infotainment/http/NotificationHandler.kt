@@ -14,7 +14,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.home.HomeActivity.Companion.REQUEST_CODE_SPEECH_INPUT
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.utility.Utility
 import java.util.*
 
@@ -64,7 +64,7 @@ class NotificationHandler(private val ctx: HomeActivity) {
         notificationDialog?.dismiss()
         lastNotification = currentNotification
 
-        if(ApplicationData.isNotificationStatusEnabled()){
+        if(Data.isNotificationStatusEnabled()){
             notificationDialog = NotificationDialog(
                 ctx,
                 currentNotification.title,

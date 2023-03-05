@@ -3,7 +3,7 @@ package com.mini.infotainment.activities.login.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mini.infotainment.activities.login.ProfileActivity
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
@@ -48,7 +48,7 @@ class EditProfileViewModel : ViewModel() {
             return
         }
 
-        FirebaseClass.areCredentialsCorrect(ApplicationData.getUserName()!!, Utility.getMD5(plateNumPass), object :
+        FirebaseClass.areCredentialsCorrect(Data.getUserName()!!, Utility.getMD5(plateNumPass), object :
             RunnablePar {
             override fun run(p: Any?) {
                 val isPwCorrect = p as Boolean? ?: false
@@ -58,13 +58,13 @@ class EditProfileViewModel : ViewModel() {
                     return
                 }
 
-                FirebaseClass.getCarObject(ApplicationData.getUserName()!!, object: RunnablePar {
+                FirebaseClass.getCarObject(Data.getUserName()!!, object: RunnablePar {
                     override fun run(p: Any?) {
                         val currCar = p as MyCar? ?: return
                         currCar.plateNum = plateNumValue.uppercase()
 
-                        FirebaseClass.deleteField(ApplicationData.getUserName()!!){
-                            ApplicationData.setUsername(currCar.plateNum)
+                        FirebaseClass.deleteField(Data.getUserName()!!){
+                            Data.setUsername(currCar.plateNum)
                             FirebaseClass.addCarObject(currCar){ callback?.run() }
                         }
                     }
@@ -82,13 +82,13 @@ class EditProfileViewModel : ViewModel() {
         val cripNewPass = Utility.getMD5(passNew)
         val cripCurrPass = Utility.getMD5(passCurr)
 
-        FirebaseClass.areCredentialsCorrect(ApplicationData.getUserName()!!, cripCurrPass, object :
+        FirebaseClass.areCredentialsCorrect(Data.getUserName()!!, cripCurrPass, object :
             RunnablePar {
             override fun run(p: Any?) {
                 val isPwCorrect = p as Boolean? ?: false
 
                 if(isPwCorrect){
-                    ApplicationData.setUserPassword(cripNewPass)
+                    Data.setUserPassword(cripNewPass)
                     FirebaseClass.getPasswordReference()?.setValue(cripNewPass)?.addOnCompleteListener {
                         result.value = null
                     }

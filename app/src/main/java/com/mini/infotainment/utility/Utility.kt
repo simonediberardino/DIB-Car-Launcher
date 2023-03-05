@@ -24,7 +24,7 @@ import androidx.core.app.ActivityOptionsCompat
 import com.google.gson.Gson
 import com.google.zxing.WriterException
 import com.mini.infotainment.R
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.support.SActivity.Companion.displayRatio
 import com.mini.infotainment.support.SActivity.Companion.screenSize
 import com.mini.infotainment.utility.Utility.Resolution.Companion.BASE_RESOLUTION
@@ -41,6 +41,17 @@ import kotlin.math.roundToInt
 import android.R as R1
 
 object Utility {
+    fun generatePin(): String {
+        return String().randomStr(6)
+    }
+
+    fun String.randomStr(size: Int): String{
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..size)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
+
     fun String.alphaNumeric(): String {
         val validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         val result = StringBuilder()
@@ -65,19 +76,19 @@ object Utility {
     }
 
     fun getSpeedMeasure(context: Context): String {
-        return context.resources.getStringArray(R.array.speedmeasures)[ApplicationData.getUMeasure()]
+        return context.resources.getStringArray(R.array.speedmeasures)[Data.getUMeasure()]
     }
 
     fun getDistMeasure(context: Context): String {
-        return context.resources.getStringArray(R.array.measures)[ApplicationData.getUMeasure()]
+        return context.resources.getStringArray(R.array.measures)[Data.getUMeasure()]
     }
 
     fun getTravDistMeasure(context: Context): String {
-        return context.resources.getStringArray(R.array.travdistmeasures)[ApplicationData.getUMeasure()]
+        return context.resources.getStringArray(R.array.travdistmeasures)[Data.getUMeasure()]
     }
 
     fun isUMeasureKM(): Boolean {
-        return ApplicationData.getUMeasure() == 0
+        return Data.getUMeasure() == 0
     }
 
     fun Float.kmToMile(): Float {
@@ -129,7 +140,7 @@ object Utility {
     }
 
     fun getBrandDrawable(ctx: Context): Drawable? {
-        val brandName = ApplicationData.getBrandName()
+        val brandName = Data.getBrandName()
         if(brandName == "no" || brandName == "none") return null
 
         val logoId: Int = ctx.resources.getIdentifier("logo_${brandName}", "drawable", ctx.packageName)

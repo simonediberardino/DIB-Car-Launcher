@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mini.infotainment.R
 import com.mini.infotainment.activities.login.ProfileActivity
 import com.mini.infotainment.activities.login.access.LoginActivity
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.databinding.ActivityRegisterBinding
 import com.mini.infotainment.utility.Utility
 
@@ -50,7 +50,7 @@ class RegisterActivity : ProfileActivity(){
     }
 
     private fun showPolicy(){
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(ApplicationData.POLICY_URL))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Data.POLICY_URL))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.setPackage("com.android.chrome")
         try {

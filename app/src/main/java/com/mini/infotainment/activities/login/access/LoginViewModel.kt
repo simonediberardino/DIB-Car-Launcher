@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mini.infotainment.activities.home.HomeActivity
 import com.mini.infotainment.activities.login.ProfileActivity
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
@@ -51,20 +51,20 @@ class LoginViewModel : ViewModel(){
             MyCar.instance.plateNum = myCar.plateNum.uppercase()
             MyCar.instance.password = myCar.password
             MyCar.instance.premiumDate = myCar.premiumDate
+            MyCar.instance.pin = Utility.generatePin()
 
-            ApplicationData.setUserPassword(myCar.password)
-            ApplicationData.setUsername(myCar.plateNum.uppercase())
-
+            Data.saveUser(myCar)
             FirebaseClass.getCarObjectReference(myCar.plateNum).setValue(MyCar.instance)
 
             HomeActivity.instance?.addFirebaseListeners()
+            HomeActivity.instance?.startServer()
         }
 
 
         fun doLogout(){
             HomeActivity.instance?.removeFirebaseListeners()
-            ApplicationData.setUserPassword(null)
-            ApplicationData.setUsername(null)
+            Data.deleteUser()
+            HomeActivity.instance?.stopServer()
         }
     }
 

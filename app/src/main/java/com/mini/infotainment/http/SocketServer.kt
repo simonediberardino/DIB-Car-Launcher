@@ -12,7 +12,7 @@ import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 
-class SocketServer(val activity: HomeActivity) {
+class SocketServer(private val activity: HomeActivity) {
     var SERVER_PORT = 8080
 
     var serverIPV4 = Utility.getLocalIpAddress(activity)
@@ -45,7 +45,7 @@ class SocketServer(val activity: HomeActivity) {
     }
 
     private fun listenClients() {
-        while (serverSocket != null || serverSocket?.isClosed != true) {
+        while (true){
             try {
                 handleClientConnection(serverSocket?.accept() ?: return)
             } catch (e: IOException) {}

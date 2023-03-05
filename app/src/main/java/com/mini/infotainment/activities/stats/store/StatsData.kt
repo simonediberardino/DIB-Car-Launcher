@@ -1,7 +1,7 @@
 package com.mini.infotainment.activities.stats.store
 
 import com.google.gson.internal.LinkedTreeMap
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.utility.Utility
 import com.mini.infotainment.utility.Utility.kmToMile
 import com.mini.infotainment.utility.Utility.toKm
@@ -19,7 +19,7 @@ object StatsData {
 
     private fun getStats(): HashMap<String, StatsOfDay> {
         return Utility.jsonStringToObject(
-            ApplicationData.applicationData.getString(
+            Data.applicationData.getString(
                 STATS_ID,
                 STATS_DEFAULT
             )!!
@@ -31,7 +31,7 @@ object StatsData {
     }
 
     private fun setStats(stats: String){
-        val dataEditor = ApplicationData.applicationData.edit()
+        val dataEditor = Data.applicationData.edit()
         dataEditor.putString(STATS_ID, stats)
         dataEditor.apply()
     }

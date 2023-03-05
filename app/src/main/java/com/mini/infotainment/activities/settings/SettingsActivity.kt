@@ -14,7 +14,7 @@ import com.mini.infotainment.R
 import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
 import com.mini.infotainment.activities.login.edit.EditProfileActivity
 import com.mini.infotainment.activities.login.register.RegisterActivity
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.data.FirebaseClass
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.SActivity
@@ -60,13 +60,13 @@ class SettingsActivity : SActivity() {
 
         confirmButton = findViewById(R.id.settings_confirm_button)
         smartphoneNotiSwitch = findViewById(R.id.settings_noti_on)
-        smartphoneNotiSwitch.isChecked = ApplicationData.isNotificationStatusEnabled()
+        smartphoneNotiSwitch.isChecked = Data.isNotificationStatusEnabled()
 
         editAccountButton = findViewById<View?>(R.id.settings_edit_account)
             .also {
                 it.visibility = if(isFirstLaunch) View.GONE else View.VISIBLE
                 it.setOnClickListener {
-                    if(ApplicationData.isLogged()){
+                    if(Data.isLogged()){
                         Utility.navigateTo(this, EditProfileActivity::class.java)
                         finish()
                     }else{
@@ -83,10 +83,10 @@ class SettingsActivity : SActivity() {
             finish()
         }
 
-        settingsDefaultWPCB.isChecked = ApplicationData.useDefaultWP()
+        settingsDefaultWPCB.isChecked = Data.useDefaultWP()
 
         uMeasureSpinner = findViewById<Spinner?>(R.id.settings_um).also {
-            it.setSelection(ApplicationData.getUMeasure())
+            it.setSelection(Data.getUMeasure())
         }
 
         inflateLogos()
@@ -99,7 +99,7 @@ class SettingsActivity : SActivity() {
 
         for(brand: String in brands)
             inflateLogo(brand)
-        selectedLogo = logos.find { it.brandName == ApplicationData.getBrandName()} ?: logos.first()
+        selectedLogo = logos.find { it.brandName == Data.getBrandName()} ?: logos.first()
     }
 
     private fun inflateLogo(brandName: String){
@@ -129,15 +129,15 @@ class SettingsActivity : SActivity() {
     }
 
     private fun handleSettings(){
-        ApplicationData.setBrandName(selectedLogo?.brandName!!.lowercase())
-        ApplicationData.setUMeasure(uMeasureSpinner.selectedItemPosition)
+        Data.setBrandName(selectedLogo?.brandName!!.lowercase())
+        Data.setUMeasure(uMeasureSpinner.selectedItemPosition)
 
-        if(ApplicationData.useDefaultWP() != settingsDefaultWPCB.isChecked){
-            ApplicationData.useDefaultWP(settingsDefaultWPCB.isChecked)
+        if(Data.useDefaultWP() != settingsDefaultWPCB.isChecked){
+            Data.useDefaultWP(settingsDefaultWPCB.isChecked)
             instance?.setWallpaper()
         }
 
-        ApplicationData.setNotificationStatus(smartphoneNotiSwitch.isChecked)
+        Data.setNotificationStatus(smartphoneNotiSwitch.isChecked)
 
         MyCar.instance.carbrand = selectedLogo?.brandName!!.lowercase()
         FirebaseClass.updateCarBrand(selectedLogo?.brandName!!.lowercase())

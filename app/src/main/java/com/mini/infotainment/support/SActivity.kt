@@ -20,7 +20,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.mini.infotainment.R
-import com.mini.infotainment.data.ApplicationData
+import com.mini.infotainment.data.Data
 import com.mini.infotainment.gps.GPSManager
 import com.mini.infotainment.utility.Utility
 
@@ -89,7 +89,7 @@ open class SActivity : AppCompatActivity() {
                     return defaultBackgroundDrawable!!
                 }
 
-                return if(ApplicationData.useDefaultWP()){
+                return if(Data.useDefaultWP()){
                     defaultBackgroundDrawable!!
                 }else{
                     val wallpaperManager = WallpaperManager.getInstance(this)
