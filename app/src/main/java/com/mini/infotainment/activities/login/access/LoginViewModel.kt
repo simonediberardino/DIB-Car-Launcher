@@ -54,7 +54,7 @@ class LoginViewModel : ViewModel(){
             MyCar.instance.pin = Utility.generatePin()
 
             Data.saveUser(myCar)
-            FirebaseClass.getCarObjectReference(myCar.plateNum).setValue(MyCar.instance)
+            FirebaseClass.getCarObjectReference(myCar.plateNum)?.setValue(MyCar.instance)
 
             HomeActivity.instance?.addFirebaseListeners()
             HomeActivity.instance?.startServer()

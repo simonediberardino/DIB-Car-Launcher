@@ -265,6 +265,17 @@ class HomeActivity : SActivity() {
         }
 
         FirebaseClass.getPinReference()?.addValueEventListener(pinEventListener!!)
+
+        FirebaseClass.getPinReference()?.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val pinOnDb = snapshot.value as String?
+                if(pinOnDb != null)
+                    Data.setPin(pinOnDb)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+
+        })
     }
 
     fun generateAndUpdatePin(override: Boolean){
@@ -281,7 +292,7 @@ class HomeActivity : SActivity() {
                 val action =  fun(){
                     FirebaseClass.getCarObjectReference(
                         Data.getUserName() ?: return
-                    ).setValue(pin)
+                    )?.setValue(pin)
 
                     MyCar.instance.pin = pin
                     Data.setPin(pin)
@@ -356,6 +367,9 @@ class HomeActivity : SActivity() {
     }
 
     private fun handleAddressReport() {
+        if(!isInternetAvailable)
+            return
+
         FirebaseClass.isPremiumCar(object: RunnablePar{
             override fun run(p: Any?) {
                 if(gpsManager?.shouldRefreshAddress() != true && !isInternetAvailable)

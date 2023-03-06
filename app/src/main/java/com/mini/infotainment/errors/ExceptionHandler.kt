@@ -36,7 +36,7 @@ class ExceptionHandler : UncaughtExceptionHandler {
                 stream.write(currentStacktrace.toByteArray())
             }
         } catch (e: Exception) {
-            Log.e("ExceptionHandler", e.message!!)
+            Log.e("ExceptionHandler", e.message.toString())
         }
     }
 }

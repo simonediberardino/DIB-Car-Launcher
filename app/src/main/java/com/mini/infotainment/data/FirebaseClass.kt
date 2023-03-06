@@ -47,7 +47,7 @@ object FirebaseClass{
     }
 
     fun doesCarExist(plateNum: String, runnablePar: RunnablePar){
-        getCarObjectReference(plateNum).addListenerForSingleValueEvent(object: ValueEventListener{
+        getCarObjectReference(plateNum)?.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 runnablePar.run(snapshot.exists())
             }
@@ -107,43 +107,51 @@ object FirebaseClass{
     }
 
     fun getCarLocationReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(LOCATION_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(LOCATION_REF)
     }
 
     fun getCarBrandReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(CAR_BRAND_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(CAR_BRAND_REF)
     }
 
     fun getTimeReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(TIME_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(TIME_REF)
     }
 
     fun getStartReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(START_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(START_REF)
     }
 
     fun getServerIpReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(SERVER_IP_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(SERVER_IP_REF)
     }
 
     fun getPasswordReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(PASSWORD_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(PASSWORD_REF)
     }
 
     fun getPinReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getPin() ?: return null).child(PIN_REF)
+        return getCarObjectReference(Data.getUserName() ?: return null)?.child(PIN_REF)
     }
 
     fun getPremiumDateReference(): DatabaseReference? {
-        return getCarObjectReference(Data.getUserName() ?: return null).child(PREMIUM_DATE_REF)
+        return try{
+            getCarObjectReference(Data.getUserName() ?: return null)?.child(PREMIUM_DATE_REF)
+        }catch (ex: Exception){
+            return null
+        }
     }
 
-    fun getCarObjectReference(plateNum: String): DatabaseReference {
-        return FirebaseDatabase.getInstance(DB_REF).getReference(plateNum)
+    fun getCarObjectReference(plateNum: String): DatabaseReference? {
+        return try{
+            FirebaseDatabase.getInstance(DB_REF).getReference(plateNum)
+        }catch (ex: java.lang.Exception){
+            null
+        }
     }
 
     fun getCarObject(plateNum: String, runnablePar: RunnablePar){
-        getCarObjectReference(plateNum.uppercase()).addListenerForSingleValueEvent(object: ValueEventListener{
+        getCarObjectReference(plateNum.uppercase())?.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 runnablePar.run(snapshot.getValue(MyCar::class.java))
             }
@@ -155,7 +163,7 @@ object FirebaseClass{
     }
 
     fun addCarObject(car: MyCar, callback: Runnable = Runnable {}){
-        getCarObjectReference(car.plateNum.uppercase()).setValue(car).addOnCompleteListener { callback.run() }
+        getCarObjectReference(car.plateNum.uppercase())?.setValue(car)?.addOnCompleteListener { callback.run() }
     }
 
     fun deleteField(referString: String, callback: Runnable = Runnable {}){
