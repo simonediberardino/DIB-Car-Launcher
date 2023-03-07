@@ -19,7 +19,7 @@ class ActivityStats : SActivity() {
         this.createCharts()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         setContentView(R.layout.activity_stats)
     }
 

@@ -23,6 +23,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/checkbox_background.xml" value="0.591796875" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/circle_transparent.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/coin_bag_bg.xml" value="0.1765" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/drawable_side_app_logo.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/edit_text_border.xml" value="0.4970703125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/empty_hor_divider.xml" value="0.3045" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/glow.xml" value="0.4462890625" />
@@ -55,6 +56,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/red_button_pressed.xml" value="0.171" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/road_sign.xml" value="0.1955" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/round_blue_button.xml" value="0.1" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/round_blue_gradient.xml" value="0.1125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/round_blue_view.xml" value="0.1335" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/round_bottom.xml" value="0.4970703125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/round_edit_text.xml" value="0.3045" />
@@ -66,7 +68,10 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/square_solid.xml" value="0.3045" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/square_transparent.xml" value="0.3045" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/swiper.xml" value="0.4970703125" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/transparent_blue_button.xml" value="0.2325" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/transparent_blue_button_pressed.xml" value="0.1085" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/transparent_borders.xml" value="0.3165" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/transparent_button_not_pressed.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button.xml" value="0.482421875" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button_not_pressed.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/white_button_pressed.xml" value="0.1" />
@@ -92,6 +97,10 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_maps.xml" value="0.5725429017160687" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_settings.xml" value="0.67" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_settings_customize.xml" value="0.5" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_settings_menu.xml" value="0.5" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_settings_profile.xml" value="0.2421875" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_settings_settings.xml" value="0.5" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_stats.xml" value="0.28" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_stats_charts.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_tts.xml" value="0.67" />

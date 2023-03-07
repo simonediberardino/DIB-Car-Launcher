@@ -25,7 +25,7 @@ class RegisterActivity : ProfileActivity(){
         super.pageLoaded()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
         DataBindingUtil.setContentView<ActivityRegisterBinding>(

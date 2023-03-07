@@ -20,7 +20,7 @@ class EditProfileActivity : ProfileActivity(){
         super.pageLoaded()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         viewModel = ViewModelProvider(this)[EditProfileViewModel::class.java]
 
         DataBindingUtil.setContentView<ActivityEditProfileBinding>(

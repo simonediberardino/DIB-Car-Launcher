@@ -55,6 +55,8 @@ open class SActivity : AppCompatActivity() {
         lastActivity = this
     }
 
+    open fun initializeLayout(){}
+
     override fun setContentView(view: View?) {
         super.setContentView(view)
         mContentView = view!!

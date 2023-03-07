@@ -27,9 +27,9 @@ class HomeSecondPage(override val ctx: HomeActivity) : Page() {
 
         class GridButton(name: String, drawableId: Int, val callback: Runnable) {
             init {
-                val singleItem = ctx.layoutInflater.inflate(R.layout.home_2_items, parent, false) as ViewGroup
-                val itemNameTW = singleItem.findViewById<TextView>(R.id.home_2_item_name)
-                val itemNameIW = singleItem.findViewById<ImageView>(R.id.home_2_item_image)
+                val singleItem = ctx.layoutInflater.inflate(R.layout.item_image, parent, false) as ViewGroup
+                val itemNameTW = singleItem.findViewById<TextView>(R.id.image_item_name)
+                val itemNameIW = singleItem.findViewById<ImageView>(R.id.item_image)
 
                 itemNameTW.text = name
                 itemNameIW.setImageResource(drawableId)

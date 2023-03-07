@@ -26,7 +26,7 @@ import com.mini.infotainment.UI.SwipeHandler
 import com.mini.infotainment.activities.checkout.CheckoutActivity
 import com.mini.infotainment.activities.login.access.LoginViewModel
 import com.mini.infotainment.activities.misc.FakeLauncherActivity
-import com.mini.infotainment.activities.settings.SettingsActivity
+import com.mini.infotainment.activities.settings.SettingsActivityCustomize
 import com.mini.infotainment.ads.AdHandler
 import com.mini.infotainment.ads.VideoInterstitial
 import com.mini.infotainment.data.Data
@@ -72,7 +72,7 @@ class HomeActivity : SActivity() {
         this.initializeCarObject()
 
         if(!areSettingsSet()){
-            val intent = Intent(this, SettingsActivity::class.java)
+            val intent = Intent(this, SettingsActivityCustomize::class.java) // TODO
             intent.putExtra("isFirstLaunch", true)
             startActivity(intent)
             return
@@ -142,7 +142,7 @@ class HomeActivity : SActivity() {
         AdHandler(this, VideoInterstitial::class.java).startTimeout()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         this.setContentView(R.layout.activity_home)
         this.setWallpaper()
 
@@ -266,7 +266,7 @@ class HomeActivity : SActivity() {
 
         FirebaseClass.getPinReference()?.addValueEventListener(pinEventListener!!)
 
-        FirebaseClass.getPinReference()?.addListenerForSingleValueEvent(object : ValueEventListener{
+/*        FirebaseClass.getPinReference()?.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val pinOnDb = snapshot.value as String?
                 if(pinOnDb != null)
@@ -275,7 +275,7 @@ class HomeActivity : SActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
 
-        })
+        })*/
     }
 
     fun generateAndUpdatePin(override: Boolean){

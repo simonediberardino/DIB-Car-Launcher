@@ -26,7 +26,7 @@ class CheckoutActivity : SActivity() {
         super.pageLoaded()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         setContentView(R.layout.activity_checkout)
 
         confirmBtn = findViewById(R.id.checkout_confirm)
@@ -65,7 +65,7 @@ class CheckoutActivity : SActivity() {
 
         var isSelected = false
             set(value) {
-                val bgResource = if(value) R.drawable.red_button else R.drawable.blue_button
+                val bgResource = if(value) R.drawable.round_blue_gradient else R.drawable.square_light_grey_round
                 view.setBackgroundResource(bgResource)
                 field = value
             }

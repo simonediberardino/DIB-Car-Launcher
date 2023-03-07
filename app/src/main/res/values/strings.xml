@@ -144,5 +144,7 @@
     <string name="data_safety_policy"><u>DIB Car Launcher data safety policy</u></string>
     <string name="setting_noti_toggle">Smartphone notifications</string>
     <string name="disconnected_pw_changed">Disconnected from your account: Wrong credentials.</string>
+    <string name="settings_wallpaper">Wallpaper</string>
+    <string name="settings_car_logo">Car brand logo</string>
     <string name="download_comp_app">Download the app: play.google.com/store/apps/details?id=com.simonediberardino.infotainmentcompanion</string>
 </resources>

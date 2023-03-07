@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.Page
-import com.mini.infotainment.activities.settings.SettingsActivity
+import com.mini.infotainment.activities.settings.SettingsMenuActivity
 import com.mini.infotainment.utility.Utility
 
 class SideMenu(override val ctx: HomeActivity) : Page() {
@@ -16,7 +16,7 @@ class SideMenu(override val ctx: HomeActivity) : Page() {
             SideMenuButton(ctx.getDrawable(R.drawable.spotify_logo)) { ctx.runSpotify() },
             SideMenuButton(ctx.getDrawable(R.drawable.youtube_logo)) { ctx.runYoutube() },
             SideMenuButton(ctx.getDrawable(R.drawable.logo_settings)){
-                Utility.navigateTo(ctx, SettingsActivity::class.java)
+                Utility.navigateTo(ctx, SettingsMenuActivity::class.java)
             }
         )
 

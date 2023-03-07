@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="8px">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32px"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8px" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32px"
+        android:layout_marginBottom="32px"
+        app:layout_constraintBottom_toTopOf="@+id/settings_confirm_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.223">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settings_menu_customize"
+                android:layout_width="600px"
+                android:layout_height="60px"
+                android:background="@drawable/transparent_blue_button"
+                android:onClick="onClickCustomize">
+
+                <ImageView
+                    android:id="@+id/settings_menu_customize_icon_left"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/app_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <ImageView
+                    android:id="@+id/settings_menu_customize_icon_right"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_baseline_edit_calendar_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <TextView
+                    android:id="@+id/settings_menu_customize_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personalizza"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/settings_menu_customize_icon_right"
+                    app:layout_constraintStart_toEndOf="@+id/settings_menu_customize_icon_left"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settings_menu_account"
+                android:layout_width="600px"
+                android:layout_height="60px"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/transparent_blue_button"
+                android:onClick="onClickProfile">
+
+                <ImageView
+                    android:id="@+id/settings_menu_account_icon_left"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/app_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <ImageView
+                    android:id="@+id/settings_menu_account_icon_right"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_baseline_account_box_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <TextView
+                    android:id="@+id/settings_menu_account_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/settings_menu_account_icon_right"
+                    app:layout_constraintStart_toEndOf="@+id/settings_menu_account_icon_left"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settings_menu_settings"
+                android:layout_width="600px"
+                android:layout_height="60px"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/transparent_blue_button"
+                android:onClick="onClickSettings">
+
+                <ImageView
+                    android:id="@+id/settings_menu_settings_icon_left"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/app_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <ImageView
+                    android:id="@+id/settings_menu_settings_icon_right"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/logo_settings"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                <TextView
+                    android:id="@+id/settings_menu_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/settings_menu_settings_icon_right"
+                    app:layout_constraintStart_toEndOf="@+id/settings_menu_settings_icon_left"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settings_confirm_button"
+        android:layout_width="400px"
+        android:layout_height="65px"
+        android:layout_marginBottom="32px"
+        app:cardCornerRadius="25px"
+        app:cardElevation="10px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_background_gradient"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/settings_confirm_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

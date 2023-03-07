@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="8px">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32px"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="@string/personalizza"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8px" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="750px"
+        android:layout_height="0dp"
+        android:layout_marginTop="32px"
+        android:layout_marginBottom="32px"
+        app:layout_constraintBottom_toTopOf="@+id/settings_confirm_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.223">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="top"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settings_customize_logo_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/settings_car_logo"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="8px" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="750px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16px"
+                android:background="@drawable/blue_border"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/settings_customize_ll_logos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:id="@+id/settings_customize_wp_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/settings_wallpaper"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="8px" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView5"
+                android:layout_width="750px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16px"
+                android:background="@drawable/blue_border"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/settings_customize_ll_wallpapers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settings_confirm_button"
+        android:layout_width="400px"
+        android:layout_height="65px"
+        android:layout_marginBottom="32px"
+        app:cardCornerRadius="25px"
+        app:cardElevation="10px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_background_gradient"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/settings_confirm_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

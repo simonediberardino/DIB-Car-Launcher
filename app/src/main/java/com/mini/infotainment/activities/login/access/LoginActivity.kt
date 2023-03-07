@@ -19,7 +19,7 @@ class LoginActivity : ProfileActivity(){
         super.pageLoaded()
     }
 
-    private fun initializeLayout(){
+    override fun initializeLayout(){
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         DataBindingUtil.setContentView<ActivityLoginBinding>(
