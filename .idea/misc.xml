@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/back_icon.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/black_alpha_bg.xml" value="0.4970703125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/black_background_gradient.xml" value="0.2945" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/drawable/blue_background_gradient.xml" value="0.5068359375" />
@@ -84,7 +85,7 @@
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_backgrouind.xml" value="0.4448621553884712" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_background.xml" value="0.7705078125" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_checkout.xml" value="0.75" />
-        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_edit_profile.xml" value="0.5" />
+        <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_edit_profile.xml" value="0.2619047619047619" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_0.xml" value="0.1" />
         <entry key="..\:/Users/Utente/AndroidStudioProjects/Infotainment/app/src/main/res/layout/activity_home_1.xml" value="0.2325" />

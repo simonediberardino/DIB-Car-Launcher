@@ -47,6 +47,8 @@ class RegisterActivity : ProfileActivity(){
                 else -> showError(it)
             }
         }
+
+        super.initializeLayout()
     }
 
     private fun showPolicy(){

@@ -5,8 +5,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:padding="8px">
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView"
@@ -25,21 +24,23 @@
     <ScrollView
         android:id="@+id/scrollView4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32px"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
         android:layout_marginBottom="32px"
         app:layout_constraintBottom_toTopOf="@+id/settings_confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.223">
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="64dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settings_menu_customize"
@@ -192,7 +193,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/blue_background_gradient"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="onClickOK">
 
             <TextView
                 android:id="@+id/settings_confirm_text"

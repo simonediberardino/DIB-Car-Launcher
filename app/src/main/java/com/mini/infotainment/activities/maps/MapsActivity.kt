@@ -40,15 +40,15 @@ class MapsActivity : SActivity(), OnMapReadyCallback, MapInteractions {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.initialize()
+        this.initializeLayout()
     }
     
-    private fun initialize() {
+    override fun initializeLayout() {
         setViews()
         createMap()
-        setWallpaper()
         addGpsCallback()
 
+        super.initializeLayout()
         super.pageLoaded()
     }
 

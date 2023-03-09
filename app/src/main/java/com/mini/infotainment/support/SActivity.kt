@@ -24,6 +24,7 @@ import com.mini.infotainment.data.Data
 import com.mini.infotainment.gps.GPSManager
 import com.mini.infotainment.utility.Utility
 
+
 open class SActivity : AppCompatActivity() {
     var savedInstanceState: Bundle? = null
     var mContentView: View? = null
@@ -55,7 +56,9 @@ open class SActivity : AppCompatActivity() {
         lastActivity = this
     }
 
-    open fun initializeLayout(){}
+    open fun initializeLayout(){
+        setWallpaper()
+    }
 
     override fun setContentView(view: View?) {
         super.setContentView(view)
@@ -69,7 +72,27 @@ open class SActivity : AppCompatActivity() {
     }
 
     fun pageLoaded(){
-        Utility.ridimensionamento(this, findViewById(R.id.parent))
+        val parent = findViewById<ViewGroup>(R.id.parent)
+        /*val backDrawable = getDrawable(R.drawable.back_icon)
+
+        val imageView = ImageView(this)
+        imageView.setImageDrawable(backDrawable)
+        parent.addView(imageView)
+
+        val params = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val padding = 20
+        imageView.layoutParams = params
+        imageView.layoutParams.height = 80
+        imageView.layoutParams.width = 80
+        imageView.setPadding(padding)
+
+        imageView.setOnClickListener { onBackPressed() }*/
+
+        Utility.ridimensionamento(this, parent)
         setWallpaper()
     }
 
@@ -86,17 +109,17 @@ open class SActivity : AppCompatActivity() {
 
         val Context.wpaper: Drawable
             get(){
-                val defaultBackgroundDrawable = getDrawable(R.drawable.background)
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    return defaultBackgroundDrawable!!
+                if(!Data.useDefaultWP() && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    val wallpaperManager = WallpaperManager.getInstance(this)
+                    return wallpaperManager.drawable
                 }
 
-                return if(Data.useDefaultWP()){
-                    defaultBackgroundDrawable!!
-                }else{
-                    val wallpaperManager = WallpaperManager.getInstance(this)
-                    val wallpaperDrawable = wallpaperManager.drawable
-                    wallpaperDrawable
+                val wpId: Int = resources.getIdentifier(Data.getWallpaper(), "drawable", packageName)
+
+                return try{
+                    getDrawable(wpId) ?: getDrawable(R.drawable.background)!!
+                }catch (exception: Exception){
+                    getDrawable(R.drawable.background)!!
                 }
             }
 

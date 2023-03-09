@@ -12,10 +12,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.mini.infotainment.R
+import com.mini.infotainment.activities.home.HomeActivity.Companion.instance
+import com.mini.infotainment.activities.settings.model.AbstractSettingsActivity
 import com.mini.infotainment.data.Data
-import com.mini.infotainment.support.SActivity
 
-class SettingsActivityCustomize: SActivity() {
+class SettingsActivityCustomize: AbstractSettingsActivity() {
     companion object{
         private var BRANDS = arrayOf("alfaromeo", "audi", "bmw", "citroen", "fiat", "ford", "mazda", "mercedes", "mini", "nissan", "peugeot", "renault", "skoda", "toyota", "volkswagen")
     }
@@ -56,8 +57,8 @@ class SettingsActivityCustomize: SActivity() {
     }
 
     override fun initializeLayout() {
-        super.initializeLayout()
         setContentView(R.layout.activity_settings_customize)
+        super.initializeLayout()
 
         llLogos = findViewById(R.id.settings_customize_ll_logos)
 
@@ -82,6 +83,7 @@ class SettingsActivityCustomize: SActivity() {
 
         for(brand: String in brands)
             inflateLogo(brand)
+
         selectedLogo = logos.find { it.brandName == Data.getBrandName()} ?: logos.first()
     }
 
@@ -133,6 +135,8 @@ class SettingsActivityCustomize: SActivity() {
     private fun inflateWallpapers(){
         for(wp: Wallpaper in getWallpapers())
             doInflateWallpaper(wp)
+
+        selectedWallpaper = wallpapers.find { it.name.equals(Data.getWallpaper(), ignoreCase = true) }
     }
 
     private fun doInflateWallpaper(wallpaper: Wallpaper){
@@ -159,5 +163,13 @@ class SettingsActivityCustomize: SActivity() {
     internal class WallpaperView(val view: View, val name: String)
     internal class Wallpaper(val drawable: Drawable, val name: String)
     internal class Logo(val view: View, val brandName: String)
+
+    override fun handleSettings() {
+        Data.setBrandName(selectedLogo!!.brandName)
+        Data.setWallpaper(selectedWallpaper!!.name)
+
+        if(isFirstLaunch)
+            instance?.initializeActivity()
+    }
 
 }

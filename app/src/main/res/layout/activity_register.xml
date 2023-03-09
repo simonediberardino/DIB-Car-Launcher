@@ -157,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/darkblue"
+                android:background="@drawable/blue_background_gradient"
                 android:gravity="center">
 
                 <TextView

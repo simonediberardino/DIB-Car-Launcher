@@ -5,12 +5,10 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Spinner
 import com.mini.infotainment.R
-import com.mini.infotainment.activities.home.HomeActivity
-import com.mini.infotainment.activities.settings.model.ISettingsActivity
+import com.mini.infotainment.activities.settings.model.AbstractSettingsActivity
 import com.mini.infotainment.data.Data
-import com.mini.infotainment.support.SActivity
 
-class SettingsActivityConfiguration: SActivity(), ISettingsActivity {
+class SettingsActivityConfiguration: AbstractSettingsActivity() {
     private lateinit var smartphoneNotiSwitch: CheckBox
     private lateinit var uMeasureSpinner: Spinner
     private lateinit var settingsDefaultWPCB: CheckBox
@@ -24,6 +22,7 @@ class SettingsActivityConfiguration: SActivity(), ISettingsActivity {
 
     override fun initializeLayout(){
         this.setContentView(R.layout.activity_settings_settings)
+        super.initializeLayout()
 
         confirmButton = findViewById(R.id.settings_confirm_button)
         smartphoneNotiSwitch = findViewById(R.id.settings_noti_on)
@@ -40,7 +39,6 @@ class SettingsActivityConfiguration: SActivity(), ISettingsActivity {
         uMeasureSpinner = findViewById<Spinner?>(R.id.settings_um).also {
             it.setSelection(Data.getUMeasure())
         }
-
     }
 
     override fun handleSettings(){
@@ -48,14 +46,8 @@ class SettingsActivityConfiguration: SActivity(), ISettingsActivity {
 
         if(Data.useDefaultWP() != settingsDefaultWPCB.isChecked){
             Data.useDefaultWP(settingsDefaultWPCB.isChecked)
-            HomeActivity.instance?.setWallpaper()
         }
 
         Data.setNotificationStatus(smartphoneNotiSwitch.isChecked)
-    }
-    
-    override fun finish() {
-        handleSettings()
-        super.finish()
     }
 }

@@ -28,6 +28,7 @@ class CheckoutActivity : SActivity() {
 
     override fun initializeLayout(){
         setContentView(R.layout.activity_checkout)
+        super.initializeLayout()
 
         confirmBtn = findViewById(R.id.checkout_confirm)
         confirmBtn.setOnClickListener {

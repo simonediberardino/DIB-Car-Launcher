@@ -19,10 +19,11 @@ object Data {
     private const val U_MEASURE_ID = "U_MEASURE_ID"
     private val U_MEASURE_DEFAULT = 0
     private const val NOTIFICATION_STATUS_ID = "NOTI_STATUS_ID"
+    private const val NOTIFICATION_DEFAULT = true
     private val PIN_ID: String = "PIN_ID"
     private val PIN_DEFAULT: String? = null
-    private const val NOTIFICATION_DEFAULT = true
-
+    private val WP_DRAWABLE_ID: String = "WP_DRAWABLE_ID"
+    private val WP_DRAWABLE_DEFAULT: String = "wallpaper_0"
 
     val applicationData: SharedPreferences
         get() {
@@ -31,6 +32,16 @@ object Data {
                 Context.MODE_PRIVATE
             )!!
         }
+
+    fun getWallpaper(): String? {
+        return applicationData.getString(WP_DRAWABLE_ID, WP_DRAWABLE_DEFAULT)
+    }
+
+    fun setWallpaper(wp: String){
+        val dataEditor = applicationData.edit()
+        dataEditor.putString(WP_DRAWABLE_ID, wp)
+        dataEditor.apply()
+    }
 
     fun useDefaultWP(): Boolean {
         return applicationData.getBoolean(WP_ID, WP_DEFAULT)

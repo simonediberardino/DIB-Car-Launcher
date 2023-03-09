@@ -40,6 +40,8 @@ class LoginActivity : ProfileActivity(){
                 else -> showError(it)
             }
         }
+
+        super.initializeLayout()
     }
 
     override fun onBackPressed() {

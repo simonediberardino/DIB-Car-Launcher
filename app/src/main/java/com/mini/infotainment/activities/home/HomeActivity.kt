@@ -72,7 +72,7 @@ class HomeActivity : SActivity() {
         this.initializeCarObject()
 
         if(!areSettingsSet()){
-            val intent = Intent(this, SettingsActivityCustomize::class.java) // TODO
+            val intent = Intent(this, SettingsActivityCustomize::class.java)
             intent.putExtra("isFirstLaunch", true)
             startActivity(intent)
             return
@@ -97,6 +97,7 @@ class HomeActivity : SActivity() {
         this.removeFirebaseListeners()
         this.onPremiumAccountListener()
         this.onPasswordChangedListener()
+        //this.onUsernameChangedListener()
         this.setupPinFirebase()
     }
 
@@ -144,7 +145,7 @@ class HomeActivity : SActivity() {
 
     override fun initializeLayout(){
         this.setContentView(R.layout.activity_home)
-        this.setWallpaper()
+        super.initializeLayout()
 
         homePage1 = HomeFirstPage(this).also { it.build() }
         homePage2 = HomeSecondPage(this).also { it.build() }
@@ -213,13 +214,11 @@ class HomeActivity : SActivity() {
 
         passWordEventListener = object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val dbPass = snapshot.value as String? ?: return
+                val dbPass = snapshot.value
 
                 if(Data.getUserPassword() != dbPass){
                     LoginViewModel.doLogout()
                     Utility.toast(this@HomeActivity, this@HomeActivity.getString(R.string.disconnected_pw_changed))
-
-                    return
                 }
             }
 
