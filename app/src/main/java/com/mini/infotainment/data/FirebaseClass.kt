@@ -1,5 +1,7 @@
 package com.mini.infotainment.data
 import android.location.Location
+import android.os.Handler
+import android.os.Looper
 import com.google.firebase.database.*
 import com.mini.infotainment.entities.MyCar
 import com.mini.infotainment.support.RunnablePar
@@ -20,7 +22,7 @@ object FirebaseClass{
 
     fun isPremiumCar(runnablePar: RunnablePar){
         val userId = Data.getUserName()
-        if(userId == null){
+        if(userId == null || userId == "null"){
             runnablePar.run(false)
         }else{
             isPremiumCar(Data.getUserName() ?: return, runnablePar)
@@ -35,9 +37,13 @@ object FirebaseClass{
                         val currMs = Date().networkDateMillis
                         val carObject = p as MyCar?
                         val isPremium = (carObject?.premiumDate ?: 0) > currMs
-                        runnablePar.run(isPremium)
+                        Handler(Looper.getMainLooper()).post {
+                            runnablePar.run(isPremium)
+                        }
                     }catch (ex: Exception){
-                        runnablePar.run(false)
+                        Handler(Looper.getMainLooper()).post {
+                            runnablePar.run(false)
+                        }
                         return@Thread
                     }
                 }.start()

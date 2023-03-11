@@ -86,7 +86,7 @@
     <string name="errore_input">Dettagli forniti non validi</string>
     <string name="consumi">Consumi (l/100km)</string>
     <string name="start_spotify_on_boot">Esegui Spotify al lancio</string>
-    <string name="settings_default_wp">Utilizza sfondo predefinito</string>
+    <string name="settings_default_wp">Utilizza sfondo DIB Car Launcher</string>
     <string name="config">Configurazione</string>
     <string name="now">Adesso</string>
     <string name="day">Giorno</string>

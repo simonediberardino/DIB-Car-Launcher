@@ -13,17 +13,20 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
     fun startTimeout() {
         Thread{
             while(true){
-                val timeOut = 10000L
+                val timeOut = 1000*60*7L
+
                 try{
                     Thread.sleep(timeOut)
-                    ctx.runOnUiThread {
-                        FirebaseClass.isPremiumCar(object : RunnablePar{
-                            override fun run(p: Any?) {
+                    FirebaseClass.isPremiumCar(object : RunnablePar{
+                        override fun run(p: Any?) {
+                            ctx.runOnUiThread {
                                 if(p != true)
                                     showAd()
                             }
-                        })
-                    }
+                        }
+                    })
+
+
                 }catch (exception: Exception){
                     continue
                 }

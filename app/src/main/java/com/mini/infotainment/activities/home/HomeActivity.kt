@@ -369,9 +369,12 @@ class HomeActivity : SActivity() {
         if(!isInternetAvailable)
             return
 
+        if(gpsManager?.shouldRefreshAddress() != true && !isInternetAvailable)
+            return
+
         FirebaseClass.isPremiumCar(object: RunnablePar{
             override fun run(p: Any?) {
-                if(gpsManager?.shouldRefreshAddress() != true && !isInternetAvailable)
+                if(!isInternetAvailable)
                     return
 
                 FirebaseClass.updateCarLocation(gpsManager?.currentUserLocation ?: return)
@@ -382,7 +385,7 @@ class HomeActivity : SActivity() {
 
                 gpsManager?.getSimpleAddress(
                     gpsManager?.currentUserLocation ?: return,
-                    object: RunnablePar{
+                    object: RunnablePar {
                         override fun run(p: Any?) {
                             homePage1.addressTV.text = if(p == null) String() else p as String
                         }

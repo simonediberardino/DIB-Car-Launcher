@@ -3,6 +3,7 @@ package com.mini.infotainment.activities.settings
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,9 @@ class SettingsActivityCustomize: AbstractSettingsActivity() {
                 logo.view.setBackgroundColor(
                     if(logo != selectedLogo)
                         Color.TRANSPARENT
-                    else getColor(R.color.darkblue)
+                    else{
+                        getColor(R.color.darkblue)
+                    }
                 )
         }
 
@@ -45,7 +48,9 @@ class SettingsActivityCustomize: AbstractSettingsActivity() {
                 (wp.view.findViewById<View>(R.id.item_image_cardview) as CardView).setCardBackgroundColor(
                     if(wp != selectedWallpaper)
                         Color.WHITE
-                    else getColor(R.color.blue)
+                    else{
+                        getColor(R.color.darkblue)
+                    }
                 )
         }
 
@@ -127,9 +132,7 @@ class SettingsActivityCustomize: AbstractSettingsActivity() {
 
             i++
         }
-
         return result
-
     }
 
     private fun inflateWallpapers(){
@@ -160,9 +163,6 @@ class SettingsActivityCustomize: AbstractSettingsActivity() {
         gallery.addView(view)
     }
 
-    internal class WallpaperView(val view: View, val name: String)
-    internal class Wallpaper(val drawable: Drawable, val name: String)
-    internal class Logo(val view: View, val brandName: String)
 
     override fun handleSettings() {
         Data.setBrandName(selectedLogo!!.brandName)
@@ -172,4 +172,7 @@ class SettingsActivityCustomize: AbstractSettingsActivity() {
             instance?.initializeActivity()
     }
 
+    internal class WallpaperView(val view: View, val name: String)
+    internal class Wallpaper(val drawable: Drawable, val name: String)
+    internal class Logo(val view: View, val brandName: String)
 }
