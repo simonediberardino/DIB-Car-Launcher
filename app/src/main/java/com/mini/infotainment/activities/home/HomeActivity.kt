@@ -497,6 +497,9 @@ class HomeActivity : SActivity() {
             if(homePage1.mapFragment?.isVisible != true)
                 homePage1.createMap()
         }
+
+
+        appsMenu?.show(false)
     }
 
     override fun onBackPressed(){
