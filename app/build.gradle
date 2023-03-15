@@ -10,7 +10,7 @@ android {
         applicationId "com.mini.infotainment"
         minSdk 24
         targetSdk 31
-        versionCode 1692
+        versionCode 1693
         versionName "2.0"
 
     }
