@@ -1,5 +1,7 @@
 package com.mini.infotainment.ads
 
+import android.os.Handler
+import android.os.Looper
 import com.mini.infotainment.R
 import com.mini.infotainment.UI.CustomToast
 import com.mini.infotainment.data.FirebaseClass
@@ -19,15 +21,18 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
                     Thread.sleep(timeOut)
                     FirebaseClass.isPremiumCar(object : RunnablePar{
                         override fun run(p: Any?) {
-                            ctx.runOnUiThread {
-                                if(p != true)
-                                    showAd()
-                            }
+                            try{
+                                ctx.runOnUiThread {
+                                    if(p != true)
+                                        showAd()
+                                }
+                            }catch (exception: java.lang.Exception){}
+
                         }
                     })
 
 
-                }catch (exception: Exception){
+                }catch (exception: java.lang.Exception){
                     continue
                 }
             }
@@ -39,12 +44,18 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
             return
         }
 
-        ad = adClass.newInstance().also {
-            it.ctx = ctx
-            it.onAdDismissed = Runnable {
-                CustomToast(ctx.getString(R.string.remove_ads_premium), ctx)
+        try {
+            ad = adClass.newInstance().also {
+                it.ctx = ctx
+                it.onAdDismissed = Runnable {
+                    ctx.runOnUiThread {
+                        CustomToast(ctx.getString(R.string.remove_ads_premium), ctx)
+                    }
+                }
+                it.init()
             }
-            it.init()
+        }catch (exception: java.lang.Exception){
+
         }
     }
 }
