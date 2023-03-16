@@ -15,7 +15,7 @@ class AdHandler<T : Ads>(val ctx: SActivity, val adClass: Class<T>) {
     fun startTimeout() {
         Thread{
             while(true){
-                val timeOut = 1000*60*7L
+                val timeOut = 1000*30*1L
 
                 try{
                     Thread.sleep(timeOut)

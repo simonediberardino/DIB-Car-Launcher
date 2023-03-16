@@ -369,7 +369,7 @@ class HomeActivity : SActivity() {
         if(!isInternetAvailable)
             return
 
-        if(gpsManager?.shouldRefreshAddress() != true && !isInternetAvailable)
+        if(gpsManager?.shouldRefreshAddress() != true)
             return
 
         FirebaseClass.isPremiumCar(object: RunnablePar{
