@@ -111,7 +111,7 @@ open class SActivity : AppCompatActivity() {
             get(){
                 if(!Data.useDefaultWP() && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     val wallpaperManager = WallpaperManager.getInstance(this)
-                    return wallpaperManager.drawable
+                    return wallpaperManager.drawable!!
                 }
 
                 val wpId: Int = resources.getIdentifier(Data.getWallpaper(), "drawable", packageName)

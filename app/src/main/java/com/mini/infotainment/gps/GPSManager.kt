@@ -55,7 +55,7 @@ class GPSManager(val ctx: AppCompatActivity) {
         currentUserLocation = newLocation
 
         StatsData.increaseTraveledDistance(
-            previousUserLocation?.distanceTo(currentUserLocation) ?: 0f
+            previousUserLocation?.distanceTo(currentUserLocation!!) ?: 0f
         )
 
         previousSpeed = currentSpeed.copy()
@@ -76,7 +76,7 @@ class GPSManager(val ctx: AppCompatActivity) {
                 0f
             }else{
                 val elapsedTimeInSeconds = (currentUserLocation!!.time - previousUserLocation!!.time) / 1000
-                val distanceInMeters = currentUserLocation!!.distanceTo(previousUserLocation)
+                val distanceInMeters = currentUserLocation!!.distanceTo(previousUserLocation!!)
                 val speed = distanceInMeters / elapsedTimeInSeconds
                 return if(speed == Float.POSITIVE_INFINITY) 0f else speed
             }

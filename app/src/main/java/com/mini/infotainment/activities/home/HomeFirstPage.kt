@@ -286,7 +286,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
         if(gpsManager?.currentUserLocation == null) return
 
         val minDistToUpdate = 2.5f
-        if((gpsManager?.previousUserLocation?.distanceTo(gpsManager?.currentUserLocation) ?: minDistToUpdate) < minDistToUpdate)
+        if((gpsManager?.previousUserLocation?.distanceTo(gpsManager?.currentUserLocation ?: return) ?: minDistToUpdate) < minDistToUpdate)
             return
 
         doOnLocationChanged()
@@ -322,7 +322,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
 
         val bearing: Float =
             if(gpsManager!!.currentSpeed.value > 2)
-                gpsManager!!.previousUserLocation?.bearingTo(gpsManager?.currentUserLocation) ?: 0f
+                gpsManager!!.previousUserLocation?.bearingTo(gpsManager?.currentUserLocation ?: return) ?: 0f
             else this.bearing
 
         this.bearing = bearing

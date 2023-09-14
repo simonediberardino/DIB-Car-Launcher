@@ -18,12 +18,12 @@ object Animations {
              v.alpha = startAlpha
              v.animate().setListener(object: AnimatorListener
              {
-                 override fun onAnimationEnd(p0: Animator?) {
+                 override fun onAnimationEnd(p0: Animator) {
                      callback.run()
                  }
-                 override fun onAnimationStart(p0: Animator?) {}
-                 override fun onAnimationCancel(p0: Animator?) {}
-                 override fun onAnimationRepeat(p0: Animator?) {}
+                 override fun onAnimationStart(p0: Animator) {}
+                 override fun onAnimationCancel(p0: Animator) {}
+                 override fun onAnimationRepeat(p0: Animator) {}
 
              }).alpha(endAlpha).duration = duration
          }, delay)
