@@ -41,6 +41,7 @@ import com.mini.infotainment.receivers.SpotifyIntegration
 import com.mini.infotainment.support.RunnablePar
 import com.mini.infotainment.support.SActivity
 import com.mini.infotainment.utility.Utility
+import com.mini.infotainment.utility.registerExp
 
 
 class HomeActivity : SActivity() {
@@ -174,7 +175,7 @@ class HomeActivity : SActivity() {
 
     private fun setupOnConnectivityChange(){
         val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
-        this.registerReceiver(NetworkStatusReceiver(
+        this.registerExp(NetworkStatusReceiver(
             object : RunnablePar {
                 override fun run(p: Any?) {
                     // Restarts/Starts the socket when internet is available
@@ -201,7 +202,7 @@ class HomeActivity : SActivity() {
         intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.playbackstatechanged")
         intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.metadatachanged")
         intent1.addAction("${SpotifyIntegration.SPOTIFY_PACKAGE}.queuechanged")
-        registerReceiver(SpotifyIntegration(), intent1)
+        registerExp(SpotifyIntegration(), intent1)
     }
 
     private fun initializeExceptionHandler(){

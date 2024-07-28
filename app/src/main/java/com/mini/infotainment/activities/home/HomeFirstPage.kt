@@ -31,6 +31,7 @@ import com.mini.infotainment.support.SActivity.Companion.displayRatio
 import com.mini.infotainment.support.SActivity.Companion.gpsManager
 import com.mini.infotainment.utility.Utility
 import com.mini.infotainment.utility.Utility.kmToMile
+import com.mini.infotainment.utility.registerExp
 import java.util.*
 
 
@@ -185,7 +186,7 @@ class HomeFirstPage(override val ctx: HomeActivity) : Page(), OnMapReadyCallback
             }
         }
 
-        ctx.registerReceiver(receiver, intent)
+        ctx.registerExp(receiver, intent)
     }
 
     private fun updateVolume(){
